@@ -21,4 +21,9 @@
     <PackageReference Include="MvvmLightLibsStd10" Version="5.4.1.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DoePaAdminDataAdapter\DoePaAdminDataAdapter.csproj" />
+    <ProjectReference Include="..\DoePaAdminDataModel\DoePaAdminDataModel.csproj" />
+  </ItemGroup>
+
 </Project>
