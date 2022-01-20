@@ -1,19 +1,55 @@
-﻿<Window x:Class="DoePaAdminApp.Views.MainWindow"
+﻿<RibbonWindow x:Class="DoePaAdminApp.Views.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DoePaAdminApp.Views"
+        xmlns:properties="clr-namespace:DoePaAdminApp.Properties"
         mc:Ignorable="d"
         Title="MainWindow"
         Height="450"
         Width="800"
         DataContext="{Binding Source={StaticResource Locator}, Path=MainViewModel}">
     <Grid>
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Ribbon Grid.Row="0">
+            <Ribbon.ApplicationMenu>
+                <RibbonApplicationMenu SmallImageSource="/Resources/Logo_RGB_Homepage_Favicon.png">
+                    <RibbonApplicationMenuItem Header="Hello _Ribbon"/>
+                </RibbonApplicationMenu>
+            </Ribbon.ApplicationMenu>
+            <RibbonTab Header="Start">
+                <RibbonGroup Header="Allgemein">
+                    
+                </RibbonGroup>
+                <RibbonGroup Header="Zwischenablage">
+                    
+                </RibbonGroup>
+            </RibbonTab>
+            <RibbonTab Header="Stammdaten">
+                <RibbonGroup Header="Kostenstellen">
+                    
+                </RibbonGroup>
+                <RibbonGroup Header="Mitarbeiter">
+                    
+                </RibbonGroup>
+            </RibbonTab>
+            <RibbonTab Header="Kostenrechnung">
+                <RibbonGroup Header="Eingehende Rechnungen">
+                    
+                </RibbonGroup>
+                <RibbonGroup Header="Ausgehende Rechnungen">
+                    
+                </RibbonGroup>
+            </RibbonTab>
+        </Ribbon>
+        <StackPanel Grid.Row ="1" HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock Text="Input:" />
             <TextBox Width="300" Text="{Binding Input, Mode=TwoWay}" />
             <Button Command="{Binding ExecuteCommand}" Content="Execute" />
         </StackPanel>
     </Grid>
-</Window>
+</RibbonWindow>

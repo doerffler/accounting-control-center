@@ -10,7 +10,7 @@ namespace DoePaAdminApp.Services
 
         public ICollection<Ausgangsrechnung>  GetAusgangsrechnungen()
         {
-
+            throw new NotImplementedException();
         }
 
     }
