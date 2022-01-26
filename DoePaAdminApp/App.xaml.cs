@@ -43,15 +43,20 @@ namespace DoePaAdminApp
 
         }
 
-        private void ConfigureServices(IConfiguration configuration, IServiceCollection services)
+        private static void ConfigureServices(IConfiguration configuration, IServiceCollection services)
         {
 
             services.Configure<AppSettings>(configuration.GetSection(nameof(AppSettings)));
+            services.Configure<DPAppConnectionSettings>(configuration.GetSection(nameof(DPAppConnectionSettings)));
+
             services.AddScoped<ISampleService, SampleService>();
+            services.AddScoped<IDPAppService, DPAppService>();
 
             services.AddSingleton<MainViewModel>();
+            services.AddSingleton<ImportKostenstellen>();
 
             services.AddTransient<MainWindow>();
+            services.AddTransient<ImportKostenstellen>();
 
         }
 

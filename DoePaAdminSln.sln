@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DoePaAdminApp", "DoePaAdmin
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DoePaAdminDataModel", "DoePaAdminDataModel\DoePaAdminDataModel.csproj", "{D73FC95A-338C-4292-82AF-CA7E4BDEFFC0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DoePaAdminDataAdapter", "DoePaAdminDataAdapter\DoePaAdminDataAdapter.csproj", "{BA182B91-AD61-47CD-928A-C3C2D1FB08C4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DoePaAdminDataAdapter", "DoePaAdminDataAdapter\DoePaAdminDataAdapter.csproj", "{BA182B91-AD61-47CD-928A-C3C2D1FB08C4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

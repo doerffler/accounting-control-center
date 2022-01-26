@@ -7,5 +7,7 @@ namespace DoePaAdminApp.ViewModels
 
         public MainViewModel MainViewModel => App.ServiceProvider.GetRequiredService<MainViewModel>();
 
+        public ImportKostenstellenViewModel ImportKostenstellenViewModel => App.ServiceProvider.GetRequiredService<ImportKostenstellenViewModel>();
+
     }
 }

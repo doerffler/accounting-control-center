@@ -84,9 +84,82 @@ namespace DoePaAdminDataAdapter.Properties {
         ///      ,[department_id]
         ///      ,[cli [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
         /// </summary>
+        internal static string ReadAusgangsrechnung {
+            get {
+                return ResourceManager.GetString("ReadAusgangsrechnung", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die SELECT [id]
+        ///      ,[created_at]
+        ///      ,[updated_at]
+        ///      ,[invoice_no]
+        ///      ,[date_document]
+        ///      ,[created_by]
+        ///      ,[invoice_text]
+        ///      ,[introduction]
+        ///      ,[date_send]
+        ///      ,[date_service_from_default]
+        ///      ,[date_service_until_default]
+        ///      ,[business_year_id]
+        ///      ,[transferred_free]
+        ///      ,[date_transferred]
+        ///      ,[date_paid]
+        ///      ,[paid]
+        ///      ,[remark]
+        ///      ,[outgoing_invoice_id_replaced_by]
+        ///      ,[contact_id]
+        ///      ,[address_id]
+        ///      ,[department_id]
+        ///      ,[cli [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        /// </summary>
         internal static string ReadAusgangsrechnungen {
             get {
                 return ResourceManager.GetString("ReadAusgangsrechnungen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die SELECT oip.[id]
+        ///      ,oip.[created_at]
+        ///      ,oip.[updated_at]
+        ///      ,oip.[outgoing_invoice_id]
+        ///      ,oip.[sequence]
+        ///      ,oip.[position_text]
+        ///      ,oip.[date_service_from]
+        ///      ,oip.[date_service_until]
+        ///      ,oip.[type_of_settlement]
+        ///      ,oip.[hours]
+        ///      ,oip.[hourly_rate]
+        ///      ,oip.[netto]
+        ///      ,oip.[tax]
+        ///      ,oip.[tax_percent]
+        ///      ,oip.[gross]
+        ///      ,oip.[remark]
+        ///      ,oip.[hourly_rate_external]
+        ///      ,oip.[netto_external]
+        ///      ,oip.[tax_external]
+        ///      ,oip.[tax_perc [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        /// </summary>
+        internal static string ReadAusgangsrechnungspositionen {
+            get {
+                return ResourceManager.GetString("ReadAusgangsrechnungspositionen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die SELECT [id]
+        ///      ,[created_at]
+        ///      ,[updated_at]
+        ///      ,[number]
+        ///      ,[name]
+        ///      ,[active]
+        ///  FROM [dbo].[cost_centers] ähnelt.
+        /// </summary>
+        internal static string ReadCostCenters {
+            get {
+                return ResourceManager.GetString("ReadCostCenters", resourceCulture);
             }
         }
     }
