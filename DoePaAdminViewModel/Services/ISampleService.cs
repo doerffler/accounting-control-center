@@ -1,4 +1,4 @@
-﻿namespace DoePaAdminApp.Services
+﻿namespace DoePaAdmin.ViewModel.Services
 {
     public interface ISampleService
     {

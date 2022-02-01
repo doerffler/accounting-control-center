@@ -3,9 +3,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Windows;
-using DoePaAdminApp.Models;
-using DoePaAdminApp.Services;
-using DoePaAdminApp.ViewModels;
+using DoePaAdmin.ViewModel.Model;
+using DoePaAdmin.ViewModel.Services;
+using DoePaAdmin.ViewModel;
 using DoePaAdminApp.Views;
 
 namespace DoePaAdminApp
@@ -28,7 +28,7 @@ namespace DoePaAdminApp
                     .ConfigureAppConfiguration((context, builder) =>
                     {
                         // Add other configuration files...
-                        builder.AddJsonFile("appsettings.local.json", optional: true);
+                        builder.AddJsonFile("appsettings.Development.json", optional: true);
                     }).ConfigureServices((context, services) =>
                     {
                         ConfigureServices(context.Configuration, services);

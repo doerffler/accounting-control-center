@@ -8,6 +8,29 @@
         Title="ImportKostenstellen" Height="450" Width="800"
         DataContext="{Binding Source={StaticResource Locator}, Path=ImportKostenstellenViewModel}">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <GridSplitter Grid.Column="1"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Stretch"
+                      Width="5"
+                      />
+        <ListView ItemsSource="{Binding CostCenterData}">
+            <ListView.View>
+
+                <GridView>
+
+                    <GridViewColumn DisplayMemberBinding= "{Binding Path=number}" Header="Kostenstellennummer"/>
+
+                    <GridViewColumn DisplayMemberBinding= "{Binding Path=name}" Header="Kostenstellenname" />
+
+                </GridView>
+
+            </ListView.View>
+        </ListView>
+
     </Grid>
 </Window>

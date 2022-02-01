@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DoePaAdminApp.Models
+﻿namespace DoePaAdmin.ViewModel.Model
 {
     public class AppSettings
     {

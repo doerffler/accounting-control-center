@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace DoePaAdminApp.Services
+namespace DoePaAdmin.ViewModel.Services
 {
-    class SampleService : ISampleService
+    public class SampleService : ISampleService
     {
 
         public string GetCurrentDate()
@@ -11,6 +11,6 @@ namespace DoePaAdminApp.Services
             return DateTime.Now.ToLongDateString();
 
         }
-        
+
     }
 }

@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DoePaAdminApp.Models
+namespace DoePaAdmin.ViewModel.Model
 {
     public class DPAppConnectionSettings
     {

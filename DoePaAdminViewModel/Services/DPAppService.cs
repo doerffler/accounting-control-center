@@ -1,4 +1,4 @@
-﻿using DoePaAdminApp.Models;
+﻿using DoePaAdmin.ViewModel.Model;
 using DoePaAdminDataAdapter.DPApp.Model;
 using System;
 using System.Collections.Generic;
@@ -7,9 +7,9 @@ using Microsoft.Extensions.Options;
 using DoePaAdminDataAdapter.DPApp;
 using System.Threading.Tasks;
 
-namespace DoePaAdminApp.Services
+namespace DoePaAdmin.ViewModel.Services
 {
-    class DPAppService : IDPAppService
+    public class DPAppService : IDPAppService
     {
 
         public string DPAppConnectionString { get; set; }

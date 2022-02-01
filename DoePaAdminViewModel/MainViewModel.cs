@@ -1,24 +1,22 @@
-﻿using DoePaAdminApp.Models;
-using DoePaAdminApp.Services;
-using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
+﻿using DoePaAdmin.ViewModel.Model;
+using DoePaAdmin.ViewModel.Services;
 using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
 using System.Diagnostics;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace DoePaAdminApp.ViewModels
+namespace DoePaAdmin.ViewModel
 {
-    public class MainViewModel : ViewModelBase
+    public class MainViewModel : ObservableRecipient
     {
 
-        private string input;
+        private string _input;
+
         public string Input
         {
-            get => input;
-            set => Set(ref input, value);
+            get => _input;
+            set => SetProperty(ref _input, value, true);
         }
 
         private readonly ISampleService sampleService;
@@ -29,14 +27,14 @@ namespace DoePaAdminApp.ViewModels
         public MainViewModel(ISampleService sampleService, IOptions<AppSettings> options)
         {
             this.sampleService = sampleService;
-            this.settings = options.Value;
+            settings = options.Value;
 
             ExecuteCommand = new RelayCommand(async () => await ExecuteAsync());
         }
-        
+
         private Task ExecuteAsync()
         {
-            Debug.WriteLine($"Current value: {input}");
+            Debug.WriteLine($"Current value: {_input}");
             return Task.CompletedTask;
         }
     }

@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using DoePaAdmin.ViewModel;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace DoePaAdminApp.ViewModels
 {

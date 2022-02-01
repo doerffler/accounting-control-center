@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DoePaAdminDataModel", "DoeP
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DoePaAdminDataAdapter", "DoePaAdminDataAdapter\DoePaAdminDataAdapter.csproj", "{BA182B91-AD61-47CD-928A-C3C2D1FB08C4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DoePaAdminViewModel", "DoePaAdminViewModel\DoePaAdminViewModel.csproj", "{3F114D29-7280-4ECD-82D9-2ECCCC6D3F89}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{BA182B91-AD61-47CD-928A-C3C2D1FB08C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BA182B91-AD61-47CD-928A-C3C2D1FB08C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BA182B91-AD61-47CD-928A-C3C2D1FB08C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F114D29-7280-4ECD-82D9-2ECCCC6D3F89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F114D29-7280-4ECD-82D9-2ECCCC6D3F89}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F114D29-7280-4ECD-82D9-2ECCCC6D3F89}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F114D29-7280-4ECD-82D9-2ECCCC6D3F89}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
