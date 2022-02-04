@@ -48,9 +48,11 @@ namespace DoePaAdminApp
 
             services.Configure<AppSettings>(configuration.GetSection(nameof(AppSettings)));
             services.Configure<DPAppConnectionSettings>(configuration.GetSection(nameof(DPAppConnectionSettings)));
+            services.Configure<DoePaAdminConnectionSettings>(configuration.GetSection(nameof(DoePaAdminConnectionSettings)));
 
             services.AddScoped<ISampleService, SampleService>();
             services.AddScoped<IDPAppService, DPAppService>();
+            services.AddScoped<IDoePaAdminService, DoePaAdminService>();
 
             services.AddSingleton<MainViewModel>();
             services.AddSingleton<ImportKostenstellenViewModel>();

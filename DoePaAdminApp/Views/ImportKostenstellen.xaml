@@ -18,7 +18,7 @@
                       VerticalAlignment="Stretch"
                       Width="5"
                       />
-        <ListView ItemsSource="{Binding CostCenterData}">
+        <ListView Grid.Column="0" ItemsSource="{Binding CostCenterData}">
             <ListView.View>
 
                 <GridView>
@@ -26,6 +26,20 @@
                     <GridViewColumn DisplayMemberBinding= "{Binding Path=number}" Header="Kostenstellennummer"/>
 
                     <GridViewColumn DisplayMemberBinding= "{Binding Path=name}" Header="Kostenstellenname" />
+
+                </GridView>
+
+            </ListView.View>
+        </ListView>
+
+        <ListView Grid.Column="2" ItemsSource="{Binding Kostenstellen}">
+            <ListView.View>
+
+                <GridView>
+
+                    <GridViewColumn DisplayMemberBinding= "{Binding Path=KostenstelleID}" Header="Kostenstellennummer"/>
+
+                    <GridViewColumn DisplayMemberBinding= "{Binding Path=Kostenstellenbezeichnung}" Header="Kostenstellenname" />
 
                 </GridView>
 
