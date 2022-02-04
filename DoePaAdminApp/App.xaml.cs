@@ -53,7 +53,7 @@ namespace DoePaAdminApp
             services.AddScoped<IDPAppService, DPAppService>();
 
             services.AddSingleton<MainViewModel>();
-            services.AddSingleton<ImportKostenstellen>();
+            services.AddSingleton<ImportKostenstellenViewModel>();
 
             services.AddTransient<MainWindow>();
             services.AddTransient<ImportKostenstellen>();

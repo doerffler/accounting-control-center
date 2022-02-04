@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace DoePaAdminDataAdapter.DPApp
@@ -14,10 +15,10 @@ namespace DoePaAdminDataAdapter.DPApp
 
         }
 
-        public async Task<DataTable> ReadCostCenterAsync()
+        public async Task<DataTable> ReadCostCenterAsync(CancellationToken cancellationToken = default)
         {
 
-            SqlCommand cmd = new(Properties.Resources.ReadCostCenters, await GetSqlConnection())
+            SqlCommand cmd = new(Properties.Resources.ReadCostCenters, await GetSqlConnectionAsync(cancellationToken))
             {
                 CommandType = CommandType.Text
             };

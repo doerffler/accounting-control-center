@@ -28,5 +28,14 @@ namespace DoePaAdminApp.Views
             InitializeComponent();
         }
 
+        private void RBOpenCostCenterImport_Click(object sender, RoutedEventArgs e)
+        {
+            ImportKostenstellen viewImportCostCenter = new ImportKostenstellen
+            {
+                Owner = this
+            };
+
+            viewImportCostCenter.Show();
+        }
     }
 }

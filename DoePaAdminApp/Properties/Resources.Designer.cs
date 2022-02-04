@@ -59,15 +59,5 @@ namespace DoePaAdminApp.Properties {
                 resourceCulture = value;
             }
         }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
-        /// </summary>
-        internal static byte[] SmallIcon {
-            get {
-                object obj = ResourceManager.GetObject("SmallIcon", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
     }
 }

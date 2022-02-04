@@ -3,6 +3,7 @@ using System;
 using System.Data;
 using System.Data.SqlClient;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace DoePaAdminDataAdapter.DPApp
@@ -19,23 +20,23 @@ namespace DoePaAdminDataAdapter.DPApp
             ConnectionString = connectionString;
         }
 
-        protected async Task<SqlConnection> GetSqlConnection()
+        protected async Task<SqlConnection> GetSqlConnectionAsync(CancellationToken cancellationToken = default)
         {
             if (Connection == null || Connection.State != ConnectionState.Open)
             {
                 Connection = new SqlConnection(ConnectionString);
-                await Connection.OpenAsync();
+                await Connection.OpenAsync(cancellationToken);
             }
 
             return Connection;
         }
 
-        protected async Task<SqlDataReader> CreateReaderFromCommandAsync(SqlCommand cmd)
+        protected async Task<SqlDataReader> CreateReaderFromCommandAsync(SqlCommand cmd, CancellationToken cancellationToken = default)
         {
 
-            cmd.Connection = await GetSqlConnection();
+            cmd.Connection = await GetSqlConnectionAsync(cancellationToken);
 
-            SqlDataReader rdr = await cmd.ExecuteReaderAsync();
+            SqlDataReader rdr = await cmd.ExecuteReaderAsync(cancellationToken);
             return rdr;
 
         }

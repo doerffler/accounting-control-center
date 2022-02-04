@@ -6,6 +6,7 @@ using System.Data;
 using Microsoft.Extensions.Options;
 using DoePaAdminDataAdapter.DPApp;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace DoePaAdmin.ViewModel.Services
 {
@@ -24,10 +25,10 @@ namespace DoePaAdmin.ViewModel.Services
             throw new NotImplementedException();
         }
 
-        public async Task<DataTable> GetCostCentersAsync()
+        public async Task<DataTable> GetCostCentersAsync(CancellationToken cancellationToken = default)
         {
             MasterdataDAL dal = new(DPAppConnectionString);
-            return await dal.ReadCostCenterAsync();
+            return await dal.ReadCostCenterAsync(cancellationToken);
         }
 
     }
