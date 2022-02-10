@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,12 +31,8 @@ namespace DoePaAdminApp.Views
 
         private void RBOpenCostCenterImport_Click(object sender, RoutedEventArgs e)
         {
-            ImportKostenstellen viewImportCostCenter = new ImportKostenstellen
-            {
-                Owner = this
-            };
-
-            viewImportCostCenter.Show();
+            ManageKostenstellenWindow viewManageKostenstellen = App.ServiceProvider.GetRequiredService<ManageKostenstellenWindow>();
+            viewManageKostenstellen.Show();
         }
     }
 }

@@ -55,10 +55,12 @@ namespace DoePaAdminApp
             services.AddScoped<IDoePaAdminService, DoePaAdminService>();
 
             services.AddSingleton<MainViewModel>();
+            services.AddSingleton<ManageKostenstellenViewModel>();
             services.AddSingleton<ImportKostenstellenViewModel>();
 
             services.AddTransient<MainWindow>();
-            services.AddTransient<ImportKostenstellen>();
+            services.AddTransient<ManageKostenstellenWindow>();
+            services.AddTransient<ImportKostenstellenWindow>();
 
         }
 

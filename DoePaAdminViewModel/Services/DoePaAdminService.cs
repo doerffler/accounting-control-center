@@ -16,7 +16,7 @@ namespace DoePaAdmin.ViewModel.Services
     public class DoePaAdminService : IDoePaAdminService
     {
 
-        private string  DoePaAdminConnectionString { get; set; }
+        private string DoePaAdminConnectionString { get; set; }
 
         private DPAdminDataContext DBContext { get; set; }
 
@@ -42,5 +42,16 @@ namespace DoePaAdmin.ViewModel.Services
 
             return kostenstellen;
         }
+
+        public async Task<ObservableCollection<Kostenstellenart>> GetKostenstellenartenAsync(CancellationToken cancellationToken = default)
+        {
+            IQueryable<Kostenstellenart> result = DBContext.Kostenstellenarten;
+            Task<List<Kostenstellenart>> taskToListAsync = result.ToListAsync(cancellationToken);
+            List<Kostenstellenart> listKostenstellenarten = await taskToListAsync;
+            ObservableCollection<Kostenstellenart> kostenstellenarten = new(listKostenstellenarten);
+
+            return kostenstellenarten;
+        }
+
     }
 }

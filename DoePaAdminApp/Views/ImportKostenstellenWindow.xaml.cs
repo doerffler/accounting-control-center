@@ -17,9 +17,9 @@ namespace DoePaAdminApp.Views
     /// <summary>
     /// Interaktionslogik für ImportKostenstellen.xaml
     /// </summary>
-    public partial class ImportKostenstellen : Window
+    public partial class ImportKostenstellenWindow : Window
     {
-        public ImportKostenstellen()
+        public ImportKostenstellenWindow()
         {
             InitializeComponent();
         }

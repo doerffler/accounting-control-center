@@ -12,5 +12,6 @@ namespace DoePaAdmin.ViewModel.Services
     public interface IDoePaAdminService
     {
         public Task<ObservableCollection<Kostenstelle>> GetKostenstellenAsync(CancellationToken cancellationToken = default);
+        public Task<ObservableCollection<Kostenstellenart>> GetKostenstellenartenAsync(CancellationToken cancellationToken = default);
     }
 }

@@ -1,0 +1,66 @@
+﻿<Window x:Class="DoePaAdminApp.Views.ManageKostenstellenWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DoePaAdminApp.Views"
+        mc:Ignorable="d"
+        Title="ManageKostenstellenWindow" Height="450" Width="800"
+        DataContext="{Binding Source={StaticResource Locator}, Path=ManageKostenstellenViewModel}">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <ListView
+            Name="lvKostenstellen"
+            Grid.Row="0"
+            ItemsSource="{Binding Kostenstellen}"
+            SelectedItem="{Binding SelectedKostenstelle}">
+
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn DisplayMemberBinding= "{Binding Path=KostenstelleID}" Header="Kostenstellennummer"/>
+                        <GridViewColumn DisplayMemberBinding= "{Binding Path=Kostenstellenbezeichnung}" Header="Kostenstellenname" />
+                    </GridView>
+                </ListView.View>
+            </ListView>
+
+            <Button Grid.Row="1" Command="{Binding AddKostenstelleCommand}">
+                Hinzufügen
+            </Button>
+
+        </Grid>
+        <GridSplitter Grid.Column="1"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Stretch"
+                      Width="5"
+                      />
+        <Grid Grid.Column="2">
+            <Label>Kostenstellenart:</Label>
+            <ComboBox
+                ItemsSource="{Binding Kostenstellenarten}"
+                SelectedItem="{Binding SelectedKostenstelle.ZugehoerigeKostenstellenart}"
+                Width="400">
+
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Path=KostenstellenartID}"/>
+                            <TextBlock Text=" - "/>
+                            <TextBlock Text="{Binding Path=Kostenstellenartbezeichnung}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </Grid>
+
+    </Grid>
+</Window>
