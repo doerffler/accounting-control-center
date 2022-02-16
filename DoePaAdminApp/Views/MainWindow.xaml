@@ -31,7 +31,7 @@
             </RibbonTab>
             <RibbonTab Header="Stammdaten">
                 <RibbonGroup Header="Kostenstellen">
-                    <RibbonButton x:Name="RBOpenCostCenterImport" Click="RBOpenCostCenterImport_Click" SmallImageSource="/Resources/costcenter_icon_16x16.png" LargeImageSource="/Resources/costcenter_icon_32x32.png" Label="Kostenstellen importieren">Importieren</RibbonButton>
+                    <RibbonButton x:Name="RBOpenCostCenterImport" Click="RBOpenCostCenterImport_Click" SmallImageSource="/Resources/costcenter_icon_16x16.png" LargeImageSource="/Resources/costcenter_icon_32x32.png" Label="Kostenstellen bearbeiten"></RibbonButton>
                 </RibbonGroup>
                 <RibbonGroup Header="Mitarbeiter">
                     

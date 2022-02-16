@@ -27,7 +27,7 @@
 
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn DisplayMemberBinding= "{Binding Path=KostenstelleID}" Header="Kostenstellennummer"/>
+                        <GridViewColumn DisplayMemberBinding= "{Binding Path=KostenstelleID}" Header="Nr"/>
                         <GridViewColumn DisplayMemberBinding= "{Binding Path=Kostenstellenbezeichnung}" Header="Kostenstellenname" />
                     </GridView>
                 </ListView.View>
@@ -44,22 +44,46 @@
                       Width="5"
                       />
         <Grid Grid.Column="2">
-            <Label>Kostenstellenart:</Label>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            
+            <Label Grid.Row="0" Grid.Column="0">Kostenstellennummer:</Label>
+            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding SelectedKostenstelle.KostenstelleID}" />
+
+            <Label Grid.Row="1" Grid.Column="0">Kostenstellenbezeichnung:</Label>
+            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding SelectedKostenstelle.Kostenstellenbezeichnung}" />
+
+            <Label Grid.Row="2" Grid.Column="0">Kostenstellenart:</Label>
             <ComboBox
+                Grid.Row="2"
+                Grid.Column="1"
                 ItemsSource="{Binding Kostenstellenarten}"
-                SelectedItem="{Binding SelectedKostenstelle.ZugehoerigeKostenstellenart}"
-                Width="400">
+                SelectedItem="{Binding SelectedKostenstelle.ZugehoerigeKostenstellenart}">
 
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding Path=KostenstellenartID}"/>
-                            <TextBlock Text=" - "/>
                             <TextBlock Text="{Binding Path=Kostenstellenartbezeichnung}"/>
                         </StackPanel>
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
+
+            <Label Grid.Row="3" Grid.Column="0">Gültig ab:</Label>
+            <DatePicker Grid.Row="3" Grid.Column="1" SelectedDate="{Binding SelectedKostenstelle.GueltigAb}" />
+            <Button Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Command="{Binding SaveChangesCommand}">
+                Speichern
+            </Button>
         </Grid>
 
     </Grid>

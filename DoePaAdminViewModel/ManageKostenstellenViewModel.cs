@@ -41,11 +41,16 @@ namespace DoePaAdmin.ViewModel
 
         public IRelayCommand AddKostenstelleCommand { get; }
 
+        public IRelayCommand SaveChangesCommand { get; }
+
         public ManageKostenstellenViewModel(IDoePaAdminService doePaAdminService)
         {
 
-            AddKostenstelleCommand = new RelayCommand(DoAddKostenstelle);
+            AddKostenstelleCommand = new AsyncRelayCommand(DoAddKostenstelleAsync);
 
+            //TODO: Implement CanExecute-Functionality
+            SaveChangesCommand = new AsyncRelayCommand(SaveChangesAsync);
+                        
             DoePaAdminService = doePaAdminService;
 
             Kostenstellen = Task.Run(async () => await DoePaAdminService.GetKostenstellenAsync()).Result;
@@ -53,9 +58,23 @@ namespace DoePaAdmin.ViewModel
 
         }
 
-        private void DoAddKostenstelle()
+        private async Task<bool> CheckIfSaveChangesCanExecuteAsync(CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            return await DoePaAdminService.CheckForChangesAsync(cancellationToken);
+        }
+
+        private async Task SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            await DoePaAdminService.SaveChangesAsync(cancellationToken);
+        }
+
+        private async Task DoAddKostenstelleAsync(CancellationToken cancellationToken = default)
+        {
+
+            Kostenstelle newKostenstelle = await DoePaAdminService.CreateKostenstelleAsync(cancellationToken);
+            newKostenstelle.Kostenstellenbezeichnung = "Neue Kostenstelle";
+            Kostenstellen.Add(newKostenstelle);
+
         }
 
     }

@@ -13,5 +13,8 @@ namespace DoePaAdmin.ViewModel.Services
     {
         public Task<ObservableCollection<Kostenstelle>> GetKostenstellenAsync(CancellationToken cancellationToken = default);
         public Task<ObservableCollection<Kostenstellenart>> GetKostenstellenartenAsync(CancellationToken cancellationToken = default);
+        public Task<Kostenstelle> CreateKostenstelleAsync(CancellationToken cancellationToken = default);
+        public Task<bool> CheckForChangesAsync(CancellationToken cancellationToken = default);
+        public Task SaveChangesAsync(CancellationToken cancellationToken = default);
     }
 }
