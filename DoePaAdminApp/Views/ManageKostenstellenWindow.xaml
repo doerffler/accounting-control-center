@@ -5,7 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DoePaAdminApp.Views"
         mc:Ignorable="d"
-        Title="ManageKostenstellenWindow" Height="450" Width="800"
+        Title="{StaticResource strEditCostCenter}"
+        Icon="/Resources/costcenter_icon_16x16.png"
+        Height="450"
+        Width="800"
         DataContext="{Binding Source={StaticResource Locator}, Path=ManageKostenstellenViewModel}">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -56,7 +59,7 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            
+
             <Label Grid.Row="0" Grid.Column="0">Kostenstellennummer:</Label>
             <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding SelectedKostenstelle.KostenstelleID}" />
 

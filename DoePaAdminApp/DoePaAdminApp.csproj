@@ -9,6 +9,8 @@
 
   <ItemGroup>
     <None Remove="appsettings.json" />
+    <None Remove="Resources\contactcard_icon_16x16.png" />
+    <None Remove="Resources\contactcard_icon_32x32.png" />
     <None Remove="Resources\costcenter_icon_16x16.png" />
     <None Remove="Resources\costcenter_icon_32x32.png" />
     <None Remove="Resources\doerffler_icon_496x496.png" />
@@ -29,6 +31,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Resources\contactcard_icon_16x16.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\contactcard_icon_32x32.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\costcenter_icon_16x16.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>

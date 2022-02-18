@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:DoePaAdminApp.Views"
         xmlns:properties="clr-namespace:DoePaAdminApp.Properties"
         mc:Ignorable="d"
-        Title="MainWindow"
+        Title="Dörffler &amp; Partner GmbH - DoePaAdmin"
+        Icon="/Resources/doerffler_icon_496x496.png"
         Height="450"
         Width="800"
         DataContext="{Binding Source={StaticResource Locator}, Path=MainViewModel}">
@@ -23,7 +24,9 @@
             </Ribbon.ApplicationMenu>
             <RibbonTab Header="Start">
                 <RibbonGroup Header="Allgemein">
-                    
+                    <RibbonButton>
+                        
+                    </RibbonButton>
                 </RibbonGroup>
                 <RibbonGroup Header="Zwischenablage">
                     
@@ -31,10 +34,21 @@
             </RibbonTab>
             <RibbonTab Header="Stammdaten">
                 <RibbonGroup Header="Kostenstellen">
-                    <RibbonButton x:Name="RBOpenCostCenterImport" Click="RBOpenCostCenterImport_Click" SmallImageSource="/Resources/costcenter_icon_16x16.png" LargeImageSource="/Resources/costcenter_icon_32x32.png" Label="Kostenstellen bearbeiten"></RibbonButton>
+                    <RibbonButton
+                        x:Name="RBOpenCostCenterManagement"
+                        Click="RBOpenCostCenterManagement_Click"
+                        SmallImageSource="/Resources/costcenter_icon_16x16.png"
+                        LargeImageSource="/Resources/costcenter_icon_32x32.png"
+                        Label="{StaticResource strEditCostCenter}"
+                        />
                 </RibbonGroup>
                 <RibbonGroup Header="Mitarbeiter">
-                    
+                    <RibbonButton
+                        x:Name="RBOpenWorkforceManagement"
+                        Click="RBOpenWorkforceManagement_Click"
+                        SmallImageSource="/Resources/contactcard_icon_16x16.png"
+                        LargeImageSource="/Resources/contactcard_icon_32x32.png"
+                        Label="{StaticResource strEditWorkforce}" />
                 </RibbonGroup>
             </RibbonTab>
             <RibbonTab Header="Kostenrechnung">

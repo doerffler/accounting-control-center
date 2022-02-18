@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace DoePaAdminDataAdapter.DoePaAdmin
@@ -20,9 +21,24 @@ namespace DoePaAdminDataAdapter.DoePaAdmin
 
         }
 
+        public async Task<int> InitializeMasterdataTablesAsync(CancellationToken cancellationToken = default)
+        {
+            return await Database.ExecuteSqlRawAsync(Properties.Resources.InitializeMasterdataTables, cancellationToken);
+        }
+
         public DbSet<Kostenstelle> Kostenstellen { get; set; }
 
         public DbSet<Kostenstellenart> Kostenstellenarten { get; set; }
+
+        public DbSet<Mitarbeiter> Mitarbeiter { get; set; }
+
+        public DbSet<Bankverbindung> Bankverbindungen { get; set; }
+
+        public DbSet<Adresse> Adressen { get; set; }
+
+        public DbSet<Taetigkeit> Taetigkeiten { get; set; }
+
+        public DbSet<Postleitzahl> Postleitzahlen { get; set; }
 
     }
 }

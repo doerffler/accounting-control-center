@@ -9,6 +9,8 @@ namespace DoePaAdminDataModel.Stammdaten
 
         public int MitarbeiterID { get; set; }
 
+        public int MitarbeiterNummer { get; set; }
+
         public DateTime GueltigAb { get; set; }
 
         public string Vorname { get; set; }

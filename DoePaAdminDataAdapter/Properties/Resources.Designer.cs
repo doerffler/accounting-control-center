@@ -61,6 +61,27 @@ namespace DoePaAdminDataAdapter.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die INSERT INTO [dbo].[Kostenstellenarten] ([Kostenstellenartbezeichnung])
+        ///VALUES
+        ///	(&apos;Angestellte Mitarbeiter/innen&apos;),
+        ///	(&apos;Erlöse&apos;),
+        ///	(&apos;Freie Mitarbeiter/innen&apos;),
+        ///	(&apos;Sonstige Kostenstellen&apos;);
+        ///
+        ///INSERT INTO [dbo].[Taetigkeiten] ([Taetigkeitsbeschreibung])
+        ///VALUES
+        ///	(&apos;Geschäftsführerin / -Führer&apos;),
+        ///	(&apos;Werkstudent&apos;),
+        ///	(&apos;Beraterin / Berater&apos;),
+        ///	(&apos;Bürokauffrau / -Mann&apos;); ähnelt.
+        /// </summary>
+        internal static string InitializeMasterdataTables {
+            get {
+                return ResourceManager.GetString("InitializeMasterdataTables", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die SELECT [id]
         ///      ,[created_at]
         ///      ,[updated_at]

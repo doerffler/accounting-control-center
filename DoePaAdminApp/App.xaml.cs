@@ -56,12 +56,14 @@ namespace DoePaAdminApp
 
             services.AddSingleton<MainViewModel>();
             services.AddSingleton<ManageKostenstellenViewModel>();
+            services.AddSingleton<ManageMitarbeiterViewModel>();
             services.AddSingleton<ImportKostenstellenViewModel>();
 
             services.AddTransient<MainWindow>();
             services.AddTransient<ManageKostenstellenWindow>();
+            services.AddTransient<ManageMitarbeiterWindow>();
             services.AddTransient<ImportKostenstellenWindow>();
-
+            
         }
 
         protected override async void OnStartup(StartupEventArgs e)

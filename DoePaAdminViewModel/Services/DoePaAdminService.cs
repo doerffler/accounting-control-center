@@ -29,7 +29,11 @@ namespace DoePaAdmin.ViewModel.Services
                 ConnectionString = DoePaAdminConnectionString
             };
 
-            dbContext.Database.EnsureCreated();
+            if (dbContext.Database.EnsureCreated())
+            {
+                _ = Task.Run(async () => await dbContext.InitializeMasterdataTablesAsync());
+            }
+
             DBContext = dbContext;
         }
 
