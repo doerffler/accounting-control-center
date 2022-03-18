@@ -41,12 +41,17 @@ namespace DoePaAdmin.ViewModel
 
         public IRelayCommand AddKostenstelleCommand { get; }
 
+        public IRelayCommand RemoveKostenstelleCommand { get; }
+
         public IRelayCommand SaveChangesCommand { get; }
 
         public ManageKostenstellenViewModel(IDoePaAdminService doePaAdminService)
         {
 
             AddKostenstelleCommand = new AsyncRelayCommand(DoAddKostenstelleAsync);
+
+            //TODO: Implement CanExecute-Functionality
+            RemoveKostenstelleCommand = new RelayCommand(DoRemoveKostenstelle);
 
             //TODO: Implement CanExecute-Functionality
             SaveChangesCommand = new AsyncRelayCommand(SaveChangesAsync);
@@ -66,6 +71,16 @@ namespace DoePaAdmin.ViewModel
         private async Task SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             await DoePaAdminService.SaveChangesAsync(cancellationToken);
+        }
+
+        private void DoRemoveKostenstelle()
+        {
+
+            if (SelectedKostenstelle != null)
+            {
+                _ = Kostenstellen.Remove(SelectedKostenstelle);
+            }
+
         }
 
         private async Task DoAddKostenstelleAsync(CancellationToken cancellationToken = default)

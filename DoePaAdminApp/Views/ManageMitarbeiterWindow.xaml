@@ -17,10 +17,16 @@
             <ColumnDefinition Width="3*" />
         </Grid.ColumnDefinitions>
 
-        <ListView
-            Grid.Column="0"
-            >
-            
+        <ListView Grid.Column="0"
+                  ItemsSource="{Binding Mitarbeiter}"
+                  SelectedItem="{Binding SelectedMitarbeiter}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=PersonalNummer}" Header="Nr"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Vorname}" Header="Vorname" />
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Nachname}" Header="Nachname" />
+                </GridView>
+            </ListView.View>
         </ListView>
         
         <GridSplitter Grid.Column="1"

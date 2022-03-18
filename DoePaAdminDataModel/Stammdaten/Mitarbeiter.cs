@@ -9,7 +9,7 @@ namespace DoePaAdminDataModel.Stammdaten
 
         public int MitarbeiterID { get; set; }
 
-        public int MitarbeiterNummer { get; set; }
+        public int PersonalNummer { get; set; }
 
         public DateTime GueltigAb { get; set; }
 
@@ -23,7 +23,7 @@ namespace DoePaAdminDataModel.Stammdaten
 
         public Kostenstelle ZugehoerigeKostenstelle { get; set; }
 
-        public Bankverbindung ZugehoerigeBankverbindung { get; set; }
+        public string IBAN { get; set; }
 
         public string Anrede { get; set; }
 

@@ -32,8 +32,6 @@ namespace DoePaAdminDataAdapter.DoePaAdmin
 
         public DbSet<Mitarbeiter> Mitarbeiter { get; set; }
 
-        public DbSet<Bankverbindung> Bankverbindungen { get; set; }
-
         public DbSet<Adresse> Adressen { get; set; }
 
         public DbSet<Taetigkeit> Taetigkeiten { get; set; }

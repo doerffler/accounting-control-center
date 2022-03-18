@@ -12,5 +12,7 @@ namespace DoePaAdminApp.ViewModels
 
         public ManageKostenstellenViewModel ManageKostenstellenViewModel => App.ServiceProvider.GetRequiredService<ManageKostenstellenViewModel>();
 
+        public ManageMitarbeiterViewModel ManageMitarbeiterViewModel => App.ServiceProvider.GetRequiredService<ManageMitarbeiterViewModel>();
+
     }
 }
