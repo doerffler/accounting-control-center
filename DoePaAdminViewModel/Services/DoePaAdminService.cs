@@ -37,6 +37,8 @@ namespace DoePaAdmin.ViewModel.Services
             DBContext = dbContext;
         }
 
+        #region Kostenstellen
+
         public async Task<ObservableCollection<Kostenstelle>> GetKostenstellenAsync(CancellationToken cancellationToken = default)
         {
             IQueryable<Kostenstelle> result = DBContext.Kostenstellen;
@@ -64,6 +66,39 @@ namespace DoePaAdmin.ViewModel.Services
             return newKostenstelle;
         }
 
+        public void RemoveKostenstelle(Kostenstelle kostenstelleToRemove)
+        {
+            _ = DBContext.Kostenstellen.Remove(kostenstelleToRemove);
+        }
+
+        #endregion
+
+        #region Mitarbeiter
+
+        public async Task<ObservableCollection<Mitarbeiter>> GetMitarbeiterAsync(CancellationToken cancellationToken = default)
+        {
+            IQueryable<Mitarbeiter> result = DBContext.Mitarbeiter;
+            Task<List<Mitarbeiter>> taskToListAsync = result.ToListAsync(cancellationToken);
+            List<Mitarbeiter> listMitarbeiter = await taskToListAsync;
+            ObservableCollection<Mitarbeiter> mitarbeiter = new(listMitarbeiter);
+
+            return mitarbeiter;
+        }
+
+        public async Task<Mitarbeiter> CreateMitarbeiterAsync(CancellationToken cancellationToken = default)
+        {
+            Mitarbeiter newMitarbeiter = new();
+            _ = await DBContext.Mitarbeiter.AddAsync(newMitarbeiter, cancellationToken);
+            return newMitarbeiter;
+        }
+
+        public void RemoveMitarbeiter(Mitarbeiter mitarbeiterToRemove)
+        {
+            _ = DBContext.Mitarbeiter.Remove(mitarbeiterToRemove);
+        }
+
+        #endregion
+
         public async Task<bool> CheckForChangesAsync(CancellationToken cancellationToken = default)
         {
             return await Task.Run(() => DBContext.ChangeTracker.HasChanges(), cancellationToken);
@@ -71,7 +106,7 @@ namespace DoePaAdmin.ViewModel.Services
 
         public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-            await DBContext.SaveChangesAsync(cancellationToken);
+            _ = await DBContext.SaveChangesAsync(cancellationToken);
         }
 
     }

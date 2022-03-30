@@ -1,15 +1,19 @@
-﻿using DoePaAdminDataModel.Stammdaten;
+﻿using DoePaAdmin.ViewModel.Services;
+using DoePaAdminDataModel.Stammdaten;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace DoePaAdmin.ViewModel
 {
-    public class ManageMitarbeiterViewModel : ObservableRecipient
+    public class ManageMitarbeiterViewModel : DoePaAdminViewModelBase
     {
 
         private ObservableCollection<Mitarbeiter> _mitarbeiter = new();
@@ -28,5 +32,38 @@ namespace DoePaAdmin.ViewModel
             set => SetProperty(ref _selectedMitarbeiter, value);
         }
 
+        public IRelayCommand AddMitarbeiterCommand { get; }
+
+        public IRelayCommand RemoveMitarbeiterCommand { get; }
+
+        public ManageMitarbeiterViewModel(IDoePaAdminService doePaAdminService) : base(doePaAdminService)
+        {
+            AddMitarbeiterCommand = new AsyncRelayCommand(DoAddMitarbeiterAsync);
+
+            //TODO: Implement CanExecute-Functionality
+            RemoveMitarbeiterCommand = new RelayCommand(DoRemoveMitarbeiter);
+
+            Mitarbeiter = Task.Run(async () => await DoePaAdminService.GetMitarbeiterAsync()).Result;
+        }
+
+        private void DoRemoveMitarbeiter()
+        {
+
+            if (SelectedMitarbeiter != null)
+            {
+                _ = Mitarbeiter.Remove(SelectedMitarbeiter);
+            }
+
+        }
+
+        private async Task DoAddMitarbeiterAsync(CancellationToken cancellationToken = default)
+        {
+
+            Mitarbeiter newMitarbeiter = await DoePaAdminService.CreateMitarbeiterAsync(cancellationToken);
+            newMitarbeiter.Vorname = "Neuer";
+            newMitarbeiter.Nachname = "Mitarbeiter";
+            Mitarbeiter.Add(newMitarbeiter);
+
+        }
     }
 }

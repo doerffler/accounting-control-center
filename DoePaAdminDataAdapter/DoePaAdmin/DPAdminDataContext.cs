@@ -32,10 +32,12 @@ namespace DoePaAdminDataAdapter.DoePaAdmin
 
         public DbSet<Mitarbeiter> Mitarbeiter { get; set; }
 
-        public DbSet<Adresse> Adressen { get; set; }
+        public DbSet<Anstellungsdetail> Anstellungsdetails { get; set; }
 
         public DbSet<Taetigkeit> Taetigkeiten { get; set; }
 
+        public DbSet<Adresse> Adressen { get; set; }
+        
         public DbSet<Postleitzahl> Postleitzahlen { get; set; }
 
     }

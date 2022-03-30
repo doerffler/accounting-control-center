@@ -12,10 +12,8 @@ using System.Threading.Tasks;
 
 namespace DoePaAdmin.ViewModel
 {
-    public class ManageKostenstellenViewModel : ObservableRecipient
+    public class ManageKostenstellenViewModel : DoePaAdminViewModelBase
     {
-
-        private IDoePaAdminService DoePaAdminService { get; set; }
 
         private ObservableCollection<Kostenstelle> _kostenstellen = new();
         public ObservableCollection<Kostenstelle> Kostenstellen
@@ -43,9 +41,7 @@ namespace DoePaAdmin.ViewModel
 
         public IRelayCommand RemoveKostenstelleCommand { get; }
 
-        public IRelayCommand SaveChangesCommand { get; }
-
-        public ManageKostenstellenViewModel(IDoePaAdminService doePaAdminService)
+        public ManageKostenstellenViewModel(IDoePaAdminService doePaAdminService) : base(doePaAdminService)
         {
 
             AddKostenstelleCommand = new AsyncRelayCommand(DoAddKostenstelleAsync);
@@ -53,24 +49,9 @@ namespace DoePaAdmin.ViewModel
             //TODO: Implement CanExecute-Functionality
             RemoveKostenstelleCommand = new RelayCommand(DoRemoveKostenstelle);
 
-            //TODO: Implement CanExecute-Functionality
-            SaveChangesCommand = new AsyncRelayCommand(SaveChangesAsync);
-                        
-            DoePaAdminService = doePaAdminService;
-
             Kostenstellen = Task.Run(async () => await DoePaAdminService.GetKostenstellenAsync()).Result;
             Kostenstellenarten = Task.Run(async () => await DoePaAdminService.GetKostenstellenartenAsync()).Result;
 
-        }
-
-        private async Task<bool> CheckIfSaveChangesCanExecuteAsync(CancellationToken cancellationToken = default)
-        {
-            return await DoePaAdminService.CheckForChangesAsync(cancellationToken);
-        }
-
-        private async Task SaveChangesAsync(CancellationToken cancellationToken = default)
-        {
-            await DoePaAdminService.SaveChangesAsync(cancellationToken);
         }
 
         private void DoRemoveKostenstelle()
@@ -78,6 +59,7 @@ namespace DoePaAdmin.ViewModel
 
             if (SelectedKostenstelle != null)
             {
+                DoePaAdminService.RemoveKostenstelle(SelectedKostenstelle);
                 _ = Kostenstellen.Remove(SelectedKostenstelle);
             }
 

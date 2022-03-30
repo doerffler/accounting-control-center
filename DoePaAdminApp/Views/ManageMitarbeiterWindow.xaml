@@ -16,23 +16,179 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="3*" />
         </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
 
         <ListView Grid.Column="0"
+                  Grid.Row="0"
+                  Grid.RowSpan="3"
                   ItemsSource="{Binding Mitarbeiter}"
                   SelectedItem="{Binding SelectedMitarbeiter}">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=PersonalNummer}" Header="Nr"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=PersonalnummerDatev}" Header="Nr"/>
                     <GridViewColumn DisplayMemberBinding="{Binding Path=Vorname}" Header="Vorname" />
                     <GridViewColumn DisplayMemberBinding="{Binding Path=Nachname}" Header="Nachname" />
                 </GridView>
             </ListView.View>
         </ListView>
-        
+
+        <StackPanel Grid.Row="3" Orientation="Horizontal">
+            <Button Command="{Binding AddMitarbeiterCommand}" Content="{StaticResource strAddItem}" />
+            <Button Command="{Binding RemoveMitarbeiterCommand}" Content="{StaticResource strDeleteItem}" />
+        </StackPanel>
+
         <GridSplitter Grid.Column="1"
+                      Grid.Row="0"
+                      Grid.RowSpan="4"
                       HorizontalAlignment="Center"
                       VerticalAlignment="Stretch"
                       Width="5"
                       />
+
+        <Grid Grid.Column="2"
+              Grid.Row="0"
+              DataContext="{Binding SelectedMitarbeiter}">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Label
+                Grid.Column="0"
+                Grid.Row="0">
+                Personalnummer:
+            </Label>
+            <TextBox 
+                Grid.Column="1"
+                Grid.Row="0"
+                Text="{Binding PersonalnummerDatev}"/>
+
+            <Label
+                Grid.Column="2"
+                Grid.Row="0">
+                Kürzel:
+            </Label>
+            <TextBox
+                Grid.Column="3"
+                Grid.Row="0"
+                Text="{Binding Kuerzel}" />
+
+            <Label
+                Grid.Column="0"
+                Grid.Row="1">
+                Anrede:
+            </Label>
+            <TextBox
+                Grid.Column="1"
+                Grid.Row="1"
+                Text="{Binding Anrede}" />
+
+            <Label
+                Grid.Column="2"
+                Grid.Row="1">
+                Titel:
+            </Label>
+            <TextBox
+                Grid.Column="3"
+                Grid.Row="1"
+                Text="{Binding Titel}" />
+
+            <Label
+                Grid.Column="0"
+                Grid.Row="2">Vorname:</Label>
+            <TextBox
+                Grid.Column="1"
+                Grid.Row="2"
+                Text="{Binding Vorname}" />
+
+            <Label
+                Grid.Column="2"
+                Grid.Row="2">
+                Zuname:
+            </Label>
+            <TextBox
+                Grid.Column="3"
+                Grid.Row="2"
+                Text="{Binding Zuname}"/>
+
+            <Label
+                Grid.Column="0"
+                Grid.Row="3">
+                Nachname:
+            </Label>
+            <TextBox
+                Grid.Column="1"
+                Grid.Row="3"
+                Text="{Binding Nachname}" />
+
+            <Label
+                Grid.Column="0"
+                Grid.Row="4">
+                Geburtsdatum:
+            </Label>
+            <DatePicker
+                Grid.Column="1"
+                Grid.Row="4"
+                SelectedDate="{Binding Geburtsdatum}" />
+
+            <Label
+                Grid.Column="2"
+                Grid.Row="4">
+                Adresse:
+            </Label>
+            <TextBlock
+                Grid.Column="3"
+                Grid.Row="4"
+                Grid.RowSpan="3"
+                Text="{Binding ZugehoerigeAdresse}" />
+
+            <Label
+                Grid.Column="0"
+                Grid.Row="5">
+                IBAN:
+            </Label>
+            <TextBox
+                Grid.Column="1"
+                Grid.Row="5"
+                Text="{Binding IBAN}" />
+
+        </Grid>
+
+        <Label
+            Grid.Column="2"
+            Grid.Row="2">
+            Anstellungshistorie:
+        </Label>
+        <DataGrid
+            Grid.Column="2"
+            Grid.Row="2"
+            ItemsSource="{Binding SelectedMitarbeiter.Anstellungshistorie}">
+            
+        </DataGrid>
+
+        <StackPanel
+            Grid.Column="2"
+            Grid.Row="3">
+            <Button Command="{Binding SaveChangesCommand}">
+                Speichern
+            </Button>
+        </StackPanel>
+
     </Grid>
 </Window>
