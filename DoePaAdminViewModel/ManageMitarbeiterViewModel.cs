@@ -24,6 +24,14 @@ namespace DoePaAdmin.ViewModel
             set => SetProperty(ref _mitarbeiter, value, true);
         }
 
+        private ObservableCollection<Taetigkeit> _taetigkeiten = new();
+
+        public ObservableCollection<Taetigkeit> Taetigkeiten
+        {
+            get => _taetigkeiten;
+            set => SetProperty(ref _taetigkeiten, value, true);
+        }
+
         private Mitarbeiter _selectedMitarbeiter;
 
         public Mitarbeiter SelectedMitarbeiter
@@ -44,6 +52,7 @@ namespace DoePaAdmin.ViewModel
             RemoveMitarbeiterCommand = new RelayCommand(DoRemoveMitarbeiter);
 
             Mitarbeiter = Task.Run(async () => await DoePaAdminService.GetMitarbeiterAsync()).Result;
+            Taetigkeiten = Task.Run(async () => await DoePaAdminService.GetTaetigkeitenAsync()).Result;
         }
 
         private void DoRemoveMitarbeiter()

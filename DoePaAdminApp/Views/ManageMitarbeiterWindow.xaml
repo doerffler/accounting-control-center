@@ -178,8 +178,12 @@
         <DataGrid
             Grid.Column="2"
             Grid.Row="2"
-            ItemsSource="{Binding SelectedMitarbeiter.Anstellungshistorie}">
-            
+            ItemsSource="{Binding Path=SelectedMitarbeiter.Anstellungshistorie}"
+            AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="GültigAb" Binding="{Binding Path=GueltigAb}" />
+                <DataGridComboBoxColumn Header="Tätigkeit" ItemsSource="{Binding Path=Taetigkeiten}" SelectedItemBinding="{Binding Path=ZugehoerigeTaetigkeit}" />
+            </DataGrid.Columns>
         </DataGrid>
 
         <StackPanel

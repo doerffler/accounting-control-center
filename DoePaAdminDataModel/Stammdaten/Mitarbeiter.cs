@@ -33,5 +33,10 @@ namespace DoePaAdminDataModel.Stammdaten
 
         public List<Anstellungsdetail> Anstellungshistorie { get; set; }
 
+        public Mitarbeiter()
+        {
+            Anstellungshistorie = new List<Anstellungsdetail>();
+        }
+
     }
 }

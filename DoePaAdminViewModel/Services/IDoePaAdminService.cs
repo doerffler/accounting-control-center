@@ -17,6 +17,7 @@ namespace DoePaAdmin.ViewModel.Services
         public void RemoveKostenstelle(Kostenstelle kostenstelleToRemove);
 
         public Task<ObservableCollection<Mitarbeiter>> GetMitarbeiterAsync(CancellationToken cancellationToken = default);
+        public Task<ObservableCollection<Taetigkeit>> GetTaetigkeitenAsync(CancellationToken cancellationToken = default);
         public Task<Mitarbeiter> CreateMitarbeiterAsync(CancellationToken cancellationToken = default);
         public void RemoveMitarbeiter(Mitarbeiter mitarbeiterToRemove);
 

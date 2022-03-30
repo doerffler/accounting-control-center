@@ -85,6 +85,16 @@ namespace DoePaAdmin.ViewModel.Services
             return mitarbeiter;
         }
 
+        public async Task<ObservableCollection<Taetigkeit>> GetTaetigkeitenAsync(CancellationToken cancellationToken = default)
+        {
+            IQueryable<Taetigkeit> result = DBContext.Taetigkeiten;
+            Task<List<Taetigkeit>> taskToListAsync = result.ToListAsync(cancellationToken);
+            List<Taetigkeit> listTaetigkeiten = await taskToListAsync;
+            ObservableCollection<Taetigkeit> taetigkeiten = new(listTaetigkeiten);
+
+            return taetigkeiten;
+        }
+
         public async Task<Mitarbeiter> CreateMitarbeiterAsync(CancellationToken cancellationToken = default)
         {
             Mitarbeiter newMitarbeiter = new();
