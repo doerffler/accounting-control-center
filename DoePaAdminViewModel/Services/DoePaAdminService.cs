@@ -109,6 +109,28 @@ namespace DoePaAdmin.ViewModel.Services
 
         #endregion
 
+        #region Kunde
+
+        public async Task<Kunde> CreateKundeAsync(CancellationToken cancellationToke = default)
+        {
+            Kunde newKunde = new();
+            _ = await DBContext.Kunden.AddAsync(newKunde, cancellationToke);
+            return newKunde;
+        }
+
+        #endregion
+
+        #region Auftrag
+
+        public async Task<Auftrag> CreateAuftragAsync(CancellationToken cancellationToke = default)
+        {
+            Auftrag newAuftrag = new();
+            _ = await DBContext.Auftraege.AddAsync(newAuftrag, cancellationToke);
+            return newAuftrag;
+        }
+
+        #endregion
+
         public async Task<bool> CheckForChangesAsync(CancellationToken cancellationToken = default)
         {
             return await Task.Run(() => DBContext.ChangeTracker.HasChanges(), cancellationToken);
@@ -119,5 +141,34 @@ namespace DoePaAdmin.ViewModel.Services
             _ = await DBContext.SaveChangesAsync(cancellationToken);
         }
 
+        public async Task<ObservableCollection<Kunde>> GetKundeAsync(CancellationToken cancellationToken = default)
+        {
+            IQueryable<Kunde> result = DBContext.Kunden.Include(a => a.Auftraege).ThenInclude(ap => ap.Auftragspositionen);
+            Task<List<Kunde>> taskToListAsync = result.ToListAsync(cancellationToken);
+            List<Kunde> listKunde = await taskToListAsync;
+            ObservableCollection<Kunde> kunden = new(listKunde);
+
+            return kunden;
+        }
+
+        public async Task<ObservableCollection<Auftrag>> GetAuftragAsync(CancellationToken cancellationToken = default)
+        {
+            IQueryable<Auftrag> result = DBContext.Auftraege;
+            Task<List<Auftrag>> taskToListAsync = result.ToListAsync(cancellationToken);
+            List<Auftrag> listAuftrag = await taskToListAsync;
+            ObservableCollection<Auftrag> auftraege = new(listAuftrag);
+
+            return auftraege;
+        }
+
+        public async Task<ObservableCollection<Auftragsposition>> GetAuftragspositionAsync(CancellationToken cancellationToken = default)
+        {
+            IQueryable<Auftragsposition> result = DBContext.Auftragspositionen;
+            Task<List<Auftragsposition>> taskToListAsync = result.ToListAsync(cancellationToken);
+            List<Auftragsposition> listAuftragsposition = await taskToListAsync;
+            ObservableCollection<Auftragsposition> auftragspositionen = new(listAuftragsposition);
+
+            return auftragspositionen;
+        }
     }
 }

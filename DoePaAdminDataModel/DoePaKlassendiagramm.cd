@@ -1,0 +1,131 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="DoePaAdminDataModel.Stammdaten.Adresse">
+    <Position X="8.25" Y="7.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAAAAAAAAgAAAAEAAAAAAAAAAAAAABAABA=</HashCode>
+      <FileName>Stammdaten\Adresse.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="ZugehoerigePostleitzahl" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="DoePaAdminDataModel.Stammdaten.Anstellungsdetail" Collapsed="true">
+    <Position X="26.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgACAAAGAAAAAAAQAAAAAAAAAAAgBAAAAAACAAA=</HashCode>
+      <FileName>Stammdaten\Anstellungsdetail.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DoePaAdminDataModel.Stammdaten.Auftrag">
+    <Position X="20.5" Y="1.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQAAAAAAAAAIAAAAAAAAAAAAAABAAEA=</HashCode>
+      <FileName>Stammdaten\Auftrag.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Auftraggeber" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Auftragspositionen" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="DoePaAdminDataModel.Stammdaten.Auftragsposition">
+    <Position X="23.5" Y="1.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAA=</HashCode>
+      <FileName>Stammdaten\Auftragsposition.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DoePaAdminDataModel.Stammdaten.Bankverbindung" Collapsed="true">
+    <Position X="28" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAICAAAAAAAACA=</HashCode>
+      <FileName>Stammdaten\Bankverbindung.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DoePaAdminDataModel.Stammdaten.Debitor">
+    <Position X="10.5" Y="4" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Stammdaten\Debitor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DoePaAdminDataModel.Stammdaten.Geschaeftspartner">
+    <Position X="11.75" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAIAAEAAAgAAAAAAAAAAAAAAIQAAAQAgAQAAA=</HashCode>
+      <FileName>Stammdaten\Geschaeftspartner.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DoePaAdminDataModel.Stammdaten.Kostenstelle" Collapsed="true">
+    <Position X="29.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAIAAEAAAAAAAgAAAAAAAACAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Stammdaten\Kostenstelle.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DoePaAdminDataModel.Stammdaten.Kostenstellenart" Collapsed="true">
+    <Position X="26.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAEAAAAA=</HashCode>
+      <FileName>Stammdaten\Kostenstellenart.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DoePaAdminDataModel.Stammdaten.Kreditor">
+    <Position X="13" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Stammdaten\Kreditor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DoePaAdminDataModel.Stammdaten.Kunde">
+    <Position X="17.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAg=</HashCode>
+      <FileName>Stammdaten\Kunde.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Auftraege" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="DoePaAdminDataModel.Stammdaten.Mitarbeiter" Collapsed="true">
+    <Position X="28" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAACAAAAIAAAAAAAEAAAgAABAAAAAAJIAAAQAgAQAAg=</HashCode>
+      <FileName>Stammdaten\Mitarbeiter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DoePaAdminDataModel.Stammdaten.Postleitzahl">
+    <Position X="11.5" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAQAAAAAAAAAIAAQAAAAAAAAAAAAAAAgAAAAAAAAA=</HashCode>
+      <FileName>Stammdaten\Postleitzahl.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DoePaAdminDataModel.Stammdaten.Projekt">
+    <Position X="14.5" Y="1.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAAAAAAAAAAAAAABAAAAAAACAAAAAAAAAA=</HashCode>
+      <FileName>Stammdaten\Projekt.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="ZugehoerigerKunde" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="DoePaAdminDataModel.Stammdaten.Taetigkeit" Collapsed="true">
+    <Position X="29.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAA=</HashCode>
+      <FileName>Stammdaten\Taetigkeit.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DoePaAdminDataModel.Stammdaten.Vertrag" Collapsed="true">
+    <Position X="26.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAUAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAA=</HashCode>
+      <FileName>Stammdaten\Vertrag.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
