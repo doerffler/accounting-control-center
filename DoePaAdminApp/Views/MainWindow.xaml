@@ -16,7 +16,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Ribbon Grid.Row="0" SelectionChanged="Ribbon_SelectionChanged">
+        <Ribbon Grid.Row="0">
             <Ribbon.ApplicationMenu>
                 <RibbonApplicationMenu SmallImageSource="/Resources/doerffler_icon_496x496.png">
                     <RibbonApplicationMenuItem Header="Hello _Ribbon"/>

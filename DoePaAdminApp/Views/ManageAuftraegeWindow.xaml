@@ -65,7 +65,7 @@
             ItemsSource="{Binding Path=SelectedAuftrag.Auftragspositionen}"
             AutoGenerateColumns="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Auftragsposition" Binding="{Binding Path=AuftragspositionID}" />
+                <DataGridTextColumn Header="AuftragspositionNr." Binding="{Binding Path=AuftragspositionNummer}" />
                 <DataGridTextColumn Header="Positionsbezeichnung" Binding="{Binding Path=Positionsbezeichnung}" />
             </DataGrid.Columns>
         </DataGrid>

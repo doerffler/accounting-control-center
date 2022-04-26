@@ -117,30 +117,6 @@ namespace DoePaAdmin.ViewModel.Services
             _ = await DBContext.Kunden.AddAsync(newKunde, cancellationToke);
             return newKunde;
         }
-
-        #endregion
-
-        #region Auftrag
-
-        public async Task<Auftrag> CreateAuftragAsync(CancellationToken cancellationToke = default)
-        {
-            Auftrag newAuftrag = new();
-            _ = await DBContext.Auftraege.AddAsync(newAuftrag, cancellationToke);
-            return newAuftrag;
-        }
-
-        #endregion
-
-        public async Task<bool> CheckForChangesAsync(CancellationToken cancellationToken = default)
-        {
-            return await Task.Run(() => DBContext.ChangeTracker.HasChanges(), cancellationToken);
-        }
-
-        public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
-        {
-            _ = await DBContext.SaveChangesAsync(cancellationToken);
-        }
-
         public async Task<ObservableCollection<Kunde>> GetKundeAsync(CancellationToken cancellationToken = default)
         {
             IQueryable<Kunde> result = DBContext.Kunden.Include(a => a.Auftraege).ThenInclude(ap => ap.Auftragspositionen);
@@ -170,5 +146,30 @@ namespace DoePaAdmin.ViewModel.Services
 
             return auftragspositionen;
         }
+
+        #endregion
+
+        #region Auftrag
+
+        public async Task<Auftrag> CreateAuftragAsync(CancellationToken cancellationToke = default)
+        {
+            Auftrag newAuftrag = new();
+            _ = await DBContext.Auftraege.AddAsync(newAuftrag, cancellationToke);
+            return newAuftrag;
+        }
+
+        #endregion
+
+        public async Task<bool> CheckForChangesAsync(CancellationToken cancellationToken = default)
+        {
+            return await Task.Run(() => DBContext.ChangeTracker.HasChanges(), cancellationToken);
+        }
+
+        public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            _ = await DBContext.SaveChangesAsync(cancellationToken);
+        }
+
+        
     }
 }

@@ -32,10 +32,5 @@ namespace DoePaAdminApp.Views
             ManageAuftraegeWindow viewManageAuftraege = App.ServiceProvider.GetRequiredService<ManageAuftraegeWindow>();
             viewManageAuftraege.Show();
         }
-
-        private void Ribbon_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
-        {
-
-        }
     }
 }

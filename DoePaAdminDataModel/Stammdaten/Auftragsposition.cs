@@ -10,6 +10,8 @@ namespace DoePaAdminDataModel.Stammdaten
     {
         public int AuftragspositionID { get; set; }
 
+        public int AuftragspositionNummer { get; set; } 
+
         public Auftrag Auftrag { get; set; }   
         
         public string Positionsbezeichnung { get; set; }    
