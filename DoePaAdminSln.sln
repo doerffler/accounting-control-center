@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30611.23
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32328.378
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DoePaAdminApp", "DoePaAdminApp\DoePaAdminApp.csproj", "{5ABE3521-2E6A-485F-AA1D-A88206099D44}"
 EndProject
@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DoePaAdminDataModel", "DoeP
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DoePaAdminDataAdapter", "DoePaAdminDataAdapter\DoePaAdminDataAdapter.csproj", "{BA182B91-AD61-47CD-928A-C3C2D1FB08C4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DoePaAdminViewModel", "DoePaAdminViewModel\DoePaAdminViewModel.csproj", "{3F114D29-7280-4ECD-82D9-2ECCCC6D3F89}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DoePaAdminViewModel", "DoePaAdminViewModel\DoePaAdminViewModel.csproj", "{3F114D29-7280-4ECD-82D9-2ECCCC6D3F89}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

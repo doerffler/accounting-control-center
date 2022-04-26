@@ -16,7 +16,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Ribbon Grid.Row="0">
+        <Ribbon Grid.Row="0" SelectionChanged="Ribbon_SelectionChanged">
             <Ribbon.ApplicationMenu>
                 <RibbonApplicationMenu SmallImageSource="/Resources/doerffler_icon_496x496.png">
                     <RibbonApplicationMenuItem Header="Hello _Ribbon"/>
@@ -49,6 +49,14 @@
                         SmallImageSource="/Resources/contactcard_icon_16x16.png"
                         LargeImageSource="/Resources/contactcard_icon_32x32.png"
                         Label="{StaticResource strEditWorkforce}" />
+                </RibbonGroup>
+                <RibbonGroup Header="Aufträge">
+                    <RibbonButton
+                        x:Name="RBOpenOrderManagement"
+                        Click="RBOpenOrderManagement_Click"
+                        SmallImageSource="/Resources/order_icon_16x16.png"
+                        LargeImageSource="/Resources/order_icon_32x32.png"
+                        Label="{StaticResource strEditOrder}" />
                 </RibbonGroup>
             </RibbonTab>
             <RibbonTab Header="Kostenrechnung">
