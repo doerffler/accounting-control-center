@@ -16,6 +16,8 @@
     <None Remove="Resources\doerffler_icon_496x496.png" />
     <None Remove="Resources\sd_card_16x16.png" />
     <None Remove="Resources\sd_card_32x32.png" />
+    <None Remove="Resources\order_icon_16x16.png" />
+    <None Remove="Resources\order_icon_32x32.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -52,6 +54,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\sd_card_32x32.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\order_icon_16x16.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\order_icon_32x32.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>

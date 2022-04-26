@@ -26,5 +26,11 @@ namespace DoePaAdminApp.Views
             ManageMitarbeiterWindow viewManageMitarbeiter = App.ServiceProvider.GetRequiredService<ManageMitarbeiterWindow>();
             viewManageMitarbeiter.Show();
         }
+
+        private void RBOpenOrderManagement_Click(object sender, RoutedEventArgs e)
+        {
+            ManageAuftraegeWindow viewManageAuftraege = App.ServiceProvider.GetRequiredService<ManageAuftraegeWindow>();
+            viewManageAuftraege.Show();
+        }
     }
 }

@@ -50,6 +50,14 @@
                         LargeImageSource="/Resources/contactcard_icon_32x32.png"
                         Label="{StaticResource strEditWorkforce}" />
                 </RibbonGroup>
+                <RibbonGroup Header="Aufträge">
+                    <RibbonButton
+                        x:Name="RBOpenOrderManagement"
+                        Click="RBOpenOrderManagement_Click"
+                        SmallImageSource="/Resources/order_icon_16x16.png"
+                        LargeImageSource="/Resources/order_icon_32x32.png"
+                        Label="{StaticResource strEditOrder}" />
+                </RibbonGroup>
             </RibbonTab>
             <RibbonTab Header="Kostenrechnung">
                 <RibbonGroup Header="Eingehende Rechnungen">

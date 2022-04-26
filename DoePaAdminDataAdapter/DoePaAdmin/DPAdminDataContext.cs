@@ -40,5 +40,11 @@ namespace DoePaAdminDataAdapter.DoePaAdmin
         
         public DbSet<Postleitzahl> Postleitzahlen { get; set; }
 
+        public DbSet<Auftrag> Auftraege { get; set; }
+
+        public DbSet<Auftragsposition> Auftragspositionen { get; set; } 
+
+        public DbSet<Kunde> Kunden { get; set; }
+
     }
 }
