@@ -77,7 +77,7 @@ namespace DoePaAdmin.ViewModel.Services
 
         public async Task<ObservableCollection<Mitarbeiter>> GetMitarbeiterAsync(CancellationToken cancellationToken = default)
         {
-            IQueryable<Mitarbeiter> result = DBContext.Mitarbeiter;
+            IQueryable<Mitarbeiter> result = DBContext.Mitarbeiter.Include(d => d.Anstellungshistorie).ThenInclude(t => t.ZugehoerigeTaetigkeit);
             Task<List<Mitarbeiter>> taskToListAsync = result.ToListAsync(cancellationToken);
             List<Mitarbeiter> listMitarbeiter = await taskToListAsync;
             ObservableCollection<Mitarbeiter> mitarbeiter = new(listMitarbeiter);

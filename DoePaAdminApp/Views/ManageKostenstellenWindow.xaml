@@ -37,8 +37,12 @@
             </ListView>
 
             <StackPanel Grid.Row="1" Orientation="Horizontal">
-                <Button Command="{Binding AddKostenstelleCommand}" Content="{StaticResource strAddItem}" />
-                <Button Command="{Binding RemoveKostenstelleCommand}" Content="{StaticResource strDeleteItem}" />
+                <Button Command="{Binding AddKostenstelleCommand}">
+                    <Control Template="{StaticResource tmpAddItemButton}" />
+                </Button>
+                <Button Command="{Binding RemoveKostenstelleCommand}">
+                    <Control Template="{StaticResource tmpRemoveItemButton}" />
+                </Button>
             </StackPanel>
 
         </Grid>
@@ -86,8 +90,9 @@
             <Label Grid.Row="3" Grid.Column="0">Gültig ab:</Label>
             <DatePicker Grid.Row="3" Grid.Column="1" SelectedDate="{Binding SelectedKostenstelle.GueltigAb}" />
             <Button Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Command="{Binding SaveChangesCommand}">
-                Speichern
+                <Control Template="{StaticResource tmpSaveDbDataButton}" />
             </Button>
+
         </Grid>
 
     </Grid>

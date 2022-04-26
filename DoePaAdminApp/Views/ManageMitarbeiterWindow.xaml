@@ -38,8 +38,12 @@
         </ListView>
 
         <StackPanel Grid.Row="3" Orientation="Horizontal">
-            <Button Command="{Binding AddMitarbeiterCommand}" Content="{StaticResource strAddItem}" />
-            <Button Command="{Binding RemoveMitarbeiterCommand}" Content="{StaticResource strDeleteItem}" />
+            <Button Command="{Binding AddMitarbeiterCommand}">
+                <Control Template="{StaticResource tmpAddItemButton}" />
+            </Button>
+            <Button Command="{Binding RemoveMitarbeiterCommand}">
+                <Control Template="{StaticResource tmpRemoveItemButton}" />
+            </Button>
         </StackPanel>
 
         <GridSplitter Grid.Column="1"
@@ -181,8 +185,25 @@
             ItemsSource="{Binding Path=SelectedMitarbeiter.Anstellungshistorie}"
             AutoGenerateColumns="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="GültigAb" Binding="{Binding Path=GueltigAb}" />
-                <DataGridComboBoxColumn Header="Tätigkeit" ItemsSource="{Binding Path=Taetigkeiten}" SelectedItemBinding="{Binding Path=ZugehoerigeTaetigkeit}" />
+                <DataGridTemplateColumn Header="Gültig Ab">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=GueltigAb, StringFormat=d}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                    
+                    <DataGridTemplateColumn.CellEditingTemplate>
+                        <DataTemplate>
+                            <DatePicker SelectedDate="{Binding Path=GueltigAb}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellEditingTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTextColumn Header="Monatsgehalt" Binding="{Binding Path=Monatsgehalt}" />
+                <DataGridTextColumn Header="Anzahl Monatsgehälter" Binding="{Binding Path=AnzahlMonatsgehaelter}" />
+                <DataGridTextColumn Header="Anzahl Arbeitsstunden" Binding="{Binding Path=AnzahlArbeitsstunden}" />
+                <DataGridComboBoxColumn Header="Tätigkeit" ItemsSource="{Binding Source={StaticResource Locator}, Path=ManageMitarbeiterViewModel.Taetigkeiten}" SelectedItemBinding="{Binding Path=ZugehoerigeTaetigkeit}" DisplayMemberPath="Taetigkeitsbeschreibung"/>
+                <DataGridCheckBoxColumn Header="Gekündigt" Binding="{Binding Path=IstGekuendigt}" />
             </DataGrid.Columns>
         </DataGrid>
 
@@ -190,8 +211,9 @@
             Grid.Column="2"
             Grid.Row="3">
             <Button Command="{Binding SaveChangesCommand}">
-                Speichern
+                <Control Template="{StaticResource tmpSaveDbDataButton}" />
             </Button>
+
         </StackPanel>
 
     </Grid>
