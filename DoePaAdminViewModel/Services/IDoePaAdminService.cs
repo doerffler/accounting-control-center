@@ -18,6 +18,8 @@ namespace DoePaAdmin.ViewModel.Services
         public void RemoveKostenstelle(Kostenstelle kostenstelleToRemove);
         // endregion 
 
+
+
         // region Mitarbeiter
         public Task<ObservableCollection<Mitarbeiter>> GetMitarbeiterAsync(CancellationToken cancellationToken = default);
         public Task<ObservableCollection<Taetigkeit>> GetTaetigkeitenAsync(CancellationToken cancellationToken = default);
@@ -25,19 +27,32 @@ namespace DoePaAdmin.ViewModel.Services
         public void RemoveMitarbeiter(Mitarbeiter mitarbeiterToRemove);
         // endregion
 
-        // region Kunde
 
+
+        // region Kunde
         public Task<Kunde> CreateKundeAsync(CancellationToken cancellationToke = default);
         public Task<Auftrag> CreateAuftragAsync(CancellationToken cancellationToke = default);
-
-
         // endregion
+
+
+
+        // region Projekt
+        public Task<Projekt> CreateProjektAsync(CancellationToken cancellationToke = default);
+
+        public Task<ObservableCollection<Projekt>> GetProjekteAsync(CancellationToken cancellationToke = default);
+        // endregion
+
+
 
         public Task<bool> CheckForChangesAsync(CancellationToken cancellationToken = default);
         public Task SaveChangesAsync(CancellationToken cancellationToken = default);
 
+
+
+        // region Auftrag
         public Task<ObservableCollection<Kunde>> GetKundeAsync(CancellationToken cancellationToken = default);
         public Task<ObservableCollection<Auftrag>> GetAuftragAsync(CancellationToken cancellationToken = default);
         public Task<ObservableCollection<Auftragsposition>> GetAuftragspositionAsync(CancellationToken cancellationToken = default);
+        // endregion
     }
 }

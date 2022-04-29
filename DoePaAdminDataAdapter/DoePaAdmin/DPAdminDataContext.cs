@@ -46,5 +46,7 @@ namespace DoePaAdminDataAdapter.DoePaAdmin
 
         public DbSet<Kunde> Kunden { get; set; }
 
+        public DbSet<Projekt> Projekte { get; set; }
+
     }
 }

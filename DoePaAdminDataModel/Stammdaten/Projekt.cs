@@ -11,7 +11,7 @@ namespace DoePaAdminDataModel.Stammdaten
 
         public string Projektname { get; set; }
 
-        public Kunde ZugehoerigerKunde { get; set; }
+        public Auftrag ZugehoerigerAuftrag { get; set; }
 
         public Projekt()
         {

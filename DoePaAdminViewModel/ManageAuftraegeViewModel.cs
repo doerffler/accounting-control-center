@@ -55,7 +55,7 @@ namespace DoePaAdmin.ViewModel
         }
         // endregion
 
-
+                
         public ManageAuftraegeViewModel(IDoePaAdminService doePaAdminService) : base(doePaAdminService)
         {
             // Zeiger auf Methode: "DoAddKundeAsync" --> Delegate
@@ -81,7 +81,7 @@ namespace DoePaAdmin.ViewModel
         private async Task DoAddKundeAsync(CancellationToken cancellationToken = default)
         {
             Kunde newKunde = await DoePaAdminService.CreateKundeAsync(cancellationToken);
-            newKunde.Kundenname = "Pikachu";
+            newKunde.Kundenname = "Pikachu2";
             Kunden.Add(newKunde);
 
             Auftrag newAuftrag = await DoePaAdminService.CreateAuftragAsync(cancellationToken);

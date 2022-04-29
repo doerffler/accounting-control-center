@@ -58,6 +58,14 @@
                         LargeImageSource="/Resources/order_icon_32x32.png"
                         Label="{StaticResource strEditOrder}" />
                 </RibbonGroup>
+                <RibbonGroup Header="Projekte">
+                    <RibbonButton
+                        x:Name="RBOpenProjectManagement"
+                        Click="RBOpenProjectManagement_Click"
+                        SmallImageSource="/Resources/order_icon_16x16.png"
+                        LargeImageSource="/Resources/order_icon_32x32.png"
+                        Label="{StaticResource strEditOrder}" />
+                </RibbonGroup>
             </RibbonTab>
             <RibbonTab Header="Kostenrechnung">
                 <RibbonGroup Header="Eingehende Rechnungen">

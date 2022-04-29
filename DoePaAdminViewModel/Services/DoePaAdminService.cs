@@ -160,6 +160,27 @@ namespace DoePaAdmin.ViewModel.Services
 
         #endregion
 
+
+        #region Projekt
+        public async Task<Projekt> CreateProjektAsync(CancellationToken cancellationToke = default)
+        {
+            Projekt newProjekt = new();
+            _ = await DBContext.Projekte.AddAsync(newProjekt, cancellationToke);
+            return newProjekt;
+        }
+        public async Task<ObservableCollection<Projekt>> GetProjekteAsync(CancellationToken cancellationToken = default)
+        {
+            IQueryable<Projekt> result = DBContext.Projekte;
+            Task<List<Projekt>> taskToListAsync = result.ToListAsync(cancellationToken);
+            List<Projekt> listProjekt = await taskToListAsync;
+            ObservableCollection<Projekt> auftragspositionen = new(listProjekt);
+
+            return auftragspositionen;
+        }
+        #endregion
+
+
+
         public async Task<bool> CheckForChangesAsync(CancellationToken cancellationToken = default)
         {
             return await Task.Run(() => DBContext.ChangeTracker.HasChanges(), cancellationToken);

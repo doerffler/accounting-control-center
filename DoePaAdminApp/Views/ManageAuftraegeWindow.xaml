@@ -4,14 +4,31 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DoePaAdminApp.Views"
+        xmlns:Stammdaten="clr-namespace:DoePaAdminDataModel.Stammdaten;assembly=DoePaAdminDataModel" 
         mc:Ignorable="d"
+        xmlns:System="clr-namespace:System;assembly=mscorlib"
         Title="ManageAuftraegeWindow" Height="450" Width="800"
         DataContext="{Binding Source={StaticResource Locator}, Path=ManageAuftraegeViewModel}">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary x:Name="Data">
+                    <ObjectDataProvider x:Key="EnumDataProvider" 
+                        MethodName="GetValues" 
+                        ObjectType="{x:Type System:Enum}">
+                        <ObjectDataProvider.MethodParameters>
+                            <x:Type TypeName="Stammdaten:Abrechnungseinheit"/>
+                        </ObjectDataProvider.MethodParameters>
+                    </ObjectDataProvider>
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*" />
             <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="3*" />
+            <ColumnDefinition Width="4*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="2*" />
@@ -26,20 +43,23 @@
                   Grid.Row="0"
                   Grid.RowSpan="2"
                   ItemsSource="{Binding Kunden}"
-                  SelectedItem="{Binding SelectedKunde}">
+                  SelectedItem="{Binding SelectedKunde}"
+                  FontSize="20"
+
+                  >
             <ListView.View>
                 <GridView>
                     <GridViewColumn DisplayMemberBinding="{Binding Path=KundeID}" Header="Nr"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=Kundenname}" Header="Kundenname" />
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Kundenname}" Header="Kunde"/>
                 </GridView>
             </ListView.View>
         </ListView>
 
         <StackPanel Grid.Row="3" Orientation="Horizontal">
-            <Button Command="{Binding AddMitarbeiterCommand}">
+            <Button Command="{Binding AddKundeCommand}">
                 <Control Template="{StaticResource tmpAddItemButton}" />
             </Button>
-            <Button Command="{Binding RemoveMitarbeiterCommand}">
+            <Button Command="{Binding RemoveKundeCommand}">
                 <Control Template="{StaticResource tmpRemoveItemButton}" />
             </Button>
         </StackPanel>
@@ -50,11 +70,39 @@
             Grid.Row="0"
             ItemsSource="{Binding Path=SelectedKunde.Auftraege}"
             SelectedItem="{Binding SelectedAuftrag}"
-            AutoGenerateColumns="False">
+            AutoGenerateColumns="False"
+            FontSize="20"
+            >
             <DataGrid.Columns>
-                <!--SelectedKunde.Auftrage > Auftraggeber /-name-->
                 <DataGridTextColumn Header="Kunde" Binding="{Binding Path=Kunde.Kundenname}" />
+                <DataGridTextColumn Header="VertragsNr." Binding="{Binding Path=Vertragsnummer}" />
                 <DataGridTextColumn Header="Auftragsname" Binding="{Binding Path=Auftragsname}" />
+                <DataGridTextColumn Header="Verantwortlicher" Binding="{Binding Path=ProjektverantwortlicherMitarbeiter}" />
+                <DataGridTemplateColumn Header="Beginn" Width="120">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Auftragsbeginn, StringFormat=dd.MM.yyyy}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                    <DataGridTemplateColumn.CellEditingTemplate>
+                        <DataTemplate>
+                            <DatePicker SelectedDate="{Binding Auftragsbeginn, StringFormat=dd.MM.yyyy}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellEditingTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Ende" Width="120">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Auftragsende, StringFormat=dd.MM.yyyy}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                    <DataGridTemplateColumn.CellEditingTemplate>
+                        <DataTemplate>
+                            <DatePicker SelectedDate="{Binding Auftragsende, StringFormat=dd.MM.yyyy}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellEditingTemplate>
+                </DataGridTemplateColumn>
+
             </DataGrid.Columns>
         </DataGrid>
 
@@ -63,10 +111,17 @@
             Grid.Column="2"
             Grid.Row="1"
             ItemsSource="{Binding Path=SelectedAuftrag.Auftragspositionen}"
-            AutoGenerateColumns="False">
+            AutoGenerateColumns="False"
+            FontSize="20"
+            CanUserAddRows="True"
+            >
             <DataGrid.Columns>
-                <DataGridTextColumn Header="AuftragspositionNr." Binding="{Binding Path=AuftragspositionNummer}" />
+                <!-- hp: die MaxWidth Parameter besser lösen -->
+                <DataGridTextColumn Header="Nr." Binding="{Binding Path=AuftragspositionNummer}" />
                 <DataGridTextColumn Header="Positionsbezeichnung" Binding="{Binding Path=Positionsbezeichnung}" />
+                <DataGridTextColumn Header="Volumen" Binding="{Binding Path=Auftragsvolumen}" />
+                <DataGridComboBoxColumn ItemsSource="{Binding Source={StaticResource EnumDataProvider}}"  SelectedItemBinding="{Binding Abrechnungseinheit, Mode=TwoWay}" Header="Einheit" />
+
             </DataGrid.Columns>
         </DataGrid>
 
