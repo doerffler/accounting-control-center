@@ -17,9 +17,11 @@ namespace DoePaAdminDataModel.Stammdaten
 
         public Kostenstellenart ZugehoerigeKostenstellenart { get; set; }
 
+        public List<Kostenstelle> UebergeordneteKostenstellen { get; set; }
+
         public Kostenstelle ()
         {
-
+            UebergeordneteKostenstellen = new List<Kostenstelle> ();
         }
 
     }
