@@ -6,12 +6,7 @@ using System.Threading.Tasks;
 
 namespace DoePaAdminDataModel.Stammdaten
 {
-    public enum Abrechnungseinheit
-    {
-        Tage,
-        Stunden,
-        Stück
-    }
+
     public class Auftragsposition
     {
         public Abrechnungseinheit Abrechnungseinheit { get; set; }
@@ -24,8 +19,8 @@ namespace DoePaAdminDataModel.Stammdaten
 
         public Auftrag Auftrag { get; set; }   
         
-        public string Positionsbezeichnung { get; set; }    
-
+        public string Positionsbezeichnung { get; set; }   
+        
         public string Waehrung { get; set; }   
     }
 }

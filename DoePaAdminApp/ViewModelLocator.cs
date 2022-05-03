@@ -16,5 +16,7 @@ namespace DoePaAdminApp.ViewModels
 
         public ManageAuftraegeViewModel ManageAuftraegeViewModel => App.ServiceProvider.GetRequiredService<ManageAuftraegeViewModel>();
 
+        public ManageProjekteViewModel ManageProjekteViewModel => App.ServiceProvider.GetRequiredService<ManageProjekteViewModel>();
+
     }
 }

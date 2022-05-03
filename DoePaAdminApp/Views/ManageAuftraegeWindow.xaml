@@ -4,27 +4,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DoePaAdminApp.Views"
-        xmlns:Stammdaten="clr-namespace:DoePaAdminDataModel.Stammdaten;assembly=DoePaAdminDataModel" 
         mc:Ignorable="d"
         xmlns:System="clr-namespace:System;assembly=mscorlib"
         Title="ManageAuftraegeWindow" Height="450" Width="800"
         DataContext="{Binding Source={StaticResource Locator}, Path=ManageAuftraegeViewModel}">
-    <Window.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary x:Name="Data">
-                    <ObjectDataProvider x:Key="EnumDataProvider" 
-                        MethodName="GetValues" 
-                        ObjectType="{x:Type System:Enum}">
-                        <ObjectDataProvider.MethodParameters>
-                            <x:Type TypeName="Stammdaten:Abrechnungseinheit"/>
-                        </ObjectDataProvider.MethodParameters>
-                    </ObjectDataProvider>
-                </ResourceDictionary>
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </Window.Resources>
-    <Grid>
+       <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*" />
             <ColumnDefinition Width="Auto" />
@@ -36,6 +20,8 @@
             <RowDefinition Height="Auto" />            
         </Grid.RowDefinitions>
 
+        
+        <!-- |||||||||||||||||||||| -->
         <!--Kunde links vollständing-->
         <ListView 
                   Name="lvKunde"
@@ -45,7 +31,6 @@
                   ItemsSource="{Binding Kunden}"
                   SelectedItem="{Binding SelectedKunde}"
                   FontSize="20"
-
                   >
             <ListView.View>
                 <GridView>
@@ -64,6 +49,9 @@
             </Button>
         </StackPanel>
 
+        
+        
+        <!-- |||||||||||||||||| -->
         <!--Aufträge oben rechts--> 
         <DataGrid
             Grid.Column="2"
@@ -77,7 +65,7 @@
                 <DataGridTextColumn Header="Kunde" Binding="{Binding Path=Kunde.Kundenname}" />
                 <DataGridTextColumn Header="VertragsNr." Binding="{Binding Path=Vertragsnummer}" />
                 <DataGridTextColumn Header="Auftragsname" Binding="{Binding Path=Auftragsname}" />
-                <DataGridTextColumn Header="Verantwortlicher" Binding="{Binding Path=ProjektverantwortlicherMitarbeiter}" />
+                <DataGridComboBoxColumn Header="Verantwortlicher" ItemsSource="{Binding Source={StaticResource Locator}, Path=ManageAuftraegeViewModel.Mitarbeiter}" SelectedItemBinding="{Binding Path=ProjektverantwortlicherMitarbeiter}" DisplayMemberPath="Kuerzel"/>
                 <DataGridTemplateColumn Header="Beginn" Width="120">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -102,11 +90,13 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellEditingTemplate>
                 </DataGridTemplateColumn>
-
             </DataGrid.Columns>
         </DataGrid>
 
-        <!--Aufträge unten rechts-->
+        
+
+        <!-- ||||||||||||||||||||||||||||| -->
+        <!--Auftragspositionen unten rechts-->
         <DataGrid
             Grid.Column="2"
             Grid.Row="1"
@@ -116,15 +106,17 @@
             CanUserAddRows="True"
             >
             <DataGrid.Columns>
-                <!-- hp: die MaxWidth Parameter besser lösen -->
                 <DataGridTextColumn Header="Nr." Binding="{Binding Path=AuftragspositionNummer}" />
                 <DataGridTextColumn Header="Positionsbezeichnung" Binding="{Binding Path=Positionsbezeichnung}" />
                 <DataGridTextColumn Header="Volumen" Binding="{Binding Path=Auftragsvolumen}" />
-                <DataGridComboBoxColumn ItemsSource="{Binding Source={StaticResource EnumDataProvider}}"  SelectedItemBinding="{Binding Abrechnungseinheit, Mode=TwoWay}" Header="Einheit" />
-
+                <DataGridComboBoxColumn Header="Einheiten" ItemsSource="{Binding Source={StaticResource Locator}, Path=ManageAuftraegeViewModel.Abrechnungseinheiten}" SelectedItemBinding="{Binding Path=Abrechnungseinheit}" DisplayMemberPath="AbrechnungseinheitName"/>
             </DataGrid.Columns>
         </DataGrid>
 
+
+        
+        <!-- |||||||||||||| -->
+        <!--Speichern Button-->
         <StackPanel
             Grid.Column="2"
             Grid.Row="3">

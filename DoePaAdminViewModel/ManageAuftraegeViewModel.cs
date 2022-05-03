@@ -55,7 +55,31 @@ namespace DoePaAdmin.ViewModel
         }
         // endregion
 
-                
+
+
+        // region Abrechnungseinheit
+        private ObservableCollection<Abrechnungseinheit> _abrechnungseinheiten = new();
+
+        public ObservableCollection<Abrechnungseinheit> Abrechnungseinheiten
+        {
+            get => _abrechnungseinheiten;
+            set => SetProperty(ref _abrechnungseinheiten, value, true);
+        }
+        // endregion
+
+
+
+        // region Mitarbeiter
+        private ObservableCollection<Mitarbeiter> _mitarbeiters = new();
+
+        public ObservableCollection<Mitarbeiter> Mitarbeiter
+        {
+            get => _mitarbeiters;
+            set => SetProperty(ref _mitarbeiters, value, true);
+        }
+
+        // endregion
+
         public ManageAuftraegeViewModel(IDoePaAdminService doePaAdminService) : base(doePaAdminService)
         {
             // Zeiger auf Methode: "DoAddKundeAsync" --> Delegate
@@ -65,8 +89,8 @@ namespace DoePaAdmin.ViewModel
             RemoveKundeCommand = new RelayCommand(DoRemoveKunde);
 
             Kunden = Task.Run(async () => await DoePaAdminService.GetKundeAsync()).Result;
-
-            //Taetigkeiten = Task.Run(async () => await DoePaAdminService.GetTaetigkeitenAsync()).Result;
+            Abrechnungseinheiten = Task.Run(async () => await DoePaAdminService.GetAbrechnungseinheitenAsync()).Result;
+            Mitarbeiter = Task.Run(async () => await DoePaAdminService.GetMitarbeiterAsync()).Result;
         }
 
         private void DoRemoveKunde()

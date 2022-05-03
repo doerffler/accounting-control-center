@@ -38,7 +38,6 @@ namespace DoePaAdmin.ViewModel.Services
 
         // region Projekt
         public Task<Projekt> CreateProjektAsync(CancellationToken cancellationToke = default);
-
         public Task<ObservableCollection<Projekt>> GetProjekteAsync(CancellationToken cancellationToke = default);
         // endregion
 
@@ -53,6 +52,7 @@ namespace DoePaAdmin.ViewModel.Services
         public Task<ObservableCollection<Kunde>> GetKundeAsync(CancellationToken cancellationToken = default);
         public Task<ObservableCollection<Auftrag>> GetAuftragAsync(CancellationToken cancellationToken = default);
         public Task<ObservableCollection<Auftragsposition>> GetAuftragspositionAsync(CancellationToken cancellationToken = default);
+        public Task<ObservableCollection<Abrechnungseinheit>> GetAbrechnungseinheitenAsync(CancellationToken cancellationToken = default);
         // endregion
     }
 }

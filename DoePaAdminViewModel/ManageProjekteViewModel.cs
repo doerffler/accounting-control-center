@@ -37,11 +37,16 @@ namespace DoePaAdmin.ViewModel
         public IRelayCommand RemoveProjektCommand { get; }
         // endregion
 
-        /*
-        public IRelayCommand AddMitarbeiterCommand { get; }
 
-        public IRelayCommand RemoveMitarbeiterCommand { get; }
-        */
+        // region Skills
+        private ObservableCollection<Skill> _skills = new();
+
+        public ObservableCollection<Skill> Skills
+        {
+            get => _skills;
+            set => SetProperty(ref _skills, value, true);
+        }
+        // endregion
 
         public ManageProjekteViewModel(IDoePaAdminService doePaAdminService) : base(doePaAdminService)
         {
@@ -61,6 +66,9 @@ namespace DoePaAdmin.ViewModel
             Projekt newProjekt = await DoePaAdminService.CreateProjektAsync(cancellationToken);
             newProjekt.Projektname = "NeuesProjekt";
             Projekte.Add(newProjekt);
+
+
+
         }
         private void DoRemoveProjekt()
         {
