@@ -26,6 +26,8 @@ namespace DoePaAdminDataAdapter.DoePaAdmin
             return await Database.ExecuteSqlRawAsync(Properties.Resources.InitializeMasterdataTables, cancellationToken);
         }
 
+        public DbSet<Abrechnungseinheit> Abrechnungseinheiten { get; set; }
+
         public DbSet<Kostenstelle> Kostenstellen { get; set; }
 
         public DbSet<Kostenstellenart> Kostenstellenarten { get; set; }
@@ -46,5 +48,8 @@ namespace DoePaAdminDataAdapter.DoePaAdmin
 
         public DbSet<Kunde> Kunden { get; set; }
 
+        public DbSet<Projekt> Projekte { get; set; }
+
+        public DbSet<Skill> Skills { get; set; }
     }
 }

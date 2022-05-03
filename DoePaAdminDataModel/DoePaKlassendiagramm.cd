@@ -20,12 +20,9 @@
   <Class Name="DoePaAdminDataModel.Stammdaten.Auftrag">
     <Position X="20.5" Y="1.75" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAQAAAAAAAAAIAAAAAAAAAAAAAABAAEA=</HashCode>
+      <HashCode>ABAAEAAAAAAEARAAAAAAAAAAAAAAAAAEACAAAABAAEA=</HashCode>
       <FileName>Stammdaten\Auftrag.cs</FileName>
     </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="Auftraggeber" />
-    </ShowAsAssociation>
     <ShowAsCollectionAssociation>
       <Property Name="Auftragspositionen" />
     </ShowAsCollectionAssociation>
@@ -33,7 +30,7 @@
   <Class Name="DoePaAdminDataModel.Stammdaten.Auftragsposition">
     <Position X="23.5" Y="1.75" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAICAAAIAAAAAAACCAAAAQAAg=</HashCode>
       <FileName>Stammdaten\Auftragsposition.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -106,12 +103,9 @@
   <Class Name="DoePaAdminDataModel.Stammdaten.Projekt">
     <Position X="14.5" Y="1.5" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAAEAAAAAAAAAAAAAAAAAAAABAAAAAAACAAAAAAAAAA=</HashCode>
+      <HashCode>AEAAAAAAAAAAAAAAAAAAAAAABAAAAAAACAAAAAAAAAA=</HashCode>
       <FileName>Stammdaten\Projekt.cs</FileName>
     </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="ZugehoerigerKunde" />
-    </ShowAsAssociation>
   </Class>
   <Class Name="DoePaAdminDataModel.Stammdaten.Taetigkeit" Collapsed="true">
     <Position X="29.75" Y="1.5" Width="1.5" />

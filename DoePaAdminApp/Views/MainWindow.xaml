@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DoePaAdminApp.Views"
         xmlns:properties="clr-namespace:DoePaAdminApp.Properties"
+        xmlns:svg="http://sharpvectors.codeplex.com/svgc/"
         mc:Ignorable="d"
         Title="Dörffler &amp; Partner GmbH - DoePaAdmin"
         Icon="/Resources/doerffler_icon_496x496.png"
@@ -57,6 +58,14 @@
                         SmallImageSource="/Resources/order_icon_16x16.png"
                         LargeImageSource="/Resources/order_icon_32x32.png"
                         Label="{StaticResource strEditOrder}" />
+                </RibbonGroup>
+                <RibbonGroup Header="Projekte">
+                    <RibbonButton
+                        x:Name="RBOpenProjectManagement"
+                        Click="RBOpenProjectManagement_Click"
+                        SmallImageSource="{svg:SvgImage \\Resources\\AbsolutePosition.svg}"
+                        LargeImageSource="{svg:SvgImage \\Resources\\AbsolutePosition.svg}"
+                        Label="{StaticResource strEditProject}" />
                 </RibbonGroup>
             </RibbonTab>
             <RibbonTab Header="Kostenrechnung">

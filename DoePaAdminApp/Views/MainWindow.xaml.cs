@@ -32,5 +32,10 @@ namespace DoePaAdminApp.Views
             ManageAuftraegeWindow viewManageAuftraege = App.ServiceProvider.GetRequiredService<ManageAuftraegeWindow>();
             viewManageAuftraege.Show();
         }
+        private void RBOpenProjectManagement_Click(object sender, RoutedEventArgs e)
+        {
+            ManageProjekteWindow viewManageProjekte = App.ServiceProvider.GetRequiredService<ManageProjekteWindow>();
+            viewManageProjekte.Show();
+        }
     }
 }
