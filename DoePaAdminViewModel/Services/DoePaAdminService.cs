@@ -41,7 +41,7 @@ namespace DoePaAdmin.ViewModel.Services
 
         public async Task<ObservableCollection<Kostenstelle>> GetKostenstellenAsync(CancellationToken cancellationToken = default)
         {
-            IQueryable<Kostenstelle> result = DBContext.Kostenstellen;
+            IQueryable<Kostenstelle> result = DBContext.Kostenstellen.Include(k => k.UebergeordneteKostenstellen);
             Task<List<Kostenstelle>> taskToListAsync = result.ToListAsync(cancellationToken);
             List<Kostenstelle> listKostenstellen = await taskToListAsync;
             ObservableCollection<Kostenstelle> kostenstellen = new(listKostenstellen);

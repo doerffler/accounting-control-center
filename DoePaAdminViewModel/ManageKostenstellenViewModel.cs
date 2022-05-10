@@ -5,6 +5,8 @@ using Microsoft.Toolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -29,6 +31,13 @@ namespace DoePaAdmin.ViewModel
             set => SetProperty(ref _kostenstellenarten, value, true);
         }
 
+        private ObservableCollection<Kostenstelle> _uebergeordneteKostenstellen = new();
+        public ObservableCollection<Kostenstelle> UebergeordneteKostenstellen
+        {
+            get => _uebergeordneteKostenstellen;
+            set => SetProperty(ref _uebergeordneteKostenstellen, value, true);
+        }
+
         private Kostenstelle _selectedKostenstelle;
 
         public Kostenstelle SelectedKostenstelle
@@ -48,7 +57,7 @@ namespace DoePaAdmin.ViewModel
 
             //TODO: Implement CanExecute-Functionality
             RemoveKostenstelleCommand = new RelayCommand(DoRemoveKostenstelle);
-
+                       
             Kostenstellen = Task.Run(async () => await DoePaAdminService.GetKostenstellenAsync()).Result;
             Kostenstellenarten = Task.Run(async () => await DoePaAdminService.GetKostenstellenartenAsync()).Result;
 
@@ -57,11 +66,13 @@ namespace DoePaAdmin.ViewModel
         private void DoRemoveKostenstelle()
         {
 
-            if (SelectedKostenstelle != null)
-            {
-                DoePaAdminService.RemoveKostenstelle(SelectedKostenstelle);
-                _ = Kostenstellen.Remove(SelectedKostenstelle);
-            }
+            this.UebergeordneteKostenstellen.Add(this.Kostenstellen.First());
+            
+            //if (SelectedKostenstelle != null)
+            //{
+            //    DoePaAdminService.RemoveKostenstelle(SelectedKostenstelle);
+            //    _ = Kostenstellen.Remove(SelectedKostenstelle);
+            //}
 
         }
 

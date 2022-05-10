@@ -3,7 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:DoePaAdminApp.Views"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:bhvrs="clr-namespace:DoePaAdminApp.Behaviors"
         mc:Ignorable="d"
         Title="{StaticResource strEditCostCenter}"
         Icon="/Resources/costcenter_icon_16x16.png"
@@ -93,8 +94,20 @@
 
             <Label Grid.Row="4" Grid.Column="0">Übergeordnete Kostenstellen:</Label>
             <!-- TODO: Aktuell ausgewählte Kostenstelle muss noch ausgefiltert werden: -->
-            <ListBox Grid.Row="5" Grid.Column="0" ItemsSource="{Binding Kostenstellen}" />
-            <ListBox Grid.Row="4" Grid.RowSpan="2" Grid.Column="1" ItemsSource="{Binding SelectedKostenstelle.UebergeordneteKostenstellen}" SelectionMode="Multiple"/>
+            <ListBox Grid.Row="4" Grid.RowSpan="2" Grid.Column="1" ItemsSource="{Binding Kostenstellen}" DisplayMemberPath="Kostenstellenbezeichnung" SelectionMode="Multiple">
+                <i:Interaction.Behaviors>
+                    <bhvrs:ListBoxSelectionBehavior SelectedItems="{Binding UebergeordneteKostenstellen, Mode=TwoWay}" />
+                </i:Interaction.Behaviors>
+                
+                <!--<ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <WrapPanel>
+                            <CheckBox IsChecked="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBoxItem}, Path=IsSelected, Mode=TwoWay}" />
+                            <TextBlock VerticalAlignment="Center" Text="{Binding Path=Kostenstellenbezeichnung}" />
+                        </WrapPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>-->
+            </ListBox>
 
             <Button Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Command="{Binding SaveChangesCommand}">
                 <Control Template="{StaticResource tmpSaveDbDataButton}" />
