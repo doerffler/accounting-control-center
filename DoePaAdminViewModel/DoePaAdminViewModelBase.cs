@@ -24,14 +24,25 @@ namespace DoePaAdmin.ViewModel
 
             DoePaAdminService = doePaAdminService;
         }
-
+        
         protected async Task<bool> CheckIfSaveChangesCanExecuteAsync(CancellationToken cancellationToken = default)
         {
             return await DoePaAdminService.CheckForChangesAsync(cancellationToken);
         }
 
+        protected event Action Saving;
+
+        private void RaiseSavingEvent()
+        {
+            if (Saving != null)
+            {
+                Saving();
+            }
+        }
+
         protected async Task SaveChangesAsync(CancellationToken cancellationToken = default)
         {
+            RaiseSavingEvent();
             await DoePaAdminService.SaveChangesAsync(cancellationToken);
         }
 

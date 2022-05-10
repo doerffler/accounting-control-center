@@ -94,10 +94,18 @@
 
             <Label Grid.Row="4" Grid.Column="0">Übergeordnete Kostenstellen:</Label>
             <!-- TODO: Aktuell ausgewählte Kostenstelle muss noch ausgefiltert werden: -->
-            <ListBox Grid.Row="4" Grid.RowSpan="2" DisplayMemberPath="Kostenstellenbezeichnung" Grid.Column="1" ItemsSource="{Binding Kostenstellen}" SelectionMode="Multiple">
+            <ListBox Grid.Row="4" Grid.RowSpan="2" Grid.Column="1" ItemsSource="{Binding Kostenstellen}" SelectionMode="Multiple">
                 <i:Interaction.Behaviors>
                     <bhvrs:SelectedKostenstellenBehavior SelectedItems="{Binding UebergeordneteKostenstellen}" />
                 </i:Interaction.Behaviors>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <WrapPanel>
+                            <CheckBox IsChecked="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBoxItem}, Path=IsSelected, Mode=TwoWay}" />
+                            <TextBlock VerticalAlignment="Center" Text="{Binding Path=Kostenstellenbezeichnung}" />
+                        </WrapPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
             </ListBox>
 
             <Button Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Command="{Binding SaveChangesCommand}">

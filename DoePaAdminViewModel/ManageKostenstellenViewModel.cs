@@ -57,14 +57,49 @@ namespace DoePaAdmin.ViewModel
 
             //TODO: Implement CanExecute-Functionality
             RemoveKostenstelleCommand = new RelayCommand(DoRemoveKostenstelle);
-                       
+           
             Kostenstellen = Task.Run(async () => await DoePaAdminService.GetKostenstellenAsync()).Result;
             Kostenstellenarten = Task.Run(async () => await DoePaAdminService.GetKostenstellenartenAsync()).Result;
 
+            Saving += HandleSaving;
+            PropertyChanged += HandlePropertyChanged;
+            PropertyChanging += HandlePropertyChanging;
+
+        }
+
+        private void HandleSaving()
+        {
+            SelectedKostenstelle.UebergeordneteKostenstellen = UebergeordneteKostenstellen.ToList();
+        }
+
+        private void HandlePropertyChanging(object sender, PropertyChangingEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(SelectedKostenstelle):
+                    if (SelectedKostenstelle != null)
+                    { 
+                        SelectedKostenstelle.UebergeordneteKostenstellen = UebergeordneteKostenstellen.ToList();
+                    }
+
+                    break;
+            }
+        }
+
+        private void HandlePropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(SelectedKostenstelle):
+                    this.UebergeordneteKostenstellen = new ObservableCollection<Kostenstelle>(SelectedKostenstelle.UebergeordneteKostenstellen);
+
+                    break;
+            }
         }
 
         private void DoRemoveKostenstelle()
         {
+
             if (SelectedKostenstelle != null)
             {
                 DoePaAdminService.RemoveKostenstelle(SelectedKostenstelle);
