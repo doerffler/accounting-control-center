@@ -3,6 +3,7 @@ using Microsoft.Xaml.Behaviors;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
@@ -12,17 +13,17 @@ using System.Windows.Controls;
 
 namespace DoePaAdminApp.Behaviors
 {
-    public class ListBoxSelectionBehavior : Behavior<ListBox>
+    public class ListBoxSelectedItemsBehavior<T> : Behavior<ListBox>
     {
         public static readonly DependencyProperty SelectedItemsProperty =
-            DependencyProperty.Register(nameof(SelectedItems), typeof(IList),
-                typeof(ListBoxSelectionBehavior),
+            DependencyProperty.Register(nameof(SelectedItems), typeof(ObservableCollection<T>),
+                typeof(ListBoxSelectedItemsBehavior<T>),
                 new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                     OnSelectedItemsChanged));
 
         private static void OnSelectedItemsChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
         {
-            var behavior = (ListBoxSelectionBehavior)sender;
+            var behavior = (ListBoxSelectedItemsBehavior<T>)sender;
             if (behavior._modelHandled) return;
 
             if (behavior.AssociatedObject == null)
@@ -36,9 +37,9 @@ namespace DoePaAdminApp.Behaviors
         private bool _viewHandled;
         private bool _modelHandled;
 
-        public IList SelectedItems
+        public ObservableCollection<T> SelectedItems
         {
-            get => (IList)GetValue(SelectedItemsProperty);
+            get => (ObservableCollection<T>)GetValue(SelectedItemsProperty);
             set => SetValue(SelectedItemsProperty, value);
         }
 
@@ -61,7 +62,7 @@ namespace DoePaAdminApp.Behaviors
             if (_viewHandled) return;
             if (AssociatedObject.Items.SourceCollection == null) return;
 
-            SelectedItems = AssociatedObject.SelectedItems.Cast<Kostenstelle>().ToArray();
+            SelectedItems = new ObservableCollection<T>(AssociatedObject.SelectedItems.Cast<T>());
         }
 
         // Re-select items when the set of items changes

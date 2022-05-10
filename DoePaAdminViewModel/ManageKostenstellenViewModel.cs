@@ -65,14 +65,11 @@ namespace DoePaAdmin.ViewModel
 
         private void DoRemoveKostenstelle()
         {
-
-            this.UebergeordneteKostenstellen.Add(this.Kostenstellen.First());
-            
-            //if (SelectedKostenstelle != null)
-            //{
-            //    DoePaAdminService.RemoveKostenstelle(SelectedKostenstelle);
-            //    _ = Kostenstellen.Remove(SelectedKostenstelle);
-            //}
+            if (SelectedKostenstelle != null)
+            {
+                DoePaAdminService.RemoveKostenstelle(SelectedKostenstelle);
+                _ = Kostenstellen.Remove(SelectedKostenstelle);
+            }
 
         }
 
