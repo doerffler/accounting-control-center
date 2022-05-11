@@ -17,6 +17,8 @@ namespace DoePaAdmin.ViewModel
     public class ManageKostenstellenViewModel : DoePaAdminViewModelBase
     {
 
+        private IUserInteractionService UserInteractionService { get; set; }
+
         private ObservableCollection<Kostenstelle> _kostenstellen = new();
         public ObservableCollection<Kostenstelle> Kostenstellen
         {
@@ -50,14 +52,18 @@ namespace DoePaAdmin.ViewModel
 
         public IRelayCommand RemoveKostenstelleCommand { get; }
 
-        public ManageKostenstellenViewModel(IDoePaAdminService doePaAdminService) : base(doePaAdminService)
+        public IRelayCommand AddKostenstellenartCommand { get; }
+
+        public ManageKostenstellenViewModel(IDoePaAdminService doePaAdminService, IUserInteractionService userInteractionService) : base(doePaAdminService)
         {
 
-            AddKostenstelleCommand = new AsyncRelayCommand(DoAddKostenstelleAsync);
+            UserInteractionService = userInteractionService;
 
             //TODO: Implement CanExecute-Functionality
+            AddKostenstelleCommand = new AsyncRelayCommand(DoAddKostenstelleAsync);
             RemoveKostenstelleCommand = new RelayCommand(DoRemoveKostenstelle);
-           
+            AddKostenstellenartCommand = new AsyncRelayCommand(DoAddKostenstellenartAsync);
+                       
             Kostenstellen = Task.Run(async () => await DoePaAdminService.GetKostenstellenAsync()).Result;
             Kostenstellenarten = Task.Run(async () => await DoePaAdminService.GetKostenstellenartenAsync()).Result;
 
@@ -110,11 +116,26 @@ namespace DoePaAdmin.ViewModel
 
         private async Task DoAddKostenstelleAsync(CancellationToken cancellationToken = default)
         {
+            string kostenstellenBezeichnung = UserInteractionService.AskForUserInput("Bitte geben Sie die Bezeichnung der neuen Kostenstelle ein:", "Kostenstellenbezeichnung eingeben");
 
-            Kostenstelle newKostenstelle = await DoePaAdminService.CreateKostenstelleAsync(cancellationToken);
-            newKostenstelle.Kostenstellenbezeichnung = "Neue Kostenstelle";
-            Kostenstellen.Add(newKostenstelle);
+            if (kostenstellenBezeichnung != null)
+            { 
+                Kostenstelle newKostenstelle = await DoePaAdminService.CreateKostenstelleAsync(cancellationToken);
+                newKostenstelle.Kostenstellenbezeichnung = kostenstellenBezeichnung;
+                Kostenstellen.Add(newKostenstelle);
+            }
+        }
 
+        private async Task DoAddKostenstellenartAsync(CancellationToken cancellationToken = default)
+        {
+            string kostenstellenartBezeichnung = UserInteractionService.AskForUserInput("Bitte geben Sie die Bezeichnung der neuen Kostenstellenart ein:", "Kostenstellenartbezeichnung eingeben");
+
+            if (kostenstellenartBezeichnung != null)
+            {
+                Kostenstellenart newKostenstellenart = await DoePaAdminService.CreateKostenstellenartAsync(cancellationToken);
+                newKostenstellenart.Kostenstellenartbezeichnung = kostenstellenartBezeichnung;
+                Kostenstellenarten.Add(newKostenstellenart);
+            }
         }
 
     }

@@ -66,6 +66,13 @@ namespace DoePaAdmin.ViewModel.Services
             return newKostenstelle;
         }
 
+        public async Task<Kostenstellenart> CreateKostenstellenartAsync(CancellationToken cancellationToken = default)
+        {
+            Kostenstellenart newKostenstellenart = new();
+            _ = await DBContext.Kostenstellenarten.AddAsync(newKostenstellenart, cancellationToken);
+            return newKostenstellenart;
+        }
+
         public void RemoveKostenstelle(Kostenstelle kostenstelleToRemove)
         {
             _ = DBContext.Kostenstellen.Remove(kostenstelleToRemove);

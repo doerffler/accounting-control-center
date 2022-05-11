@@ -74,20 +74,23 @@
             <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding SelectedKostenstelle.Kostenstellenbezeichnung}" />
 
             <Label Grid.Row="2" Grid.Column="0">Kostenstellenart:</Label>
-            <ComboBox
-                Grid.Row="2"
-                Grid.Column="1"
-                ItemsSource="{Binding Kostenstellenarten}"
-                SelectedItem="{Binding SelectedKostenstelle.ZugehoerigeKostenstellenart}">
+            <WrapPanel Grid.Row="2" Grid.Column="1">
+                <ComboBox
+                    ItemsSource="{Binding Kostenstellenarten}"
+                    SelectedItem="{Binding SelectedKostenstelle.ZugehoerigeKostenstellenart}">
 
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding Path=Kostenstellenartbezeichnung}"/>
-                        </StackPanel>
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Path=Kostenstellenartbezeichnung}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <Button Command="{Binding AddKostenstellenartCommand}">
+                    <Control Template="{StaticResource tmpAddItemButton}" />
+                </Button>
+            </WrapPanel>
 
             <Label Grid.Row="3" Grid.Column="0">Gültig ab:</Label>
             <DatePicker Grid.Row="3" Grid.Column="1" SelectedDate="{Binding SelectedKostenstelle.GueltigAb}" />
