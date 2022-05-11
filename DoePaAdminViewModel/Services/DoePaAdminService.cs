@@ -62,6 +62,7 @@ namespace DoePaAdmin.ViewModel.Services
         public async Task<Kostenstelle> CreateKostenstelleAsync(CancellationToken cancellationToken = default)
         {
             Kostenstelle newKostenstelle = new();
+            newKostenstelle.GueltigAb = DateTime.MinValue;
             _ = await DBContext.Kostenstellen.AddAsync(newKostenstelle, cancellationToken);
             return newKostenstelle;
         }
