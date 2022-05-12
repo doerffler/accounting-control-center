@@ -13,7 +13,7 @@ namespace DoePaAdmin.ViewModel
 {
     public class ManageAuftraegeViewModel : DoePaAdminViewModelBase
     {
-        // region Kunde
+        #region Kunde
         private ObservableCollection<Kunde> _kunden = new();
 
         public ObservableCollection<Kunde> Kunden
@@ -33,31 +33,31 @@ namespace DoePaAdmin.ViewModel
         public IRelayCommand AddKundeCommand { get; }
 
         public IRelayCommand RemoveKundeCommand { get; }
-        // endregion
+        #endregion
 
 
-        // region Auftrag (oben rechts)
+        #region Auftrag (oben rechts)
         private Auftrag _selectedAuftrag;
         public Auftrag SelectedAuftrag
         {
             get => _selectedAuftrag;
             set => SetProperty(ref _selectedAuftrag, value);
         }
-        // endregion
+        #endregion
 
 
-        // region Auftragsposition (unten rechts)
+        #region Auftragsposition (unten rechts)
         private Auftrag _selectedAuftragspositionen;
         public Auftrag SelectedAuftragspositionen
         {
             get => _selectedAuftragspositionen;
             set => SetProperty(ref _selectedAuftragspositionen, value);
         }
-        // endregion
+        #endregion
 
 
 
-        // region Abrechnungseinheit
+        #region Abrechnungseinheit
         private ObservableCollection<Abrechnungseinheit> _abrechnungseinheiten = new();
 
         public ObservableCollection<Abrechnungseinheit> Abrechnungseinheiten
@@ -65,11 +65,11 @@ namespace DoePaAdmin.ViewModel
             get => _abrechnungseinheiten;
             set => SetProperty(ref _abrechnungseinheiten, value, true);
         }
-        // endregion
+        #endregion
 
 
 
-        // region Mitarbeiter
+        #region Mitarbeiter
         private ObservableCollection<Mitarbeiter> _mitarbeiters = new();
 
         public ObservableCollection<Mitarbeiter> Mitarbeiter
@@ -78,7 +78,7 @@ namespace DoePaAdmin.ViewModel
             set => SetProperty(ref _mitarbeiters, value, true);
         }
 
-        // endregion
+        #endregion
 
         public ManageAuftraegeViewModel(IDoePaAdminService doePaAdminService) : base(doePaAdminService)
         {
