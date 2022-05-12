@@ -7,6 +7,7 @@ using DoePaAdmin.ViewModel.Model;
 using DoePaAdmin.ViewModel.Services;
 using DoePaAdmin.ViewModel;
 using DoePaAdminApp.Views;
+using DoePaAdminApp.Services;
 
 namespace DoePaAdminApp
 {
@@ -53,6 +54,7 @@ namespace DoePaAdminApp
             services.AddScoped<ISampleService, SampleService>();
             services.AddScoped<IDPAppService, DPAppService>();
             services.AddScoped<IDoePaAdminService, DoePaAdminService>();
+            services.AddScoped<IUserInteractionService, UserInteractionService>();
 
             services.AddSingleton<MainViewModel>();
             services.AddSingleton<ManageKostenstellenViewModel>();
@@ -60,14 +62,16 @@ namespace DoePaAdminApp
             services.AddSingleton<ManageProjekteViewModel>();
             services.AddSingleton<ManageAuftraegeViewModel>();
             services.AddSingleton<ImportKostenstellenViewModel>();
-            
+                        
             services.AddTransient<MainWindow>();
             services.AddTransient<ManageKostenstellenWindow>();
             services.AddTransient<ManageMitarbeiterWindow>();
             services.AddTransient<ManageProjekteWindow>();
             services.AddTransient<ImportKostenstellenWindow>();
             services.AddTransient<ManageAuftraegeWindow>();
-            
+            services.AddTransient<AskForUserInputWindow>();
+
+
         }
 
         protected override async void OnStartup(StartupEventArgs e)
