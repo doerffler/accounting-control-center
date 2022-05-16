@@ -20,6 +20,7 @@
             <sys:String x:Key="strEditWorkforce">Mitarbeiter bearbeiten</sys:String>
             <sys:String x:Key="strEditOrder">Aufträge bearbeiten</sys:String>
             <sys:String x:Key="strEditProject">Projekte bearbeiten</sys:String>
+            <sys:String x:Key="strImportOutgoingInvoices">Ausgangsrechnungen importieren</sys:String>
             <sys:String x:Key="strAddItem">Neu</sys:String>
             <sys:String x:Key="strRemoveItem">Löschen</sys:String>
             <sys:String x:Key="strSaveData">Speichern</sys:String>

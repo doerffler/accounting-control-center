@@ -7,6 +7,7 @@ using Microsoft.Extensions.Options;
 using DoePaAdminDataAdapter.DPApp;
 using System.Threading.Tasks;
 using System.Threading;
+using DoePaAdminDataModel.DPApp;
 
 namespace DoePaAdmin.ViewModel.Services
 {
@@ -20,9 +21,10 @@ namespace DoePaAdmin.ViewModel.Services
             DPAppConnectionString = dpAppSettings.Value.ConnectionString;
         }
 
-        public ICollection<OutgoingInvoice> GetAusgangsrechnungen()
+        public async Task <IEnumerable<OutgoingInvoice>> GetOutgoingInvoicesAsync(CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            OutgoingInvoiceDAL dal = new(DPAppConnectionString);
+            return await dal.ReadOutgoingInvoicesAsync(cancellationToken);
         }
 
         public async Task<DataTable> GetCostCentersAsync(CancellationToken cancellationToken = default)

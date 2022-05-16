@@ -37,5 +37,11 @@ namespace DoePaAdminApp.Views
             ManageProjekteWindow viewManageProjekte = App.ServiceProvider.GetRequiredService<ManageProjekteWindow>();
             viewManageProjekte.Show();
         }
+
+        private void RBOpenOutgoingInvoices_Click(object sender, RoutedEventArgs e)
+        {
+            ImportOutgoingInvoicesWindow importOutgoingInvoices = App.ServiceProvider.GetRequiredService<ImportOutgoingInvoicesWindow>();
+            importOutgoingInvoices.Show();
+        }
     }
 }
