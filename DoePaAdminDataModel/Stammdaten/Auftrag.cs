@@ -22,7 +22,7 @@ namespace DoePaAdminDataModel.Stammdaten
 
         public Kunde Kunde { get; set; }        
 
-        public string ProjektverantwortlicherMitarbeiter { get; set; }
+        public Mitarbeiter ProjektverantwortlicherMitarbeiter { get; set; }
 
         public int Vertragsnummer { get; set; }
 

@@ -10,12 +10,16 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Windows.Data;
+using System.Collections.Specialized;
+
+using System.Windows;
 
 namespace DoePaAdmin.ViewModel
 {
     public class ManageProjekteViewModel : DoePaAdminViewModelBase
     {
-        // region Projekt
+        #region Projekt
         private ObservableCollection<Projekt> _projekte = new();
 
         public ObservableCollection<Projekt> Projekte
@@ -25,7 +29,6 @@ namespace DoePaAdmin.ViewModel
         }
 
         private Projekt _selectedProjekt;
-
         public Projekt SelectedProjekt
         {
             get => _selectedProjekt;
@@ -35,10 +38,11 @@ namespace DoePaAdmin.ViewModel
         public IRelayCommand AddProjektCommand { get; }
 
         public IRelayCommand RemoveProjektCommand { get; }
-        // endregion
+        #endregion
 
 
-        // region Skills
+
+        #region Skills
         private ObservableCollection<Skill> _skills = new();
 
         public ObservableCollection<Skill> Skills
@@ -46,7 +50,50 @@ namespace DoePaAdmin.ViewModel
             get => _skills;
             set => SetProperty(ref _skills, value, true);
         }
-        // endregion
+        #endregion
+
+
+
+        #region (nicht)zugeordnete Auftraege
+        // ggf. später Filtern bei Anzeige nur nicht zugeordnete
+        private ObservableCollection<Auftrag> _assignedAuftraege = new();
+        public ObservableCollection<Auftrag> AssignedAuftraege
+        {
+            get => _assignedAuftraege;
+            set => SetProperty(ref _assignedAuftraege, value, true);
+        }
+
+        private ObservableCollection<Auftrag> _allAuftraege = new();
+        public ObservableCollection<Auftrag> AllAuftraege
+        {
+            get => _allAuftraege;
+            set => SetProperty(ref _allAuftraege, value, true);
+        }
+        
+        // hp: hierCollectionView für Filter auf AllAuftraege erstellen
+
+
+
+        private Auftrag _selectedZugeordneterAuftrag;
+        public Auftrag SelectedZugeordneterAuftrag
+        {
+            get => _selectedZugeordneterAuftrag;
+            set => SetProperty(ref _selectedZugeordneterAuftrag, value);
+        }
+
+        private Auftrag _selectedNichtZugeordneterAuftrag;
+        public Auftrag SelectedNichtZugeordneterAuftrag
+        {
+            get => _selectedNichtZugeordneterAuftrag;
+            set => SetProperty(ref _selectedNichtZugeordneterAuftrag, value);
+        }
+
+
+        public IRelayCommand MoveAuftragCommand { get; }
+        public IRelayCommand RemoveAuftragCommand { get; }
+        #endregion
+
+
 
         public ManageProjekteViewModel(IDoePaAdminService doePaAdminService) : base(doePaAdminService)
         {
@@ -55,10 +102,50 @@ namespace DoePaAdmin.ViewModel
             //TODO: Implement CanExecute-Functionality
             RemoveProjektCommand = new RelayCommand(DoRemoveProjekt);
 
-            Projekte = Task.Run(async () => await DoePaAdminService.GetProjekteAsync()).Result;
-            
+            // Auftraege (nicht )Zuordnen
+            MoveAuftragCommand = new RelayCommand(DoMoveAuftrag);
+            RemoveAuftragCommand = new RelayCommand(DoRemoveAuftrag);
+
+
+            Projekte = Task.Run(async () => await DoePaAdminService.GetProjekteAsync()).Result;    
+            AllAuftraege = Task.Run(async () => await DoePaAdminService.GetAlleAuftraegeAsync()).Result;
+
+            PropertyChanged += HandlePropertyChanged;
+            AssignedAuftraege.CollectionChanged += HandleAssignedAuftraegeCollectionChanged;
         }
 
+        private void HandleAssignedAuftraegeCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (SelectedProjekt?.ZugehoerigeAuftraege != null)
+            { 
+                switch (e.Action)
+                {
+                    case NotifyCollectionChangedAction.Add:
+                        foreach (var item in e.NewItems) {
+                            SelectedProjekt.ZugehoerigeAuftraege.Add((Auftrag)item);
+                        }
+                        break;
+                    case NotifyCollectionChangedAction.Remove:
+                        foreach (var item in e.OldItems)
+                        {
+                            SelectedProjekt.ZugehoerigeAuftraege.Remove((Auftrag)item);
+                        }
+                        break;
+                }
+            }
+        }
+
+        private void HandlePropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(SelectedProjekt):
+                    AssignedAuftraege.CollectionChanged -= HandleAssignedAuftraegeCollectionChanged;
+                    AssignedAuftraege = new ObservableCollection<Auftrag>(SelectedProjekt.ZugehoerigeAuftraege);
+                    AssignedAuftraege.CollectionChanged += HandleAssignedAuftraegeCollectionChanged;
+                    break;
+            }
+        }
 
         private async Task DoAddProjektAsync(CancellationToken cancellationToken = default)
         {
@@ -66,16 +153,32 @@ namespace DoePaAdmin.ViewModel
             Projekt newProjekt = await DoePaAdminService.CreateProjektAsync(cancellationToken);
             newProjekt.Projektname = "NeuesProjekt";
             Projekte.Add(newProjekt);
-
-
-
         }
         private void DoRemoveProjekt()
         {
-
             if (SelectedProjekt != null)
             {
                 _ = Projekte.Remove(SelectedProjekt);
+            }
+        }
+
+        private void DoMoveAuftrag()
+        {
+            if (AssignedAuftraege != null && SelectedNichtZugeordneterAuftrag != null)
+            {
+                AssignedAuftraege.Add(SelectedNichtZugeordneterAuftrag);                
+            }
+            if (AllAuftraege != null)
+            {
+
+            }
+        }
+
+        private void DoRemoveAuftrag()
+        {
+            if (AssignedAuftraege != null && SelectedZugeordneterAuftrag != null)
+            {
+                AssignedAuftraege.Remove(SelectedZugeordneterAuftrag);
             }
         }
     }

@@ -181,12 +181,22 @@ namespace DoePaAdmin.ViewModel.Services
         #region Projekt
         public async Task<ObservableCollection<Projekt>> GetProjekteAsync(CancellationToken cancellationToken = default)
         {
-            IQueryable<Projekt> result = DBContext.Projekte;
+            // hp: Lazy Loading shit
+            IQueryable<Projekt> result = DBContext.Projekte.Include(p => p.Skills).Include(a => a.ZugehoerigeAuftraege);
             Task<List<Projekt>> taskToListAsync = result.ToListAsync(cancellationToken);
             List<Projekt> listProjekt = await taskToListAsync;
-            ObservableCollection<Projekt> auftragspositionen = new(listProjekt);
+            ObservableCollection<Projekt> projekte = new(listProjekt);
 
-            return auftragspositionen;
+            return projekte;
+        }
+        public async Task<ObservableCollection<Auftrag>> GetAlleAuftraegeAsync(CancellationToken cancellationToken = default)
+        {
+            IQueryable<Auftrag> result = DBContext.Auftraege;
+            Task<List<Auftrag>> taskToListAsync = result.ToListAsync(cancellationToken);
+            List<Auftrag> listAuftrag = await taskToListAsync;
+            ObservableCollection<Auftrag> auftraege = new(listAuftrag);
+
+            return auftraege;
         }
 
         public async Task<Projekt> CreateProjektAsync(CancellationToken cancellationToke = default)

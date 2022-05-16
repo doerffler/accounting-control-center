@@ -11,36 +11,37 @@ namespace DoePaAdmin.ViewModel.Services
 {
     public interface IDoePaAdminService
     {
-       // region Kostenstelle
+        #region Kostenstelle
         public Task<ObservableCollection<Kostenstelle>> GetKostenstellenAsync(CancellationToken cancellationToken = default);
         public Task<ObservableCollection<Kostenstellenart>> GetKostenstellenartenAsync(CancellationToken cancellationToken = default);
         public Task<Kostenstelle> CreateKostenstelleAsync(CancellationToken cancellationToken = default);
         public void RemoveKostenstelle(Kostenstelle kostenstelleToRemove);
         public Task<Kostenstellenart> CreateKostenstellenartAsync(CancellationToken cancellationToken = default);
-        // endregion 
+        #endregion 
 
 
 
-        // region Mitarbeiter
+        #region Mitarbeiter
         public Task<ObservableCollection<Mitarbeiter>> GetMitarbeiterAsync(CancellationToken cancellationToken = default);
         public Task<ObservableCollection<Taetigkeit>> GetTaetigkeitenAsync(CancellationToken cancellationToken = default);
         public Task<Mitarbeiter> CreateMitarbeiterAsync(CancellationToken cancellationToken = default);
         public void RemoveMitarbeiter(Mitarbeiter mitarbeiterToRemove);
-        // endregion
+        #endregion
 
 
 
-        // region Kunde
+        #region Kunde
         public Task<Kunde> CreateKundeAsync(CancellationToken cancellationToke = default);
         public Task<Auftrag> CreateAuftragAsync(CancellationToken cancellationToke = default);
-        // endregion
+        #endregion
 
 
 
-        // region Projekt
+        #region Projekt
         public Task<Projekt> CreateProjektAsync(CancellationToken cancellationToke = default);
         public Task<ObservableCollection<Projekt>> GetProjekteAsync(CancellationToken cancellationToke = default);
-        // endregion
+        public Task<ObservableCollection<Auftrag>> GetAlleAuftraegeAsync(CancellationToken cancellationToke = default);
+        #endregion
 
 
 
@@ -49,11 +50,11 @@ namespace DoePaAdmin.ViewModel.Services
 
 
 
-        // region Auftrag
+        #region Auftrag
         public Task<ObservableCollection<Kunde>> GetKundeAsync(CancellationToken cancellationToken = default);
         public Task<ObservableCollection<Auftrag>> GetAuftragAsync(CancellationToken cancellationToken = default);
         public Task<ObservableCollection<Auftragsposition>> GetAuftragspositionAsync(CancellationToken cancellationToken = default);
         public Task<ObservableCollection<Abrechnungseinheit>> GetAbrechnungseinheitenAsync(CancellationToken cancellationToken = default);
-        // endregion
+        #endregion
     }
 }
