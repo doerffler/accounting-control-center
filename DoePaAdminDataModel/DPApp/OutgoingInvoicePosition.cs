@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DoePaAdminDataAdapter.DPApp.Model
+namespace DoePaAdminDataModel.DPApp
 {
-    public class OutgoingInvoice : IDPAppModel
+    public class OutgoingInvoicePosition : InvoicePosition
     {
     }
 }

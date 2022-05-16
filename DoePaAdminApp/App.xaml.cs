@@ -61,12 +61,14 @@ namespace DoePaAdminApp
             services.AddSingleton<ManageMitarbeiterViewModel>();
             services.AddSingleton<ManageProjekteViewModel>();
             services.AddSingleton<ManageAuftraegeViewModel>();
+            services.AddSingleton<ImportOutgoingInvoicesViewModel>();
             services.AddSingleton<ImportKostenstellenViewModel>();
                         
             services.AddTransient<MainWindow>();
             services.AddTransient<ManageKostenstellenWindow>();
             services.AddTransient<ManageMitarbeiterWindow>();
             services.AddTransient<ManageProjekteWindow>();
+            services.AddTransient<ImportOutgoingInvoicesWindow>();
             services.AddTransient<ImportKostenstellenWindow>();
             services.AddTransient<ManageAuftraegeWindow>();
             services.AddTransient<AskForUserInputWindow>();
