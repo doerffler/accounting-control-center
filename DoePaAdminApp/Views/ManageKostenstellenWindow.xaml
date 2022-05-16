@@ -3,12 +3,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:DoePaAdminApp.Views"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:bhvrs="clr-namespace:DoePaAdminApp.Behaviors"
         mc:Ignorable="d"
         Title="{StaticResource strEditCostCenter}"
         Icon="/Resources/costcenter_icon_16x16.png"
-        Height="450"
-        Width="800"
         DataContext="{Binding Source={StaticResource Locator}, Path=ManageKostenstellenViewModel}">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -61,6 +60,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
@@ -72,24 +72,37 @@
             <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding SelectedKostenstelle.Kostenstellenbezeichnung}" />
 
             <Label Grid.Row="2" Grid.Column="0">Kostenstellenart:</Label>
-            <ComboBox
-                Grid.Row="2"
-                Grid.Column="1"
-                ItemsSource="{Binding Kostenstellenarten}"
-                SelectedItem="{Binding SelectedKostenstelle.ZugehoerigeKostenstellenart}">
+            <WrapPanel Grid.Row="2" Grid.Column="1">
+                <ComboBox
+                    ItemsSource="{Binding Kostenstellenarten}"
+                    SelectedItem="{Binding SelectedKostenstelle.ZugehoerigeKostenstellenart}"
+                    DisplayMemberPath="Kostenstellenartbezeichnung" />
 
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding Path=Kostenstellenartbezeichnung}"/>
-                        </StackPanel>
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
+                <Button Command="{Binding AddKostenstellenartCommand}">
+                    <Control Template="{StaticResource tmpAddItemButton}" />
+                </Button>
+            </WrapPanel>
 
             <Label Grid.Row="3" Grid.Column="0">Gültig ab:</Label>
             <DatePicker Grid.Row="3" Grid.Column="1" SelectedDate="{Binding SelectedKostenstelle.GueltigAb}" />
-            <Button Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Command="{Binding SaveChangesCommand}">
+
+            <Label Grid.Row="4" Grid.Column="0">Übergeordnete Kostenstellen:</Label>
+            <!-- TODO: Aktuell ausgewählte Kostenstelle muss noch ausgefiltert werden: -->
+            <ListBox Grid.Row="4" Grid.RowSpan="2" Grid.Column="1" ItemsSource="{Binding Kostenstellen}" SelectionMode="Multiple">
+                <i:Interaction.Behaviors>
+                    <bhvrs:SelectedKostenstellenBehavior SelectedItems="{Binding UebergeordneteKostenstellen}" />
+                </i:Interaction.Behaviors>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <WrapPanel>
+                            <CheckBox IsChecked="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBoxItem}, Path=IsSelected, Mode=TwoWay}" />
+                            <TextBlock VerticalAlignment="Center" Text="{Binding Path=Kostenstellenbezeichnung}" />
+                        </WrapPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <Button Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Command="{Binding SaveChangesCommand}">
                 <Control Template="{StaticResource tmpSaveDbDataButton}" />
             </Button>
 

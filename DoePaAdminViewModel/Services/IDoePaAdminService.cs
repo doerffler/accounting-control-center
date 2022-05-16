@@ -16,6 +16,7 @@ namespace DoePaAdmin.ViewModel.Services
         public Task<ObservableCollection<Kostenstellenart>> GetKostenstellenartenAsync(CancellationToken cancellationToken = default);
         public Task<Kostenstelle> CreateKostenstelleAsync(CancellationToken cancellationToken = default);
         public void RemoveKostenstelle(Kostenstelle kostenstelleToRemove);
+        public Task<Kostenstellenart> CreateKostenstellenartAsync(CancellationToken cancellationToken = default);
         #endregion 
 
 
