@@ -24,7 +24,13 @@ namespace DoePaAdmin.ViewModel.Services
         public async Task <IEnumerable<OutgoingInvoice>> GetOutgoingInvoicesAsync(CancellationToken cancellationToken = default)
         {
             OutgoingInvoiceDAL dal = new(DPAppConnectionString);
-            return await dal.ReadOutgoingInvoicesAsync(cancellationToken);
+            
+            Task<IEnumerable<OutgoingInvoice>> outgoingInvoices = dal.ReadOutgoingInvoicesAsync(cancellationToken);
+            Task<IEnumerable<OutgoingInvoicePosition>> outgoingInvoicePositions = dal.ReadOutgoingInvoicePositionsAsync(cancellationToken);
+
+            await Task.WhenAll(outgoingInvoices, outgoingInvoicePositions);
+
+            return outgoingInvoices.Result;
         }
 
         public async Task<DataTable> GetCostCentersAsync(CancellationToken cancellationToken = default)

@@ -75,7 +75,52 @@ namespace DoePaAdminDataAdapter.DPApp
 
         public async Task<IEnumerable<OutgoingInvoicePosition>> ReadOutgoingInvoicePositionsAsync(CancellationToken cancellationToken = default)
         {
+            List<OutgoingInvoicePosition> outgoingInvoicePositions = new();
 
+            using (SqlCommand cmd = new(Properties.Resources.ReadOutgoingInvoicePositions, await GetSqlConnectionAsync(cancellationToken)))
+            {
+                cmd.CommandType = CommandType.Text;
+
+                using SqlDataReader reader = await cmd.ExecuteReaderAsync(cancellationToken);
+
+                while (await reader.ReadAsync(cancellationToken))
+                {
+                    OutgoingInvoicePosition outgoingInvoicePosition = new()
+                    {
+                        Id = reader.GetInt64("id"),
+                        CreatedAt = reader.GetNullableDateTime("created_at"),
+                        Updated_at = reader.GetNullableDateTime("updated_at"),
+                        RelatedInvoiceId = reader.GetInt64("outgoing_invoice_id"),
+                        Sequence = reader.GetInt32("sequence"),
+                        PositionText = reader.GetNullableString("position_text"),
+                        DateServiceFrom = reader.GetDateTime("date_service_from"),
+                        DateServiceUntil = reader.GetDateTime("date_service_until"),
+                        TypeOfSettlement = reader.GetNullableString("type_of_settlement"),
+                        Hours = reader.GetNullableDecimal("hours"),
+                        HourlyRate = reader.GetNullableDecimal("hourly_rate"),
+                        Netto = reader.GetNullableDecimal("netto"),
+                        Tax = reader.GetNullableDecimal("tax"),
+                        TaxPercent = reader.GetNullableDecimal("tax_percent"),
+                        Gross = reader.GetNullableDecimal("gross"),
+                        Remark = reader.GetNullableString("remark"),
+                        HourlyRateExternal = reader.GetNullableDecimal("hourly_rate_external"),
+                        NettoExternal = reader.GetNullableDecimal("netto_external"),
+                        TaxPercentExternal = reader.GetNullableDecimal("tax_percent_external"),
+                        TaxExternal = reader.GetNullableDecimal("tax_external"),
+                        GrossExternal = reader.GetNullableDecimal("gross_external"),
+                        InvoiceIdExternal = reader.GetNullableInt64("invoice_id_external"),
+                        CostTypeId = reader.GetNullableInt64("cost_type_id"),
+                        ProjectId = reader.GetNullableInt64("project_id"),
+                        CostCenterId = reader.GetNullableInt64("cost_center_id"),
+                        Raid = reader.GetNullableInt64("raid")
+                    };
+
+                    outgoingInvoicePositions.Add(outgoingInvoicePosition);
+                }
+            }
+
+            return outgoingInvoicePositions;
         }
+
     }
 }
