@@ -185,10 +185,36 @@ namespace DoePaAdminDataAdapter.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die USE [DoePaAppDB]
-        ///GO
-        ///
+        ///   Sucht eine lokalisierte Zeichenfolge, die WITH cte_validinvoices AS
+        ///(
+        ///	SELECT oi.[id] AS [outgoing_invoice_id] FROM [dbo].[outgoing_invoices] oi WHERE oi.[date_transferred] &lt; &apos;9999-12-31&apos;
+        ///)
         ///SELECT [id]
+        ///      ,[created_at]
+        ///      ,[updated_at]
+        ///      ,[outgoing_invoice_id]
+        ///      ,[sequence]
+        ///      ,[position_text]
+        ///      ,[date_service_from]
+        ///      ,[date_service_until]
+        ///      ,[type_of_settlement]
+        ///      ,[hours]
+        ///      ,[hourly_rate]
+        ///      ,[netto]
+        ///      ,[tax]
+        ///      ,[tax_percent]
+        ///      ,[gross]
+        ///      ,[remark]
+        ///      ,[hourly_rate_ext [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        /// </summary>
+        internal static string ReadOutgoingInvoicePositions {
+            get {
+                return ResourceManager.GetString("ReadOutgoingInvoicePositions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die SELECT [id]
         ///      ,[created_at]
         ///      ,[updated_at]
         ///      ,[invoice_no]
@@ -208,7 +234,8 @@ namespace DoePaAdminDataAdapter.Properties {
         ///      ,[outgoing_invoice_id_replaced_by]
         ///      ,[contact_id]
         ///      ,[address_id]
-        ///      ,[dep [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        ///      ,[department_id]
+        ///      ,[cli [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
         /// </summary>
         internal static string ReadOutgoingInvoices {
             get {

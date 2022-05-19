@@ -40,5 +40,15 @@ namespace DoePaAdminDataAdapter
 
         }
 
+        public static decimal? GetNullableDecimal(this SqlDataReader reader, string name)
+        {
+
+            int col = reader.GetOrdinal(name);
+            return reader.IsDBNull(col) ?
+                null :
+                reader.GetDecimal(col);
+
+        }
+
     }
 }

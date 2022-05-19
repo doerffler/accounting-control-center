@@ -32,3 +32,4 @@ SELECT [id]
       ,[order_no]
       ,[term_of_payment]
   FROM [dbo].[outgoing_invoices]
+ WHERE [date_transferred] < '9999-12-31'
