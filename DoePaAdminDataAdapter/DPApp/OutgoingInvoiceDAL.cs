@@ -89,8 +89,8 @@ namespace DoePaAdminDataAdapter.DPApp
                     {
                         Id = reader.GetInt64("id"),
                         CreatedAt = reader.GetNullableDateTime("created_at"),
-                        Updated_at = reader.GetNullableDateTime("updated_at"),
-                        RelatedInvoiceId = reader.GetInt64("outgoing_invoice_id"),
+                        UpdatedAt = reader.GetNullableDateTime("updated_at"),
+                        RelatedInvoiceId = reader.GetInt32("outgoing_invoice_id"),
                         Sequence = reader.GetInt32("sequence"),
                         PositionText = reader.GetNullableString("position_text"),
                         DateServiceFrom = reader.GetDateTime("date_service_from"),

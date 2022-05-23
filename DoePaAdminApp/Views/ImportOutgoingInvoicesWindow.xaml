@@ -12,8 +12,30 @@
         Height="450"
         Width="800">
     <Grid>
-        <DataGrid ItemsSource="{Binding OutgoingInvoices}">
-
+        <DataGrid ItemsSource="{Binding OutgoingInvoices}" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Rechnungsnummer" Binding="{Binding InvoiceNo}" />
+                <DataGridTextColumn Header="Rechnungsdatum" Binding="{Binding DateDocument}" />
+                <DataGridTextColumn Header="Rechnungssumme Netto" Binding="{Binding NettoSum}" />
+            </DataGrid.Columns>
+            <DataGrid.RowDetailsTemplate>
+                <DataTemplate>
+                    <DataGrid ItemsSource="{Binding RelatedInvoicePositions}" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Position" Binding="{Binding Sequence}" />
+                            <DataGridTextColumn Header="Beschreibung" Binding="{Binding PositionText}" />
+                            <DataGridTextColumn Header="Leistungszeitraum von" Binding="{Binding DateServiceFrom}" />
+                            <DataGridTextColumn Header="Leistungszeitraum bis" Binding="{Binding DateServiceUntil}" />
+                            <DataGridTextColumn Header="Stunden" Binding="{Binding Hours}" />
+                            <DataGridTextColumn Header="Stundensatz" Binding="{Binding HourlyRate}" />
+                            <DataGridTextColumn Header="Nettowert" Binding="{Binding Netto}" />
+                            <DataGridTextColumn Header="Mehrwertsteuer" Binding="{Binding Tax}" />
+                            <DataGridTextColumn Header="Mehrwertsteuersatz" Binding="{Binding TaxPercent}" />
+                            <DataGridTextColumn Header="Bruttowert" Binding="{Binding Gross}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </DataTemplate>
+            </DataGrid.RowDetailsTemplate>
         </DataGrid>
     </Grid>
 </Window>

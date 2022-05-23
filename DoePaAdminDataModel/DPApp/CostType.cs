@@ -4,9 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DoePaAdminDataAdapter.DPApp.Model
+namespace DoePaAdminDataModel.DPApp
 {
-    public interface IDPAppModel
+    public class CostType : DPAppObject
     {
+
+        public string Name { get; set; }
+
     }
 }

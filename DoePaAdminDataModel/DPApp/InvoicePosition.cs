@@ -6,14 +6,8 @@ using System.Threading.Tasks;
 
 namespace DoePaAdminDataModel.DPApp
 {
-    public abstract class InvoicePosition
+    public abstract class InvoicePosition : DPAppObject
     {
-
-        public long Id { get; set; }
-
-        public DateTime? CreatedAt { get; set; }
-
-        public DateTime? Updated_at { get; set; }
 
         public long RelatedInvoiceId { get; set; }
 
@@ -46,6 +40,10 @@ namespace DoePaAdminDataModel.DPApp
         public long? ProjectId { get; set; }
 
         public long? CostCenterId { get; set; }
+
+        public CostType RelatedCostType { get; set; }
+
+        public CostCenter RelatedCostCenter { get; set; }
 
     }
 }
