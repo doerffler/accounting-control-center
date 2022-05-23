@@ -1,5 +1,4 @@
-﻿using DoePaAdminDataAdapter.DPApp.Model;
-using DoePaAdminDataModel.DPApp;
+﻿using DoePaAdminDataModel.DPApp;
 using System.Collections.Generic;
 using System.Data;
 using System.Threading;

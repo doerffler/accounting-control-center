@@ -6,14 +6,8 @@ using System.Threading.Tasks;
 
 namespace DoePaAdminDataModel.DPApp
 {
-    public abstract class Invoice
+    public abstract class Invoice : DPAppObject
     {
-
-        public long Id { get; set; }
-
-        public DateTime? CreatedAt { get; set; }
-
-        public DateTime? UpdatedAt { get; set; }
 
         public string InvoiceNo { get; set; }
 
@@ -51,6 +45,22 @@ namespace DoePaAdminDataModel.DPApp
 
         public DateTime? DateServiceUntilDefault { get; set; }
 
+        public IEnumerable<InvoicePosition> RelatedInvoicePositions { get; set; }
+
+        public decimal? NettoSum
+        {
+            get
+            {
+                if (RelatedInvoicePositions != null)
+                {
+                    return RelatedInvoicePositions.Sum(ip => ip.Netto);
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
 
     }
 }

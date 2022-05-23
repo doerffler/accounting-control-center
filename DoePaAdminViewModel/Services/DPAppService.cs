@@ -1,6 +1,6 @@
 ﻿using DoePaAdmin.ViewModel.Model;
-using DoePaAdminDataAdapter.DPApp.Model;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Data;
 using Microsoft.Extensions.Options;
@@ -24,13 +24,24 @@ namespace DoePaAdmin.ViewModel.Services
         public async Task <IEnumerable<OutgoingInvoice>> GetOutgoingInvoicesAsync(CancellationToken cancellationToken = default)
         {
             OutgoingInvoiceDAL dal = new(DPAppConnectionString);
+            MasterdataDAL mdDal = new(DPAppConnectionString);
             
-            Task<IEnumerable<OutgoingInvoice>> outgoingInvoices = dal.ReadOutgoingInvoicesAsync(cancellationToken);
-            Task<IEnumerable<OutgoingInvoicePosition>> outgoingInvoicePositions = dal.ReadOutgoingInvoicePositionsAsync(cancellationToken);
+            Task<IEnumerable<OutgoingInvoice>> outgoingInvoicesTask = dal.ReadOutgoingInvoicesAsync(cancellationToken);
+            Task<IEnumerable<OutgoingInvoicePosition>> outgoingInvoicePositionsTask = dal.ReadOutgoingInvoicePositionsAsync(cancellationToken);
+            Task<IEnumerable<CostCenter>> costCentersTask = mdDal.ReadCostCentersAsync(cancellationToken);
 
-            await Task.WhenAll(outgoingInvoices, outgoingInvoicePositions);
+            await Task.WhenAll(outgoingInvoicesTask, outgoingInvoicePositionsTask, costCentersTask);
 
-            return outgoingInvoices.Result;
+            IEnumerable<OutgoingInvoice> outgoingInvoices = outgoingInvoicesTask.Result;
+            IEnumerable<OutgoingInvoicePosition> outgoingInvoicePositions = outgoingInvoicePositionsTask.Result;
+            IEnumerable<CostCenter> costCenters = costCentersTask.Result;
+
+            foreach (OutgoingInvoice currentInvoice in outgoingInvoices)
+            {
+                currentInvoice.RelatedInvoicePositions = outgoingInvoicePositions.Where(oip => oip.RelatedInvoiceId.Equals(currentInvoice.Id)).ToList();
+            }
+
+            return outgoingInvoices;
         }
 
         public async Task<DataTable> GetCostCentersAsync(CancellationToken cancellationToken = default)
