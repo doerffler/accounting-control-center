@@ -85,6 +85,27 @@ namespace DoePaAdminDataAdapter.Properties {
         ///   Sucht eine lokalisierte Zeichenfolge, die SELECT [id]
         ///      ,[created_at]
         ///      ,[updated_at]
+        ///      ,[addition1]
+        ///      ,[addition2]
+        ///      ,[street]
+        ///      ,[street_number]
+        ///      ,[postcode]
+        ///      ,[city]
+        ///      ,[district]
+        ///      ,[state]
+        ///      ,[country]
+        ///  FROM [dbo].[addresses] ähnelt.
+        /// </summary>
+        internal static string ReadAddresses {
+            get {
+                return ResourceManager.GetString("ReadAddresses", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die SELECT [id]
+        ///      ,[created_at]
+        ///      ,[updated_at]
         ///      ,[invoice_no]
         ///      ,[date_document]
         ///      ,[created_by]
@@ -173,6 +194,51 @@ namespace DoePaAdminDataAdapter.Properties {
         ///   Sucht eine lokalisierte Zeichenfolge, die SELECT [id]
         ///      ,[created_at]
         ///      ,[updated_at]
+        ///      ,[name]
+        ///      ,[date_from]
+        ///      ,[date_until]
+        ///      ,[invoice_name]
+        ///  FROM [dbo].[business_years] ähnelt.
+        /// </summary>
+        internal static string ReadBusinessYears {
+            get {
+                return ResourceManager.GetString("ReadBusinessYears", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die SELECT [id]
+        ///      ,[created_at]
+        ///      ,[updated_at]
+        ///      ,[title]
+        ///      ,[first_name]
+        ///      ,[last_name]
+        ///      ,[language]
+        ///      ,[sex]
+        ///      ,[position]
+        ///      ,[formal]
+        ///      ,[staff_id_main_contact]
+        ///      ,[staff_contacts]
+        ///      ,[email_private]
+        ///      ,[address_id_private]
+        ///      ,[department_id]
+        ///      ,[email]
+        ///      ,[telephon]
+        ///      ,[mobil]
+        ///      ,[remark]
+        ///      ,[valid_from]
+        ///  FROM [dbo].[contacts] ähnelt.
+        /// </summary>
+        internal static string ReadContacts {
+            get {
+                return ResourceManager.GetString("ReadContacts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die SELECT [id]
+        ///      ,[created_at]
+        ///      ,[updated_at]
         ///      ,[number]
         ///      ,[name]
         ///      ,[active]
@@ -181,6 +247,40 @@ namespace DoePaAdminDataAdapter.Properties {
         internal static string ReadCostCenters {
             get {
                 return ResourceManager.GetString("ReadCostCenters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die SELECT [id]
+        ///      ,[created_at]
+        ///      ,[updated_at]
+        ///      ,[name]
+        ///  FROM [dbo].[cost_types] ähnelt.
+        /// </summary>
+        internal static string ReadCostTypes {
+            get {
+                return ResourceManager.GetString("ReadCostTypes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die SELECT [id]
+        ///      ,[created_at]
+        ///      ,[updated_at]
+        ///      ,[short_name]
+        ///      ,[name]
+        ///      ,[language]
+        ///      ,[invoice_relevant]
+        ///      ,[supplier]
+        ///      ,[client]
+        ///      ,[valid_from]
+        ///      ,[address_id]
+        ///      ,[company_id]
+        ///  FROM [dbo].[departments] ähnelt.
+        /// </summary>
+        internal static string ReadDepartments {
+            get {
+                return ResourceManager.GetString("ReadDepartments", resourceCulture);
             }
         }
         
@@ -240,6 +340,21 @@ namespace DoePaAdminDataAdapter.Properties {
         internal static string ReadOutgoingInvoices {
             get {
                 return ResourceManager.GetString("ReadOutgoingInvoices", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die SELECT [id]
+        ///      ,[created_at]
+        ///      ,[updated_at]
+        ///      ,[short_name]
+        ///      ,[name]
+        ///      ,[company_id]
+        ///  FROM [dbo].[projects] ähnelt.
+        /// </summary>
+        internal static string ReadProjects {
+            get {
+                return ResourceManager.GetString("ReadProjects", resourceCulture);
             }
         }
     }

@@ -45,5 +45,7 @@ namespace DoePaAdminDataModel.DPApp
 
         public CostCenter RelatedCostCenter { get; set; }
 
+        public Project RelatedProject { get; set; }
+
     }
 }

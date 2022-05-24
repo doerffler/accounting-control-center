@@ -47,6 +47,14 @@ namespace DoePaAdminDataModel.DPApp
 
         public IEnumerable<InvoicePosition> RelatedInvoicePositions { get; set; }
 
+        public BusinessYear RelatedBusinessYear { get; set; }
+
+        public Contact RelatedContact { get; set; }
+
+        public Address RelatedAddress { get; set; }
+
+        public Department RelatedDepartment { get; set; }
+
         public decimal? NettoSum
         {
             get
