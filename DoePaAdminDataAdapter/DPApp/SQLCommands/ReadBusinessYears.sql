@@ -1,0 +1,8 @@
+SELECT [id]
+      ,[created_at]
+      ,[updated_at]
+      ,[name]
+      ,[date_from]
+      ,[date_until]
+      ,[invoice_name]
+  FROM [dbo].[business_years]

@@ -29,16 +29,89 @@ namespace DoePaAdmin.ViewModel.Services
             Task<IEnumerable<OutgoingInvoice>> outgoingInvoicesTask = dal.ReadOutgoingInvoicesAsync(cancellationToken);
             Task<IEnumerable<OutgoingInvoicePosition>> outgoingInvoicePositionsTask = dal.ReadOutgoingInvoicePositionsAsync(cancellationToken);
             Task<IEnumerable<CostCenter>> costCentersTask = mdDal.ReadCostCentersAsync(cancellationToken);
+            Task<IEnumerable<CostType>> costTypesTask = mdDal.ReadCostTypesAsync(cancellationToken);
+            Task<IEnumerable<Project>> projectsTask = mdDal.ReadProjectsAsync(cancellationToken);
+            Task<IEnumerable<BusinessYear>> businessYearsTask = mdDal.ReadBusinessYearsAsync(cancellationToken);
+            Task<IEnumerable<Contact>> contactsTask = mdDal.ReadContactsAsync(cancellationToken);
+            Task<IEnumerable<Address>> addressesTask = mdDal.ReadAddressesAsync(cancellationToken);
+            Task<IEnumerable<Department>> departmentsTask = mdDal.ReadDepartmentsAsync(cancellationToken);
 
-            await Task.WhenAll(outgoingInvoicesTask, outgoingInvoicePositionsTask, costCentersTask);
+            await Task.WhenAll(
+                outgoingInvoicesTask,
+                outgoingInvoicePositionsTask,
+                costCentersTask,
+                costTypesTask,
+                projectsTask,
+                businessYearsTask,
+                contactsTask,
+                addressesTask,
+                departmentsTask
+                );
 
             IEnumerable<OutgoingInvoice> outgoingInvoices = outgoingInvoicesTask.Result;
             IEnumerable<OutgoingInvoicePosition> outgoingInvoicePositions = outgoingInvoicePositionsTask.Result;
             IEnumerable<CostCenter> costCenters = costCentersTask.Result;
+            IEnumerable<CostType> costTypes = costTypesTask.Result;
+            IEnumerable<Project> projects = projectsTask.Result;
+            IEnumerable<BusinessYear> businessYears = businessYearsTask.Result;
+            IEnumerable<Contact> contacts = contactsTask.Result;
+            IEnumerable<Address> addresses = addressesTask.Result;
+            IEnumerable<Department> departments = departmentsTask.Result;
+
+            IEnumerable<OutgoingInvoicePosition> listOutgoingInvoicePositions;
+            long? costCenterId;
+            long? costTypeId;
+            long? projectId;
+            long? departmentId;
+            long? addressId;
 
             foreach (OutgoingInvoice currentInvoice in outgoingInvoices)
             {
-                currentInvoice.RelatedInvoicePositions = outgoingInvoicePositions.Where(oip => oip.RelatedInvoiceId.Equals(currentInvoice.Id)).ToList();
+                listOutgoingInvoicePositions = outgoingInvoicePositions.Where(oip => oip.RelatedInvoiceId.Equals(currentInvoice.Id)).ToList();
+
+                foreach(OutgoingInvoicePosition currentInvoicePosition in listOutgoingInvoicePositions)
+                {
+                    costCenterId = currentInvoicePosition.CostCenterId.HasValue ? currentInvoicePosition.CostCenterId : currentInvoice.CostCenterIdDefault;
+                    costTypeId = currentInvoicePosition.CostTypeId.HasValue ? currentInvoicePosition.CostTypeId : currentInvoice.CostTypeIdDefault;
+                    projectId = currentInvoicePosition.ProjectId.HasValue ? currentInvoicePosition.ProjectId : currentInvoice.ProjectIdDefault;
+
+
+                    if (costCenterId.HasValue)
+                    { 
+                        currentInvoicePosition.RelatedCostCenter = costCenters.Where(cc => cc.Id.Equals(costCenterId.Value)).FirstOrDefault();
+                    }
+                    if (costTypeId.HasValue)
+                    {
+                        currentInvoicePosition.RelatedCostType = costTypes.Where(ct => ct.Id.Equals(costTypeId.Value)).FirstOrDefault();
+                    }
+                    if (projectId.HasValue)
+                    {
+                        currentInvoicePosition.RelatedProject = projects.Where(p => p.Id.Equals(projectId.Value)).FirstOrDefault();
+                    }
+                }
+
+                currentInvoice.RelatedInvoicePositions = listOutgoingInvoicePositions;
+                currentInvoice.RelatedBusinessYear = businessYears.Where(by => by.Id.Equals(currentInvoice.BusinessYearId)).FirstOrDefault();
+                
+                if (currentInvoice.ContactId.HasValue)
+                {
+                    currentInvoice.RelatedContact = contacts.Where(c => c.Id.Equals(currentInvoice.ContactId)).FirstOrDefault();
+                }
+
+                departmentId = currentInvoice.DepartmentId.HasValue ? currentInvoice.DepartmentId.Value : currentInvoice.RelatedContact?.DepartmentId;
+
+                if (departmentId.HasValue)
+                {
+                    currentInvoice.RelatedDepartment = departments.Where(d => d.Id.Equals(departmentId.Value)).FirstOrDefault();
+                }
+
+                addressId = currentInvoice.AddressId.HasValue ? currentInvoice.AddressId : currentInvoice.RelatedDepartment?.AddressId;
+
+                if (addressId.HasValue)
+                {
+                    currentInvoice.RelatedAddress = addresses.Where(a => a.Id.Equals(addressId)).FirstOrDefault();
+                }
+
             }
 
             return outgoingInvoices;

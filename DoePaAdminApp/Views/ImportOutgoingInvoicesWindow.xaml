@@ -17,6 +17,7 @@
                 <DataGridTextColumn Header="Rechnungsnummer" Binding="{Binding InvoiceNo}" />
                 <DataGridTextColumn Header="Rechnungsdatum" Binding="{Binding DateDocument}" />
                 <DataGridTextColumn Header="Rechnungssumme Netto" Binding="{Binding NettoSum}" />
+                <DataGridTextColumn Header="Geschäftsjahr" Binding="{Binding RelatedBusinessYear.Name}" />
             </DataGrid.Columns>
             <DataGrid.RowDetailsTemplate>
                 <DataTemplate>

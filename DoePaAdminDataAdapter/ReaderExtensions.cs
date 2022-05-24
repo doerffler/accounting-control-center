@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
+using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,7 +10,7 @@ namespace DoePaAdminDataAdapter
     public static class ReaderExtensions
     {
 
-        public static DateTime? GetNullableDateTime(this SqlDataReader reader, string name)
+        public static DateTime? GetNullableDateTime(this DbDataReader reader, string name)
         {
 
             int col = reader.GetOrdinal(name);
@@ -20,7 +20,7 @@ namespace DoePaAdminDataAdapter
 
         }
 
-        public static long? GetNullableInt64(this SqlDataReader reader, string name)
+        public static long? GetNullableInt64(this DbDataReader reader, string name)
         {
 
             int col = reader.GetOrdinal(name);
@@ -30,7 +30,7 @@ namespace DoePaAdminDataAdapter
 
         }
 
-        public static string GetNullableString(this SqlDataReader reader, string name)
+        public static string GetNullableString(this DbDataReader reader, string name)
         {
 
             int col = reader.GetOrdinal(name);
@@ -40,7 +40,7 @@ namespace DoePaAdminDataAdapter
 
         }
 
-        public static decimal? GetNullableDecimal(this SqlDataReader reader, string name)
+        public static decimal? GetNullableDecimal(this DbDataReader reader, string name)
         {
 
             int col = reader.GetOrdinal(name);
