@@ -35,6 +35,8 @@ namespace DoePaAdmin.ViewModel.Services
             Task<IEnumerable<Contact>> contactsTask = mdDal.ReadContactsAsync(cancellationToken);
             Task<IEnumerable<Address>> addressesTask = mdDal.ReadAddressesAsync(cancellationToken);
             Task<IEnumerable<Department>> departmentsTask = mdDal.ReadDepartmentsAsync(cancellationToken);
+            Task<IEnumerable<Staff>> staffTask = mdDal.ReadStaffAsync(cancellationToken);
+            Task<IEnumerable<Company>> companiesTask = mdDal.ReadCompaniesAsync(cancellationToken);
 
             await Task.WhenAll(
                 outgoingInvoicesTask,
@@ -45,7 +47,9 @@ namespace DoePaAdmin.ViewModel.Services
                 businessYearsTask,
                 contactsTask,
                 addressesTask,
-                departmentsTask
+                departmentsTask,
+                staffTask,
+                companiesTask
                 );
 
             IEnumerable<OutgoingInvoice> outgoingInvoices = outgoingInvoicesTask.Result;
@@ -57,6 +61,8 @@ namespace DoePaAdmin.ViewModel.Services
             IEnumerable<Contact> contacts = contactsTask.Result;
             IEnumerable<Address> addresses = addressesTask.Result;
             IEnumerable<Department> departments = departmentsTask.Result;
+            IEnumerable<Staff> staff = staffTask.Result;
+            IEnumerable<Company> companies = companiesTask.Result;
 
             IEnumerable<OutgoingInvoicePosition> listOutgoingInvoicePositions;
             long? costCenterId;
@@ -103,6 +109,11 @@ namespace DoePaAdmin.ViewModel.Services
                 if (departmentId.HasValue)
                 {
                     currentInvoice.RelatedDepartment = departments.Where(d => d.Id.Equals(departmentId.Value)).FirstOrDefault();
+
+                    if (currentInvoice.RelatedDepartment.CompanyId.HasValue)
+                    { 
+                        currentInvoice.RelatedCompany = companies.Where(c => c.Id.Equals(currentInvoice.RelatedDepartment.CompanyId.Value)).FirstOrDefault();
+                    }
                 }
 
                 addressId = currentInvoice.AddressId.HasValue ? currentInvoice.AddressId : currentInvoice.RelatedDepartment?.AddressId;
@@ -110,6 +121,16 @@ namespace DoePaAdmin.ViewModel.Services
                 if (addressId.HasValue)
                 {
                     currentInvoice.RelatedAddress = addresses.Where(a => a.Id.Equals(addressId)).FirstOrDefault();
+                }
+
+                if (currentInvoice.StaffIdSignature.HasValue)
+                {
+                    currentInvoice.SignatureBy = staff.Where(s => s.Id.Equals(currentInvoice.StaffIdSignature.Value)).FirstOrDefault();
+                }
+
+                if (currentInvoice.StaffIdSendBy.HasValue)
+                {
+                    currentInvoice.SentBy = staff.Where(s => s.Id.Equals(currentInvoice.StaffIdSendBy.Value)).FirstOrDefault();
                 }
 
             }
