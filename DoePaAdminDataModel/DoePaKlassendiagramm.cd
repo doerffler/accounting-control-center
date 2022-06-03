@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="DoePaAdminDataModel.Stammdaten.Adresse">
-    <Position X="9.75" Y="11.25" Width="1.5" />
+    <Position X="20.25" Y="5.5" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAEAAAAAAAAAAAAAgAAAAEAAAAAAAAAAAAAABAABA=</HashCode>
       <FileName>Stammdaten\Adresse.cs</FileName>
@@ -11,14 +11,17 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="DoePaAdminDataModel.Stammdaten.Anstellungsdetail">
-    <Position X="27.75" Y="4" Width="1.5" />
+    <Position X="13.5" Y="0.75" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAgACAAAGAAAAAAAQAAAAAAAAAAAgBAAAAAACAAA=</HashCode>
       <FileName>Stammdaten\Anstellungsdetail.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="ZugehoerigeTaetigkeit" />
+    </ShowAsAssociation>
   </Class>
   <Class Name="DoePaAdminDataModel.Stammdaten.Auftrag">
-    <Position X="22" Y="5.25" Width="2.5" />
+    <Position X="19" Y="10.75" Width="1.75" />
     <TypeIdentifier>
       <HashCode>ABAAEAAAAAAEARAAAAAAAAAAAAAAAAAEACAAAABAAEA=</HashCode>
       <FileName>Stammdaten\Auftrag.cs</FileName>
@@ -28,56 +31,72 @@
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="DoePaAdminDataModel.Stammdaten.Auftragsposition">
-    <Position X="25" Y="5.25" Width="2" />
+    <Position X="16.5" Y="14.75" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAICAAAIAAAAAAACCAAAAQAAg=</HashCode>
       <FileName>Stammdaten\Auftragsposition.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Abrechnungseinheit" />
+    </ShowAsAssociation>
   </Class>
-  <Class Name="DoePaAdminDataModel.Stammdaten.Bankverbindung">
-    <Position X="29.5" Y="4" Width="1.5" />
+  <Class Name="DoePaAdminDataModel.Stammdaten.Bankverbindung" Collapsed="true">
+    <Position X="27.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAICAAAAAAAACA=</HashCode>
       <FileName>Stammdaten\Bankverbindung.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="DoePaAdminDataModel.Stammdaten.Debitor">
-    <Position X="12" Y="7.5" Width="1.75" />
+    <Position X="16" Y="8.75" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Stammdaten\Debitor.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="ZugehoerigerKunde" />
+    </ShowAsAssociation>
   </Class>
   <Class Name="DoePaAdminDataModel.Stammdaten.Geschaeftspartner">
-    <Position X="13.25" Y="4" Width="1.75" />
+    <Position X="17.25" Y="5.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAACAAAAIAAEAAAgAAAAAAAAAAAAAAIQAAAQAgAQAAA=</HashCode>
       <FileName>Stammdaten\Geschaeftspartner.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="ZugehoerigeAdresse" />
+    </ShowAsAssociation>
   </Class>
   <Class Name="DoePaAdminDataModel.Stammdaten.Kostenstelle">
-    <Position X="31.25" Y="4" Width="1.5" />
+    <Position X="6" Y="12" Width="3.25" />
     <TypeIdentifier>
-      <HashCode>AABAAAAAIAAEAAAAAAAgAAAAAAAACAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AABAAAAAIAAEAgAAAAAkAAAAAAAACAAAAAAAAAAAAAA=</HashCode>
       <FileName>Stammdaten\Kostenstelle.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="ZugehoerigeKostenstellenart" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="UebergeordneteKostenstellen" />
+      <Property Name="UntergeordneteKostenstellen" />
+    </ShowAsCollectionAssociation>
   </Class>
   <Class Name="DoePaAdminDataModel.Stammdaten.Kostenstellenart">
-    <Position X="27.75" Y="5" Width="1.5" />
+    <Position X="5.5" Y="8.75" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAEAAAAA=</HashCode>
       <FileName>Stammdaten\Kostenstellenart.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="DoePaAdminDataModel.Stammdaten.Kreditor">
-    <Position X="14.5" Y="7.5" Width="1.5" />
+    <Position X="18.5" Y="8.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Stammdaten\Kreditor.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="DoePaAdminDataModel.Stammdaten.Kunde">
-    <Position X="19" Y="5.25" Width="1.5" />
+    <Position X="16.25" Y="11.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAEAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAg=</HashCode>
       <FileName>Stammdaten\Kunde.cs</FileName>
@@ -87,53 +106,126 @@
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="DoePaAdminDataModel.Stammdaten.Mitarbeiter">
-    <Position X="29.5" Y="5" Width="1.5" />
+    <Position X="13.75" Y="4.25" Width="2.75" />
     <TypeIdentifier>
       <HashCode>QAACAAAAIAAAAAAAEAAAgAABAAAAAAJIAAAQAgAQAAg=</HashCode>
       <FileName>Stammdaten\Mitarbeiter.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="ZugehoerigeKostenstelle" />
+      <Property Name="ZugehoerigeAdresse" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Anstellungshistorie" />
+    </ShowAsCollectionAssociation>
   </Class>
   <Class Name="DoePaAdminDataModel.Stammdaten.Postleitzahl">
-    <Position X="13" Y="11.5" Width="1.5" />
+    <Position X="23.5" Y="5.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AABAQAAAAAAAAAIAAQAAAAAAAAAAAAAAAgAAAAAAAAA=</HashCode>
       <FileName>Stammdaten\Postleitzahl.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="DoePaAdminDataModel.Stammdaten.Projekt">
-    <Position X="16" Y="4" Width="1.75" />
+    <Position X="21.75" Y="11" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>EEAAAAACAAAAAAAAAAAAAAAABAAAAIAACAAAAAAAAAA=</HashCode>
+      <HashCode>EAAAAAACAAAAAAAAAAAAAAAABAIAAIAACAAAAAAAAAA=</HashCode>
       <FileName>Stammdaten\Projekt.cs</FileName>
     </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="ZugehoerigeAuftraege" />
+      <Property Name="Skills" />
+    </ShowAsCollectionAssociation>
   </Class>
   <Class Name="DoePaAdminDataModel.Stammdaten.Taetigkeit">
-    <Position X="31.25" Y="5" Width="1.5" />
+    <Position X="10.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAA=</HashCode>
       <FileName>Stammdaten\Taetigkeit.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="DoePaAdminDataModel.Stammdaten.Vertrag">
-    <Position X="27.75" Y="6" Width="1.75" />
+    <Position X="7.25" Y="5.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAIAAAAUAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAA=</HashCode>
       <FileName>Stammdaten\Vertrag.cs</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="DoePaAdminDataModel.Stammdaten.Skill">
+    <Position X="25.25" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAABAABAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Stammdaten\Skill.cs</FileName>
+    </TypeIdentifier>
+  </Class>
   <Class Name="DoePaAdminDataModel.Stammdaten.Abrechnungseinheit">
-    <Position X="17" Y="8.5" Width="2" />
+    <Position X="16.5" Y="17.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAABAAAA=</HashCode>
       <FileName>Stammdaten\Abrechnungseinheit.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="DoePaAdminDataModel.Stammdaten.Skill">
-    <Position X="19.25" Y="9.25" Width="1.5" />
+  <Class Name="DoePaAdminDataModel.Kostenrechnung.Ausgangsrechnung">
+    <Position X="8.25" Y="8.5" Width="2.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAQAAAAAAAAAAAAABAABAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Stammdaten\Skill.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAEAAA=</HashCode>
+      <FileName>Kostenrechnung\Ausgangsrechnung.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="KorrekturRechnung" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="DoePaAdminDataModel.Kostenrechnung.Ausgangsrechnungsposition">
+    <Position X="11.75" Y="15.5" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAABEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Kostenrechnung\Ausgangsrechnungsposition.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="ZugehoerigeRechnung" />
+      <Property Name="ZugehoerigeAuftragsposition" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="ZugehoerigeFremdleistungen" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="DoePaAdminDataModel.Kostenrechnung.Eingangsrechnung">
+    <Position X="11.75" Y="8.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAgAAAEAAA=</HashCode>
+      <FileName>Kostenrechnung\Eingangsrechnung.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="KorrekturRechnung" />
+      <Property Name="ZugehoerigerVertrag" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="DoePaAdminDataModel.Kostenrechnung.Eingangsrechnungsposition">
+    <Position X="8.25" Y="15.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Kostenrechnung\Eingangsrechnungsposition.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="ZugehoerigeRechnung" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="DoePaAdminDataModel.Kostenrechnung.Rechnung">
+    <Position X="10" Y="5.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAQgAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAACAAAAA=</HashCode>
+      <FileName>Kostenrechnung\Rechnung.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DoePaAdminDataModel.Kostenrechnung.Rechnungsposition">
+    <Position X="10.25" Y="11.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAAAAAQEAEAAgAAAACAIAAAAAAAAAjAIAA=</HashCode>
+      <FileName>Kostenrechnung\Rechnungsposition.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="ZugehoerigeKostenstelle" />
+    </ShowAsAssociation>
   </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>
