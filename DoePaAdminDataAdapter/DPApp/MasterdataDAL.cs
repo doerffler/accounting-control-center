@@ -184,5 +184,52 @@ namespace DoePaAdminDataAdapter.DPApp
             };
         }
 
+        public async Task<IEnumerable<Staff>> ReadStaffAsync(CancellationToken cancellationToken = default)
+        {
+            return await ReadDPAppObjectAsync<Staff>(Properties.Resources.ReadStaff, ReadStaffFromDbReader, cancellationToken);
+        }
+
+        private Staff ReadStaffFromDbReader(DbDataReader reader)
+        {
+            return new()
+            {
+                Id = reader.GetInt64("id"),
+                CreatedAt = reader.GetNullableDateTime("created_at"),
+                UpdatedAt = reader.GetNullableDateTime("updated_at"),
+                ShortName = reader.GetString("short_name"),
+                FirstName = reader.GetString("first_name"),
+                LastName = reader.GetString("last_name"),
+                PersonalNo = reader.GetInt32("personal_no"),
+                RoleId = reader.GetInt64("role_id"),
+                CostCenterId = reader.GetInt64("cost_center_id"),
+                AddressId = reader.GetNullableInt64("address_id"),
+                EntryDate = reader.GetDateTime("entry_date"),
+                LeavingDate = reader.GetDateTime("leaving_date"),
+                Birthday = reader.GetNullableDateTime("birthday")
+            };
+        }
+
+        public async Task<IEnumerable<Company>> ReadCompaniesAsync(CancellationToken cancellationToken = default)
+        {
+            return await ReadDPAppObjectAsync<Company>(Properties.Resources.ReadCompanies, ReadCompanyFromDbReader, cancellationToken);
+        }
+
+        private Company ReadCompanyFromDbReader(DbDataReader reader)
+        {
+            return new()
+            {
+                Id = reader.GetInt64("id"),
+                CreatedAt = reader.GetNullableDateTime("created_at"),
+                UpdatedAt = reader.GetNullableDateTime("updated_at"),
+                ShortName = reader.GetString("short_name"),
+                Name1 = reader.GetString("name1"),
+                Name2 = reader.GetNullableString("name2"),
+                ValidFrom = reader.GetDateTime("valid_from"),
+                AddressId = reader.GetNullableInt64("address_id"),
+                ReverseCharge = reader.GetNullableBoolean("reverse_charge"),
+                VatNo = reader.GetNullableString("vat_no")
+            };
+        }
+
     }
 }

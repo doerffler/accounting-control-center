@@ -210,6 +210,25 @@ namespace DoePaAdminDataAdapter.Properties {
         ///   Sucht eine lokalisierte Zeichenfolge, die SELECT [id]
         ///      ,[created_at]
         ///      ,[updated_at]
+        ///      ,[short_name]
+        ///      ,[name1]
+        ///      ,[name2]
+        ///      ,[valid_from]
+        ///      ,[address_id]
+        ///      ,[reverse_charge]
+        ///      ,[vat_no]
+        ///  FROM [dbo].[companies] ähnelt.
+        /// </summary>
+        internal static string ReadCompanies {
+            get {
+                return ResourceManager.GetString("ReadCompanies", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die SELECT [id]
+        ///      ,[created_at]
+        ///      ,[updated_at]
         ///      ,[title]
         ///      ,[first_name]
         ///      ,[last_name]
@@ -355,6 +374,28 @@ namespace DoePaAdminDataAdapter.Properties {
         internal static string ReadProjects {
             get {
                 return ResourceManager.GetString("ReadProjects", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die SELECT [id]
+        ///      ,[created_at]
+        ///      ,[updated_at]
+        ///      ,[short_name]
+        ///      ,[first_name]
+        ///      ,[last_name]
+        ///      ,[personal_no]
+        ///      ,[role_id]
+        ///      ,[cost_center_id]
+        ///      ,[address_id]
+        ///      ,[entry_date]
+        ///      ,[leaving_date]
+        ///      ,[birthday]
+        ///  FROM [DoePaAppDB].[dbo].[staffs] ähnelt.
+        /// </summary>
+        internal static string ReadStaff {
+            get {
+                return ResourceManager.GetString("ReadStaff", resourceCulture);
             }
         }
     }

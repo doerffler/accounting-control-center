@@ -136,6 +136,9 @@
   <data name="ReadBusinessYears" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\DPApp\SQLCommands\ReadBusinessYears.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
+  <data name="ReadCompanies" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\DPApp\SQLCommands\ReadCompanies.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
   <data name="ReadContacts" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\DPApp\SQLCommands\ReadContacts.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
@@ -156,5 +159,8 @@
   </data>
   <data name="ReadProjects" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\DPApp\SQLCommands\ReadProjects.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="ReadStaff" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\DPApp\SQLCommands\ReadStaff.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
 </root>

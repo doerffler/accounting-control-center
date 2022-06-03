@@ -55,6 +55,8 @@ namespace DoePaAdminDataModel.DPApp
 
         public Department RelatedDepartment { get; set; }
 
+        public Company RelatedCompany { get; set; }
+
         public decimal? NettoSum
         {
             get

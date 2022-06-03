@@ -32,6 +32,10 @@ namespace DoePaAdminDataModel.DPApp
         public string OrderNo { get; set; }
 
         public string TermOfPayment { get; set; }
-        
+
+        public Staff SignatureBy { get; set; }
+
+        public Staff SentBy { get; set; }
+
     }
 }

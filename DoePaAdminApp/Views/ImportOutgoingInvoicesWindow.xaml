@@ -11,14 +11,67 @@
         DataContext="{Binding Source={StaticResource Locator}, Path=ImportOutgoingInvoicesViewModel}"
         Height="450"
         Width="800">
+    <Window.Resources>
+        <CollectionViewSource x:Key="cvsInvoices" Source="{Binding OutgoingInvoices}">
+            <CollectionViewSource.GroupDescriptions>
+                <PropertyGroupDescription PropertyName="RelatedBusinessYear.Name"/>
+                <PropertyGroupDescription PropertyName="RelatedCompany.Name1"/>
+            </CollectionViewSource.GroupDescriptions>
+        </CollectionViewSource>
+    </Window.Resources>
     <Grid>
-        <DataGrid ItemsSource="{Binding OutgoingInvoices}" AutoGenerateColumns="False">
+        <DataGrid ItemsSource="{Binding Source={StaticResource cvsInvoices}}" AutoGenerateColumns="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Rechnungsnummer" Binding="{Binding InvoiceNo}" />
                 <DataGridTextColumn Header="Rechnungsdatum" Binding="{Binding DateDocument}" />
                 <DataGridTextColumn Header="Rechnungssumme Netto" Binding="{Binding NettoSum}" />
                 <DataGridTextColumn Header="Geschäftsjahr" Binding="{Binding RelatedBusinessYear.Name}" />
+                <DataGridTextColumn Header="Kunde" Binding="{Binding RelatedCompany.Name1}" />
             </DataGrid.Columns>
+            <DataGrid.GroupStyle>
+                <GroupStyle>
+                    <GroupStyle.ContainerStyle>
+                        <Style TargetType="{x:Type GroupItem}">
+                            <Setter Property="Margin" Value="0,0,0,5"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type GroupItem}">
+                                        <Expander IsExpanded="True" Background="#FF112255" BorderBrush="#FF002255" Foreground="#FFEEEEEE" BorderThickness="1,1,1,5">
+                                            <Expander.Header>
+                                                <DockPanel>
+                                                    <TextBlock FontWeight="Bold" Text="{Binding Path=Name}" Margin="5,0,0,0" Width="100"/>
+                                                    <TextBlock FontWeight="Bold" Text="{Binding Path=ItemCount}"/>
+                                                </DockPanel>
+                                            </Expander.Header>
+                                            <Expander.Content>
+                                                <ItemsPresenter />
+                                            </Expander.Content>
+                                        </Expander>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </GroupStyle.ContainerStyle>
+                    <GroupStyle.HeaderTemplate>
+                        <DataTemplate>
+                            <DockPanel Background="LightBlue">
+                                <TextBlock Text="{Binding Path=Name}" Foreground="Blue"/>
+                                <!--<TextBlock Text="{Binding Path=ItemCount}" Foreground="Blue"/>-->
+                            </DockPanel>
+                        </DataTemplate>
+                    </GroupStyle.HeaderTemplate>
+                </GroupStyle>
+                <GroupStyle>
+                    <GroupStyle.HeaderTemplate>
+                        <DataTemplate>
+                            <DockPanel Background="LightBlue">
+                                <TextBlock Text="{Binding Path=Name}" Foreground="Blue" Margin="30,0,0,0" Width="100"/>
+                                <TextBlock Text="{Binding Path=ItemCount}" Foreground="Blue"/>
+                            </DockPanel>
+                        </DataTemplate>
+                    </GroupStyle.HeaderTemplate>
+                </GroupStyle>
+            </DataGrid.GroupStyle>
             <DataGrid.RowDetailsTemplate>
                 <DataTemplate>
                     <DataGrid ItemsSource="{Binding RelatedInvoicePositions}" AutoGenerateColumns="False">

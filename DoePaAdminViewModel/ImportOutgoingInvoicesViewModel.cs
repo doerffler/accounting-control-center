@@ -1,4 +1,5 @@
-﻿using DoePaAdmin.ViewModel.Services;
+﻿using DoePaAdmin.ViewModel.Model;
+using DoePaAdmin.ViewModel.Services;
 using DoePaAdminDataModel.DPApp;
 using System;
 using System.Collections.Generic;
@@ -19,9 +20,9 @@ namespace DoePaAdmin.ViewModel
             set { _dpAppservice = value; }
         }
 
-        private IEnumerable<OutgoingInvoice> _outgoingInvoices = new List<OutgoingInvoice>();
+        private OutgoingInvoiceEnumerable _outgoingInvoices = new();
 
-        public IEnumerable<OutgoingInvoice> OutgoingInvoices
+        public OutgoingInvoiceEnumerable OutgoingInvoices
         {
             get => _outgoingInvoices;
             set => SetProperty(ref _outgoingInvoices, value, true);
@@ -31,7 +32,7 @@ namespace DoePaAdmin.ViewModel
         {
             DPAppService = dpAppService;
 
-            OutgoingInvoices = Task.Run(async () => await DPAppService.GetOutgoingInvoicesAsync()).Result;
+            OutgoingInvoices = new OutgoingInvoiceEnumerable(Task.Run(async () => await DPAppService.GetOutgoingInvoicesAsync()).Result);
         }
 
     }

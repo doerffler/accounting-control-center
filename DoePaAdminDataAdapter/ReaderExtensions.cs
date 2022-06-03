@@ -50,5 +50,13 @@ namespace DoePaAdminDataAdapter
 
         }
 
+        public static bool? GetNullableBoolean(this DbDataReader reader, string name)
+        {
+            int col = reader.GetOrdinal(name);
+            return reader.IsDBNull(col) ?
+                null :
+                reader.GetBoolean(col);
+        }
+
     }
 }
