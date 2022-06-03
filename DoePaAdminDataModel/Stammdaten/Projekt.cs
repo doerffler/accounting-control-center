@@ -12,7 +12,7 @@ namespace DoePaAdminDataModel.Stammdaten
         public string Projektname { get; set; }
         public DateTime Projektstart { get; set; }  
         public DateTime Projektende { get; set; }
-        public Auftrag ZugehoerigerAuftrag { get; set; }
+        public List<Auftrag> ZugehoerigeAuftraege { get; set; }
         public List<Skill> Skills { get; set; }
         public Projekt()
         {

@@ -15,12 +15,12 @@
         <CollectionViewSource x:Key="cvsInvoices" Source="{Binding OutgoingInvoices}">
             <CollectionViewSource.GroupDescriptions>
                 <PropertyGroupDescription PropertyName="RelatedBusinessYear.Name"/>
-                <PropertyGroupDescription PropertyName="RelatedCompany.Name1"/>
+                <PropertyGroupDescription PropertyName="RelatedCompany.ShortName"/>
             </CollectionViewSource.GroupDescriptions>
         </CollectionViewSource>
     </Window.Resources>
     <Grid>
-        <DataGrid ItemsSource="{Binding Source={StaticResource cvsInvoices}}" AutoGenerateColumns="False">
+        <DataGrid ItemsSource="{Binding Source={StaticResource cvsInvoices}}" AutoGenerateColumns="False" CanUserAddRows="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Rechnungsnummer" Binding="{Binding InvoiceNo}" />
                 <DataGridTextColumn Header="Rechnungsdatum" Binding="{Binding DateDocument}" />
@@ -36,7 +36,7 @@
                             <Setter Property="Template">
                                 <Setter.Value>
                                     <ControlTemplate TargetType="{x:Type GroupItem}">
-                                        <Expander IsExpanded="True" Background="#FF112255" BorderBrush="#FF002255" Foreground="#FFEEEEEE" BorderThickness="1,1,1,5">
+                                        <Expander IsExpanded="False">
                                             <Expander.Header>
                                                 <DockPanel>
                                                     <TextBlock FontWeight="Bold" Text="{Binding Path=Name}" Margin="5,0,0,0" Width="100"/>
@@ -52,21 +52,13 @@
                             </Setter>
                         </Style>
                     </GroupStyle.ContainerStyle>
-                    <GroupStyle.HeaderTemplate>
-                        <DataTemplate>
-                            <DockPanel Background="LightBlue">
-                                <TextBlock Text="{Binding Path=Name}" Foreground="Blue"/>
-                                <!--<TextBlock Text="{Binding Path=ItemCount}" Foreground="Blue"/>-->
-                            </DockPanel>
-                        </DataTemplate>
-                    </GroupStyle.HeaderTemplate>
                 </GroupStyle>
                 <GroupStyle>
                     <GroupStyle.HeaderTemplate>
                         <DataTemplate>
-                            <DockPanel Background="LightBlue">
-                                <TextBlock Text="{Binding Path=Name}" Foreground="Blue" Margin="30,0,0,0" Width="100"/>
-                                <TextBlock Text="{Binding Path=ItemCount}" Foreground="Blue"/>
+                            <DockPanel>
+                                <TextBlock Text="{Binding Path=Name}" Margin="30,0,0,0" Width="100"/>
+                                <TextBlock Text="{Binding Path=ItemCount}" />
                             </DockPanel>
                         </DataTemplate>
                     </GroupStyle.HeaderTemplate>
@@ -86,6 +78,9 @@
                             <DataGridTextColumn Header="Mehrwertsteuer" Binding="{Binding Tax}" />
                             <DataGridTextColumn Header="Mehrwertsteuersatz" Binding="{Binding TaxPercent}" />
                             <DataGridTextColumn Header="Bruttowert" Binding="{Binding Gross}" />
+                            <DataGridTextColumn Header="Kostenstelle" Binding="{Binding RelatedCostCenter.Name}" />
+                            <DataGridTextColumn Header="Projekt" Binding="{Binding RelatedProject.Name}" />
+                            <DataGridTextColumn Header="Kostenart" Binding="{Binding RelatedCostType.Name}" />                            
                         </DataGrid.Columns>
                     </DataGrid>
                 </DataTemplate>

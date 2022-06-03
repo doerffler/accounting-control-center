@@ -13,7 +13,7 @@ namespace DoePaAdmin.ViewModel
 {
     public class ManageAuftraegeViewModel : DoePaAdminViewModelBase
     {
-        // region Kunde
+
         private ObservableCollection<Kunde> _kunden = new();
 
         public ObservableCollection<Kunde> Kunden
@@ -33,31 +33,14 @@ namespace DoePaAdmin.ViewModel
         public IRelayCommand AddKundeCommand { get; }
 
         public IRelayCommand RemoveKundeCommand { get; }
-        // endregion
 
-
-        // region Auftrag (oben rechts)
         private Auftrag _selectedAuftrag;
         public Auftrag SelectedAuftrag
         {
             get => _selectedAuftrag;
             set => SetProperty(ref _selectedAuftrag, value);
         }
-        // endregion
-
-
-        // region Auftragsposition (unten rechts)
-        private Auftrag _selectedAuftragspositionen;
-        public Auftrag SelectedAuftragspositionen
-        {
-            get => _selectedAuftragspositionen;
-            set => SetProperty(ref _selectedAuftragspositionen, value);
-        }
-        // endregion
-
-
-
-        // region Abrechnungseinheit
+        
         private ObservableCollection<Abrechnungseinheit> _abrechnungseinheiten = new();
 
         public ObservableCollection<Abrechnungseinheit> Abrechnungseinheiten
@@ -65,24 +48,26 @@ namespace DoePaAdmin.ViewModel
             get => _abrechnungseinheiten;
             set => SetProperty(ref _abrechnungseinheiten, value, true);
         }
-        // endregion
 
-
-
-        // region Mitarbeiter
-        private ObservableCollection<Mitarbeiter> _mitarbeiters = new();
+        private ObservableCollection<Mitarbeiter> _mitarbeiter = new();
 
         public ObservableCollection<Mitarbeiter> Mitarbeiter
         {
-            get => _mitarbeiters;
-            set => SetProperty(ref _mitarbeiters, value, true);
+            get => _mitarbeiter;
+            set => SetProperty(ref _mitarbeiter, value, true);
         }
 
-        // endregion
+        private ObservableCollection<Projekt> _projekte = new();
+
+        public ObservableCollection<Projekt> Projekte
+        {
+            get => _projekte;
+            set => SetProperty(ref _projekte, value, true);
+        }
 
         public ManageAuftraegeViewModel(IDoePaAdminService doePaAdminService) : base(doePaAdminService)
         {
-            // Zeiger auf Methode: "DoAddKundeAsync" --> Delegate
+            
             AddKundeCommand = new AsyncRelayCommand(DoAddKundeAsync);
 
             //TODO: Implement CanExecute-Functionality
@@ -91,6 +76,8 @@ namespace DoePaAdmin.ViewModel
             Kunden = Task.Run(async () => await DoePaAdminService.GetKundeAsync()).Result;
             Abrechnungseinheiten = Task.Run(async () => await DoePaAdminService.GetAbrechnungseinheitenAsync()).Result;
             Mitarbeiter = Task.Run(async () => await DoePaAdminService.GetMitarbeiterAsync()).Result;
+            Projekte = Task.Run(async () => await DoePaAdminService.GetProjekteAsync()).Result;
+
         }
 
         private void DoRemoveKunde()
@@ -105,24 +92,13 @@ namespace DoePaAdmin.ViewModel
         private async Task DoAddKundeAsync(CancellationToken cancellationToken = default)
         {
             Kunde newKunde = await DoePaAdminService.CreateKundeAsync(cancellationToken);
-            newKunde.Kundenname = "Pikachu2";
+            newKunde.Kundenname = "Neuer Kunde";
             Kunden.Add(newKunde);
 
             Auftrag newAuftrag = await DoePaAdminService.CreateAuftragAsync(cancellationToken);
             newAuftrag.Kunde = newKunde;
-            newAuftrag.Auftragsname = "Test";
-
-            //newKunde.Auftraege.Add(newAuftrag);
-
-            await DoePaAdminService.SaveChangesAsync(cancellationToken);
-
-            /*
-            Mitarbeiter newMitarbeiter = await DoePaAdminService.CreateMitarbeiterAsync(cancellationToken);
-            newMitarbeiter.Vorname = "Neuer";
-            newMitarbeiter.Nachname = "Mitarbeiter";
-            Mitarbeiter.Add(newMitarbeiter);
-            */
-
+            newAuftrag.Auftragsname = "Neuer Auftrag";
+            
         }
     }
 }

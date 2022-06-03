@@ -30,8 +30,6 @@ namespace DoePaAdminDataModel.Kostenrechnung
 
         public DateTime LeistungszeitraumBis { get; set; }
 
-        public Projekt ZugehoerigesProjekt { get; set; }
-
         public Rechnungsposition()
         {
         }
