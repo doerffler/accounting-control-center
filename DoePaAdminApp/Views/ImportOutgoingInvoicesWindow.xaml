@@ -14,19 +14,19 @@
     <Window.Resources>
         <CollectionViewSource x:Key="cvsInvoices" Source="{Binding OutgoingInvoices}">
             <CollectionViewSource.GroupDescriptions>
-                <PropertyGroupDescription PropertyName="RelatedBusinessYear.Name"/>
-                <PropertyGroupDescription PropertyName="RelatedCompany.ShortName"/>
+                <PropertyGroupDescription PropertyName="OutgoingInvoiceForImport.RelatedBusinessYear.Name"/>
+                <PropertyGroupDescription PropertyName="OutgoingInvoiceForImport.RelatedCompany.ShortName"/>
             </CollectionViewSource.GroupDescriptions>
         </CollectionViewSource>
     </Window.Resources>
     <Grid>
         <DataGrid ItemsSource="{Binding Source={StaticResource cvsInvoices}}" AutoGenerateColumns="False" CanUserAddRows="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Rechnungsnummer" Binding="{Binding InvoiceNo}" />
-                <DataGridTextColumn Header="Rechnungsdatum" Binding="{Binding DateDocument}" />
-                <DataGridTextColumn Header="Rechnungssumme Netto" Binding="{Binding NettoSum}" />
-                <DataGridTextColumn Header="Geschäftsjahr" Binding="{Binding RelatedBusinessYear.Name}" />
-                <DataGridTextColumn Header="Kunde" Binding="{Binding RelatedCompany.Name1}" />
+                <DataGridTextColumn Header="Rechnungsnummer" Binding="{Binding OutgoingInvoiceForImport.InvoiceNo}" />
+                <DataGridTextColumn Header="Rechnungsdatum" Binding="{Binding OutgoingInvoiceForImport.DateDocument}" />
+                <DataGridTextColumn Header="Rechnungssumme Netto" Binding="{Binding OutgoingInvoiceForImport.NettoSum}" />
+                <DataGridTextColumn Header="Geschäftsjahr" Binding="{Binding OutgoingInvoiceForImport.RelatedBusinessYear.Name}" />
+                <DataGridTextColumn Header="Kunde" Binding="{Binding OutgoingInvoiceForImport.RelatedCompany.Name1}" />
             </DataGrid.Columns>
             <DataGrid.GroupStyle>
                 <GroupStyle>
@@ -66,21 +66,21 @@
             </DataGrid.GroupStyle>
             <DataGrid.RowDetailsTemplate>
                 <DataTemplate>
-                    <DataGrid ItemsSource="{Binding RelatedInvoicePositions}" AutoGenerateColumns="False">
+                    <DataGrid ItemsSource="{Binding OutgoingInvoicePositions}" AutoGenerateColumns="False">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Position" Binding="{Binding Sequence}" />
-                            <DataGridTextColumn Header="Beschreibung" Binding="{Binding PositionText}" />
-                            <DataGridTextColumn Header="Leistungszeitraum von" Binding="{Binding DateServiceFrom}" />
-                            <DataGridTextColumn Header="Leistungszeitraum bis" Binding="{Binding DateServiceUntil}" />
-                            <DataGridTextColumn Header="Stunden" Binding="{Binding Hours}" />
-                            <DataGridTextColumn Header="Stundensatz" Binding="{Binding HourlyRate}" />
-                            <DataGridTextColumn Header="Nettowert" Binding="{Binding Netto}" />
-                            <DataGridTextColumn Header="Mehrwertsteuer" Binding="{Binding Tax}" />
-                            <DataGridTextColumn Header="Mehrwertsteuersatz" Binding="{Binding TaxPercent}" />
-                            <DataGridTextColumn Header="Bruttowert" Binding="{Binding Gross}" />
-                            <DataGridTextColumn Header="Kostenstelle" Binding="{Binding RelatedCostCenter.Name}" />
-                            <DataGridTextColumn Header="Projekt" Binding="{Binding RelatedProject.Name}" />
-                            <DataGridTextColumn Header="Kostenart" Binding="{Binding RelatedCostType.Name}" />                            
+                            <DataGridTextColumn Header="Position" Binding="{Binding OutgoingInvoicePositionForImport.Sequence}" />
+                            <DataGridTextColumn Header="Beschreibung" Binding="{Binding OutgoingInvoicePositionForImport.PositionText}" />
+                            <DataGridTextColumn Header="Leistungszeitraum von" Binding="{Binding OutgoingInvoicePositionForImport.DateServiceFrom}" />
+                            <DataGridTextColumn Header="Leistungszeitraum bis" Binding="{Binding OutgoingInvoicePositionForImport.DateServiceUntil}" />
+                            <DataGridTextColumn Header="Stunden" Binding="{Binding OutgoingInvoicePositionForImport.Hours}" />
+                            <DataGridTextColumn Header="Stundensatz" Binding="{Binding OutgoingInvoicePositionForImport.HourlyRate}" />
+                            <DataGridTextColumn Header="Nettowert" Binding="{Binding OutgoingInvoicePositionForImport.Netto}" />
+                            <DataGridTextColumn Header="Mehrwertsteuer" Binding="{Binding OutgoingInvoicePositionForImport.Tax}" />
+                            <DataGridTextColumn Header="Mehrwertsteuersatz" Binding="{Binding OutgoingInvoicePositionForImport.TaxPercent}" />
+                            <DataGridTextColumn Header="Bruttowert" Binding="{Binding OutgoingInvoicePositionForImport.Gross}" />
+                            <DataGridTextColumn Header="Kostenstelle" Binding="{Binding OutgoingInvoicePositionForImport.RelatedCostCenter.Name}" />
+                            <DataGridTextColumn Header="Projekt" Binding="{Binding OutgoingInvoicePositionForImport.RelatedProject.Name}" />
+                            <DataGridTextColumn Header="Kostenart" Binding="{Binding OutgoingInvoicePositionForImport.RelatedCostType.Name}" />                            
                         </DataGrid.Columns>
                     </DataGrid>
                 </DataTemplate>

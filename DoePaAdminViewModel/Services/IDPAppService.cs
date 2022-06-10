@@ -1,4 +1,4 @@
-﻿using DoePaAdminDataModel.DPApp;
+﻿using DoePaAdminDataModel.DataMigration;
 using System.Collections.Generic;
 using System.Data;
 using System.Threading;
@@ -9,7 +9,7 @@ namespace DoePaAdmin.ViewModel.Services
     public interface IDPAppService
     {
 
-        Task <IEnumerable<OutgoingInvoice>> GetOutgoingInvoicesAsync(CancellationToken cancellationToken = default);
+        Task <IEnumerable<OutgoingInvoiceMigration>> GetOutgoingInvoicesAsync(CancellationToken cancellationToken = default);
 
         Task<DataTable> GetCostCentersAsync(CancellationToken cancellationToken = default);
 

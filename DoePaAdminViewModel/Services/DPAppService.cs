@@ -8,6 +8,7 @@ using DoePaAdminDataAdapter.DPApp;
 using System.Threading.Tasks;
 using System.Threading;
 using DoePaAdminDataModel.DPApp;
+using DoePaAdminDataModel.DataMigration;
 
 namespace DoePaAdmin.ViewModel.Services
 {
@@ -21,8 +22,12 @@ namespace DoePaAdmin.ViewModel.Services
             DPAppConnectionString = dpAppSettings.Value.ConnectionString;
         }
 
-        public async Task <IEnumerable<OutgoingInvoice>> GetOutgoingInvoicesAsync(CancellationToken cancellationToken = default)
+        public async Task <IEnumerable<OutgoingInvoiceMigration>> GetOutgoingInvoicesAsync(CancellationToken cancellationToken = default)
         {
+
+            List<OutgoingInvoiceMigration> listMigrations = new();
+            List<OutgoingInvoicePositionMigration> listPositionMigrations;
+
             OutgoingInvoiceDAL dal = new(DPAppConnectionString);
             MasterdataDAL mdDal = new(DPAppConnectionString);
             
@@ -75,7 +80,8 @@ namespace DoePaAdmin.ViewModel.Services
             {
                 listOutgoingInvoicePositions = outgoingInvoicePositions.Where(oip => oip.RelatedInvoiceId.Equals(currentInvoice.Id)).ToList();
 
-                foreach(OutgoingInvoicePosition currentInvoicePosition in listOutgoingInvoicePositions)
+                listPositionMigrations = new();
+                foreach (OutgoingInvoicePosition currentInvoicePosition in listOutgoingInvoicePositions)
                 {
                     costCenterId = currentInvoicePosition.CostCenterId.HasValue ? currentInvoicePosition.CostCenterId : currentInvoice.CostCenterIdDefault;
                     costTypeId = currentInvoicePosition.CostTypeId.HasValue ? currentInvoicePosition.CostTypeId : currentInvoice.CostTypeIdDefault;
@@ -94,9 +100,12 @@ namespace DoePaAdmin.ViewModel.Services
                     {
                         currentInvoicePosition.RelatedProject = projects.Where(p => p.Id.Equals(projectId.Value)).FirstOrDefault();
                     }
+
+                    listPositionMigrations.Add(new OutgoingInvoicePositionMigration() { OutgoingInvoicePositionForImport = currentInvoicePosition });
                 }
 
                 currentInvoice.RelatedInvoicePositions = listOutgoingInvoicePositions;
+
                 currentInvoice.RelatedBusinessYear = businessYears.Where(by => by.Id.Equals(currentInvoice.BusinessYearId)).FirstOrDefault();
                 
                 if (currentInvoice.ContactId.HasValue)
@@ -133,9 +142,10 @@ namespace DoePaAdmin.ViewModel.Services
                     currentInvoice.SentBy = staff.Where(s => s.Id.Equals(currentInvoice.StaffIdSendBy.Value)).FirstOrDefault();
                 }
 
+                listMigrations.Add(new OutgoingInvoiceMigration() { OutgoingInvoiceForImport = currentInvoice, OutgoingInvoicePositions = listPositionMigrations });
             }
 
-            return outgoingInvoices;
+            return listMigrations;
         }
 
         public async Task<DataTable> GetCostCentersAsync(CancellationToken cancellationToken = default)
