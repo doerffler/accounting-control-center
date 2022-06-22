@@ -11,3 +11,9 @@ VALUES
 	('Werkstudent'),
 	('Beraterin / Berater'),
 	('Bürokauffrau / -Mann');
+
+INSERT INTO [dbo].[Abrechnungseinheiten] ([AbrechnungseinheitName])
+VALUES
+	('Stunden'),
+	('Personentage'),
+	('Stück');

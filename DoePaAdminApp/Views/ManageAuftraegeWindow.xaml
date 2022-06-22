@@ -20,9 +20,6 @@
             <RowDefinition Height="Auto" />            
         </Grid.RowDefinitions>
 
-        
-        <!-- |||||||||||||||||||||| -->
-        <!--Kunde links vollständing-->
         <ListView 
                   Name="lvKunde"
                   Grid.Column="0"
@@ -49,10 +46,6 @@
             </Button>
         </StackPanel>
 
-        
-        
-        <!-- |||||||||||||||||| -->
-        <!--Aufträge oben rechts--> 
         <DataGrid
             Grid.Column="2"
             Grid.Row="0"
@@ -65,7 +58,7 @@
                 <DataGridTextColumn Header="Kunde" Binding="{Binding Path=Kunde.Kundenname}" />
                 <DataGridTextColumn Header="VertragsNr." Binding="{Binding Path=Vertragsnummer}" />
                 <DataGridTextColumn Header="Auftragsname" Binding="{Binding Path=Auftragsname}" />
-                <DataGridComboBoxColumn Header="Verantwortlicher" ItemsSource="{Binding Source={StaticResource Locator}, Path=ManageAuftraegeViewModel.Mitarbeiter}" SelectedItemBinding="{Binding Path=ProjektverantwortlicherMitarbeiter}" DisplayMemberPath="Kuerzel"/>
+                <DataGridComboBoxColumn Header="Verantwortlicher" ItemsSource="{Binding Source={StaticResource Locator}, Path=ManageAuftraegeViewModel.Mitarbeiter}" SelectedItemBinding="{Binding Path=VerantwortlicherMitarbeiter}" DisplayMemberPath="Kuerzel"/>
                 <DataGridTemplateColumn Header="Beginn" Width="120">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -90,13 +83,10 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellEditingTemplate>
                 </DataGridTemplateColumn>
+                <DataGridComboBoxColumn Header="Projekt" ItemsSource="{Binding Source={StaticResource Locator}, Path=ManageAuftraegeViewModel.Projekte}" SelectedItemBinding="{Binding Path=ZugehoerigesProjekt}" DisplayMemberPath="Projektname"/>
             </DataGrid.Columns>
         </DataGrid>
 
-        
-
-        <!-- ||||||||||||||||||||||||||||| -->
-        <!--Auftragspositionen unten rechts-->
         <DataGrid
             Grid.Column="2"
             Grid.Row="1"
@@ -113,10 +103,6 @@
             </DataGrid.Columns>
         </DataGrid>
 
-
-        
-        <!-- |||||||||||||| -->
-        <!--Speichern Button-->
         <StackPanel
             Grid.Column="2"
             Grid.Row="3">
@@ -124,8 +110,6 @@
                 <Control Template="{StaticResource tmpSaveDbDataButton}" />
             </Button>
         </StackPanel>
-
-
 
     </Grid>
 </Window>

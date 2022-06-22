@@ -1,5 +1,5 @@
-﻿using DoePaAdminDataAdapter.DPApp.Model;
-using System;
+﻿using DoePaAdminDataModel.DPApp;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Reflection;
@@ -12,9 +12,7 @@ namespace DoePaAdminDataAdapter.DPApp
     {
 
         protected string ConnectionString { get; set; }
-
-        protected SqlConnection Connection { get; set; }
-
+                
         public BaseDAL(string connectionString)
         {
             ConnectionString = connectionString;
@@ -22,13 +20,12 @@ namespace DoePaAdminDataAdapter.DPApp
 
         protected async Task<SqlConnection> GetSqlConnectionAsync(CancellationToken cancellationToken = default)
         {
-            if (Connection == null || Connection.State != ConnectionState.Open)
-            {
-                Connection = new SqlConnection(ConnectionString);
-                await Connection.OpenAsync(cancellationToken);
-            }
+            SqlConnection connection;
 
-            return Connection;
+            connection = new SqlConnection(ConnectionString);
+            await connection.OpenAsync(cancellationToken);
+            
+            return connection;
         }
 
         protected async Task<SqlDataReader> CreateReaderFromCommandAsync(SqlCommand cmd, CancellationToken cancellationToken = default)
@@ -41,26 +38,32 @@ namespace DoePaAdminDataAdapter.DPApp
 
         }
 
-        protected static T GetDataItem<T>(SqlDataReader rdr) where T : IDPAppModel, new()
+        protected async Task<IEnumerable<T>> ReadDPAppObjectAsync<T>(string commandText, ReadDPObjectFromReaderDelegate<T> readDataDelegate, CancellationToken cancellationToken = default) where T : DPAppObject
         {
-            T newDataItem = new();
-            
-            Type t = newDataItem.GetType();
-            PropertyInfo[] prprts = t.GetProperties();
-            
-            foreach(PropertyInfo currentProperty in prprts)
+
+            List<T> listObjects = new();
+
+            using (SqlConnection connection = await GetSqlConnectionAsync(cancellationToken))
             {
 
-                DBColumnAttribute attr = currentProperty.GetCustomAttribute<DBColumnAttribute>();
-
-                if (attr != null)
+                using (SqlCommand cmd = new(commandText, connection))
                 {
-                    currentProperty.SetValue(newDataItem, rdr.GetValue(attr.ColumnName));
+                    cmd.CommandType = CommandType.Text;
+
+                    using SqlDataReader reader = await cmd.ExecuteReaderAsync(cancellationToken);
+
+                    while (await reader.ReadAsync(cancellationToken))
+                    {
+
+                        listObjects.Add(readDataDelegate(reader));
+
+                    }
+
                 }
 
             }
 
-            return newDataItem;
+            return listObjects;
 
         }
 

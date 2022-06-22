@@ -75,7 +75,11 @@
                     
                 </RibbonGroup>
                 <RibbonGroup Header="Ausgehende Rechnungen">
-                    
+                    <RibbonButton x:Name="RBOpenImportOutgoingInvoices"
+                        Click="RBOpenOutgoingInvoices_Click"
+                        SmallImageSource="{svg:SvgImage /Resources/invoice_icon.svg}"
+                        LargeImageSource="{svg:SvgImage /Resources/invoice_icon.svg}"
+                        Label="{StaticResource strImportOutgoingInvoices}" />
                 </RibbonGroup>
             </RibbonTab>
         </Ribbon>

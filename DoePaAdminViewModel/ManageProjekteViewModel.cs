@@ -10,7 +10,6 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using System.Windows.Data;
 using System.Collections.Specialized;
 
 using System.Windows;

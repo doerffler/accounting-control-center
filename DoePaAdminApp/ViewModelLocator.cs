@@ -18,5 +18,7 @@ namespace DoePaAdminApp.ViewModels
 
         public ManageProjekteViewModel ManageProjekteViewModel => App.ServiceProvider.GetRequiredService<ManageProjekteViewModel>();
 
+        public ImportOutgoingInvoicesViewModel ImportOutgoingInvoicesViewModel => App.ServiceProvider.GetRequiredService<ImportOutgoingInvoicesViewModel>();
+
     }
 }
