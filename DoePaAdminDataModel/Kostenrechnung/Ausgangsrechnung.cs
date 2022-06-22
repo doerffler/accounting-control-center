@@ -8,6 +8,8 @@ namespace DoePaAdminDataModel.Kostenrechnung
     public class Ausgangsrechnung : Rechnung
     {
 
+        public int AusgangsrechnungID { get; set; }
+
         public ICollection<Ausgangsrechnungsposition> Rechnungspositionen { get; set; } = new List<Ausgangsrechnungsposition>();
 
         public Ausgangsrechnung KorrekturRechnung { get; set; }

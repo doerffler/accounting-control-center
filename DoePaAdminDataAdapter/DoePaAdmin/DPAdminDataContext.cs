@@ -1,4 +1,5 @@
-﻿using DoePaAdminDataModel.Stammdaten;
+﻿using DoePaAdminDataModel.Kostenrechnung;
+using DoePaAdminDataModel.Stammdaten;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -39,17 +40,23 @@ namespace DoePaAdminDataAdapter.DoePaAdmin
         public DbSet<Taetigkeit> Taetigkeiten { get; set; }
 
         public DbSet<Adresse> Adressen { get; set; }
-        
+
         public DbSet<Postleitzahl> Postleitzahlen { get; set; }
 
         public DbSet<Auftrag> Auftraege { get; set; }
 
-        public DbSet<Auftragsposition> Auftragspositionen { get; set; } 
+        public DbSet<Auftragsposition> Auftragspositionen { get; set; }
 
         public DbSet<Kunde> Kunden { get; set; }
 
         public DbSet<Projekt> Projekte { get; set; }
 
         public DbSet<Skill> Skills { get; set; }
+
+        public DbSet<Geschaeftsjahr> Geschaeftsjahre { get; set; }
+
+        public DbSet<Ausgangsrechnung> Ausgangsrechnungen { get; set; }
+
+        public DbSet<Ausgangsrechnungsposition> Ausgangsrechnungspositionen { get; set; }
     }
 }

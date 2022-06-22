@@ -40,6 +40,12 @@ namespace DoePaAdminApp.Views
 
         private void RBOpenOutgoingInvoices_Click(object sender, RoutedEventArgs e)
         {
+            ManageAusgangsrechnungenWindow manageOutgoingInvoices = App.ServiceProvider.GetRequiredService<ManageAusgangsrechnungenWindow>();
+            manageOutgoingInvoices.Show();
+        }
+
+        private void RBOpenOutgoingInvoicesImport_Click(object sender, RoutedEventArgs e)
+        {
             ImportOutgoingInvoicesWindow importOutgoingInvoices = App.ServiceProvider.GetRequiredService<ImportOutgoingInvoicesWindow>();
             importOutgoingInvoices.Show();
         }

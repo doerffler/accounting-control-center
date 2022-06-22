@@ -20,6 +20,7 @@
     <None Remove="Resources\sd_card_32x32.png" />
     <None Remove="Resources\order_icon_16x16.png" />
     <None Remove="Resources\order_icon_32x32.png" />
+    <None Remove="Resources\undraw_working_remotely.svg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -31,6 +32,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
+    <PackageReference Include="OxyPlot.Wpf" Version="2.1.0" />
     <PackageReference Include="SharpVectors" Version="1.7.7" />
   </ItemGroup>
 
@@ -71,6 +73,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\order_icon_32x32.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\undraw_working_remotely.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>

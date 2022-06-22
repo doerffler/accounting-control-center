@@ -117,8 +117,6 @@ namespace DoePaAdmin.ViewModel.Services
 
         #endregion
 
-
-        
         #region Kunde
         public async Task<Kunde> CreateKundeAsync(CancellationToken cancellationToke = default)
         {
@@ -177,7 +175,6 @@ namespace DoePaAdmin.ViewModel.Services
         }
         #endregion
 
-
         #region Projekt
         public async Task<ObservableCollection<Projekt>> GetProjekteAsync(CancellationToken cancellationToken = default)
         {
@@ -207,7 +204,19 @@ namespace DoePaAdmin.ViewModel.Services
         }
         #endregion
 
+        #region Ausgangsrechnungen
 
+        public async Task<ObservableCollection<Geschaeftsjahr>> GetGeschaeftsjahreAsync(CancellationToken cancellationToken = default)
+        {
+            IQueryable<Geschaeftsjahr> result = DBContext.Geschaeftsjahre;
+            Task<List<Geschaeftsjahr>> taskToListAsync = result.ToListAsync(cancellationToken);
+            List<Geschaeftsjahr> listGeschaeftsjahre = await taskToListAsync;
+            ObservableCollection<Geschaeftsjahr> geschaeftsjahre = new(listGeschaeftsjahre);
+
+            return geschaeftsjahre;
+        }
+
+        #endregion
 
         public async Task<bool> CheckForChangesAsync(CancellationToken cancellationToken = default)
         {
@@ -218,7 +227,6 @@ namespace DoePaAdmin.ViewModel.Services
         {
             _ = await DBContext.SaveChangesAsync(cancellationToken);
         }
-
         
     }
 }

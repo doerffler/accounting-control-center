@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:oxy="clr-namespace:OxyPlot.Wpf;assembly=OxyPlot.Wpf"
         xmlns:local="clr-namespace:DoePaAdminApp.Views"
         xmlns:properties="clr-namespace:DoePaAdminApp.Properties"
         xmlns:svg="http://sharpvectors.codeplex.com/svgc/"
@@ -75,18 +76,29 @@
                     
                 </RibbonGroup>
                 <RibbonGroup Header="Ausgehende Rechnungen">
-                    <RibbonButton x:Name="RBOpenImportOutgoingInvoices"
+                    <RibbonButton x:Name="RBOpenManageOutgoingInvoices"
                         Click="RBOpenOutgoingInvoices_Click"
+                        SmallImageSource="{svg:SvgImage /Resources/invoice_icon.svg}"
+                        LargeImageSource="{svg:SvgImage /Resources/invoice_icon.svg}"
+                        Label="{StaticResource strManageOutgoingInvoices}" />
+                    <RibbonButton x:Name="RBOpenImportOutgoingInvoices"
+                        Click="RBOpenOutgoingInvoicesImport_Click"
                         SmallImageSource="{svg:SvgImage /Resources/invoice_icon.svg}"
                         LargeImageSource="{svg:SvgImage /Resources/invoice_icon.svg}"
                         Label="{StaticResource strImportOutgoingInvoices}" />
                 </RibbonGroup>
             </RibbonTab>
         </Ribbon>
-        <StackPanel Grid.Row ="1" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBlock Text="Input:" />
-            <TextBox Width="300" Text="{Binding Input, Mode=TwoWay}" />
-            <Button Command="{Binding ExecuteCommand}" Content="Execute" />
-        </StackPanel>
+        <TabControl Grid.Row="1">
+            <TabItem Header="Geschäftsjahresübersicht">
+                <oxy:PlotView Model="{Binding Model}"/>
+            </TabItem>
+            <TabItem Header="Auftragsstatus">
+                
+            </TabItem>
+            <TabItem Header="Mitarbeiterperformance">
+                
+            </TabItem>
+        </TabControl>
     </Grid>
 </RibbonWindow>

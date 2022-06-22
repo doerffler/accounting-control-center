@@ -1,0 +1,45 @@
+﻿<Window x:Class="DoePaAdminApp.Views.ManageAusgangsrechnungenWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+        xmlns:local="clr-namespace:DoePaAdminApp.Views"
+        xmlns:svg="http://sharpvectors.codeplex.com/svgc/"
+        mc:Ignorable="d"
+        Height="450"
+        Width="800"
+        Icon="{svg:SvgImage /Resources/invoice_icon.svg}"
+        Title="{StaticResource strManageOutgoingInvoices}"
+        DataContext="{Binding Source={StaticResource Locator}, Path=ManageAusgangsrechnungenViewModel}">
+    <Window.Resources>
+        <CollectionViewSource x:Key="cvsGeschaeftsjahre" Source="{Binding Geschaeftsjahre}">
+            <CollectionViewSource.SortDescriptions>
+                <scm:SortDescription PropertyName="DatumVon"/>
+            </CollectionViewSource.SortDescriptions>
+        </CollectionViewSource>
+    </Window.Resources>
+    
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="3*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+    <ComboBox Grid.Column="0" Grid.Row="0" ItemsSource="{Binding Source={StaticResource cvsGeschaeftsjahre}}" SelectedItem="{Binding SelectedGeschaeftsjahr}" DisplayMemberPath="Name" />
+
+    <GridSplitter Grid.Column="1"
+                      Grid.Row="0"
+                      Grid.RowSpan="2"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Stretch"
+                      Width="5"
+                      />
+    </Grid>
+</Window>

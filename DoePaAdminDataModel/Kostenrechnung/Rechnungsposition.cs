@@ -7,9 +7,7 @@ namespace DoePaAdminDataModel.Kostenrechnung
 {
     public abstract class Rechnungsposition
     {
-
-        public int RechnungspositionID { get; set; }
-
+                
         public int PositionsNummer { get; set; }
 
         public Kostenstelle ZugehoerigeKostenstelle { get; set; }
