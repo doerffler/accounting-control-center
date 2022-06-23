@@ -10,10 +10,12 @@ namespace DoePaAdminDataModel.Kostenrechnung
 
         public int AusgangsrechnungID { get; set; }
 
+        public Debitor ZugehoerigerDebitor { get; set; }
+
         public ICollection<Ausgangsrechnungsposition> Rechnungspositionen { get; set; } = new List<Ausgangsrechnungsposition>();
 
         public Ausgangsrechnung KorrekturRechnung { get; set; }
-
+        
         public Ausgangsrechnung() : base()
         {
         

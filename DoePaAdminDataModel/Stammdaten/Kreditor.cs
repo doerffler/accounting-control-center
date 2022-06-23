@@ -7,5 +7,7 @@ namespace DoePaAdminDataModel.Stammdaten
     public class Kreditor : Geschaeftspartner
     {
 
+        public int KreditorID { get; set; }
+
     }
 }

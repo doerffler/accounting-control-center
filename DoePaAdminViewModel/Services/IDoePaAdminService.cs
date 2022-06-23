@@ -1,4 +1,5 @@
-﻿using DoePaAdminDataModel.Stammdaten;
+﻿using DoePaAdminDataModel.Kostenrechnung;
+using DoePaAdminDataModel.Stammdaten;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -47,6 +48,12 @@ namespace DoePaAdmin.ViewModel.Services
         #region Ausgangsrechnungen
 
         public Task<ObservableCollection<Geschaeftsjahr>> GetGeschaeftsjahreAsync(CancellationToken cancellationToken = default);
+
+        public Task<ObservableCollection<Ausgangsrechnung>> GetAusgangsrechnungenAsync(CancellationToken cancellationToken = default);
+
+        public Task<Ausgangsrechnung> CreateAusgangsrechnungAsync(CancellationToken cancellationToken = default);
+
+        public void RemoveAusgangsrechnung(Ausgangsrechnung ausgangsrechnungToRemove);
 
         #endregion
 

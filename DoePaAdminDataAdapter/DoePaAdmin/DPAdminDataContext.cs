@@ -27,6 +27,8 @@ namespace DoePaAdminDataAdapter.DoePaAdmin
             return await Database.ExecuteSqlRawAsync(Properties.Resources.InitializeMasterdataTables, cancellationToken);
         }
 
+        #region Stammdaten
+
         public DbSet<Abrechnungseinheit> Abrechnungseinheiten { get; set; }
 
         public DbSet<Kostenstelle> Kostenstellen { get; set; }
@@ -55,8 +57,19 @@ namespace DoePaAdminDataAdapter.DoePaAdmin
 
         public DbSet<Geschaeftsjahr> Geschaeftsjahre { get; set; }
 
+        public DbSet<Waehrung> Waehrungen { get; set; }
+
+        public DbSet<Debitor> Debitoren { get; set; }
+
+        #endregion
+
+        #region Kostenrechnung
+
         public DbSet<Ausgangsrechnung> Ausgangsrechnungen { get; set; }
 
         public DbSet<Ausgangsrechnungsposition> Ausgangsrechnungspositionen { get; set; }
+
+        #endregion
+
     }
 }

@@ -18,6 +18,12 @@
                 <scm:SortDescription PropertyName="DatumVon"/>
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
+        
+        <CollectionViewSource x:Key="cvsRechnungen" Source="{Binding Rechnungen}">
+                <CollectionViewSource.SortDescriptions>
+                    <scm:SortDescription PropertyName="RechnungsNummer"/>
+                </CollectionViewSource.SortDescriptions>
+            </CollectionViewSource>
     </Window.Resources>
     
     <Grid>
@@ -30,16 +36,74 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-    <ComboBox Grid.Column="0" Grid.Row="0" ItemsSource="{Binding Source={StaticResource cvsGeschaeftsjahre}}" SelectedItem="{Binding SelectedGeschaeftsjahr}" DisplayMemberPath="Name" />
+        <ComboBox Grid.Column="0" Grid.Row="0" ItemsSource="{Binding Source={StaticResource cvsGeschaeftsjahre}}" SelectedItem="{Binding SelectedGeschaeftsjahr}" DisplayMemberPath="Name" />
 
-    <GridSplitter Grid.Column="1"
+        <ListView Grid.Column="0" Grid.Row="1" ItemsSource="{Binding Source={StaticResource cvsRechnungen}}" SelectedItem="{Binding SelectedRechnung}">
+
+            <ListView.View>
+
+                <GridView>
+
+                    <GridViewColumn DisplayMemberBinding= "{Binding Path=RechnungsNummer}" Header="Rechnungsnummer"/>
+                    <GridViewColumn DisplayMemberBinding= "{Binding Path=Rechnungsdatum}" Header="Rechnungsdatum" />
+
+                </GridView>
+
+            </ListView.View>
+
+        </ListView>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal">
+            <Button Command="{Binding AddRechnungCommand}">
+                <Control Template="{StaticResource tmpAddItemButton}" />
+            </Button>
+            <Button Command="{Binding RemoveRechnungCommand}">
+                <Control Template="{StaticResource tmpRemoveItemButton}" />
+            </Button>
+        </StackPanel>
+
+        <GridSplitter Grid.Column="1"
                       Grid.Row="0"
                       Grid.RowSpan="2"
                       HorizontalAlignment="Center"
                       VerticalAlignment="Stretch"
                       Width="5"
                       />
+
+        <Grid Grid.Column="2"
+              Grid.Row="0">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            
+        </Grid>
+
+        <DataGrid
+            Grid.Column="2"
+            Grid.Row="1"
+            DataContext="{Binding SelectedRechnung.Rechnungspositionen}">
+            
+        </DataGrid>
+        
+        <StackPanel
+            Grid.Column="2"
+            Grid.Row="2">
+            <Button Command="{Binding SaveChangesCommand}">
+                <Control Template="{StaticResource tmpSaveDbDataButton}" />
+            </Button>
+
+        </StackPanel>
     </Grid>
 </Window>

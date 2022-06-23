@@ -1,5 +1,6 @@
 ﻿using DoePaAdmin.ViewModel.Model;
 using DoePaAdminDataAdapter.DoePaAdmin;
+using DoePaAdminDataModel.Kostenrechnung;
 using DoePaAdminDataModel.Stammdaten;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -214,6 +215,32 @@ namespace DoePaAdmin.ViewModel.Services
             ObservableCollection<Geschaeftsjahr> geschaeftsjahre = new(listGeschaeftsjahre);
 
             return geschaeftsjahre;
+        }
+
+        public async Task<ObservableCollection<Ausgangsrechnung>> GetAusgangsrechnungenAsync(CancellationToken cancellationToken = default)
+        {
+            IQueryable<Ausgangsrechnung> result = DBContext.Ausgangsrechnungen.Include(ar => ar.Rechnungspositionen);
+            Task<List<Ausgangsrechnung>> taskToListAsync = result.ToListAsync(cancellationToken);
+            List<Ausgangsrechnung> listAusgangsrechnungen = await taskToListAsync;
+            ObservableCollection<Ausgangsrechnung> ausgangsrechnungen = new(listAusgangsrechnungen);
+
+            return ausgangsrechnungen;
+        }
+
+        public async Task<Ausgangsrechnung> CreateAusgangsrechnungAsync(CancellationToken cancellationToken = default)
+        {
+            Ausgangsrechnung newAusgangsrechnung = new()
+            {
+                RechnungsDatum = DateTime.Now
+            };
+
+            _ = await DBContext.Ausgangsrechnungen.AddAsync(newAusgangsrechnung, cancellationToken);
+            return newAusgangsrechnung;
+        }
+
+        public void RemoveAusgangsrechnung(Ausgangsrechnung ausgangsrechnungToRemove)
+        {
+            _ = DBContext.Ausgangsrechnungen.Remove(ausgangsrechnungToRemove);
         }
 
         #endregion

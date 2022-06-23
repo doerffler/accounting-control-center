@@ -18,7 +18,7 @@ namespace DoePaAdminDataModel.Kostenrechnung
 
         public decimal Nettobetrag { get; set; }
 
-        public string NettobetragWaehrungISO { get; set; }
+        public Waehrung NettobetragWaehrung { get; set; }
 
         public decimal Steuersatz { get; set; }
 
