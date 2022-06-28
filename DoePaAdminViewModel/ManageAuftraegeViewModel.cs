@@ -73,10 +73,10 @@ namespace DoePaAdmin.ViewModel
             //TODO: Implement CanExecute-Functionality
             RemoveKundeCommand = new RelayCommand(DoRemoveKunde);
 
-            Kunden = Task.Run(async () => await DoePaAdminService.GetKundeAsync()).Result;
-            Abrechnungseinheiten = Task.Run(async () => await DoePaAdminService.GetAbrechnungseinheitenAsync()).Result;
-            Mitarbeiter = Task.Run(async () => await DoePaAdminService.GetMitarbeiterAsync()).Result;
-            Projekte = Task.Run(async () => await DoePaAdminService.GetProjekteAsync()).Result;
+            Kunden = new (Task.Run(async () => await DoePaAdminService.GetKundeAsync()).Result);
+            Abrechnungseinheiten = new (Task.Run(async () => await DoePaAdminService.GetAbrechnungseinheitenAsync()).Result);
+            Mitarbeiter = new (Task.Run(async () => await DoePaAdminService.GetMitarbeiterAsync()).Result);
+            Projekte = new (Task.Run(async () => await DoePaAdminService.GetProjekteAsync()).Result);
 
         }
 

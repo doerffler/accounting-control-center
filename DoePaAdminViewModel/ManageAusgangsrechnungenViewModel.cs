@@ -47,6 +47,14 @@ namespace DoePaAdmin.ViewModel
             set => SetProperty(ref _rechnungen, value, true);
         }
 
+        private ObservableCollection<Abrechnungseinheit> _abrechnungseinheiten = new();
+
+        public ObservableCollection<Abrechnungseinheit> Abrechnungseinheiten
+        {
+            get => _abrechnungseinheiten;
+            set => SetProperty(ref _abrechnungseinheiten, value, true);
+        }
+
         public IRelayCommand AddRechnungCommand { get; }
 
         public IRelayCommand RemoveRechnungCommand { get; }
@@ -59,8 +67,9 @@ namespace DoePaAdmin.ViewModel
             AddRechnungCommand = new AsyncRelayCommand(DoAddRechnungAsync);
             RemoveRechnungCommand = new RelayCommand(DoRemoveRechnung);
 
-            Geschaeftsjahre = Task.Run(async () => await DoePaAdminService.GetGeschaeftsjahreAsync()).Result;
-            Rechnungen = Task.Run(async () => await DoePaAdminService.GetAusgangsrechnungenAsync()).Result;
+            Abrechnungseinheiten = new(Task.Run(async () => await DoePaAdminService.GetAbrechnungseinheitenAsync()).Result);
+            Geschaeftsjahre = new(Task.Run(async () => await DoePaAdminService.GetGeschaeftsjahreAsync()).Result);
+            Rechnungen = new(Task.Run(async () => await DoePaAdminService.GetAusgangsrechnungenAsync()).Result);
 
             SelectedGeschaeftsjahr = CalculateCurrentGeschaeftsjahr();
 

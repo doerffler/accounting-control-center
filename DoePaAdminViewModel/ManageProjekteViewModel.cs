@@ -92,8 +92,6 @@ namespace DoePaAdmin.ViewModel
         public IRelayCommand RemoveAuftragCommand { get; }
         #endregion
 
-
-
         public ManageProjekteViewModel(IDoePaAdminService doePaAdminService) : base(doePaAdminService)
         {
             AddProjektCommand = new AsyncRelayCommand(DoAddProjektAsync);
@@ -105,9 +103,8 @@ namespace DoePaAdmin.ViewModel
             MoveAuftragCommand = new RelayCommand(DoMoveAuftrag);
             RemoveAuftragCommand = new RelayCommand(DoRemoveAuftrag);
 
-
-            Projekte = Task.Run(async () => await DoePaAdminService.GetProjekteAsync()).Result;    
-            AllAuftraege = Task.Run(async () => await DoePaAdminService.GetAlleAuftraegeAsync()).Result;
+            Projekte = new (Task.Run(async () => await DoePaAdminService.GetProjekteAsync()).Result);
+            AllAuftraege = new (Task.Run(async () => await DoePaAdminService.GetAuftraegeAsync()).Result);
 
             PropertyChanged += HandlePropertyChanged;
             AssignedAuftraege.CollectionChanged += HandleAssignedAuftraegeCollectionChanged;
