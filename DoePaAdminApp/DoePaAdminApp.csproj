@@ -16,10 +16,16 @@
     <None Remove="Resources\costcenter_icon_32x32.png" />
     <None Remove="Resources\doerffler_icon_496x496.png" />
     <None Remove="Resources\invoice_icon.svg" />
+    <None Remove="Resources\OpenFile.svg" />
+    <None Remove="Resources\Print.svg" />
+    <None Remove="Resources\PrintPreview.svg" />
+    <None Remove="Resources\PrintSetup.svg" />
+    <None Remove="Resources\SaveAs.svg" />
     <None Remove="Resources\sd_card_16x16.png" />
     <None Remove="Resources\sd_card_32x32.png" />
     <None Remove="Resources\order_icon_16x16.png" />
     <None Remove="Resources\order_icon_32x32.png" />
+    <None Remove="Resources\undraw_text_files.svg" />
     <None Remove="Resources\undraw_working_remotely.svg" />
   </ItemGroup>
 
@@ -63,6 +69,21 @@
     <Resource Include="Resources\invoice_icon.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\OpenFile.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Print.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\PrintPreview.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\PrintSetup.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\SaveAs.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\sd_card_16x16.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
@@ -73,6 +94,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\order_icon_32x32.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\undraw_text_files.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\undraw_working_remotely.svg">

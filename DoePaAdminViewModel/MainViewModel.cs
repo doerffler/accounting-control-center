@@ -6,6 +6,7 @@ using Microsoft.Toolkit.Mvvm.Input;
 using OxyPlot;
 using OxyPlot.Series;
 using System.Diagnostics;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace DoePaAdmin.ViewModel
@@ -21,17 +22,20 @@ namespace DoePaAdmin.ViewModel
             set => SetProperty(ref _input, value, true);
         }
 
-        private readonly ISampleService sampleService;
+        private readonly IDoePaAdminService doePaAdminService;
         private readonly AppSettings settings;
 
-        public RelayCommand ExecuteCommand { get; }
+        public IRelayCommand ExecuteCommand { get; }
 
-        public MainViewModel(ISampleService sampleService, IOptions<AppSettings> options)
+        public IRelayCommand GenerateTestdataCommand { get; }
+
+        public MainViewModel(IDoePaAdminService doePaAdminService, IOptions<AppSettings> options)
         {
-            this.sampleService = sampleService;
+            this.doePaAdminService = doePaAdminService;
             settings = options.Value;
 
             ExecuteCommand = new RelayCommand(async () => await ExecuteAsync());
+            GenerateTestdataCommand = new AsyncRelayCommand(DoGenerateTestdataAsync);
 
             // Create the plot model
             var tmp = new PlotModel { Title = "Simple example", Subtitle = "using OxyPlot" };
@@ -60,6 +64,11 @@ namespace DoePaAdmin.ViewModel
 
             // Set the Model property, the INotifyPropertyChanged event will make the WPF Plot control update its content
             this.Model = tmp;
+        }
+
+        private async Task DoGenerateTestdataAsync(CancellationToken cancellationToken = default)
+        {
+            await DoePaAdminTestDataCreator.CreateTestDataAsync(doePaAdminService, cancellationToken);
         }
 
         private Task ExecuteAsync()

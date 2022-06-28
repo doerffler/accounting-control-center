@@ -12,9 +12,13 @@ namespace DoePaAdminDataModel.Kostenrechnung
 
         public Kostenstelle ZugehoerigeKostenstelle { get; set; }
 
-        public decimal? AnzahlStunden { get; set; }
+        public decimal? Stueckzahl { get; set; }
 
-        public decimal? Stundensatz { get; set; }
+        public int? ZugehoerigeAbrechnungseinheitID { get; set; }
+
+        public Abrechnungseinheit ZugehoerigeAbrechnungseinheit { get; set; }
+
+        public decimal? StueckpreisNetto { get; set; }
 
         public decimal Nettobetrag { get; set; }
 
@@ -24,7 +28,7 @@ namespace DoePaAdminDataModel.Kostenrechnung
 
         public string Positionsbeschreibung { get; set; }
 
-        public DateTime LeistungszeitraumVon { get; set; }
+        public DateTime? LeistungszeitraumVon { get; set; }
 
         public DateTime LeistungszeitraumBis { get; set; }
 

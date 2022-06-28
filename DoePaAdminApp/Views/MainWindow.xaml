@@ -21,21 +21,71 @@
         <Ribbon Grid.Row="0">
             <Ribbon.ApplicationMenu>
                 <RibbonApplicationMenu SmallImageSource="/Resources/doerffler_icon_496x496.png">
-                    <RibbonApplicationMenuItem Header="Hello _Ribbon"/>
+                    <RibbonApplicationMenuItem Header="Open"
+                                          Command="Open"
+                                          ImageSource="{svg:SvgImage \\Resources\\OpenFile.svg}"
+                                          KeyTip="O" />
+                    <RibbonApplicationMenuItem Header="Save"
+                                          Command="Save"
+                                          ImageSource="/Resources/sd_card_32x32.png"
+                                          KeyTip="S" />
+                    <RibbonApplicationSplitMenuItem Header="Save As"
+                                               Command="SaveAs"
+                                               ImageSource="{svg:SvgImage \\Resources\\SaveAs.svg}" 
+                                               KeyTip="V" >
+                        <RibbonApplicationMenuItem Header="Rich Text document"
+                                              Command="SaveAs" CommandParameter="rtf"
+                                              ImageSource="{svg:SvgImage \\Resources\\SaveAs.svg}" 
+                                              KeyTip="R" />
+                        <RibbonApplicationMenuItem Header="Plain Text document"
+                                              Command="SaveAs" CommandParameter="txt"
+                                              ImageSource="{svg:SvgImage \\Resources\\SaveAs.svg}"
+                                              KeyTip="P" />
+                        <RibbonApplicationMenuItem Header="Other format"
+                                              Command="SaveAs"
+                                              ImageSource="{svg:SvgImage \\Resources\\SaveAs.svg}" 
+                                              KeyTip="O" />
+                    </RibbonApplicationSplitMenuItem>
+                    <RibbonSeparator />
+                    <RibbonApplicationSplitMenuItem Header="Print" 
+                                               ImageSource="{svg:SvgImage \\Resources\\Print.svg}"
+                                               KeyTip="R">
+                        <RibbonApplicationMenuItem Header="Print"
+                                              ImageSource="{svg:SvgImage \\Resources\\Print.svg}"
+                                              KeyTip="P" />
+                        <RibbonApplicationMenuItem Header="Quick Print"
+                                              ImageSource="{svg:SvgImage \\Resources\\Print.svg}"
+                                              KeyTip="Q" />
+                        <RibbonApplicationMenuItem Header="Print Preview"
+                                              ImageSource="{svg:SvgImage \\Resources\\PrintPreview.svg}"
+                                              KeyTip="V" />
+                    </RibbonApplicationSplitMenuItem>
+                    <RibbonApplicationMenuItem Header="Page Setup"
+                                          ImageSource="{svg:SvgImage \\Resources\\PrintSetup.svg}"
+                                          KeyTip="G" />
+                    <RibbonSeparator />
+                    <RibbonApplicationSplitMenuItem Header="Testdaten" 
+                                               ImageSource="{svg:SvgImage \\Resources\\undraw_text_files.svg}">
+                        <RibbonApplicationMenuItem Header="Vollständige Testdaten generieren"
+                                              ImageSource="{svg:SvgImage \\Resources\\undraw_text_files.svg}"
+                                              Command="{Binding GenerateTestdataCommand}"/>
+                        <RibbonApplicationMenuItem Header="Basisstammdaten generieren"
+                                              ImageSource="{svg:SvgImage \\Resources\\undraw_text_files.svg}"/>
+                    </RibbonApplicationSplitMenuItem>
                 </RibbonApplicationMenu>
             </Ribbon.ApplicationMenu>
             <RibbonTab Header="Start">
                 <RibbonGroup Header="Allgemein">
                     <RibbonButton>
-                        
+
                     </RibbonButton>
                 </RibbonGroup>
                 <RibbonGroup Header="Zwischenablage">
-                    
+
                 </RibbonGroup>
             </RibbonTab>
-            
-            
+
+
             <RibbonTab Header="Stammdaten">
                 <RibbonGroup Header="Kostenstellen">
                     <RibbonButton
@@ -73,7 +123,7 @@
             </RibbonTab>
             <RibbonTab Header="Kostenrechnung">
                 <RibbonGroup Header="Eingehende Rechnungen">
-                    
+
                 </RibbonGroup>
                 <RibbonGroup Header="Ausgehende Rechnungen">
                     <RibbonButton x:Name="RBOpenManageOutgoingInvoices"
@@ -94,10 +144,10 @@
                 <oxy:PlotView Model="{Binding Model}"/>
             </TabItem>
             <TabItem Header="Auftragsstatus">
-                
+
             </TabItem>
             <TabItem Header="Mitarbeiterperformance">
-                
+
             </TabItem>
         </TabControl>
     </Grid>

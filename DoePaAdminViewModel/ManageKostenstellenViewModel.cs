@@ -75,7 +75,10 @@ namespace DoePaAdmin.ViewModel
 
         private void HandleSaving()
         {
-            SelectedKostenstelle.UebergeordneteKostenstellen = UebergeordneteKostenstellen.ToList();
+            if (SelectedKostenstelle != null)
+            {
+                SelectedKostenstelle.UebergeordneteKostenstellen = UebergeordneteKostenstellen.ToList();
+            }            
         }
 
         private void HandlePropertyChanging(object sender, PropertyChangingEventArgs e)
