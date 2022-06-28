@@ -8,6 +8,8 @@ namespace DoePaAdminDataModel.Kostenrechnung
     public class Ausgangsrechnungsposition : Rechnungsposition
     {
 
+        public int AusgangsrechnungspositionID { get; set; }
+
         public Ausgangsrechnung ZugehoerigeRechnung { get; set; }
 
         public ICollection<Eingangsrechnungsposition> ZugehoerigeFremdleistungen { get; set; }

@@ -64,8 +64,8 @@ namespace DoePaAdmin.ViewModel
             RemoveKostenstelleCommand = new RelayCommand(DoRemoveKostenstelle);
             AddKostenstellenartCommand = new AsyncRelayCommand(DoAddKostenstellenartAsync);
                        
-            Kostenstellen = Task.Run(async () => await DoePaAdminService.GetKostenstellenAsync()).Result;
-            Kostenstellenarten = Task.Run(async () => await DoePaAdminService.GetKostenstellenartenAsync()).Result;
+            Kostenstellen = new(Task.Run(async () => await DoePaAdminService.GetKostenstellenAsync()).Result);
+            Kostenstellenarten = new(Task.Run(async () => await DoePaAdminService.GetKostenstellenartenAsync()).Result);
 
             Saving += HandleSaving;
             PropertyChanged += HandlePropertyChanged;
@@ -75,7 +75,10 @@ namespace DoePaAdmin.ViewModel
 
         private void HandleSaving()
         {
-            SelectedKostenstelle.UebergeordneteKostenstellen = UebergeordneteKostenstellen.ToList();
+            if (SelectedKostenstelle != null)
+            {
+                SelectedKostenstelle.UebergeordneteKostenstellen = UebergeordneteKostenstellen.ToList();
+            }            
         }
 
         private void HandlePropertyChanging(object sender, PropertyChangingEventArgs e)

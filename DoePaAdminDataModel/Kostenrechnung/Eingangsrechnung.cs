@@ -8,6 +8,10 @@ namespace DoePaAdminDataModel.Kostenrechnung
     public class Eingangsrechnung : Rechnung
     {
 
+        public int EingangsrechnungID { get; set; }
+
+        public Kreditor ZugehoerigerKreditor { get; set; }
+
         public ICollection<Eingangsrechnungsposition> Rechnungspositionen { get; set; } = new List<Eingangsrechnungsposition>();
 
         public Eingangsrechnung KorrekturRechnung { get; set; }

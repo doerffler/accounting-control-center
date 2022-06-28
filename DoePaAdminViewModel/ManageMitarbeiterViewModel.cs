@@ -37,8 +37,10 @@ namespace DoePaAdmin.ViewModel
         public Mitarbeiter SelectedMitarbeiter
         {
             get => _selectedMitarbeiter;
-            set => SetProperty(ref _selectedMitarbeiter, value);
+            set => SetProperty(ref _selectedMitarbeiter, value, true);
         }
+
+        
 
         public IRelayCommand AddMitarbeiterCommand { get; }
 
@@ -51,8 +53,9 @@ namespace DoePaAdmin.ViewModel
             //TODO: Implement CanExecute-Functionality
             RemoveMitarbeiterCommand = new RelayCommand(DoRemoveMitarbeiter);
 
-            Mitarbeiter = Task.Run(async () => await DoePaAdminService.GetMitarbeiterAsync()).Result;
-            Taetigkeiten = Task.Run(async () => await DoePaAdminService.GetTaetigkeitenAsync()).Result;
+            Mitarbeiter = new(Task.Run(async () => await DoePaAdminService.GetMitarbeiterAsync()).Result);
+            Taetigkeiten = new(Task.Run(async () => await DoePaAdminService.GetTaetigkeitenAsync()).Result);
+            
         }
 
         private void DoRemoveMitarbeiter()

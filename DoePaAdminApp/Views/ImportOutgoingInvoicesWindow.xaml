@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:svg="http://sharpvectors.codeplex.com/svgc/"
         xmlns:local="clr-namespace:DoePaAdminApp.Views"
+        xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
         mc:Ignorable="d"
         Icon="{svg:SvgImage /Resources/invoice_icon.svg}"
         Title="{StaticResource strImportOutgoingInvoices}"
@@ -17,6 +18,9 @@
                 <PropertyGroupDescription PropertyName="OutgoingInvoiceForImport.RelatedBusinessYear.Name"/>
                 <PropertyGroupDescription PropertyName="OutgoingInvoiceForImport.RelatedCompany.ShortName"/>
             </CollectionViewSource.GroupDescriptions>
+            <CollectionViewSource.SortDescriptions>
+                <scm:SortDescription PropertyName="OutgoingInvoiceForImport.RelatedBusinessYear.DateFrom"/>
+            </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
     </Window.Resources>
     <Grid>

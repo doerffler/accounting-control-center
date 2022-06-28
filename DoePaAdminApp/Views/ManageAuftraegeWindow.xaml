@@ -58,7 +58,7 @@
                 <DataGridTextColumn Header="Kunde" Binding="{Binding Path=Kunde.Kundenname}" />
                 <DataGridTextColumn Header="VertragsNr." Binding="{Binding Path=Vertragsnummer}" />
                 <DataGridTextColumn Header="Auftragsname" Binding="{Binding Path=Auftragsname}" />
-                <DataGridComboBoxColumn Header="Verantwortlicher" ItemsSource="{Binding Source={StaticResource Locator}, Path=ManageAuftraegeViewModel.Mitarbeiter}" SelectedItemBinding="{Binding Path=VerantwortlicherMitarbeiter}" DisplayMemberPath="Kuerzel"/>
+                <DataGridComboBoxColumn Header="Verantwortlicher Mitarbeiter" ItemsSource="{Binding Source={StaticResource Locator}, Path=ManageAuftraegeViewModel.Mitarbeiter}" SelectedItemBinding="{Binding Path=VerantwortlicherMitarbeiter}" DisplayMemberPath="Kuerzel"/>
                 <DataGridTemplateColumn Header="Beginn" Width="120">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>

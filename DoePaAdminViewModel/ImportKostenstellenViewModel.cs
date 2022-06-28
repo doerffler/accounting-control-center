@@ -42,7 +42,7 @@ namespace DoePaAdmin.ViewModel
             Task[] readDataTasks = new Task[2];
             Task<DataTable> getCostCentersDPApp = Task.Run(() => DPAppService.GetCostCentersAsync(token));
             readDataTasks[0] = getCostCentersDPApp;
-            Task<ObservableCollection<Kostenstelle>> getKostenstellenDoePaAdmin = Task.Run(() => DoePaAdminService.GetKostenstellenAsync(token));
+            Task<IEnumerable<Kostenstelle>> getKostenstellenDoePaAdmin = Task.Run(() => DoePaAdminService.GetKostenstellenAsync(token));
             readDataTasks[1] = getKostenstellenDoePaAdmin;
 
             Task.WaitAll(readDataTasks, token);
@@ -50,7 +50,7 @@ namespace DoePaAdmin.ViewModel
             DataTable dtCostCenter = getCostCentersDPApp.Result;
             CostCenterData = dtCostCenter.DefaultView;
 
-            Kostenstellen = getKostenstellenDoePaAdmin.Result;
+            Kostenstellen = new (getKostenstellenDoePaAdmin.Result);
 
         }
 
