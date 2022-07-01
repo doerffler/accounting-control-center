@@ -23,10 +23,16 @@ namespace DoePaAdmin.ViewModel.Services
 
         private List<Taetigkeit> TaetigkeitenSet { get; set; } = new();
 
+        private List<Waehrung> WaehrungenSet { get; set; } = new();
+
+        private List<Geschaeftsjahr> GeschaeftsjahreSet { get; set; } = new();
+
+        private List<Abrechnungseinheit> AbrechnungseinheitenSet { get; set; } = new();
+
         public DoePaAdminTestService()
         {
 
-            Task.Run(async () => await DoePaAdminTestDataCreator.CreateTestDataAsync(this));
+            Task.Run(async () => await DoePaAdminTestDataCreator.CreateCompleteTestDataAsync(this));
 
         }
 
@@ -190,5 +196,25 @@ namespace DoePaAdmin.ViewModel.Services
             throw new NotImplementedException();
         }
 
+        public Task<Abrechnungseinheit> CreateAbrechnungseinheitAsync(CancellationToken cancellationToken = default)
+        {
+            Abrechnungseinheit newAbrechnungseinheit = new()
+            {
+                AbrechnungseinheitID = AbrechnungseinheitenSet.Max(ae => ae.AbrechnungseinheitID) + 1
+            };
+
+            AbrechnungseinheitenSet.Add(newAbrechnungseinheit);
+            return Task.FromResult(newAbrechnungseinheit);
+        }
+
+        public Task<Waehrung> CreateWaehrungAsync(CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Geschaeftsjahr> CreateGeschaeftsjahrAsync(CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

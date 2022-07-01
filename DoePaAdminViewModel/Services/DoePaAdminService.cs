@@ -32,7 +32,7 @@ namespace DoePaAdmin.ViewModel.Services
 
             if (dbContext.Database.EnsureCreated())
             {
-                _ = Task.Run(async () => await dbContext.InitializeMasterdataTablesAsync());
+                //_ = Task.Run(async () => await dbContext.InitializeMasterdataTablesAsync());
             }
 
             DBContext = dbContext;
@@ -238,6 +238,30 @@ namespace DoePaAdmin.ViewModel.Services
             _ = DBContext.Ausgangsrechnungen.Remove(ausgangsrechnungToRemove);
         }
 
+        public async Task<Abrechnungseinheit> CreateAbrechnungseinheitAsync(CancellationToken cancellationToken = default)
+        {
+            Abrechnungseinheit newAbrechnungseinheit = new();
+
+            _ = await DBContext.Abrechnungseinheiten.AddAsync(newAbrechnungseinheit, cancellationToken);
+            return newAbrechnungseinheit;
+        }
+
+        public async Task<Waehrung> CreateWaehrungAsync(CancellationToken cancellationToken = default)
+        {
+            Waehrung newWaehrung = new();
+
+            _ = await DBContext.Waehrungen.AddAsync(newWaehrung, cancellationToken);
+            return newWaehrung;
+        }
+
+        public async Task<Geschaeftsjahr> CreateGeschaeftsjahrAsync(CancellationToken cancellationToken = default)
+        {
+            Geschaeftsjahr newGeschaeftsjahr = new();
+
+            _ = await DBContext.Geschaeftsjahre.AddAsync(newGeschaeftsjahr, cancellationToken);
+            return newGeschaeftsjahr;
+        }
+
         #endregion
 
         public async Task<bool> CheckForChangesAsync(CancellationToken cancellationToken = default)
@@ -249,6 +273,7 @@ namespace DoePaAdmin.ViewModel.Services
         {
             _ = await DBContext.SaveChangesAsync(cancellationToken);
         }
+
 
     }
 }

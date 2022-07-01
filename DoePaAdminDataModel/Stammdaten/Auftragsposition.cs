@@ -15,12 +15,12 @@ namespace DoePaAdminDataModel.Stammdaten
 
         public int AuftragspositionNummer { get; set; }
 
-        public int Auftragsvolumen { get; set; }
+        public decimal Auftragsvolumen { get; set; }
 
         public Auftrag Auftrag { get; set; }   
         
         public string Positionsbezeichnung { get; set; }   
         
-        public string Waehrung { get; set; }   
+        public Waehrung Waehrung { get; set; }   
     }
 }

@@ -68,7 +68,7 @@ namespace DoePaAdmin.ViewModel
 
         private async Task DoGenerateTestdataAsync(CancellationToken cancellationToken = default)
         {
-            await DoePaAdminTestDataCreator.CreateTestDataAsync(doePaAdminService, cancellationToken);
+            await DoePaAdminTestDataCreator.CreateCompleteTestDataAsync(doePaAdminService, cancellationToken);
         }
 
         private Task ExecuteAsync()

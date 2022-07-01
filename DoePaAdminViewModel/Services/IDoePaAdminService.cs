@@ -39,11 +39,19 @@ namespace DoePaAdmin.ViewModel.Services
         #endregion
 
         #region Auftrag
+
         public Task<IEnumerable<Kunde>> GetKundeAsync(CancellationToken cancellationToken = default);
+
         public Task<IEnumerable<Auftrag>> GetAuftraegeAsync(CancellationToken cancellationToken = default);
+
         public Task<IEnumerable<Auftragsposition>> GetAuftragspositionAsync(CancellationToken cancellationToken = default);
+
         public Task<IEnumerable<Abrechnungseinheit>> GetAbrechnungseinheitenAsync(CancellationToken cancellationToken = default);
+
         public Task<Auftrag> CreateAuftragAsync(CancellationToken cancellationToken = default);
+
+        public Task<Abrechnungseinheit> CreateAbrechnungseinheitAsync(CancellationToken cancellationToken = default);
+
         #endregion
 
         #region Ausgangsrechnungen
@@ -56,11 +64,15 @@ namespace DoePaAdmin.ViewModel.Services
 
         public void RemoveAusgangsrechnung(Ausgangsrechnung ausgangsrechnungToRemove);
 
+        public Task<Waehrung> CreateWaehrungAsync(CancellationToken cancellationToken = default);
+
+        public Task<Geschaeftsjahr> CreateGeschaeftsjahrAsync(CancellationToken cancellationToken = default);
+
         #endregion
 
         public Task<bool> CheckForChangesAsync(CancellationToken cancellationToken = default);
 
         public Task SaveChangesAsync(CancellationToken cancellationToken = default);
-
+        
     }
 }
