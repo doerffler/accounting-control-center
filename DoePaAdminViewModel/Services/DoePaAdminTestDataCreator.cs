@@ -12,29 +12,123 @@ namespace DoePaAdmin.ViewModel.Services
     internal static class DoePaAdminTestDataCreator
     {
 
-        public static async Task CreateTestDataAsync(IDoePaAdminService doePaAdminService, CancellationToken cancellationToken = default)
+        public static async Task CreateCompleteTestDataAsync(IDoePaAdminService doePaAdminService, CancellationToken cancellationToken = default)
         {
 
+            await CreateMasterdataAsync(doePaAdminService, cancellationToken);
+            
             await CreateKostenstellenAsync(doePaAdminService, cancellationToken);
+                                                
             await CreateMitarbeiterAsync(doePaAdminService, cancellationToken);
 
+            await CreateAuftraegeAsync(doePaAdminService, cancellationToken);
+                        
+        }
+
+        public static async Task CreateMasterdataAsync(IDoePaAdminService doePaAdminService, CancellationToken cancellationToken = default)
+        {
+            Taetigkeit currentTaetigkeit;
+
+            currentTaetigkeit = await doePaAdminService.CreateTaetigkeitAsync(cancellationToken);
+            currentTaetigkeit.Taetigkeitsbeschreibung = "Game Designer";
+
+            currentTaetigkeit = await doePaAdminService.CreateTaetigkeitAsync(cancellationToken);
+            currentTaetigkeit.Taetigkeitsbeschreibung = "Technical Director";
+
+            currentTaetigkeit = await doePaAdminService.CreateTaetigkeitAsync(cancellationToken);
+            currentTaetigkeit.Taetigkeitsbeschreibung = "Artist";
+
+            Kostenstellenart currentKostenstellenart;
+
+            currentKostenstellenart = await doePaAdminService.CreateKostenstellenartAsync(cancellationToken);
+            currentKostenstellenart.Kostenstellenartbezeichnung = "Angestellte Mitarbeiter/innen";
+
+            currentKostenstellenart = await doePaAdminService.CreateKostenstellenartAsync(cancellationToken);
+            currentKostenstellenart.Kostenstellenartbezeichnung = "Geschäftsräume";
+
+            currentKostenstellenart = await doePaAdminService.CreateKostenstellenartAsync(cancellationToken);
+            currentKostenstellenart.Kostenstellenartbezeichnung = "Freie Mitarbeiter/innen";
+
+            currentKostenstellenart = await doePaAdminService.CreateKostenstellenartAsync(cancellationToken);
+            currentKostenstellenart.Kostenstellenartbezeichnung = "Sonstige Kostenstellen";
+
+            Abrechnungseinheit currentAbrechnungseinheit;
+
+            currentAbrechnungseinheit = await doePaAdminService.CreateAbrechnungseinheitAsync(cancellationToken);
+            currentAbrechnungseinheit.AbrechnungseinheitName = "Stunden";
+
+            currentAbrechnungseinheit = await doePaAdminService.CreateAbrechnungseinheitAsync(cancellationToken);
+            currentAbrechnungseinheit.AbrechnungseinheitName = "Personentage";
+
+            currentAbrechnungseinheit = await doePaAdminService.CreateAbrechnungseinheitAsync(cancellationToken);
+            currentAbrechnungseinheit.AbrechnungseinheitName = "Stück";
+
+            Waehrung currentWaehrung;
+
+            currentWaehrung = await doePaAdminService.CreateWaehrungAsync(cancellationToken);
+            currentWaehrung.WaehrungName = "Euro";
+            currentWaehrung.WaehrungZeichen = "€";
+            currentWaehrung.WaehrungISO = "EUR";
+
+            currentWaehrung = await doePaAdminService.CreateWaehrungAsync(cancellationToken);
+            currentWaehrung.WaehrungName = "US Dollar";
+            currentWaehrung.WaehrungZeichen = "$";
+            currentWaehrung.WaehrungISO = "USD";
+
+            currentWaehrung = await doePaAdminService.CreateWaehrungAsync(cancellationToken);
+            currentWaehrung.WaehrungName = "Schweizer Franken";
+            currentWaehrung.WaehrungZeichen = "Fr";
+            currentWaehrung.WaehrungISO = "CHF";
+
+            currentWaehrung = await doePaAdminService.CreateWaehrungAsync(cancellationToken);
+            currentWaehrung.WaehrungName = "Britisches Pfund";
+            currentWaehrung.WaehrungZeichen = "£";
+            currentWaehrung.WaehrungISO = "GBP";
+
+            Geschaeftsjahr currentGeschaeftsjahr;
+
+            currentGeschaeftsjahr = await doePaAdminService.CreateGeschaeftsjahrAsync(cancellationToken);
+            currentGeschaeftsjahr.DatumBis = new(1991,12,31);
+            currentGeschaeftsjahr.DatumVon = new(1991,1,1);
+            currentGeschaeftsjahr.Name = "1991";
+            currentGeschaeftsjahr.Rechnungsprefix = "1991";
+
+            currentGeschaeftsjahr = await doePaAdminService.CreateGeschaeftsjahrAsync(cancellationToken);
+            currentGeschaeftsjahr.DatumBis = new(1992, 12, 31);
+            currentGeschaeftsjahr.DatumVon = new(1992, 1, 1);
+            currentGeschaeftsjahr.Name = "1992";
+            currentGeschaeftsjahr.Rechnungsprefix = "1992";
+
+            currentGeschaeftsjahr = await doePaAdminService.CreateGeschaeftsjahrAsync(cancellationToken);
+            currentGeschaeftsjahr.DatumBis = new(1993, 6, 30);
+            currentGeschaeftsjahr.DatumVon = new(1993, 1, 1);
+            currentGeschaeftsjahr.Name = "1993";
+            currentGeschaeftsjahr.Rechnungsprefix = "1993";
+
+            currentGeschaeftsjahr = await doePaAdminService.CreateGeschaeftsjahrAsync(cancellationToken);
+            currentGeschaeftsjahr.DatumBis = new(1994, 6, 30);
+            currentGeschaeftsjahr.DatumVon = new(1993, 7, 1);
+            currentGeschaeftsjahr.Name = "1993/1994";
+            currentGeschaeftsjahr.Rechnungsprefix = "1993";
+
+            currentGeschaeftsjahr = await doePaAdminService.CreateGeschaeftsjahrAsync(cancellationToken);
+            currentGeschaeftsjahr.DatumBis = new(1995, 6, 30);
+            currentGeschaeftsjahr.DatumVon = new(1994, 7, 1);
+            currentGeschaeftsjahr.Name = "1994/1995";
+            currentGeschaeftsjahr.Rechnungsprefix = "1994";
+
             await doePaAdminService.SaveChangesAsync(cancellationToken);
-            
         }
 
         private static async Task CreateMitarbeiterAsync(IDoePaAdminService doePaAdminService, CancellationToken cancellationToken)
         {
 
             IEnumerable<Kostenstelle> listKostenstellen = await doePaAdminService.GetKostenstellenAsync(cancellationToken);
+            IEnumerable<Taetigkeit> listTaetigkeiten = await doePaAdminService.GetTaetigkeitenAsync(cancellationToken);
             
-            Taetigkeit taetGamedesigner = await doePaAdminService.CreateTaetigkeitAsync(cancellationToken);
-            taetGamedesigner.Taetigkeitsbeschreibung = "Game Designer";
-
-            Taetigkeit taetTechnicalDirector = await doePaAdminService.CreateTaetigkeitAsync(cancellationToken);
-            taetTechnicalDirector.Taetigkeitsbeschreibung = "Technical Director";
-
-            Taetigkeit taetArtist = await doePaAdminService.CreateTaetigkeitAsync(cancellationToken);
-            taetArtist.Taetigkeitsbeschreibung = "Artist";
+            Taetigkeit taetTechnicalDirector = listTaetigkeiten.Where(t => t.Taetigkeitsbeschreibung.Equals("Technical Director")).First();
+            Taetigkeit taetGamedesigner = listTaetigkeiten.Where(t => t.Taetigkeitsbeschreibung.Equals("Game Designer")).First();
+            Taetigkeit taetArtist = listTaetigkeiten.Where(t => t.Taetigkeitsbeschreibung.Equals("Artist")).First();
 
             List<Anstellungsdetail> currentAnstellungshistorie;
             Anstellungsdetail currentAnstellungsdetail;
@@ -52,7 +146,6 @@ namespace DoePaAdmin.ViewModel.Services
             currentMitarbeiter.Geburtsdatum = new(1970, 8, 20);
             currentMitarbeiter.Anstellungshistorie = currentAnstellungshistorie;
             currentMitarbeiter.Kuerzel = "JOCA";
-            //TODO: There seems to be a problem somewhere over here
             currentMitarbeiter.PersonalnummerDatev = 1;
             currentMitarbeiter.ZugehoerigeKostenstelle = listKostenstellen.Where(kst => kst.Kostenstellenbezeichnung.Equals("John Carmack")).First();
 
@@ -233,33 +326,81 @@ namespace DoePaAdmin.ViewModel.Services
 
             currentAnstellungshistorie.Add(currentAnstellungsdetail);
 
+            await doePaAdminService.SaveChangesAsync(cancellationToken);
+
         }
 
         private static async Task CreateKostenstellenAsync(IDoePaAdminService doePaAdminService, CancellationToken cancellationToken = default)
         {
 
-            Kostenstellenart kstArtMitarbeiter = await doePaAdminService.CreateKostenstellenartAsync(cancellationToken);
-            kstArtMitarbeiter.Kostenstellenartbezeichnung = "Mitarbeiterkostenstelle";
-
-            Kostenstellenart kstArtOffice = await doePaAdminService.CreateKostenstellenartAsync(cancellationToken);
-            kstArtOffice.Kostenstellenartbezeichnung = "Office";
-
+            IEnumerable<Kostenstellenart> listKostenstellenarten = await doePaAdminService.GetKostenstellenartenAsync(cancellationToken);
+            
             Kostenstelle kstOfficeRichardson = await doePaAdminService.CreateKostenstelleAsync(cancellationToken);
             kstOfficeRichardson.Kostenstellenbezeichnung = "Office Richardson";
             kstOfficeRichardson.GueltigAb = new(1991, 2, 1);
-            kstOfficeRichardson.ZugehoerigeKostenstellenart = kstArtOffice;
+            kstOfficeRichardson.ZugehoerigeKostenstellenart = listKostenstellenarten.Where(ka => ka.Kostenstellenartbezeichnung.Equals("Geschäftsräume")).First();
 
             Kostenstelle currentKostenstelle;
+
+            currentKostenstelle = await doePaAdminService.CreateKostenstelleAsync(cancellationToken);
+            currentKostenstelle.Kostenstellenbezeichnung = "Bobby Prince";
+            currentKostenstelle.GueltigAb = new(1991, 2, 1);
+            currentKostenstelle.ZugehoerigeKostenstellenart = listKostenstellenarten.Where(ka => ka.Kostenstellenartbezeichnung.Equals("Freie Mitarbeiter/innen")).First();
 
             foreach (string currentEmployeeName in new String[] { "John Carmack", "John Romero", "Adrian Carmack", "Tom Hall" })
             { 
             currentKostenstelle = await doePaAdminService.CreateKostenstelleAsync(cancellationToken);
             currentKostenstelle.Kostenstellenbezeichnung = currentEmployeeName;
-            currentKostenstelle.ZugehoerigeKostenstellenart = kstArtMitarbeiter;
+            currentKostenstelle.ZugehoerigeKostenstellenart = listKostenstellenarten.Where(ka => ka.Kostenstellenartbezeichnung.Equals("Angestellte Mitarbeiter/innen")).First(); ;
             currentKostenstelle.GueltigAb = new(1991, 2, 1);
             currentKostenstelle.UebergeordneteKostenstellen.Add(kstOfficeRichardson);
             kstOfficeRichardson.UntergeordneteKostenstellen.Add(currentKostenstelle);
             }
+
+            await doePaAdminService.SaveChangesAsync(cancellationToken);
+        }
+
+        private static async Task CreateAuftraegeAsync(IDoePaAdminService doePaAdminService, CancellationToken cancellationToken = default)
+        {
+
+            Kunde currentKunde;
+            Auftrag currentAuftrag;
+            Auftragsposition currentAuftragsposition;
+
+            Abrechnungseinheit aeStunden = (await doePaAdminService.GetAbrechnungseinheitenAsync(cancellationToken)).Where(ae => ae.AbrechnungseinheitName.Equals("Stunden")).First();
+            Waehrung wEuro = (await doePaAdminService.GetWaehrungenAsync(cancellationToken)).Where(w => w.WaehrungName.Equals("Euro")).First();
+
+            IEnumerable<Mitarbeiter> listMitarbeiter = await doePaAdminService.GetMitarbeiterAsync(cancellationToken);
+
+            currentKunde = await doePaAdminService.CreateKundeAsync(cancellationToken);
+            currentKunde.Kundenname = "Softdisk";
+
+            currentAuftrag = await doePaAdminService.CreateAuftragAsync(cancellationToken);
+            currentAuftrag.Auftragsbeginn = new(1991, 2, 1);
+            currentAuftrag.Auftragsdatum = new(1991, 2, 1);
+            currentAuftrag.Auftragsende = new(1992, 12, 31);
+            currentAuftrag.Auftragsname = "Gamer's Edge Q1 1991";
+            currentAuftrag.Kunde = currentKunde;
+            currentKunde.Auftraege.Add(currentAuftrag);
+            currentAuftrag.VerantwortlicherMitarbeiter = listMitarbeiter.Where(m => m.Nachname.Equals("Hall")).First();
+            currentAuftrag.Vertragsnummer = 1;
+
+            currentAuftragsposition = await doePaAdminService.CreateAuftragspositionAsync(cancellationToken);
+            currentAuftragsposition.Abrechnungseinheit = aeStunden;
+            currentAuftragsposition.AuftragspositionNummer = 1;
+            currentAuftragsposition.Auftragsvolumen = 480;
+            currentAuftragsposition.Positionsbezeichnung = "Spieleentwicklung";
+            currentAuftragsposition.Waehrung = wEuro;
+
+            currentAuftragsposition.Auftrag = currentAuftrag;
+            currentAuftrag.Auftragspositionen.Add(currentAuftragsposition);
+            
+
+
+            currentKunde = await doePaAdminService.CreateKundeAsync(cancellationToken);
+            currentKunde.Kundenname = "Apogee";
+
+            await doePaAdminService.SaveChangesAsync(cancellationToken);
 
         }
 

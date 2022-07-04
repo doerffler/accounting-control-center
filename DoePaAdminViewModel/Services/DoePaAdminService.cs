@@ -32,7 +32,7 @@ namespace DoePaAdmin.ViewModel.Services
 
             if (dbContext.Database.EnsureCreated())
             {
-                _ = Task.Run(async () => await dbContext.InitializeMasterdataTablesAsync());
+                //_ = Task.Run(async () => await dbContext.InitializeMasterdataTablesAsync());
             }
 
             DBContext = dbContext;
@@ -49,6 +49,19 @@ namespace DoePaAdmin.ViewModel.Services
             return listKostenstellen;
         }
 
+        public async Task<Kostenstelle> CreateKostenstelleAsync(CancellationToken cancellationToken = default)
+        {
+            Kostenstelle newKostenstelle = new();
+            newKostenstelle.GueltigAb = DateTime.MinValue;
+            _ = await DBContext.Kostenstellen.AddAsync(newKostenstelle, cancellationToken);
+            return newKostenstelle;
+        }
+
+        public void RemoveKostenstelle(Kostenstelle kostenstelleToRemove)
+        {
+            _ = DBContext.Kostenstellen.Remove(kostenstelleToRemove);
+        }
+
         public async Task<IEnumerable<Kostenstellenart>> GetKostenstellenartenAsync(CancellationToken cancellationToken = default)
         {
             IQueryable<Kostenstellenart> result = DBContext.Kostenstellenarten;
@@ -58,26 +71,13 @@ namespace DoePaAdmin.ViewModel.Services
             return listKostenstellenarten;
         }
 
-        public async Task<Kostenstelle> CreateKostenstelleAsync(CancellationToken cancellationToken = default)
-        {
-            Kostenstelle newKostenstelle = new();
-            newKostenstelle.GueltigAb = DateTime.MinValue;
-            _ = await DBContext.Kostenstellen.AddAsync(newKostenstelle, cancellationToken);
-            return newKostenstelle;
-        }
-
         public async Task<Kostenstellenart> CreateKostenstellenartAsync(CancellationToken cancellationToken = default)
         {
             Kostenstellenart newKostenstellenart = new();
             _ = await DBContext.Kostenstellenarten.AddAsync(newKostenstellenart, cancellationToken);
             return newKostenstellenart;
         }
-
-        public void RemoveKostenstelle(Kostenstelle kostenstelleToRemove)
-        {
-            _ = DBContext.Kostenstellen.Remove(kostenstelleToRemove);
-        }
-
+        
         #endregion
 
         #region Mitarbeiter
@@ -89,15 +89,6 @@ namespace DoePaAdmin.ViewModel.Services
             List<Mitarbeiter> listMitarbeiter = await taskToListAsync;
             
             return listMitarbeiter;
-        }
-
-        public async Task<IEnumerable<Taetigkeit>> GetTaetigkeitenAsync(CancellationToken cancellationToken = default)
-        {
-            IQueryable<Taetigkeit> result = DBContext.Taetigkeiten;
-            Task<List<Taetigkeit>> taskToListAsync = result.ToListAsync(cancellationToken);
-            List<Taetigkeit> listTaetigkeiten = await taskToListAsync;
-            
-            return listTaetigkeiten;
         }
 
         public async Task<Mitarbeiter> CreateMitarbeiterAsync(CancellationToken cancellationToken = default)
@@ -112,13 +103,21 @@ namespace DoePaAdmin.ViewModel.Services
             _ = DBContext.Mitarbeiter.Remove(mitarbeiterToRemove);
         }
 
+        public async Task<IEnumerable<Taetigkeit>> GetTaetigkeitenAsync(CancellationToken cancellationToken = default)
+        {
+            IQueryable<Taetigkeit> result = DBContext.Taetigkeiten;
+            Task<List<Taetigkeit>> taskToListAsync = result.ToListAsync(cancellationToken);
+            List<Taetigkeit> listTaetigkeiten = await taskToListAsync;
+            
+            return listTaetigkeiten;
+        }
+        
         public async Task<Taetigkeit> CreateTaetigkeitAsync(CancellationToken cancellationToken = default)
         {
             Taetigkeit newTaetigkeit = new();
             _ = await DBContext.Taetigkeiten.AddAsync(newTaetigkeit, cancellationToken);
             return newTaetigkeit;
         }
-
 
         public async Task<Anstellungsdetail> CreateAnstellungsdetailAsync(CancellationToken cancellationToken = default)
         {
@@ -130,21 +129,23 @@ namespace DoePaAdmin.ViewModel.Services
         #endregion
 
         #region Kunde
-        public async Task<Kunde> CreateKundeAsync(CancellationToken cancellationToke = default)
-        {
-            Kunde newKunde = new();
-            _ = await DBContext.Kunden.AddAsync(newKunde, cancellationToke);
-            return newKunde;
-        }
+
         public async Task<IEnumerable<Kunde>> GetKundeAsync(CancellationToken cancellationToken = default)
         {
             IQueryable<Kunde> result = DBContext.Kunden.Include(a => a.Auftraege).ThenInclude(ap => ap.Auftragspositionen);
             Task<List<Kunde>> taskToListAsync = result.ToListAsync(cancellationToken);
             List<Kunde> listKunden = await taskToListAsync;
-            
+
             return listKunden;
         }
 
+        public async Task<Kunde> CreateKundeAsync(CancellationToken cancellationToken = default)
+        {
+            Kunde newKunde = new();
+            _ = await DBContext.Kunden.AddAsync(newKunde, cancellationToken);
+            return newKunde;
+        }
+        
         #endregion
 
         #region Auftrag
@@ -158,6 +159,13 @@ namespace DoePaAdmin.ViewModel.Services
             return listAuftraege;
         }
 
+        public async Task<Auftrag> CreateAuftragAsync(CancellationToken cancellationToken = default)
+        {
+            Auftrag newAuftrag = new();
+            _ = await DBContext.Auftraege.AddAsync(newAuftrag, cancellationToken);
+            return newAuftrag;
+        }
+
         public async Task<IEnumerable<Auftragsposition>> GetAuftragspositionAsync(CancellationToken cancellationToken = default)
         {
             IQueryable<Auftragsposition> result = DBContext.Auftragspositionen;
@@ -167,20 +175,13 @@ namespace DoePaAdmin.ViewModel.Services
             return listAuftragspositionen;
         }
 
-        public async Task<Auftrag> CreateAuftragAsync(CancellationToken cancellationToke = default)
+        public async Task<Auftragsposition> CreateAuftragspositionAsync(CancellationToken cancellationToken = default)
         {
-            Auftrag newAuftrag = new();
-            _ = await DBContext.Auftraege.AddAsync(newAuftrag, cancellationToke);
-            return newAuftrag;
+            Auftragsposition newPosition = new();
+            _ = await DBContext.Auftragspositionen.AddAsync(newPosition, cancellationToken);
+            return newPosition;
         }
-        public async Task<IEnumerable<Abrechnungseinheit>> GetAbrechnungseinheitenAsync(CancellationToken cancellationToken = default)
-        {
-            IQueryable<Abrechnungseinheit> result = DBContext.Abrechnungseinheiten;
-            Task<List<Abrechnungseinheit>> taskToListAsync = result.ToListAsync(cancellationToken);
-            List<Abrechnungseinheit> listAbrechnungseinheiten = await taskToListAsync;
-            
-            return listAbrechnungseinheiten;
-        }
+        
         #endregion
 
         #region Projekt
@@ -194,10 +195,10 @@ namespace DoePaAdmin.ViewModel.Services
             return listProjekt;
         }
         
-        public async Task<Projekt> CreateProjektAsync(CancellationToken cancellationToke = default)
+        public async Task<Projekt> CreateProjektAsync(CancellationToken cancellationToken = default)
         {
             Projekt newProjekt = new();
-            _ = await DBContext.Projekte.AddAsync(newProjekt, cancellationToke);
+            _ = await DBContext.Projekte.AddAsync(newProjekt, cancellationToken);
             return newProjekt;
         }
         #endregion
@@ -238,7 +239,57 @@ namespace DoePaAdmin.ViewModel.Services
             _ = DBContext.Ausgangsrechnungen.Remove(ausgangsrechnungToRemove);
         }
 
+
+
         #endregion
+
+        #region Masterdata
+
+        public async Task<IEnumerable<Waehrung>> GetWaehrungenAsync(CancellationToken cancellationToken = default)
+        {
+            IQueryable<Waehrung> result = DBContext.Waehrungen;
+            Task<List<Waehrung>> taskToListAsync = result.ToListAsync(cancellationToken);
+            List<Waehrung> listAbrechnungseinheiten = await taskToListAsync;
+
+            return listAbrechnungseinheiten;
+        }
+
+        public async Task<Waehrung> CreateWaehrungAsync(CancellationToken cancellationToken = default)
+        {
+            Waehrung newWaehrung = new();
+
+            _ = await DBContext.Waehrungen.AddAsync(newWaehrung, cancellationToken);
+            return newWaehrung;
+        }
+
+        public async Task<IEnumerable<Abrechnungseinheit>> GetAbrechnungseinheitenAsync(CancellationToken cancellationToken = default)
+        {
+            IQueryable<Abrechnungseinheit> result = DBContext.Abrechnungseinheiten;
+            Task<List<Abrechnungseinheit>> taskToListAsync = result.ToListAsync(cancellationToken);
+            List<Abrechnungseinheit> listAbrechnungseinheiten = await taskToListAsync;
+
+            return listAbrechnungseinheiten;
+        }
+
+        public async Task<Abrechnungseinheit> CreateAbrechnungseinheitAsync(CancellationToken cancellationToken = default)
+        {
+            Abrechnungseinheit newAbrechnungseinheit = new();
+
+            _ = await DBContext.Abrechnungseinheiten.AddAsync(newAbrechnungseinheit, cancellationToken);
+            return newAbrechnungseinheit;
+        }
+
+        public async Task<Geschaeftsjahr> CreateGeschaeftsjahrAsync(CancellationToken cancellationToken = default)
+        {
+            Geschaeftsjahr newGeschaeftsjahr = new();
+
+            _ = await DBContext.Geschaeftsjahre.AddAsync(newGeschaeftsjahr, cancellationToken);
+            return newGeschaeftsjahr;
+        }
+
+        #endregion
+
+        #region Utility functions
 
         public async Task<bool> CheckForChangesAsync(CancellationToken cancellationToken = default)
         {
@@ -249,6 +300,11 @@ namespace DoePaAdmin.ViewModel.Services
         {
             _ = await DBContext.SaveChangesAsync(cancellationToken);
         }
+
+        #endregion
+
+        
+
 
     }
 }
