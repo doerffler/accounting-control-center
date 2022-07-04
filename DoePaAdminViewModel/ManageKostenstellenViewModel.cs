@@ -19,14 +19,14 @@ namespace DoePaAdmin.ViewModel
 
         private IUserInteractionService UserInteractionService { get; set; }
 
-        private ObservableCollection<Kostenstelle> _kostenstellen = new();
+        private ObservableCollection<Kostenstelle> _kostenstellen;
         public ObservableCollection<Kostenstelle> Kostenstellen
         {
             get => _kostenstellen;
             set => SetProperty(ref _kostenstellen, value, true);
         }
 
-        private ObservableCollection<Kostenstellenart> _kostenstellenarten = new();
+        private ObservableCollection<Kostenstellenart> _kostenstellenarten;
         public ObservableCollection<Kostenstellenart> Kostenstellenarten
         {
             get => _kostenstellenarten;

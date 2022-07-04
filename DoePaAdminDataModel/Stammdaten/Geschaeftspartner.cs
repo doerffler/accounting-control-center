@@ -23,6 +23,8 @@ namespace DoePaAdminDataModel.Stammdaten
 
         public Adresse ZugehoerigeAdresse { get; set; }
 
+        public Kunde ZugehoerigerKunde { get; set; }
+
         public DateTime GueltigAb { get; set; }
 
     }

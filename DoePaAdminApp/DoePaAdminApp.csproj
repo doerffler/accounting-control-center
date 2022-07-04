@@ -25,6 +25,7 @@
     <None Remove="Resources\sd_card_32x32.png" />
     <None Remove="Resources\order_icon_16x16.png" />
     <None Remove="Resources\order_icon_32x32.png" />
+    <None Remove="Resources\TestConfiguration.svg" />
     <None Remove="Resources\undraw_text_files.svg" />
     <None Remove="Resources\undraw_working_remotely.svg" />
   </ItemGroup>
@@ -94,6 +95,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\order_icon_32x32.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\TestConfiguration.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\undraw_text_files.svg">

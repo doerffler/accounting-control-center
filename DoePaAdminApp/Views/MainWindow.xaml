@@ -65,12 +65,12 @@
                                           KeyTip="G" />
                     <RibbonSeparator />
                     <RibbonApplicationSplitMenuItem Header="Testdaten" 
-                                               ImageSource="{svg:SvgImage \\Resources\\undraw_text_files.svg}">
+                                               ImageSource="{svg:SvgImage \\Resources\\TestConfiguration.svg}">
                         <RibbonApplicationMenuItem Header="Vollständige Testdaten generieren"
-                                              ImageSource="{svg:SvgImage \\Resources\\undraw_text_files.svg}"
+                                              ImageSource="{svg:SvgImage \\Resources\\TestConfiguration.svg}"
                                               Command="{Binding GenerateTestdataCommand}"/>
                         <RibbonApplicationMenuItem Header="Basisstammdaten generieren"
-                                              ImageSource="{svg:SvgImage \\Resources\\undraw_text_files.svg}"/>
+                                              ImageSource="{svg:SvgImage \\Resources\\TestConfiguration.svg}"/>
                     </RibbonApplicationSplitMenuItem>
                 </RibbonApplicationMenu>
             </Ribbon.ApplicationMenu>
