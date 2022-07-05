@@ -27,7 +27,7 @@ namespace DoePaAdminApp.Behaviors
         private static void OnBodyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var webBrowser = (WebBrowser)d;
-            webBrowser.NavigateToString((string)e.NewValue);
+            webBrowser.Source = new((String)e.NewValue);
         }
 
     }

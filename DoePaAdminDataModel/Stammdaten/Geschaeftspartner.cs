@@ -22,10 +22,13 @@ namespace DoePaAdminDataModel.Stammdaten
         public string Position { get; set; }
 
         public Adresse ZugehoerigeAdresse { get; set; }
-
-        public Kunde ZugehoerigerKunde { get; set; }
-
+                
         public DateTime GueltigAb { get; set; }
+
+        public override string ToString()
+        {
+            return string.Format("{0} {1} {2} {3} {4}", Anrede, Titel, Vorname, Zuname, Nachname);
+        }
 
     }
 }

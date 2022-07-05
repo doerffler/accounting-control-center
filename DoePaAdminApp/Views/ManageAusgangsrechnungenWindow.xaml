@@ -31,7 +31,8 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*" />
             <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="3*" />
+            <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="2*" />
         </Grid.ColumnDefinitions>
 
@@ -76,7 +77,7 @@
 
         <GridSplitter Grid.Column="1"
                       Grid.Row="0"
-                      Grid.RowSpan="2"
+                      Grid.RowSpan="3"
                       HorizontalAlignment="Center"
                       VerticalAlignment="Stretch"
                       Width="5"
@@ -104,7 +105,7 @@
             <DatePicker Grid.Row="0" Grid.Column="3" SelectedDate="{Binding SelectedRechnung.RechnungsDatum}" />
 
             <Label Grid.Row="1" Grid.Column="0">Rechnungsempfänger:</Label>
-            <ComboBox Grid.Row="1" Grid.Column="1" SelectedItem="{Binding SelectedRechnung.Rechnungsempfaenger}" />
+            <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Source={StaticResource Locator}, Path=ManageDebitorenViewModel.Geschaeftspartner}" SelectedItem="{Binding SelectedRechnung.Rechnungsempfaenger}" />
 
         </Grid>
 
@@ -127,15 +128,30 @@
 
         </DataGrid>
 
-        <WebBrowser
-            Grid.Column="3"
+        <GridSplitter Grid.Column="3"
+                      Grid.Row="0"
+                      Grid.RowSpan="2"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Stretch"
+                      Width="5"
+                      />
+
+        <Border
+            Grid.Column="4"
             Grid.Row="0"
             Grid.RowSpan="2"
-            bhv:WebBrowserHelper.Body="{Binding InvoiceDocumentUrl}"/>
+            BorderThickness="1"
+            >
+
+            <WebBrowser bhv:WebBrowserHelper.Body="{Binding InvoiceDocumentUrl}" />
+
+        </Border>
+        
+        
 
         <StackPanel
             Grid.Column="2"
-            Grid.ColumnSpan="2"
+            Grid.ColumnSpan="3"
             Grid.Row="2">
             <Button Command="{Binding SaveChangesCommand}">
                 <Control Template="{StaticResource tmpSaveDbDataButton}" />
