@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Windows;
 using System.Windows.Controls.Ribbon;
 
@@ -48,6 +49,17 @@ namespace DoePaAdminApp.Views
         {
             ImportOutgoingInvoicesWindow importOutgoingInvoices = App.ServiceProvider.GetRequiredService<ImportOutgoingInvoicesWindow>();
             importOutgoingInvoices.Show();
+        }
+
+        private void RBOpenDebitorManagement_Click(object sender, RoutedEventArgs e)
+        {
+            ManageDebitorenWindow manageDebitoren = App.ServiceProvider.GetRequiredService<ManageDebitorenWindow>();
+            manageDebitoren.Show();
+        }
+
+        private void RBOpenKreditorManagement_Click(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
         }
     }
 }

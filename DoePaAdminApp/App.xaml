@@ -21,9 +21,10 @@
             <sys:String x:Key="strEditOrder">Aufträge bearbeiten</sys:String>
             <sys:String x:Key="strEditProject">Projekte bearbeiten</sys:String>
             <sys:String x:Key="strManageOutgoingInvoices">Ausgangsrechnungen bearbeiten</sys:String>
-            <sys:String x:Key="strImportOutgoingInvoices">Ausgangsrechnungen importieren</sys:String>
             <sys:String x:Key="strManageDebitors">Debitoren bearbeiten</sys:String>
-            
+            <sys:String x:Key="strManageKreditors">Kreditoren bearbeiten</sys:String>
+            <sys:String x:Key="strImportOutgoingInvoices">Ausgangsrechnungen importieren</sys:String>
+                        
             <sys:String x:Key="strAddItem">Neu</sys:String>
             <sys:String x:Key="strRemoveItem">Löschen</sys:String>
             <sys:String x:Key="strSaveData">Speichern</sys:String>
