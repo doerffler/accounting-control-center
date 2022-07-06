@@ -10,6 +10,7 @@
   <ItemGroup>
     <None Remove="appsettings.json" />
     <None Remove="Resources\AbsolutePosition.svg" />
+    <None Remove="Resources\Copy.svg" />
     <None Remove="Resources\costcenter_icon_16x16.png" />
     <None Remove="Resources\costcenter_icon_32x32.png" />
     <None Remove="Resources\Customer.svg" />
@@ -19,10 +20,12 @@
     <None Remove="Resources\invoice_icon.svg" />
     <None Remove="Resources\OpenFile.svg" />
     <None Remove="Resources\Order.svg" />
+    <None Remove="Resources\Paste.svg" />
     <None Remove="Resources\Print.svg" />
     <None Remove="Resources\PrintPreview.svg" />
     <None Remove="Resources\PrintSetup.svg" />
     <None Remove="Resources\Project.svg" />
+    <None Remove="Resources\Refresh.svg" />
     <None Remove="Resources\SaveAs.svg" />
     <None Remove="Resources\sd_card_16x16.png" />
     <None Remove="Resources\sd_card_32x32.png" />
@@ -49,6 +52,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Resources\Copy.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\costcenter_icon_16x16.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
@@ -76,6 +82,9 @@
     <Resource Include="Resources\Order.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\Paste.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\Print.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
@@ -86,6 +95,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Project.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Refresh.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\SaveAs.svg">

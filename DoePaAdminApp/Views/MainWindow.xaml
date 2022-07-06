@@ -76,12 +76,29 @@
             </Ribbon.ApplicationMenu>
             <RibbonTab Header="Start">
                 <RibbonGroup Header="Allgemein">
-                    <RibbonButton>
-
-                    </RibbonButton>
+                    <RibbonButton
+                        x:Name="RBRefreshView"
+                        SmallImageSource="{svg:SvgImage /Resources/Refresh.svg}"
+                        LargeImageSource="{svg:SvgImage /Resources/Refresh.svg}"
+                        Label="{StaticResource strRefreshView}" />
                 </RibbonGroup>
                 <RibbonGroup Header="Zwischenablage">
-
+                    <RibbonGroup.GroupSizeDefinitions>
+                        <RibbonGroupSizeDefinition>
+                            <RibbonControlSizeDefinition ImageSize="Small" IsLabelVisible="True"/>
+                            <RibbonControlSizeDefinition ImageSize="Small" IsLabelVisible="True"/>
+                        </RibbonGroupSizeDefinition>
+                    </RibbonGroup.GroupSizeDefinitions>
+                    <RibbonButton
+                        x:Name="RBCopy"
+                        SmallImageSource="{svg:SvgImage /Resources/Copy.svg}"
+                        LargeImageSource="{svg:SvgImage /Resources/Copy.svg}"
+                        Label="{StaticResource strCopy}" />
+                    <RibbonButton
+                        x:Name="RBPaste"
+                        SmallImageSource="{svg:SvgImage /Resources/Paste.svg}"
+                        LargeImageSource="{svg:SvgImage /Resources/Paste.svg}"
+                        Label="{StaticResource strPaste}" />
                 </RibbonGroup>
             </RibbonTab>
 
