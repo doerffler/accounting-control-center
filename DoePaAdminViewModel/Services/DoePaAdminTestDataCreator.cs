@@ -395,8 +395,6 @@ namespace DoePaAdmin.ViewModel.Services
             currentAuftragsposition.Auftrag = currentAuftrag;
             currentAuftrag.Auftragspositionen.Add(currentAuftragsposition);
             
-
-
             currentKunde = await doePaAdminService.CreateKundeAsync(cancellationToken);
             currentKunde.Kundenname = "Apogee";
 

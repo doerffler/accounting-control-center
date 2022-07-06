@@ -21,15 +21,18 @@
             <sys:String x:Key="strEditOrder">Aufträge bearbeiten</sys:String>
             <sys:String x:Key="strEditProject">Projekte bearbeiten</sys:String>
             <sys:String x:Key="strManageOutgoingInvoices">Ausgangsrechnungen bearbeiten</sys:String>
+            <sys:String x:Key="strManageDebitors">Debitoren bearbeiten</sys:String>
+            <sys:String x:Key="strManageKreditors">Kreditoren bearbeiten</sys:String>
+            <sys:String x:Key="strManageSkillMenue">Skills bearbeiten</sys:String>
             <sys:String x:Key="strImportOutgoingInvoices">Ausgangsrechnungen importieren</sys:String>
-            
+                        
             <sys:String x:Key="strAddItem">Neu</sys:String>
             <sys:String x:Key="strRemoveItem">Löschen</sys:String>
             <sys:String x:Key="strSaveData">Speichern</sys:String>
+            <sys:String x:Key="strRefreshView">Anzeige aktualisieren</sys:String>
+            <sys:String x:Key="strCopy">Kopieren</sys:String>
+            <sys:String x:Key="strPaste">Einfügen</sys:String>
             
-            <sys:String x:Key="strManageSkillMenue">Manage Skills</sys:String>
-            
-
             <ControlTemplate x:Key="tmpSaveDbDataButton">
                 <StackPanel Orientation="Horizontal">
                         <Viewbox Width="16" Height="16" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">

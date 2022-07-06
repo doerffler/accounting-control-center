@@ -226,5 +226,35 @@ namespace DoePaAdmin.ViewModel.Services
         {
             throw new NotImplementedException();
         }
+
+        public Task<IEnumerable<Kreditor>> GetDebitorenAsync(CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Kreditor> CreateKreditorAsync(CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveKreditor(Kreditor kreditorToRemove)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<T>> GetGeschaeftspartnerAsync<T>(CancellationToken cancellationToken = default) where T : Geschaeftspartner
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<T> CreateGeschaeftspartnerAsync<T>(CancellationToken cancellationToken = default) where T : Geschaeftspartner, new()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveGeschaeftspartner<T>(T debitorToRemove) where T : Geschaeftspartner
+        {
+            throw new NotImplementedException();
+        }
     }
 }

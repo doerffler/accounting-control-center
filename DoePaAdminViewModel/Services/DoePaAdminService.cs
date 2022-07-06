@@ -287,6 +287,52 @@ namespace DoePaAdmin.ViewModel.Services
             return newGeschaeftsjahr;
         }
 
+        public async Task<IEnumerable<T>> GetGeschaeftspartnerAsync<T>(CancellationToken cancellationToken = default) where T : Geschaeftspartner
+        {
+
+            IQueryable result;
+
+            if (typeof(T) == typeof(Debitor))
+            {
+                result = DBContext.Debitoren;
+            }
+            else if (typeof(T) == typeof(Kreditor))
+            {
+                result = DBContext.Kreditoren;
+            }
+            else
+            {
+                return null;
+            }
+
+            Task<List<T>> taskToListAsync = result.Cast<T>().ToListAsync(cancellationToken);
+            List<T> listGeschaeftspartner = await taskToListAsync;
+
+            return listGeschaeftspartner;
+
+        }
+
+        public async Task<T> CreateGeschaeftspartnerAsync<T>(CancellationToken cancellationToken = default) where T : Geschaeftspartner, new()
+        {
+            T newGeschaeftspartner = new();
+            _ = await DBContext.AddAsync<T>(newGeschaeftspartner, cancellationToken);
+            return newGeschaeftspartner;
+        }
+
+        public void RemoveGeschaeftspartner<T>(T geschaeftspartnerToRemove) where T : Geschaeftspartner
+        {
+            _ = DBContext.Remove<T>(geschaeftspartnerToRemove);
+        }
+
+        public async Task<IEnumerable<Debitor>> GetDebitorenAsync(CancellationToken cancellationToken = default)
+        {
+            IQueryable<Debitor> result = DBContext.Debitoren;
+            Task<List<Debitor>> taskToListAsync = result.ToListAsync(cancellationToken);
+            List<Debitor> listDebitoren = await taskToListAsync;
+
+            return listDebitoren;
+        }
+
         #endregion
 
         #region Utility functions

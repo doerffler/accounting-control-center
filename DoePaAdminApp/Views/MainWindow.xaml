@@ -65,23 +65,40 @@
                                           KeyTip="G" />
                     <RibbonSeparator />
                     <RibbonApplicationSplitMenuItem Header="Testdaten" 
-                                               ImageSource="{svg:SvgImage \\Resources\\undraw_text_files.svg}">
+                                               ImageSource="{svg:SvgImage \\Resources\\TestConfiguration.svg}">
                         <RibbonApplicationMenuItem Header="Vollständige Testdaten generieren"
-                                              ImageSource="{svg:SvgImage \\Resources\\undraw_text_files.svg}"
+                                              ImageSource="{svg:SvgImage \\Resources\\TestConfiguration.svg}"
                                               Command="{Binding GenerateTestdataCommand}"/>
                         <RibbonApplicationMenuItem Header="Basisstammdaten generieren"
-                                              ImageSource="{svg:SvgImage \\Resources\\undraw_text_files.svg}"/>
+                                              ImageSource="{svg:SvgImage \\Resources\\TestConfiguration.svg}"/>
                     </RibbonApplicationSplitMenuItem>
                 </RibbonApplicationMenu>
             </Ribbon.ApplicationMenu>
             <RibbonTab Header="Start">
                 <RibbonGroup Header="Allgemein">
-                    <RibbonButton>
-
-                    </RibbonButton>
+                    <RibbonButton
+                        x:Name="RBRefreshView"
+                        SmallImageSource="{svg:SvgImage /Resources/Refresh.svg}"
+                        LargeImageSource="{svg:SvgImage /Resources/Refresh.svg}"
+                        Label="{StaticResource strRefreshView}" />
                 </RibbonGroup>
                 <RibbonGroup Header="Zwischenablage">
-
+                    <RibbonGroup.GroupSizeDefinitions>
+                        <RibbonGroupSizeDefinition>
+                            <RibbonControlSizeDefinition ImageSize="Small" IsLabelVisible="True"/>
+                            <RibbonControlSizeDefinition ImageSize="Small" IsLabelVisible="True"/>
+                        </RibbonGroupSizeDefinition>
+                    </RibbonGroup.GroupSizeDefinitions>
+                    <RibbonButton
+                        x:Name="RBCopy"
+                        SmallImageSource="{svg:SvgImage /Resources/Copy.svg}"
+                        LargeImageSource="{svg:SvgImage /Resources/Copy.svg}"
+                        Label="{StaticResource strCopy}" />
+                    <RibbonButton
+                        x:Name="RBPaste"
+                        SmallImageSource="{svg:SvgImage /Resources/Paste.svg}"
+                        LargeImageSource="{svg:SvgImage /Resources/Paste.svg}"
+                        Label="{StaticResource strPaste}" />
                 </RibbonGroup>
             </RibbonTab>
 
@@ -100,25 +117,39 @@
                     <RibbonButton
                         x:Name="RBOpenWorkforceManagement"
                         Click="RBOpenWorkforceManagement_Click"
-                        SmallImageSource="/Resources/contactcard_icon_16x16.png"
-                        LargeImageSource="/Resources/contactcard_icon_32x32.png"
+                        SmallImageSource="{svg:SvgImage \\Resources\\Employee.svg}"
+                        LargeImageSource="{svg:SvgImage \\Resources\\Employee.svg}"
                         Label="{StaticResource strEditWorkforce}" />
                 </RibbonGroup>
                 <RibbonGroup Header="Aufträge">
                     <RibbonButton
                         x:Name="RBOpenOrderManagement"
                         Click="RBOpenOrderManagement_Click"
-                        SmallImageSource="/Resources/order_icon_16x16.png"
-                        LargeImageSource="/Resources/order_icon_32x32.png"
+                        SmallImageSource="{svg:SvgImage /Resources/Order.svg}"
+                        LargeImageSource="{svg:SvgImage /Resources/Order.svg}"
                         Label="{StaticResource strEditOrder}" />
                 </RibbonGroup>
                 <RibbonGroup Header="Projekte">
                     <RibbonButton
                         x:Name="RBOpenProjectManagement"
                         Click="RBOpenProjectManagement_Click"
-                        SmallImageSource="{svg:SvgImage \\Resources\\AbsolutePosition.svg}"
-                        LargeImageSource="{svg:SvgImage \\Resources\\AbsolutePosition.svg}"
+                        SmallImageSource="{svg:SvgImage /Resources/Project.svg}"
+                        LargeImageSource="{svg:SvgImage /Resources/Project.svg}"
                         Label="{StaticResource strEditProject}" />
+                </RibbonGroup>
+                <RibbonGroup Header="Geschäftspartner">
+                    <RibbonButton
+                        x:Name="RBOpenDebitorManagement"
+                        Click="RBOpenDebitorManagement_Click"
+                        SmallImageSource="{svg:SvgImage /Resources/Customer.svg}"
+                        LargeImageSource="{svg:SvgImage /Resources/Customer.svg}"
+                        Label="{StaticResource strManageDebitors}" />
+                    <RibbonButton
+                        x:Name="RBOpenKreditorManagement"
+                        Click="RBOpenKreditorManagement_Click"
+                        SmallImageSource="{svg:SvgImage /Resources/Supplier.svg}"
+                        LargeImageSource="{svg:SvgImage /Resources/Supplier.svg}"
+                        Label="{StaticResource strManageKreditors}" />
                 </RibbonGroup>
             </RibbonTab>
             <RibbonTab Header="Kostenrechnung">

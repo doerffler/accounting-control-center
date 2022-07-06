@@ -81,8 +81,6 @@ namespace DoePaAdmin.ViewModel.Services
 
         public void RemoveAusgangsrechnung(Ausgangsrechnung ausgangsrechnungToRemove);
         
-        public Task<Geschaeftsjahr> CreateGeschaeftsjahrAsync(CancellationToken cancellationToken = default);
-
         #endregion
 
         #region Masterdata
@@ -94,6 +92,14 @@ namespace DoePaAdmin.ViewModel.Services
         public Task<IEnumerable<Abrechnungseinheit>> GetAbrechnungseinheitenAsync(CancellationToken cancellationToken = default);
 
         public Task<Abrechnungseinheit> CreateAbrechnungseinheitAsync(CancellationToken cancellationToken = default);
+
+        public Task<IEnumerable<T>> GetGeschaeftspartnerAsync<T>(CancellationToken cancellationToken = default) where T : Geschaeftspartner;
+
+        public Task<T> CreateGeschaeftspartnerAsync<T>(CancellationToken cancellationToken = default) where T : Geschaeftspartner, new();
+
+        public void RemoveGeschaeftspartner<T>(T debitorToRemove) where T : Geschaeftspartner;
+
+        public Task<Geschaeftsjahr> CreateGeschaeftsjahrAsync(CancellationToken cancellationToken = default);
 
         #endregion
 

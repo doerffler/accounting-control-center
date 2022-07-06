@@ -64,6 +64,7 @@ namespace DoePaAdminApp
             services.AddSingleton<ImportOutgoingInvoicesViewModel>();
             services.AddSingleton<ImportKostenstellenViewModel>();
             services.AddSingleton<ManageAusgangsrechnungenViewModel>();
+            services.AddSingleton<ManageDebitorenViewModel>();
                         
             services.AddTransient<MainWindow>();
             services.AddTransient<ManageKostenstellenWindow>();
@@ -74,6 +75,7 @@ namespace DoePaAdminApp
             services.AddTransient<ManageAuftraegeWindow>();
             services.AddTransient<AskForUserInputWindow>();
             services.AddTransient<ManageAusgangsrechnungenWindow>();
+            services.AddTransient<ManageDebitorenWindow>();
 
         }
 

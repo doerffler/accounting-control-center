@@ -61,6 +61,8 @@ namespace DoePaAdminDataAdapter.DoePaAdmin
 
         public DbSet<Debitor> Debitoren { get; set; }
 
+        public DbSet<Kreditor> Kreditoren { get; set; }
+
         #endregion
 
         #region Kostenrechnung

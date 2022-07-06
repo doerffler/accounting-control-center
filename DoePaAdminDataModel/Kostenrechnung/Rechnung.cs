@@ -1,4 +1,5 @@
-﻿using DoePaAdminDataModel.Stammdaten;
+﻿using DoePaAdminDataModel.Dokumentenmanagement;
+using DoePaAdminDataModel.Stammdaten;
 using System;
 using System.Collections.Generic;
 
@@ -16,6 +17,8 @@ namespace DoePaAdminDataModel.Kostenrechnung
         public DateTime BezahltDatum { get; set; }
 
         public Geschaeftsjahr ZugehoerigesGeschaeftsjahr { get; set; }
+
+        public Rechnungsdokument ZugehoerigesDokument { get; set; }
 
         public Rechnung()
         {

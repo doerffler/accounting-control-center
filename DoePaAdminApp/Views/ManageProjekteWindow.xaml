@@ -4,8 +4,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DoePaAdminApp.Views"
+        xmlns:svg="http://sharpvectors.codeplex.com/svgc/"
         mc:Ignorable="d"
-        Title="ManageProjekteWindow" Height="450" Width="800"
+        Title="{StaticResource strEditProject}"
+        Height="450"
+        Width="800"
+        Icon="{svg:SvgImage /Resources/Project.svg}"
         DataContext="{Binding Source={StaticResource Locator}, Path=ManageProjekteViewModel}">
     <Grid>
         <Grid.ColumnDefinitions>

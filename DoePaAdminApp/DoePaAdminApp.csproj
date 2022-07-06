@@ -10,23 +10,27 @@
   <ItemGroup>
     <None Remove="appsettings.json" />
     <None Remove="Resources\AbsolutePosition.svg" />
-    <None Remove="Resources\contactcard_icon_16x16.png" />
-    <None Remove="Resources\contactcard_icon_32x32.png" />
+    <None Remove="Resources\Copy.svg" />
     <None Remove="Resources\costcenter_icon_16x16.png" />
     <None Remove="Resources\costcenter_icon_32x32.png" />
+    <None Remove="Resources\Customer.svg" />
     <None Remove="Resources\doerffler_icon_496x496.png" />
+    <None Remove="Resources\dp_icon.svg" />
+    <None Remove="Resources\Employee.svg" />
     <None Remove="Resources\invoice_icon.svg" />
     <None Remove="Resources\OpenFile.svg" />
+    <None Remove="Resources\Order.svg" />
+    <None Remove="Resources\Paste.svg" />
     <None Remove="Resources\Print.svg" />
     <None Remove="Resources\PrintPreview.svg" />
     <None Remove="Resources\PrintSetup.svg" />
+    <None Remove="Resources\Project.svg" />
+    <None Remove="Resources\Refresh.svg" />
     <None Remove="Resources\SaveAs.svg" />
     <None Remove="Resources\sd_card_16x16.png" />
     <None Remove="Resources\sd_card_32x32.png" />
-    <None Remove="Resources\order_icon_16x16.png" />
-    <None Remove="Resources\order_icon_32x32.png" />
-    <None Remove="Resources\undraw_text_files.svg" />
-    <None Remove="Resources\undraw_working_remotely.svg" />
+    <None Remove="Resources\Supplier.svg" />
+    <None Remove="Resources\TestConfiguration.svg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -48,13 +52,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Resources\AbsolutePosition.svg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\contactcard_icon_16x16.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\contactcard_icon_32x32.png">
+    <Resource Include="Resources\Copy.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\costcenter_icon_16x16.png">
@@ -63,13 +61,28 @@
     <Resource Include="Resources\costcenter_icon_32x32.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\Customer.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\doerffler_icon_496x496.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\dp_icon.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Employee.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\invoice_icon.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\OpenFile.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Order.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Paste.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Print.svg">
@@ -81,6 +94,12 @@
     <Resource Include="Resources\PrintSetup.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\Project.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Refresh.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\SaveAs.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
@@ -90,16 +109,10 @@
     <Resource Include="Resources\sd_card_32x32.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Resources\order_icon_16x16.png">
+    <Resource Include="Resources\Supplier.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Resources\order_icon_32x32.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\undraw_text_files.svg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\undraw_working_remotely.svg">
+    <Resource Include="Resources\TestConfiguration.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>

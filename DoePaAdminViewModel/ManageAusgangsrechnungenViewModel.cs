@@ -23,7 +23,7 @@ namespace DoePaAdmin.ViewModel
             set => SetProperty(ref _selectedGeschaeftsjahr, value, true);
         }
 
-        private ObservableCollection<Geschaeftsjahr> _geschaeftsjahre = new();
+        private ObservableCollection<Geschaeftsjahr> _geschaeftsjahre;
 
         public ObservableCollection<Geschaeftsjahr> Geschaeftsjahre
         {
@@ -39,7 +39,7 @@ namespace DoePaAdmin.ViewModel
             set => SetProperty(ref _selectedRechnung, value, true);
         }
 
-        private ObservableCollection<Ausgangsrechnung> _rechnungen = new();
+        private ObservableCollection<Ausgangsrechnung> _rechnungen;
 
         public ObservableCollection<Ausgangsrechnung> Rechnungen
         {
@@ -47,12 +47,18 @@ namespace DoePaAdmin.ViewModel
             set => SetProperty(ref _rechnungen, value, true);
         }
 
-        private ObservableCollection<Abrechnungseinheit> _abrechnungseinheiten = new();
+        private ObservableCollection<Abrechnungseinheit> _abrechnungseinheiten;
 
         public ObservableCollection<Abrechnungseinheit> Abrechnungseinheiten
         {
             get => _abrechnungseinheiten;
             set => SetProperty(ref _abrechnungseinheiten, value, true);
+        }
+                
+        public static Uri InvoiceDocumentUrl
+        {
+            //TODO: This is supposed to return something like SelectedRechnung.ZugehoerigesDokument.DokumentUrl
+            get => new ("file:///D:/Cloud/b.telligent%20group/Doerffler%20Buchhaltung%20-%20Dokumente/Rechnungen_Ausgang/2021-2022/20210154_FREELANCER_Nachtrag_764.PDF");
         }
 
         public IRelayCommand AddRechnungCommand { get; }

@@ -5,8 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DoePaAdminApp.Views"
         mc:Ignorable="d"
+        xmlns:svg="http://sharpvectors.codeplex.com/svgc/"
         Title="{StaticResource strEditWorkforce}"
-        Icon="/Resources/contactcard_icon_16x16.png"
+        Icon="{svg:SvgImage /Resources/Employee.svg}"
         DataContext="{Binding Source={StaticResource Locator}, Path=ManageMitarbeiterViewModel}">
     <Grid>
         <Grid.ColumnDefinitions>
