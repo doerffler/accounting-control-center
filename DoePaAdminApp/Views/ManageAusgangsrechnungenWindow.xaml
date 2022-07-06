@@ -105,7 +105,15 @@
             <DatePicker Grid.Row="0" Grid.Column="3" SelectedDate="{Binding SelectedRechnung.RechnungsDatum}" />
 
             <Label Grid.Row="1" Grid.Column="0">Rechnungsempfänger:</Label>
-            <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Source={StaticResource Locator}, Path=ManageDebitorenViewModel.Geschaeftspartner}" SelectedItem="{Binding SelectedRechnung.Rechnungsempfaenger}" />
+            <WrapPanel
+                Grid.Row="1"
+                Grid.Column="1"
+                Orientation="Horizontal">
+                <ComboBox  ItemsSource="{Binding Source={StaticResource Locator}, Path=ManageDebitorenViewModel.Geschaeftspartner}" SelectedItem="{Binding SelectedRechnung.Rechnungsempfaenger}" />
+                <Button Height="16" Width="16" Click="HandleBtnManageDebitor_Click">
+                    <Image Source="{svg:SvgImage /Resources/Customer.svg}" />
+                </Button>
+            </WrapPanel>
 
         </Grid>
 

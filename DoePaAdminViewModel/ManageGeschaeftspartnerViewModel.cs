@@ -30,17 +30,17 @@ namespace DoePaAdmin.ViewModel
             set => SetProperty(ref _selectedGeschaeftspartner, value, true);
         }
 
-        public IRelayCommand AddDebitorCommand { get; set; }
+        public IRelayCommand AddGeschaeftspartnerCommand { get; set; }
 
-        public IRelayCommand RemoveDebitorCommand { get; set; }
+        public IRelayCommand RemoveGeschaeftspartnerCommand { get; set; }
 
         public ManageGeschaeftspartnerViewModel(IDoePaAdminService doePaAdminService) : base(doePaAdminService)
         {
 
-            AddDebitorCommand = new AsyncRelayCommand(DoAddGeschaeftspartnerAsync);
+            AddGeschaeftspartnerCommand = new AsyncRelayCommand(DoAddGeschaeftspartnerAsync);
 
             //TODO: Implement CanExecute-Functionality
-            RemoveDebitorCommand = new RelayCommand(DoRemoveGeschaeftspartner);
+            RemoveGeschaeftspartnerCommand = new RelayCommand(DoRemoveGeschaeftspartner);
 
             Geschaeftspartner = new(Task.Run(async () => await DoePaAdminService.GetGeschaeftspartnerAsync<T>()).Result);
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,12 @@ namespace DoePaAdminApp.Views
         public ManageAusgangsrechnungenWindow()
         {
             InitializeComponent();
+        }
+
+        private void HandleBtnManageDebitor_Click(object sender, RoutedEventArgs e)
+        {
+            ManageDebitorenWindow manageDebitoren = App.ServiceProvider.GetRequiredService<ManageDebitorenWindow>();
+            manageDebitoren.Show();
         }
     }
 }
