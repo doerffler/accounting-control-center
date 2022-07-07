@@ -101,6 +101,12 @@ namespace DoePaAdmin.ViewModel.Services
 
         public Task<Geschaeftsjahr> CreateGeschaeftsjahrAsync(CancellationToken cancellationToken = default);
 
+        public Task<IEnumerable<Postleitzahl>> GetPostleitzahlenAsync(CancellationToken cancellationToken = default);
+
+        public Task<Postleitzahl> CreatePostleitzahlAsync(CancellationToken cancellationToken = default);
+
+        public Task<Adresse> CreateAdresseAsync(CancellationToken cancellationToken = default);
+
         #endregion
 
         #region Utility functions

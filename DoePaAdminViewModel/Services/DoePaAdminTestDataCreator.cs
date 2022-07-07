@@ -117,6 +117,20 @@ namespace DoePaAdmin.ViewModel.Services
             currentGeschaeftsjahr.Name = "1994/1995";
             currentGeschaeftsjahr.Rechnungsprefix = "1994";
 
+            Postleitzahl currentPostleitzahl;
+
+            currentPostleitzahl = await doePaAdminService.CreatePostleitzahlAsync(cancellationToken);
+            currentPostleitzahl.Bundesland = "Niedersachsen";
+            currentPostleitzahl.Land = "Deutschland";
+            currentPostleitzahl.Ortsname = "Hannover";
+            currentPostleitzahl.PLZ = "30173";
+
+            currentPostleitzahl = await doePaAdminService.CreatePostleitzahlAsync(cancellationToken);
+            currentPostleitzahl.Bundesland = "Baden-Württemberg";
+            currentPostleitzahl.Land = "Deutschland";
+            currentPostleitzahl.Ortsname = "Mühlhausen (Kraichgau)";
+            currentPostleitzahl.PLZ = "69242";
+
             await doePaAdminService.SaveChangesAsync(cancellationToken);
         }
 
@@ -129,6 +143,8 @@ namespace DoePaAdmin.ViewModel.Services
             Taetigkeit taetTechnicalDirector = listTaetigkeiten.Where(t => t.Taetigkeitsbeschreibung.Equals("Technical Director")).First();
             Taetigkeit taetGamedesigner = listTaetigkeiten.Where(t => t.Taetigkeitsbeschreibung.Equals("Game Designer")).First();
             Taetigkeit taetArtist = listTaetigkeiten.Where(t => t.Taetigkeitsbeschreibung.Equals("Artist")).First();
+
+            Postleitzahl plzHannover = (await doePaAdminService.GetPostleitzahlenAsync(cancellationToken)).Where(plz => plz.PLZ.Equals("30173")).First();
 
             List<Anstellungsdetail> currentAnstellungshistorie;
             Anstellungsdetail currentAnstellungsdetail;
@@ -147,6 +163,11 @@ namespace DoePaAdmin.ViewModel.Services
             currentMitarbeiter.Anstellungshistorie = currentAnstellungshistorie;
             currentMitarbeiter.Kuerzel = "JOCA";
             currentMitarbeiter.PersonalnummerDatev = 1;
+
+            currentMitarbeiter.ZugehoerigeAdresse.ZugehoerigePostleitzahl = plzHannover;
+            currentMitarbeiter.ZugehoerigeAdresse.Hausnummer = "23";
+            currentMitarbeiter.ZugehoerigeAdresse.Strasse = "Freundallee";
+
             currentMitarbeiter.ZugehoerigeKostenstelle = listKostenstellen.Where(kst => kst.Kostenstellenbezeichnung.Equals("John Carmack")).First();
 
             currentAnstellungsdetail = await doePaAdminService.CreateAnstellungsdetailAsync(cancellationToken);
@@ -195,8 +216,13 @@ namespace DoePaAdmin.ViewModel.Services
             currentMitarbeiter.Anstellungshistorie = currentAnstellungshistorie;
             currentMitarbeiter.Kuerzel = "JORO";
             currentMitarbeiter.PersonalnummerDatev = 2;
-            currentMitarbeiter.ZugehoerigeKostenstelle = listKostenstellen.Where(kst => kst.Kostenstellenbezeichnung.Equals("John Romero")).First();
 
+            currentMitarbeiter.ZugehoerigeAdresse.ZugehoerigePostleitzahl = plzHannover;
+            currentMitarbeiter.ZugehoerigeAdresse.Hausnummer = "59";
+            currentMitarbeiter.ZugehoerigeAdresse.Strasse = "Georgstr.";
+
+            currentMitarbeiter.ZugehoerigeKostenstelle = listKostenstellen.Where(kst => kst.Kostenstellenbezeichnung.Equals("John Romero")).First();
+            
             currentAnstellungsdetail = await doePaAdminService.CreateAnstellungsdetailAsync(cancellationToken);
             currentAnstellungsdetail.ZugehoerigerMitarbeiter = currentMitarbeiter;
             currentAnstellungsdetail.AnzahlMonatsgehaelter = 12;
@@ -337,14 +363,12 @@ namespace DoePaAdmin.ViewModel.Services
             
             Kostenstelle kstOfficeRichardson = await doePaAdminService.CreateKostenstelleAsync(cancellationToken);
             kstOfficeRichardson.Kostenstellenbezeichnung = "Office Richardson";
-            kstOfficeRichardson.GueltigAb = new(1991, 2, 1);
             kstOfficeRichardson.ZugehoerigeKostenstellenart = listKostenstellenarten.Where(ka => ka.Kostenstellenartbezeichnung.Equals("Geschäftsräume")).First();
 
             Kostenstelle currentKostenstelle;
 
             currentKostenstelle = await doePaAdminService.CreateKostenstelleAsync(cancellationToken);
             currentKostenstelle.Kostenstellenbezeichnung = "Bobby Prince";
-            currentKostenstelle.GueltigAb = new(1991, 2, 1);
             currentKostenstelle.ZugehoerigeKostenstellenart = listKostenstellenarten.Where(ka => ka.Kostenstellenartbezeichnung.Equals("Freie Mitarbeiter/innen")).First();
 
             foreach (string currentEmployeeName in new String[] { "John Carmack", "John Romero", "Adrian Carmack", "Tom Hall" })
@@ -352,7 +376,6 @@ namespace DoePaAdmin.ViewModel.Services
             currentKostenstelle = await doePaAdminService.CreateKostenstelleAsync(cancellationToken);
             currentKostenstelle.Kostenstellenbezeichnung = currentEmployeeName;
             currentKostenstelle.ZugehoerigeKostenstellenart = listKostenstellenarten.Where(ka => ka.Kostenstellenartbezeichnung.Equals("Angestellte Mitarbeiter/innen")).First(); ;
-            currentKostenstelle.GueltigAb = new(1991, 2, 1);
             currentKostenstelle.UebergeordneteKostenstellen.Add(kstOfficeRichardson);
             kstOfficeRichardson.UntergeordneteKostenstellen.Add(currentKostenstelle);
             }

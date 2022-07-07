@@ -24,6 +24,7 @@
             <sys:String x:Key="strManageDebitors">Debitoren bearbeiten</sys:String>
             <sys:String x:Key="strManageKreditors">Kreditoren bearbeiten</sys:String>
             <sys:String x:Key="strManageSkillMenue">Skills bearbeiten</sys:String>
+            <sys:String x:Key="strManagePostleitzahlen">Postleitzahlen bearbeiten</sys:String>
             <sys:String x:Key="strImportOutgoingInvoices">Ausgangsrechnungen importieren</sys:String>
                         
             <sys:String x:Key="strAddItem">Neu</sys:String>

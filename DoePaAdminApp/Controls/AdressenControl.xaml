@@ -1,4 +1,4 @@
-﻿<UserControl x:Name="userControl" x:Class="DoePaAdminApp.Controls.AdressenControl"
+﻿<UserControl x:Name="adressControl" x:Class="DoePaAdminApp.Controls.AdressenControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:DoePaAdminApp.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid DataContext="{Binding SelectedItem, ElementName=userControl}">
+    <Grid DataContext="{Binding SelectedItem, ElementName=adressControl}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
@@ -27,7 +27,20 @@
         <Label Grid.Row="1" Grid.Column="0">Postfach:</Label>
         <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Postfach}" />
 
-        <Label Grid.Row="1" Grid.Column="2">Hausnummer:</Label>
-        <ComboBox Grid.Row="1" Grid.Column="3" Text="{Binding Hausnummer}" />
+        <Label Grid.Row="1" Grid.Column="2">Postleitzahl:</Label>
+        <WrapPanel
+                Grid.Column="3"
+                Grid.Row="1"
+                DataContext="{Binding Source={StaticResource Locator}, Path=ManagePostleitzahlenViewModel}">
+
+            <ComboBox
+                    ItemsSource="{Binding Postleitzahlen}"
+                    SelectedItem="{Binding ElementName=adressControl, Path=SelectedItem.ZugehoerigePostleitzahl}"
+                    DisplayMemberPath="PLZ" />
+            <Button Command="{Binding AddPostleitzahlCommand}">
+                <Control Template="{StaticResource tmpAddItemButton}" />
+            </Button>
+
+        </WrapPanel>
     </Grid>
 </UserControl>

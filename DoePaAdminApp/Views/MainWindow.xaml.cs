@@ -61,5 +61,10 @@ namespace DoePaAdminApp.Views
         {
             throw new NotImplementedException();
         }
+
+        private void RBOpenPostleitzahlManagement_Click(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

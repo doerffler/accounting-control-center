@@ -151,6 +151,14 @@
                         LargeImageSource="{svg:SvgImage /Resources/Supplier.svg}"
                         Label="{StaticResource strManageKreditors}" />
                 </RibbonGroup>
+                <RibbonGroup Header="Adressen">
+                    <RibbonButton
+                        x:Name="RBOpenPostleitzahlManagement"
+                        Click="RBOpenPostleitzahlManagement_Click"
+                        SmallImageSource="{svg:SvgImage /Resources/undraw_handcrafts_location.svg}"
+                        LargeImageSource="{svg:SvgImage /Resources/undraw_handcrafts_location.svg}"
+                        Label="{StaticResource strManagePostleitzahlen}" />
+                </RibbonGroup>
             </RibbonTab>
             <RibbonTab Header="Kostenrechnung">
                 <RibbonGroup Header="Eingehende Rechnungen">

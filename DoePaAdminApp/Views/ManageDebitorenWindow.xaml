@@ -6,6 +6,7 @@
         xmlns:svg="http://sharpvectors.codeplex.com/svgc/"
         xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
         xmlns:local="clr-namespace:DoePaAdminApp.Views"
+        xmlns:dpadminControls="clr-namespace:DoePaAdminApp.Controls"
         mc:Ignorable="d"
         Title="{StaticResource strManageDebitors}"
         Icon="{svg:SvgImage /Resources/Customer.svg}"
@@ -83,6 +84,8 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
             <Grid.ColumnDefinitions>
@@ -109,6 +112,14 @@
 
             <Label Grid.Row="2" Grid.Column="2">Position:</Label>
             <TextBox Grid.Row="2" Grid.Column="3" Text="{Binding SelectedGeschaeftspartner.Position}" />
+
+            <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4">Adresse:</Label>
+            <dpadminControls:AdressenControl
+                Grid.Row="4"
+                Grid.Column="0"
+                Grid.ColumnSpan="4"
+                SelectedItem="{Binding SelectedGeschaeftspartner.ZugehoerigeAdresse}"
+                />
 
         </Grid>
         
