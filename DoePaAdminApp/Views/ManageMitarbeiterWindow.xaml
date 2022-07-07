@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:DoePaAdminApp.Views"
         mc:Ignorable="d"
         xmlns:svg="http://sharpvectors.codeplex.com/svgc/"
+        xmlns:dpAdminControls="clr-namespace:DoePaAdminApp.Controls"
         Title="{StaticResource strEditWorkforce}"
         Icon="{svg:SvgImage /Resources/Employee.svg}"
         DataContext="{Binding Source={StaticResource Locator}, Path=ManageMitarbeiterViewModel}">
@@ -156,11 +157,11 @@
                 Grid.Row="4">
                 Adresse:
             </Label>
-            <TextBlock
+            <dpAdminControls:AdressenControl
                 Grid.Column="3"
                 Grid.Row="4"
                 Grid.RowSpan="3"
-                Text="{Binding ZugehoerigeAdresse}" />
+                SelectedItem="{Binding ZugehoerigeAdresse}" />
 
             <Label
                 Grid.Column="0"

@@ -31,6 +31,7 @@
     <None Remove="Resources\sd_card_32x32.png" />
     <None Remove="Resources\Supplier.svg" />
     <None Remove="Resources\TestConfiguration.svg" />
+    <None Remove="Resources\undraw_handcrafts_location.svg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -113,6 +114,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\TestConfiguration.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\undraw_handcrafts_location.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>

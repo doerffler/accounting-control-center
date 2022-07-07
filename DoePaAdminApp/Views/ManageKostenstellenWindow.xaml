@@ -60,7 +60,6 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
@@ -83,12 +82,9 @@
                 </Button>
             </WrapPanel>
 
-            <Label Grid.Row="3" Grid.Column="0">Gültig ab:</Label>
-            <DatePicker Grid.Row="3" Grid.Column="1" SelectedDate="{Binding SelectedKostenstelle.GueltigAb}" />
-
-            <Label Grid.Row="4" Grid.Column="0">Übergeordnete Kostenstellen:</Label>
+            <Label Grid.Row="3" Grid.Column="0">Übergeordnete Kostenstellen:</Label>
             <!-- TODO: Aktuell ausgewählte Kostenstelle muss noch ausgefiltert werden: -->
-            <ListBox Grid.Row="4" Grid.RowSpan="2" Grid.Column="1" ItemsSource="{Binding Kostenstellen}" SelectionMode="Multiple">
+            <ListBox Grid.Row="3" Grid.RowSpan="2" Grid.Column="1" ItemsSource="{Binding Kostenstellen}" SelectionMode="Multiple">
                 <i:Interaction.Behaviors>
                     <bhvrs:SelectedKostenstellenBehavior SelectedItems="{Binding UebergeordneteKostenstellen}" />
                 </i:Interaction.Behaviors>
@@ -102,7 +98,7 @@
                 </ListBox.ItemTemplate>
             </ListBox>
 
-            <Button Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Command="{Binding SaveChangesCommand}">
+            <Button Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Command="{Binding SaveChangesCommand}">
                 <Control Template="{StaticResource tmpSaveDbDataButton}" />
             </Button>
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DoePaAdminDataModel.Stammdaten;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,13 +26,13 @@ namespace DoePaAdminApp.Controls
             InitializeComponent();
         }
 
-        public object SelectedItem
+        public Adresse SelectedItem
         {
-            get { return GetValue(SelectedItemProperty); }
+            get { return (Adresse)GetValue(SelectedItemProperty); }
             set { SetValue(SelectedItemProperty, value); }
         }
 
-        public static readonly DependencyProperty SelectedItemProperty = DependencyProperty.Register("SelectedItem", typeof(object), typeof(AdressenControl), new FrameworkPropertyMetadata(null)
+        public static readonly DependencyProperty SelectedItemProperty = DependencyProperty.Register("SelectedItem", typeof(Adresse), typeof(AdressenControl), new FrameworkPropertyMetadata(new Adresse())
         {
             BindsTwoWayByDefault = true,
             DefaultUpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
