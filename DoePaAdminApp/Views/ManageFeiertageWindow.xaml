@@ -9,7 +9,7 @@
         xmlns:dpAdminControls="clr-namespace:DoePaAdminApp.Controls"
         Title="{StaticResource strEditHolidays}"
         Icon="{svg:SvgImage /Resources/undraw_calendar_re_ki49.svg}"
-        DataContext="{Binding Source={StaticResource Locator}, Path=ManageFeiertageViewModel}" d:DesignHeight="203.203" d:DesignWidth="235.893">
+        DataContext="{Binding Source={StaticResource Locator}, Path=ManageFeiertageViewModel}" d:DesignHeight="203.203" Width="252">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="27*"/>
@@ -19,9 +19,13 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="91" />
                 <ColumnDefinition />
+                <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <Label Grid.Column="0">Geschäftsjahr</Label>
             <ComboBox Grid.Column="1"></ComboBox>
+            <Button Grid.Column="2" Command="{Binding ImportDataCommand}">
+                <Control Template="{StaticResource tmpSaveDbDataButton}" />
+            </Button>
         </Grid>
         <DataGrid Grid.Row="1" ItemsSource="{Binding Datuemer, Mode=TwoWay}" AutoGenerateColumns="False" CanUserAddRows="True">
             <DataGrid.Columns>
@@ -42,19 +46,19 @@
 
                 <DataGridCheckBoxColumn Header="HH" Binding="{Binding Path=Hamburg}" />
                 <DataGridCheckBoxColumn Header="NI" Binding="{Binding Path=Niedersachsen}" />
-                <DataGridCheckBoxColumn Header="BR" Binding="{Binding Path=Bremen}" />
+                <DataGridCheckBoxColumn Header="HB" Binding="{Binding Path=Bremen}" />
                 <DataGridCheckBoxColumn Header="SH" Binding="{Binding Path=SchleswigHolstein}" />
                 <DataGridCheckBoxColumn Header="MV" Binding="{Binding Path=MecklenburgVorpommern}" />
-                <DataGridCheckBoxColumn Header="NRW" Binding="{Binding Path=NordrheinWestfalen}" />
+                <DataGridCheckBoxColumn Header="NW" Binding="{Binding Path=NordrheinWestfalen}" />
                 <DataGridCheckBoxColumn Header="BE" Binding="{Binding Path=Berlin}" />
                 <DataGridCheckBoxColumn Header="BB" Binding="{Binding Path=Brandenburg}" />
                 <DataGridCheckBoxColumn Header="TH" Binding="{Binding Path=Thueringen}" />
-                <DataGridCheckBoxColumn Header="SA" Binding="{Binding Path=SachsenAnhalt}" />
+                <DataGridCheckBoxColumn Header="ST" Binding="{Binding Path=SachsenAnhalt}" />
                 <DataGridCheckBoxColumn Header="SN" Binding="{Binding Path=Sachsen}" />
                 <DataGridCheckBoxColumn Header="SL" Binding="{Binding Path=Saarland}" />
                 <DataGridCheckBoxColumn Header="BW" Binding="{Binding Path=BadenWuerttemberg}" />
                 <DataGridCheckBoxColumn Header="BY" Binding="{Binding Path=Bayern}" />
-                <DataGridCheckBoxColumn Header="HS" Binding="{Binding Path=Hessen}" />
+                <DataGridCheckBoxColumn Header="HE" Binding="{Binding Path=Hessen}" />
                 <DataGridCheckBoxColumn Header="RP" Binding="{Binding Path=RheinlandPfalz}" />
             </DataGrid.Columns>
         </DataGrid>
