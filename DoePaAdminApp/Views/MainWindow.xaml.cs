@@ -69,12 +69,14 @@ namespace DoePaAdminApp.Views
 
         private void RBOpenGeschaeftsjahrManagement_Click(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            ManageGeschaeftsjahreWindow manageGeschaeftsjahre = App.ServiceProvider.GetRequiredService<ManageGeschaeftsjahreWindow>();
+            manageGeschaeftsjahre.Show();
         }
 
         private void RBOpenFeiertagManagement_Click(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            ManageFeiertageWindow manageFeiertage = App.ServiceProvider.GetRequiredService<ManageFeiertageWindow>();
+            manageFeiertage.Show();
         }
     }
 }

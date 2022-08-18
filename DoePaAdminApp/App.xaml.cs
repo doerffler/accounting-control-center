@@ -66,7 +66,10 @@ namespace DoePaAdminApp
             services.AddSingleton<ManageAusgangsrechnungenViewModel>();
             services.AddSingleton<ManageDebitorenViewModel>();
             services.AddSingleton<ManagePostleitzahlenViewModel>();
-                        
+            services.AddSingleton<ManageFeiertageViewModel>();
+            services.AddSingleton<ManageGeschaeftsjahreViewModel>();
+
+
             services.AddTransient<MainWindow>();
             services.AddTransient<ManageKostenstellenWindow>();
             services.AddTransient<ManageMitarbeiterWindow>();
@@ -77,6 +80,8 @@ namespace DoePaAdminApp
             services.AddTransient<AskForUserInputWindow>();
             services.AddTransient<ManageAusgangsrechnungenWindow>();
             services.AddTransient<ManageDebitorenWindow>();
+            services.AddTransient<ManageFeiertageWindow>();
+            services.AddTransient<ManageGeschaeftsjahreWindow>();
 
         }
 

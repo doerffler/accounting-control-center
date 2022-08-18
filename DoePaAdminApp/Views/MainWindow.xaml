@@ -163,14 +163,12 @@
                     <RibbonButton
                         x:Name="RBOpenGeschaeftsjahrManagement"
                         Click="RBOpenGeschaeftsjahrManagement_Click"
-                        SmallImageSource="{svg:SvgImage /Resources/undraw_handcrafts_location.svg}"
-                        LargeImageSource="{svg:SvgImage /Resources/undraw_handcrafts_location.svg}"
+                        LargeImageSource="{svg:SvgImage /Resources/undraw_schedule_re_2vro.svg}"
                         Label="{StaticResource strManageGeschaeftsjahre}" />
                     <RibbonButton
                         x:Name="RBOpenFeiertagManagement"
                         Click="RBOpenFeiertagManagement_Click"
-                        SmallImageSource="{svg:SvgImage /Resources/undraw_handcrafts_location.svg}"
-                        LargeImageSource="{svg:SvgImage /Resources/undraw_handcrafts_location.svg}"
+                        LargeImageSource="{svg:SvgImage /Resources/undraw_calendar_re_ki49.svg}"
                         Label="{StaticResource strManageFeiertage}" />
                 </RibbonGroup>
             </RibbonTab>

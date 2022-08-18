@@ -101,6 +101,10 @@ namespace DoePaAdmin.ViewModel.Services
 
         public Task<Geschaeftsjahr> CreateGeschaeftsjahrAsync(CancellationToken cancellationToken = default);
 
+        public Task<Datum> CreateDatumAsync(CancellationToken cancellationToken = default);
+
+        public Task<IEnumerable<Datum>> GetDatuemerAsync(CancellationToken cancellationToken = default);
+
         public Task<IEnumerable<Postleitzahl>> GetPostleitzahlenAsync(CancellationToken cancellationToken = default);
 
         public Task<Postleitzahl> CreatePostleitzahlAsync(CancellationToken cancellationToken = default);
