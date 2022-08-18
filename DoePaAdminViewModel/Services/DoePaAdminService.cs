@@ -277,6 +277,16 @@ namespace DoePaAdmin.ViewModel.Services
             return await AddDataToDbSetAsync(DBContext.Adressen, cancellationToken);
         }
 
+        public async Task<Datum> CreateDatumAsync(CancellationToken cancellationToken = default)
+        {
+            return await AddDataToDbSetAsync(DBContext.Datuemer, cancellationToken);
+        }
+
+        public async Task<IEnumerable<Datum>> GetDatuemerAsync(CancellationToken cancellationToken = default)
+        {
+            return await GetDataFromDbSetAsync(DBContext.Datuemer, cancellationToken);
+        }
+
         #endregion
 
         #region Utility functions

@@ -66,5 +66,15 @@ namespace DoePaAdminApp.Views
         {
             throw new NotImplementedException();
         }
+
+        private void RBOpenGeschaeftsjahrManagement_Click(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void RBOpenFeiertagManagement_Click(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

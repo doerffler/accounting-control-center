@@ -159,6 +159,20 @@
                         LargeImageSource="{svg:SvgImage /Resources/undraw_handcrafts_location.svg}"
                         Label="{StaticResource strManagePostleitzahlen}" />
                 </RibbonGroup>
+                <RibbonGroup Header="Geschäftsjahr">
+                    <RibbonButton
+                        x:Name="RBOpenGeschaeftsjahrManagement"
+                        Click="RBOpenGeschaeftsjahrManagement_Click"
+                        SmallImageSource="{svg:SvgImage /Resources/undraw_handcrafts_location.svg}"
+                        LargeImageSource="{svg:SvgImage /Resources/undraw_handcrafts_location.svg}"
+                        Label="{StaticResource strManageGeschaeftsjahre}" />
+                    <RibbonButton
+                        x:Name="RBOpenFeiertagManagement"
+                        Click="RBOpenFeiertagManagement_Click"
+                        SmallImageSource="{svg:SvgImage /Resources/undraw_handcrafts_location.svg}"
+                        LargeImageSource="{svg:SvgImage /Resources/undraw_handcrafts_location.svg}"
+                        Label="{StaticResource strManageFeiertage}" />
+                </RibbonGroup>
             </RibbonTab>
             <RibbonTab Header="Kostenrechnung">
                 <RibbonGroup Header="Eingehende Rechnungen">
