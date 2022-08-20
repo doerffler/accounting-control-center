@@ -162,11 +162,6 @@ namespace DoePaAdmin.ViewModel.Services
 
         #region Ausgangsrechnungen
 
-        public async Task<IEnumerable<Geschaeftsjahr>> GetGeschaeftsjahreAsync(CancellationToken cancellationToken = default)
-        {
-            return await GetDataFromDbSetAsync(DBContext.Geschaeftsjahre, cancellationToken);
-        }
-
         public async Task<IEnumerable<Ausgangsrechnung>> GetAusgangsrechnungenAsync(CancellationToken cancellationToken = default)
         {
             return await GetDataFromDbSetAsync(DBContext.Ausgangsrechnungen.Include(ar => ar.Rechnungspositionen), cancellationToken);
@@ -255,6 +250,11 @@ namespace DoePaAdmin.ViewModel.Services
         public async Task<Abrechnungseinheit> CreateAbrechnungseinheitAsync(CancellationToken cancellationToken = default)
         {
             return await AddDataToDbSetAsync(DBContext.Abrechnungseinheiten, cancellationToken);
+        }
+
+        public async Task<IEnumerable<Geschaeftsjahr>> GetGeschaeftsjahreAsync(CancellationToken cancellationToken = default)
+        {
+            return await GetDataFromDbSetAsync(DBContext.Geschaeftsjahre, cancellationToken);
         }
 
         public async Task<Geschaeftsjahr> CreateGeschaeftsjahrAsync(CancellationToken cancellationToken = default)

@@ -18,9 +18,6 @@ namespace DoePaAdmin.ViewModel
 
         #region Feiertag
         private ObservableCollection<Datum> _datuemer = new();
-        
-        public ApiReciever<Feiertage> ApiReciever { get; set; }
-
         public ObservableCollection<Datum> Datuemer
         {
             get => _datuemer;
@@ -28,18 +25,66 @@ namespace DoePaAdmin.ViewModel
         }
         #endregion
 
+        #region Geschäftsjahr
+        private ObservableCollection<Geschaeftsjahr> _geschaeftsjahre = new();
+        public ObservableCollection<Geschaeftsjahr> Geschaeftsjahre
+        {
+            get => _geschaeftsjahre;
+            set => SetProperty(ref _geschaeftsjahre, value, true);
+        }
+
+        private Geschaeftsjahr _selectedGeschaeftsjahr = new();
+        public Geschaeftsjahr SelectedGeschaeftsjahr
+        {
+            get => _selectedGeschaeftsjahr;
+            set => SetProperty(ref _selectedGeschaeftsjahr, value, true);
+        }
+        #endregion
+
         public ManageFeiertageViewModel(IDoePaAdminService doePaAdminService) : base(doePaAdminService)
         {
             Datuemer = new(Task.Run(async () => await DoePaAdminService.GetDatuemerAsync()).Result);
-         
-            ApiReciever = new ApiReciever<Feiertage>("https://get.api-feiertage.de/?years=2022");
+            Geschaeftsjahre = new(Task.Run(async () => await DoePaAdminService.GetGeschaeftsjahreAsync()).Result);
 
             ImportDataCommand = new AsyncRelayCommand(ImportDataAsync);
         }
 
         private async Task ImportDataAsync()
         {
-            Feiertage Response = await ApiReciever.ReadData();
+            string endpoint = string.Format("https://get.api-feiertage.de?years={0}", SelectedGeschaeftsjahr.Rechnungsprefix);
+            ApiReciever<Feiertage> apiReciever = new(endpoint);
+            Feiertage Response = await apiReciever.ReadData();
+
+            if (Response.Status == "success")
+            {
+                foreach (Feiertag feiertag in Response.FeiertagListe)
+                {
+                    _ = new Datum()
+                    {
+                        Geschaeftsjahr = SelectedGeschaeftsjahr,
+                        DatumTag = feiertag.Date,
+                        FeiertagName = feiertag.Name,
+                        Niedersachsen = feiertag.Niedersachsen == "1",
+                        Hamburg = feiertag.Hamburg == "1",
+                        Sachsen = feiertag.Sachsen == "1",
+                        Saarland = feiertag.Saarland == "1",
+                        SachsenAnhalt = feiertag.SachsenAnhalt == "1",
+                        Bremen = feiertag.Bremen == "1",
+                        SchleswigHolstein = feiertag.SchleswigHolstein == "1",
+                        MecklenburgVorpommern = feiertag.MecklenburgVorpommern == "1",
+                        Berlin = feiertag.Berlin == "1",
+                        Brandenburg = feiertag.Brandenburg == "1",
+                        RheinlandPfalz = feiertag.RheinlandPfalz == "1",
+                        BadenWuerttemberg = feiertag.BadenWuerttemberg == "1",
+                        Bayern = feiertag.Bayern == "1",
+                        Hessen = feiertag.Hessen == "1",
+                        NordrheinWestfalen = feiertag.NordrheinWestfalen == "1",
+                        Thueringen = feiertag.Thueringen == "1",
+                        IstGanztag = true
+                    };
+
+                }
+            }
         }
     }
 }

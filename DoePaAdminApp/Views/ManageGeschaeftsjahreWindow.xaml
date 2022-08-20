@@ -9,38 +9,68 @@
         xmlns:dpAdminControls="clr-namespace:DoePaAdminApp.Controls"
         Title="{StaticResource strEditFiscalYears}"
         Icon="{svg:SvgImage /Resources/undraw_schedule_re_2vro.svg}"
-        DataContext="{Binding Source={StaticResource Locator}, Path=ManageGeschaeftsjahreViewModel}" d:DesignHeight="180.203" d:DesignWidth="292.073">
+        DataContext="{Binding Source={StaticResource Locator}, Path=ManageGeschaeftsjahreViewModel}" d:DesignHeight="256.842" d:DesignWidth="897.49">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="52.215" />
+            </Grid.RowDefinitions>
+            <ListView ItemsSource="{Binding Geschaeftsjahre}" SelectedItem="{Binding SelectedGeschaeftsjahr}" Grid.Row="0">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn DisplayMemberBinding="{Binding Path=GeschaeftsjahrId}" Header="Nr"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding Path=Name}" Header="Name"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding Path=DatumVon, StringFormat=dd.mm.yyyy}" Header="Von"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding Path=DatumBis, StringFormat=dd.mm.yyyy}" Header="Bis"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding Path=Rechnungsprefix}" Header="Rechnungsprefix"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <StackPanel Orientation="Horizontal" Grid.Row="1">
+                <Button Command="{Binding AddProjektCommand}">
+                    <Control Template="{StaticResource tmpAddItemButton}" />
+                </Button>
+                <Button Command="{Binding RemoveProjektCommand}">
+                    <Control Template="{StaticResource tmpRemoveItemButton}" />
+                </Button>
+            </StackPanel>
+        </Grid>
 
-        <DataGrid ItemsSource="{Binding Geschaeftsjahre, Mode=TwoWay}" AutoGenerateColumns="False" CanUserAddRows="True">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Geschäftsjahr" Binding="{Binding Path=Name}" />
-                <DataGridTemplateColumn Header="Von">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Path=DatumVon, StringFormat=dd.MM.yyyy}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                    <DataGridTemplateColumn.CellEditingTemplate>
-                        <DataTemplate>
-                            <DatePicker SelectedDate="{Binding Path=DatumVon}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellEditingTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Bis">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Path=DatumBis, StringFormat=dd.MM.yyyy}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                    <DataGridTemplateColumn.CellEditingTemplate>
-                        <DataTemplate>
-                            <DatePicker SelectedDate="{Binding Path=DatumBis}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellEditingTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTextColumn Header="Rechnungsprefix" Binding="{Binding Path=Rechnungsprefix}" />
-            </DataGrid.Columns>
-        </DataGrid>
+        <Grid Grid.Column="1" DataContext="{Binding SelectedGeschaeftsjahr}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="47.243" />
+                <RowDefinition Height="47.243" />
+                <RowDefinition Height="47.243" />
+                <RowDefinition Height="47.243" />
+                <RowDefinition Height="51.243" />
+            </Grid.RowDefinitions>
+
+            <Label Grid.Row="0" Grid.Column="0">Name:</Label>
+            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Name}"/>
+
+            <Label Grid.Row="1" Grid.Column="0">Von:</Label>
+            <DatePicker Grid.Row="1" Grid.Column="1" SelectedDate="{Binding DatumVon}"/>
+
+            <Label Grid.Row="2" Grid.Column="0">Bis:</Label>
+            <DatePicker Grid.Row="2" Grid.Column="1" SelectedDate="{Binding DatumBis}" />
+
+            <Label Grid.Row="3" Grid.Column="0">Rechnungsprefix:</Label>
+            <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Rechnungsprefix}"/>
+
+            <StackPanel Grid.Row="4" Grid.ColumnSpan="2">
+                <Button Command="{Binding SaveChangesCommand}">
+                    <Control Template="{StaticResource tmpSaveDbDataButton}" />
+                </Button>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Window>

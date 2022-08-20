@@ -9,24 +9,18 @@
         xmlns:dpAdminControls="clr-namespace:DoePaAdminApp.Controls"
         Title="{StaticResource strEditHolidays}"
         Icon="{svg:SvgImage /Resources/undraw_calendar_re_ki49.svg}"
-        DataContext="{Binding Source={StaticResource Locator}, Path=ManageFeiertageViewModel}" d:DesignHeight="203.203" Width="252">
+        DataContext="{Binding Source={StaticResource Locator}, Path=ManageFeiertageViewModel}" d:DesignHeight="283.88">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="27*"/>
-            <RowDefinition Height="160*"/>
+            <RowDefinition Height="25.96" />
+            <RowDefinition />
         </Grid.RowDefinitions>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="91" />
-                <ColumnDefinition />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-            <Label Grid.Column="0">Geschäftsjahr</Label>
-            <ComboBox Grid.Column="1"></ComboBox>
-            <Button Grid.Column="2" Command="{Binding ImportDataCommand}">
-                <Control Template="{StaticResource tmpSaveDbDataButton}" />
-            </Button>
-        </Grid>
+        <StackPanel Orientation="Horizontal" Grid.Row="0">
+            <Label>Geschäftsjahr:</Label>
+            <ComboBox ItemsSource="{Binding Geschaeftsjahre}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedGeschaeftsjahr}" />
+            <Button>Speichern</Button>
+            <Button Command="{Binding ImportDataCommand}">Import</Button>
+        </StackPanel>
         <DataGrid Grid.Row="1" ItemsSource="{Binding Datuemer, Mode=TwoWay}" AutoGenerateColumns="False" CanUserAddRows="True">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Feiertag" Binding="{Binding Path=FeiertagName}" />
