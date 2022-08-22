@@ -34,10 +34,7 @@ namespace DoePaAdmin.ViewModel
 
         private void RaiseSavingEvent()
         {
-            if (Saving != null)
-            {
-                Saving();
-            }
+            Saving?.Invoke();
         }
 
         protected async Task SaveChangesAsync(CancellationToken cancellationToken = default)

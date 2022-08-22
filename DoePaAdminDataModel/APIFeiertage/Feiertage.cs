@@ -8,16 +8,16 @@ using System.Text.Json.Serialization;
 
 namespace DoePaAdminDataModel.APIFeiertage
 {
-    public class Feiertage
+    public class ApiFeiertage
     {
         [JsonPropertyName("status")]
         public string Status { get; set; }
 
         [JsonPropertyName("feiertage")]
-        public IEnumerable<Feiertag> FeiertagListe { get; set; }
+        public IEnumerable<ApiFeiertag> FeiertagListe { get; set; }
     }
 
-    public class Feiertag
+    public class ApiFeiertag
     {
         [JsonPropertyName("date")]
         public DateTime Date { get; set; }

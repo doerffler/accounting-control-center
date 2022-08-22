@@ -13,6 +13,7 @@ namespace DoePaAdmin.ViewModel.Services
     {
         public string Endpoint { get; set; }
         public T Response { get; set; }
+        public static HttpClient client = new();
 
         public ApiReciever(string Endpoint)
         {
@@ -21,7 +22,6 @@ namespace DoePaAdmin.ViewModel.Services
 
         public async Task<T> ReadData()
         {
-            HttpClient client = new();
             client.BaseAddress = new Uri(Endpoint);
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));

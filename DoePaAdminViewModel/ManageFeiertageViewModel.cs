@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace DoePaAdmin.ViewModel
@@ -16,12 +17,15 @@ namespace DoePaAdmin.ViewModel
     {
         public IRelayCommand ImportDataCommand { get; }
 
+        public IRelayCommand AddFeiertagCommand { get; }
+        public IRelayCommand RemoveFeiertagCommand { get; }
+
         #region Feiertag
-        private ObservableCollection<Datum> _datuemer = new();
-        public ObservableCollection<Datum> Datuemer
+        private ObservableCollection<Feiertag> _feiertage = new();
+        public ObservableCollection<Feiertag> Feiertage
         {
-            get => _datuemer;
-            set => SetProperty(ref _datuemer, value, true);
+            get => _feiertage;
+            set => SetProperty(ref _feiertage, value, true);
         }
         #endregion
 
@@ -39,50 +43,81 @@ namespace DoePaAdmin.ViewModel
             get => _selectedGeschaeftsjahr;
             set => SetProperty(ref _selectedGeschaeftsjahr, value, true);
         }
+
+        private Feiertag _selectedFeiertag = new();
+        public Feiertag SelectedFeiertag
+        {
+            get => _selectedFeiertag;
+            set => SetProperty(ref _selectedFeiertag, value, true);
+        }
         #endregion
 
         public ManageFeiertageViewModel(IDoePaAdminService doePaAdminService) : base(doePaAdminService)
         {
-            Datuemer = new(Task.Run(async () => await DoePaAdminService.GetDatuemerAsync()).Result);
+            Feiertage = new(Task.Run(async () => await DoePaAdminService.GetFeiertageAsync()).Result);
             Geschaeftsjahre = new(Task.Run(async () => await DoePaAdminService.GetGeschaeftsjahreAsync()).Result);
 
             ImportDataCommand = new AsyncRelayCommand(ImportDataAsync);
+
+            AddFeiertagCommand = new AsyncRelayCommand(DoAddFeiertagAsync);
+
+            //TODO: Implement CanExecute-Functionality
+            RemoveFeiertagCommand = new RelayCommand(DoRemoveFeiertag);
+        }
+
+        private void DoRemoveFeiertag()
+        {
+            if (SelectedFeiertag != null)
+            {
+                _ = Feiertage.Remove(SelectedFeiertag);
+            }
+        }
+
+        private async Task DoAddFeiertagAsync(CancellationToken cancellationToken = default)
+        {
+            Feiertag feiertag = await DoePaAdminService.CreateFeiertagAsync(cancellationToken);
+            feiertag.Datum = DateTime.Now;
+            feiertag.FeiertagName = "Neuer Feiertag";
+            feiertag.Geschaeftsjahr = SelectedGeschaeftsjahr;
+            Feiertage.Add(feiertag);
         }
 
         private async Task ImportDataAsync()
         {
-            string endpoint = string.Format("https://get.api-feiertage.de?years={0}", SelectedGeschaeftsjahr.Rechnungsprefix);
-            ApiReciever<Feiertage> apiReciever = new(endpoint);
-            Feiertage Response = await apiReciever.ReadData();
+            string endpoint = string.Format("https://get.api-feiertage.de?years={0}", SelectedGeschaeftsjahr.Name.Replace("/", ","));
+            ApiReciever<ApiFeiertage> apiReciever = new(endpoint);
+            ApiFeiertage apiFeiertage = await apiReciever.ReadData();
 
-            if (Response.Status == "success")
+            if (apiFeiertage.Status == "success")
             {
-                foreach (Feiertag feiertag in Response.FeiertagListe)
+                foreach (ApiFeiertag apiFeiertag in apiFeiertage.FeiertagListe)
                 {
-                    _ = new Datum()
+                    if (apiFeiertag.Date >= SelectedGeschaeftsjahr.DatumVon && apiFeiertag.Date < SelectedGeschaeftsjahr.DatumBis)
                     {
-                        Geschaeftsjahr = SelectedGeschaeftsjahr,
-                        DatumTag = feiertag.Date,
-                        FeiertagName = feiertag.Name,
-                        Niedersachsen = feiertag.Niedersachsen == "1",
-                        Hamburg = feiertag.Hamburg == "1",
-                        Sachsen = feiertag.Sachsen == "1",
-                        Saarland = feiertag.Saarland == "1",
-                        SachsenAnhalt = feiertag.SachsenAnhalt == "1",
-                        Bremen = feiertag.Bremen == "1",
-                        SchleswigHolstein = feiertag.SchleswigHolstein == "1",
-                        MecklenburgVorpommern = feiertag.MecklenburgVorpommern == "1",
-                        Berlin = feiertag.Berlin == "1",
-                        Brandenburg = feiertag.Brandenburg == "1",
-                        RheinlandPfalz = feiertag.RheinlandPfalz == "1",
-                        BadenWuerttemberg = feiertag.BadenWuerttemberg == "1",
-                        Bayern = feiertag.Bayern == "1",
-                        Hessen = feiertag.Hessen == "1",
-                        NordrheinWestfalen = feiertag.NordrheinWestfalen == "1",
-                        Thueringen = feiertag.Thueringen == "1",
-                        IstGanztag = true
-                    };
+                        Feiertag feiertag = await DoePaAdminService.CreateFeiertagAsync();
+                        feiertag.Geschaeftsjahr = SelectedGeschaeftsjahr;
+                        feiertag.Datum = apiFeiertag.Date;
+                        feiertag.FeiertagName = string.Format("{0} {1}", apiFeiertag.Name, apiFeiertag.Date.Year.ToString());
+                        feiertag.Niedersachsen = apiFeiertag.Niedersachsen == "1";
+                        feiertag.Hamburg = apiFeiertag.Hamburg == "1";
+                        feiertag.Sachsen = apiFeiertag.Sachsen == "1";
+                        feiertag.Saarland = apiFeiertag.Saarland == "1";
+                        feiertag.SachsenAnhalt = apiFeiertag.SachsenAnhalt == "1";
+                        feiertag.Bremen = apiFeiertag.Bremen == "1";
+                        feiertag.SchleswigHolstein = apiFeiertag.SchleswigHolstein == "1";
+                        feiertag.MecklenburgVorpommern = apiFeiertag.MecklenburgVorpommern == "1";
+                        feiertag.Berlin = apiFeiertag.Berlin == "1";
+                        feiertag.Brandenburg = apiFeiertag.Brandenburg == "1";
+                        feiertag.RheinlandPfalz = apiFeiertag.RheinlandPfalz == "1";
+                        feiertag.BadenWuerttemberg = apiFeiertag.BadenWuerttemberg == "1";
+                        feiertag.Bayern = apiFeiertag.Bayern == "1";
+                        feiertag.Hessen = apiFeiertag.Hessen == "1";
+                        feiertag.NordrheinWestfalen = apiFeiertag.NordrheinWestfalen == "1";
+                        feiertag.Thueringen = apiFeiertag.Thueringen == "1";
+                        feiertag.IstGanztag = true;
 
+                        Feiertage.Add(feiertag);
+                    }
                 }
             }
         }

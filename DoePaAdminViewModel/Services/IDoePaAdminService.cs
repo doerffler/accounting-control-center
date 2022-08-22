@@ -101,9 +101,9 @@ namespace DoePaAdmin.ViewModel.Services
 
         public Task<IEnumerable<Geschaeftsjahr>> GetGeschaeftsjahreAsync(CancellationToken cancellationToken = default);
         
-        public Task<Datum> CreateDatumAsync(CancellationToken cancellationToken = default);
+        public Task<Feiertag> CreateFeiertagAsync(CancellationToken cancellationToken = default);
 
-        public Task<IEnumerable<Datum>> GetDatuemerAsync(CancellationToken cancellationToken = default);
+        public Task<IEnumerable<Feiertag>> GetFeiertageAsync(CancellationToken cancellationToken = default);
 
         public Task<IEnumerable<Postleitzahl>> GetPostleitzahlenAsync(CancellationToken cancellationToken = default);
 

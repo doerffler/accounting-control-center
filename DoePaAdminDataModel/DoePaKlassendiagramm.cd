@@ -40,8 +40,8 @@
       <Property Name="Abrechnungseinheit" />
     </ShowAsAssociation>
   </Class>
-  <Class Name="DoePaAdminDataModel.Stammdaten.Bankverbindung" Collapsed="true">
-    <Position X="29.5" Y="0.5" Width="1.5" />
+  <Class Name="DoePaAdminDataModel.Stammdaten.Bankverbindung">
+    <Position X="23.5" Y="2.75" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAICAAAAAAAACA=</HashCode>
       <FileName>Stammdaten\Bankverbindung.cs</FileName>
@@ -50,7 +50,7 @@
   <Class Name="DoePaAdminDataModel.Stammdaten.Debitor">
     <Position X="17.75" Y="4" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAEAAAAAAAAAAAEAAAAAAAAIAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Stammdaten\Debitor.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -60,7 +60,7 @@
   <Class Name="DoePaAdminDataModel.Stammdaten.Geschaeftspartner">
     <Position X="19" Y="0.75" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAACAAAAIAAEAAAgAAAAAAAAAAAAAAIQAAAQAgAQAAA=</HashCode>
+      <HashCode>AAACAAAAIAAAAAAkAAAAAAAAAAAAAAIQAAAQAgAQAAA=</HashCode>
       <FileName>Stammdaten\Geschaeftspartner.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -70,7 +70,7 @@
   <Class Name="DoePaAdminDataModel.Stammdaten.Kostenstelle">
     <Position X="11.75" Y="13" Width="3.25" />
     <TypeIdentifier>
-      <HashCode>AABAAAAAIAAEAgAAAAAkAAAAAAAACAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AABAAAAAIAAAAgAAAAAkAAAAAAAACAAAAAAAAAAAAAA=</HashCode>
       <FileName>Stammdaten\Kostenstelle.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -91,7 +91,7 @@
   <Class Name="DoePaAdminDataModel.Stammdaten.Kreditor">
     <Position X="20.25" Y="4" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Stammdaten\Kreditor.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -168,12 +168,11 @@
   <Class Name="DoePaAdminDataModel.Kostenrechnung.Ausgangsrechnung">
     <Position X="10" Y="3.75" Width="2.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAgAAAEACA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAIAAAABAAAgAAAEAAA=</HashCode>
       <FileName>Kostenrechnung\Ausgangsrechnung.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="KorrekturRechnung" />
-      <Property Name="ZugehoerigerDebitor" />
     </ShowAsAssociation>
   </Class>
   <Class Name="DoePaAdminDataModel.Kostenrechnung.Ausgangsrechnungsposition">
@@ -197,9 +196,9 @@
       <FileName>Kostenrechnung\Eingangsrechnung.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
+      <Property Name="ZugehoerigerKreditor" />
       <Property Name="KorrekturRechnung" />
       <Property Name="ZugehoerigerVertrag" />
-      <Property Name="ZugehoerigerKreditor" />
     </ShowAsAssociation>
   </Class>
   <Class Name="DoePaAdminDataModel.Kostenrechnung.Eingangsrechnungsposition">
@@ -215,7 +214,7 @@
   <Class Name="DoePaAdminDataModel.Kostenrechnung.Rechnung">
     <Position X="11.75" Y="0.75" Width="2.5" />
     <TypeIdentifier>
-      <HashCode>CAAAAgAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAACBAAAA=</HashCode>
+      <HashCode>CAAAAgAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAACBAABA=</HashCode>
       <FileName>Kostenrechnung\Rechnung.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -225,7 +224,7 @@
   <Class Name="DoePaAdminDataModel.Kostenrechnung.Rechnungsposition">
     <Position X="12" Y="6.75" Width="2.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAIQAAAAAQEAEAAgAAAAAAIAAAAAAAAAhAIAA=</HashCode>
+      <HashCode>AAAAAAAAIQAAAAAUEAEAAgAAAEAQIAAAAAAAIAgAAAA=</HashCode>
       <FileName>Kostenrechnung\Rechnungsposition.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -246,6 +245,16 @@
       <HashCode>BAAAAAAAAAAAAAAAAAAAAAYAAAAAAgAAAgAAAAAAAAA=</HashCode>
       <FileName>Stammdaten\Geschaeftsjahr.cs</FileName>
     </TypeIdentifier>
+  </Class>
+  <Class Name="DoePaAdminDataModel.Stammdaten.Datum">
+    <Position X="5.5" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>QACAAEAAAAAMAAQgAAAAEABACIAAEQAIIAAAgQAAASE=</HashCode>
+      <FileName>Stammdaten\Datum.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Geschaeftsjahr" />
+    </ShowAsAssociation>
   </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>

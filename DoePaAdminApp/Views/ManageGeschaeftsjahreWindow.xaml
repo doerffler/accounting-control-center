@@ -6,10 +6,9 @@
         xmlns:local="clr-namespace:DoePaAdminApp.Views"
         mc:Ignorable="d"
         xmlns:svg="http://sharpvectors.codeplex.com/svgc/"
-        xmlns:dpAdminControls="clr-namespace:DoePaAdminApp.Controls"
         Title="{StaticResource strEditFiscalYears}"
         Icon="{svg:SvgImage /Resources/undraw_schedule_re_2vro.svg}"
-        DataContext="{Binding Source={StaticResource Locator}, Path=ManageGeschaeftsjahreViewModel}" d:DesignHeight="256.842" d:DesignWidth="897.49">
+        DataContext="{Binding Source={StaticResource Locator}, Path=ManageGeschaeftsjahreViewModel}">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*" />
@@ -18,9 +17,12 @@
         <Grid Grid.Column="0">
             <Grid.RowDefinitions>
                 <RowDefinition />
-                <RowDefinition Height="52.215" />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <ListView ItemsSource="{Binding Geschaeftsjahre}" SelectedItem="{Binding SelectedGeschaeftsjahr}" Grid.Row="0">
+            <ListView ItemsSource="{Binding Geschaeftsjahre}" SelectedItem="{Binding SelectedGeschaeftsjahr}" Grid.Row="0" Grid.RowSpan="4">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn DisplayMemberBinding="{Binding Path=GeschaeftsjahrId}" Header="Nr"/>
@@ -31,11 +33,11 @@
                     </GridView>
                 </ListView.View>
             </ListView>
-            <StackPanel Orientation="Horizontal" Grid.Row="1">
-                <Button Command="{Binding AddProjektCommand}">
+            <StackPanel Orientation="Horizontal" Grid.Row="5">
+                <Button Command="{Binding AddGeschaeftsjahrCommand}">
                     <Control Template="{StaticResource tmpAddItemButton}" />
                 </Button>
-                <Button Command="{Binding RemoveProjektCommand}">
+                <Button Command="{Binding RemoveGeschaeftsjahrCommand}">
                     <Control Template="{StaticResource tmpRemoveItemButton}" />
                 </Button>
             </StackPanel>
@@ -43,15 +45,15 @@
 
         <Grid Grid.Column="1" DataContext="{Binding SelectedGeschaeftsjahr}">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*" />
-                <ColumnDefinition Width="1*" />
+                <ColumnDefinition />
+                <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="47.243" />
-                <RowDefinition Height="47.243" />
-                <RowDefinition Height="47.243" />
-                <RowDefinition Height="47.243" />
-                <RowDefinition Height="51.243" />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
             </Grid.RowDefinitions>
 
             <Label Grid.Row="0" Grid.Column="0">Name:</Label>
@@ -67,7 +69,7 @@
             <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Rechnungsprefix}"/>
 
             <StackPanel Grid.Row="4" Grid.ColumnSpan="2">
-                <Button Command="{Binding SaveChangesCommand}">
+                <Button Command="{Binding Source={StaticResource Locator}, Path=ManageGeschaeftsjahreViewModel.SaveChangesCommand}">
                     <Control Template="{StaticResource tmpSaveDbDataButton}" />
                 </Button>
             </StackPanel>

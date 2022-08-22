@@ -272,12 +272,12 @@ namespace DoePaAdmin.ViewModel.Services
             throw new NotImplementedException();
         }
 
-        public Task<Datum> CreateDatumAsync(CancellationToken cancellationToken = default)
+        public Task<Feiertag> CreateFeiertagAsync(CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Datum>> GetDatuemerAsync(CancellationToken cancellationToken = default)
+        public Task<IEnumerable<Feiertag>> GetFeiertageAsync(CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }

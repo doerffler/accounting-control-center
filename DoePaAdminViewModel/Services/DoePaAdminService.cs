@@ -277,14 +277,14 @@ namespace DoePaAdmin.ViewModel.Services
             return await AddDataToDbSetAsync(DBContext.Adressen, cancellationToken);
         }
 
-        public async Task<Datum> CreateDatumAsync(CancellationToken cancellationToken = default)
+        public async Task<Feiertag> CreateFeiertagAsync(CancellationToken cancellationToken = default)
         {
-            return await AddDataToDbSetAsync(DBContext.Datuemer, cancellationToken);
+            return await AddDataToDbSetAsync(DBContext.Feiertage, cancellationToken);
         }
 
-        public async Task<IEnumerable<Datum>> GetDatuemerAsync(CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<Feiertag>> GetFeiertageAsync(CancellationToken cancellationToken = default)
         {
-            return await GetDataFromDbSetAsync(DBContext.Datuemer, cancellationToken);
+            return await GetDataFromDbSetAsync(DBContext.Feiertage, cancellationToken);
         }
 
         #endregion

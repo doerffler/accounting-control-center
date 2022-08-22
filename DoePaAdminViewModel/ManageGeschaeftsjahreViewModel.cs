@@ -4,10 +4,9 @@ using Microsoft.Toolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace DoePaAdmin.ViewModel
@@ -30,9 +29,38 @@ namespace DoePaAdmin.ViewModel
         }
         #endregion
 
+
+        public IRelayCommand AddGeschaeftsjahrCommand { get; }
+        public IRelayCommand RemoveGeschaeftsjahrCommand { get; }
+
         public ManageGeschaeftsjahreViewModel(IDoePaAdminService doePaAdminService) : base(doePaAdminService)
         {
             Geschaeftsjahre = new(Task.Run(async () => await DoePaAdminService.GetGeschaeftsjahreAsync()).Result);
+
+            AddGeschaeftsjahrCommand = new AsyncRelayCommand(DoAddGeschaeftsjahrAsync);
+
+            //TODO: Implement CanExecute-Functionality
+            RemoveGeschaeftsjahrCommand = new RelayCommand(DoRemoveGeschaeftsjahr);
+        }
+
+        private async Task DoAddGeschaeftsjahrAsync(CancellationToken cancellationToken = default)
+        {
+            DateTime Zeit = DateTime.Now;
+
+            Geschaeftsjahr geschaeftsjahr = await DoePaAdminService.CreateGeschaeftsjahrAsync(cancellationToken);
+            geschaeftsjahr.Name = Zeit.Year.ToString();
+            geschaeftsjahr.DatumVon = Zeit;
+            geschaeftsjahr.DatumBis = Zeit;
+            geschaeftsjahr.Rechnungsprefix = Zeit.Year.ToString();
+            Geschaeftsjahre.Add(geschaeftsjahr);
+        }
+
+        private void DoRemoveGeschaeftsjahr()
+        {
+            if (SelectedGeschaeftsjahr != null)
+            {
+                _ = Geschaeftsjahre.Remove(SelectedGeschaeftsjahr);
+            }
         }
     }
 }

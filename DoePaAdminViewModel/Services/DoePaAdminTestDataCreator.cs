@@ -130,13 +130,13 @@ namespace DoePaAdmin.ViewModel.Services
             currentGeschaeftsjahr.Rechnungsprefix = "2021";
 
             currentGeschaeftsjahr = await doePaAdminService.CreateGeschaeftsjahrAsync(cancellationToken);
-            currentGeschaeftsjahr.DatumBis = new(2022, 30, 6);
+            currentGeschaeftsjahr.DatumBis = new(2022, 6, 30);
             currentGeschaeftsjahr.DatumVon = new(2021, 7, 1);
             currentGeschaeftsjahr.Name = "2021/2022";
             currentGeschaeftsjahr.Rechnungsprefix = "2021";
 
             currentGeschaeftsjahr = await doePaAdminService.CreateGeschaeftsjahrAsync(cancellationToken);
-            currentGeschaeftsjahr.DatumBis = new(2023, 30, 6);
+            currentGeschaeftsjahr.DatumBis = new(2023, 6, 30);
             currentGeschaeftsjahr.DatumVon = new(2022, 7, 1);
             currentGeschaeftsjahr.Name = "2022/2023";
             currentGeschaeftsjahr.Rechnungsprefix = "2022";

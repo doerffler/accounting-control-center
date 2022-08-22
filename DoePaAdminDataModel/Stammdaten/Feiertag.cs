@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace DoePaAdminDataModel.Stammdaten
 {
-    public class Datum
+    public class Feiertag
     {
-        public int DatumId { get; set; }
+        public int FeiertagId { get; set; }
 
-        public DateTime DatumTag { get; set; }
+        public DateTime Datum { get; set; }
         public Geschaeftsjahr Geschaeftsjahr { get; set; }
 
         public string FeiertagName { get; set; }

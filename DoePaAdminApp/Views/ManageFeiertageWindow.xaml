@@ -9,25 +9,31 @@
         xmlns:dpAdminControls="clr-namespace:DoePaAdminApp.Controls"
         Title="{StaticResource strEditHolidays}"
         Icon="{svg:SvgImage /Resources/undraw_calendar_re_ki49.svg}"
-        DataContext="{Binding Source={StaticResource Locator}, Path=ManageFeiertageViewModel}" d:DesignHeight="283.88">
+        DataContext="{Binding Source={StaticResource Locator}, Path=ManageFeiertageViewModel}" Height="127">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="25.96" />
+            <RowDefinition Height="29.96" />
             <RowDefinition />
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal" Grid.Row="0">
             <Label>Geschäftsjahr:</Label>
             <ComboBox ItemsSource="{Binding Geschaeftsjahre}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedGeschaeftsjahr}" />
-            <Button>Speichern</Button>
+            <Button Command="{Binding SaveChangesCommand}">Speichern</Button>
             <Button Command="{Binding ImportDataCommand}">Import</Button>
+            <Button Command="{Binding AddFeiertagCommand}">
+                <Control Template="{StaticResource tmpAddItemButton}" />
+            </Button>
+            <Button Command="{Binding RemoveFeiertagCommand}">
+                <Control Template="{StaticResource tmpRemoveItemButton}" />
+            </Button>
         </StackPanel>
-        <DataGrid Grid.Row="1" ItemsSource="{Binding Datuemer, Mode=TwoWay}" AutoGenerateColumns="False" CanUserAddRows="True">
+        <DataGrid Grid.Row="1" ItemsSource="{Binding Feiertage}" SelectedItem="{Binding SelectedFeiertag}" AutoGenerateColumns="False" CanUserAddRows="True">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Feiertag" Binding="{Binding Path=FeiertagName}" />
                 <DataGridTemplateColumn Header="Datum">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Path=DatumTag, StringFormat=dd.MM.yyyy}" />
+                            <TextBlock Text="{Binding Path=Datum, StringFormat=dd.MM.yyyy}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                     <DataGridTemplateColumn.CellEditingTemplate>
