@@ -11,11 +11,9 @@ namespace DoePaAdminDataModel.Stammdaten
 
         public string Kundenname { get; set; }
 
-        public List<Auftrag> Auftraege { get; set; }
-
         public Kunde()
         {
-            Auftraege = new List<Auftrag>();
+            
         }
 
     }
