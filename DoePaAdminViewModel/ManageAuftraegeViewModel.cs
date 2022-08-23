@@ -14,12 +14,12 @@ namespace DoePaAdmin.ViewModel
     public class ManageAuftraegeViewModel : DoePaAdminViewModelBase
     {
 
-        private ObservableCollection<Kunde> _kunden = new();
+        private ObservableCollection<Projekt> _projekte = new();
 
-        public ObservableCollection<Kunde> Kunden
+        public ObservableCollection<Projekt> Projekte
         {
-            get => _kunden;
-            set => SetProperty(ref _kunden, value, true);
+            get => _projekte;
+            set => SetProperty(ref _projekte, value, true);
         }
 
         private Kunde _selectedKunde;
@@ -73,11 +73,10 @@ namespace DoePaAdmin.ViewModel
             //TODO: Implement CanExecute-Functionality
             RemoveKundeCommand = new RelayCommand(DoRemoveKunde);
 
-            Kunden = new (Task.Run(async () => await DoePaAdminService.GetKundeAsync()).Result);
+            Projekte = new(Task.Run(async () => await DoePaAdminService.GetProjekteAsync()).Result);
             Abrechnungseinheiten = new (Task.Run(async () => await DoePaAdminService.GetAbrechnungseinheitenAsync()).Result);
             Mitarbeiter = new (Task.Run(async () => await DoePaAdminService.GetMitarbeiterAsync()).Result);
-            Projekte = new (Task.Run(async () => await DoePaAdminService.GetProjekteAsync()).Result);
-
+            
         }
 
         private void DoRemoveKunde()
@@ -85,7 +84,7 @@ namespace DoePaAdmin.ViewModel
 
             if (SelectedKunde != null)
             {
-                _ = Kunden.Remove(SelectedKunde);
+                _ = Projekte.Remove(SelectedKunde);
             }
         }
 
@@ -93,7 +92,7 @@ namespace DoePaAdmin.ViewModel
         {
             Kunde newKunde = await DoePaAdminService.CreateKundeAsync(cancellationToken);
             newKunde.Kundenname = "Neuer Kunde";
-            Kunden.Add(newKunde);
+            Projekte.Add(newKunde);
 
             Auftrag newAuftrag = await DoePaAdminService.CreateAuftragAsync(cancellationToken);
             newAuftrag.Kunde = newKunde;
