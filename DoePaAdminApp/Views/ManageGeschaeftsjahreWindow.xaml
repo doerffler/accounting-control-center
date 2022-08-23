@@ -5,10 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DoePaAdminApp.Views"
         mc:Ignorable="d"
-        xmlns:svg="http://sharpvectors.codeplex.com/svgc/"
+        xmlns:svg="http://sharpvectors.codeplex.com/svgc/" 
+        xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
         Title="{StaticResource strEditFiscalYears}"
         Icon="{svg:SvgImage /Resources/undraw_schedule_re_2vro.svg}"
         DataContext="{Binding Source={StaticResource Locator}, Path=ManageGeschaeftsjahreViewModel}">
+    <Window.Resources>
+        <CollectionViewSource x:Key="cvsGeschaeftsjahre" Source="{Binding Geschaeftsjahre}">
+            <CollectionViewSource.SortDescriptions>
+                <scm:SortDescription PropertyName="DatumVon"/>
+            </CollectionViewSource.SortDescriptions>
+        </CollectionViewSource>
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*" />
@@ -22,7 +30,7 @@
                 <RowDefinition />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <ListView ItemsSource="{Binding Geschaeftsjahre}" SelectedItem="{Binding SelectedGeschaeftsjahr}" Grid.Row="0" Grid.RowSpan="4">
+            <ListView ItemsSource="{Binding Source={StaticResource cvsGeschaeftsjahre}}" SelectedItem="{Binding SelectedGeschaeftsjahr}" Grid.Row="0" Grid.RowSpan="4">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn DisplayMemberBinding="{Binding Path=GeschaeftsjahrId}" Header="Nr"/>

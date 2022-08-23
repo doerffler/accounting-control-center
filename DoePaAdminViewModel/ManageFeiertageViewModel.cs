@@ -63,6 +63,19 @@ namespace DoePaAdmin.ViewModel
 
             //TODO: Implement CanExecute-Functionality
             RemoveFeiertagCommand = new RelayCommand(DoRemoveFeiertag);
+
+            PropertyChanged += HandlePropertyChanged;
+        }
+
+        private void HandlePropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(SelectedGeschaeftsjahr):
+                    this.Feiertage = new ObservableCollection<Feiertag>(SelectedGeschaeftsjahr.Feiertage);
+
+                    break;
+            }
         }
 
         private void DoRemoveFeiertag()
@@ -84,7 +97,12 @@ namespace DoePaAdmin.ViewModel
 
         private async Task ImportDataAsync()
         {
-            string endpoint = string.Format("https://get.api-feiertage.de?years={0}", SelectedGeschaeftsjahr.Name.Replace("/", ","));
+            List<int> Jahre = new();
+            for (int jahr = SelectedGeschaeftsjahr.DatumVon.Year; jahr <= SelectedGeschaeftsjahr.DatumBis.Year; jahr++)
+                Jahre.Add(jahr);
+
+            string endpoint = string.Format("https://get.api-feiertage.de?years={0}", string.Join(",", Jahre));
+
             ApiReciever<ApiFeiertage> apiReciever = new(endpoint);
             ApiFeiertage apiFeiertage = await apiReciever.ReadData();
 
