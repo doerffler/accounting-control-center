@@ -20,8 +20,6 @@
             <sys:String x:Key="strEditWorkforce">Mitarbeiter bearbeiten</sys:String>
             <sys:String x:Key="strEditOrder">Aufträge bearbeiten</sys:String>
             <sys:String x:Key="strEditProject">Projekte bearbeiten</sys:String>
-            <sys:String x:Key="strEditHolidays">Feiertage bearbeiten</sys:String>
-            <sys:String x:Key="strEditFiscalYears">Geschäftsjahre bearbeiten</sys:String>
             
             <sys:String x:Key="strManageOutgoingInvoices">Ausgangsrechnungen bearbeiten</sys:String>
             <sys:String x:Key="strManageDebitors">Debitoren bearbeiten</sys:String>

@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         xmlns:svg="http://sharpvectors.codeplex.com/svgc/" 
         xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
-        Title="{StaticResource strEditFiscalYears}"
+        Title="{StaticResource strManageGeschaeftsjahre}"
         Icon="{svg:SvgImage /Resources/undraw_schedule_re_2vro.svg}"
         DataContext="{Binding Source={StaticResource Locator}, Path=ManageGeschaeftsjahreViewModel}">
     <Window.Resources>

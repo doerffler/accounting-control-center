@@ -8,7 +8,7 @@
         xmlns:svg="http://sharpvectors.codeplex.com/svgc/"
         xmlns:dpAdminControls="clr-namespace:DoePaAdminApp.Controls" 
         xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
-        Title="{StaticResource strEditHolidays}"
+        Title="{StaticResource strManageFeiertage}"
         Icon="{svg:SvgImage /Resources/undraw_calendar_re_ki49.svg}"
         DataContext="{Binding Source={StaticResource Locator}, Path=ManageFeiertageViewModel}" Height="127">
     <Window.Resources>
