@@ -14,25 +14,13 @@ namespace DoePaAdmin.ViewModel
     public class ManageAuftraegeViewModel : DoePaAdminViewModelBase
     {
 
-        private ObservableCollection<Projekt> _projekte = new();
+        private Projekt _selectedProjekt;
 
-        public ObservableCollection<Projekt> Projekte
+        public Projekt SelectedProjekt
         {
-            get => _projekte;
-            set => SetProperty(ref _projekte, value, true);
+            get => _selectedProjekt;
+            set => SetProperty(ref _selectedProjekt, value);
         }
-
-        private Kunde _selectedKunde;
-
-        public Kunde SelectedKunde
-        {
-            get => _selectedKunde;
-            set => SetProperty(ref _selectedKunde, value);
-        }
-
-        public IRelayCommand AddKundeCommand { get; }
-
-        public IRelayCommand RemoveKundeCommand { get; }
 
         private Auftrag _selectedAuftrag;
         public Auftrag SelectedAuftrag
@@ -57,47 +45,13 @@ namespace DoePaAdmin.ViewModel
             set => SetProperty(ref _mitarbeiter, value, true);
         }
 
-        private ObservableCollection<Projekt> _projekte = new();
-
-        public ObservableCollection<Projekt> Projekte
-        {
-            get => _projekte;
-            set => SetProperty(ref _projekte, value, true);
-        }
-
         public ManageAuftraegeViewModel(IDoePaAdminService doePaAdminService) : base(doePaAdminService)
         {
             
-            AddKundeCommand = new AsyncRelayCommand(DoAddKundeAsync);
-
-            //TODO: Implement CanExecute-Functionality
-            RemoveKundeCommand = new RelayCommand(DoRemoveKunde);
-
-            Projekte = new(Task.Run(async () => await DoePaAdminService.GetProjekteAsync()).Result);
             Abrechnungseinheiten = new (Task.Run(async () => await DoePaAdminService.GetAbrechnungseinheitenAsync()).Result);
             Mitarbeiter = new (Task.Run(async () => await DoePaAdminService.GetMitarbeiterAsync()).Result);
             
         }
 
-        private void DoRemoveKunde()
-        {
-
-            if (SelectedKunde != null)
-            {
-                _ = Projekte.Remove(SelectedKunde);
-            }
-        }
-
-        private async Task DoAddKundeAsync(CancellationToken cancellationToken = default)
-        {
-            Kunde newKunde = await DoePaAdminService.CreateKundeAsync(cancellationToken);
-            newKunde.Kundenname = "Neuer Kunde";
-            Projekte.Add(newKunde);
-
-            Auftrag newAuftrag = await DoePaAdminService.CreateAuftragAsync(cancellationToken);
-            newAuftrag.Kunde = newKunde;
-            newAuftrag.Auftragsname = "Neuer Auftrag";
-            
-        }
     }
 }

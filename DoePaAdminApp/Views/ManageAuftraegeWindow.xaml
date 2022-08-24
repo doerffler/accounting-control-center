@@ -29,23 +29,22 @@
                   Grid.Column="0"
                   Grid.Row="0"
                   Grid.RowSpan="2"
-                  ItemsSource="{Binding Kunden}"
-                  SelectedItem="{Binding SelectedKunde}"
+                  ItemsSource="{Binding Source={StaticResource Locator}, Path=ManageProjekteViewModel.Projekte}"
+                  SelectedItem="{Binding SelectedProjekt}"
                   FontSize="20"
                   >
             <ListView.View>
                 <GridView>
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=KundeID}" Header="Nr"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=Kundenname}" Header="Kunde"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Projektname}" Header="Projekt"/>
                 </GridView>
             </ListView.View>
         </ListView>
 
         <StackPanel Grid.Row="3" Orientation="Horizontal">
-            <Button Command="{Binding AddKundeCommand}">
+            <Button IsEnabled="False">
                 <Control Template="{StaticResource tmpAddItemButton}" />
             </Button>
-            <Button Command="{Binding RemoveKundeCommand}">
+            <Button IsEnabled="False">
                 <Control Template="{StaticResource tmpRemoveItemButton}" />
             </Button>
         </StackPanel>
@@ -53,7 +52,7 @@
         <DataGrid
             Grid.Column="2"
             Grid.Row="0"
-            ItemsSource="{Binding Path=SelectedKunde.Auftraege}"
+            ItemsSource="{Binding Path=SelectedProjekt.ZugehoerigeAuftraege}"
             SelectedItem="{Binding SelectedAuftrag}"
             AutoGenerateColumns="False"
             FontSize="20"
@@ -87,7 +86,6 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellEditingTemplate>
                 </DataGridTemplateColumn>
-                <DataGridComboBoxColumn Header="Projekt" ItemsSource="{Binding Source={StaticResource Locator}, Path=ManageAuftraegeViewModel.Projekte}" SelectedItemBinding="{Binding Path=ZugehoerigesProjekt}" DisplayMemberPath="Projektname"/>
             </DataGrid.Columns>
         </DataGrid>
 
