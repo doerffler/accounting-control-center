@@ -23,7 +23,8 @@ namespace DoePaAdminDataModel.Stammdaten
 
         public Projekt()
         {
-
+            ZugehoerigeAuftraege = new();
+            Skills = new();
         }
     }
 }

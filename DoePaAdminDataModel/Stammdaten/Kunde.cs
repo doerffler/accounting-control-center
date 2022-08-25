@@ -11,9 +11,11 @@ namespace DoePaAdminDataModel.Stammdaten
 
         public string Kundenname { get; set; }
 
+        public List<Debitor> Rechnungsempfaenger { get; set; }
+
         public Kunde()
         {
-            
+            Rechnungsempfaenger = new();
         }
 
     }

@@ -387,7 +387,10 @@ namespace DoePaAdmin.ViewModel.Services
         {
 
             Kunde currentKunde;
+            Debitor currentRechnungsempfaenger;
+            Projekt currentProjekt;
             Auftrag currentAuftrag;
+            Adresse currentAdresse;
             Auftragsposition currentAuftragsposition;
 
             Abrechnungseinheit aeStunden = (await doePaAdminService.GetAbrechnungseinheitenAsync(cancellationToken)).Where(ae => ae.AbrechnungseinheitName.Equals("Stunden")).First();
@@ -398,13 +401,26 @@ namespace DoePaAdmin.ViewModel.Services
             currentKunde = await doePaAdminService.CreateKundeAsync(cancellationToken);
             currentKunde.Kundenname = "Softdisk";
 
+            currentRechnungsempfaenger = await doePaAdminService.CreateGeschaeftspartnerAsync<Debitor>(cancellationToken);
+            currentRechnungsempfaenger.Anschrift = "Gamer's Edge";
+            currentRechnungsempfaenger.ZugehoerigerKunde = currentKunde;
+            currentRechnungsempfaenger.ZugehoerigeAdresse = new();
+            currentKunde.Rechnungsempfaenger.Add(currentRechnungsempfaenger);
+
+            currentProjekt = await doePaAdminService.CreateProjektAsync(cancellationToken);
+            currentProjekt.Projektstart = new(1991, 2, 1);
+            currentProjekt.Projektende = new(1992, 12, 31);
+            currentProjekt.Projektname = "Vertragliche Verbindlichkeiten gegenüber Softdisk";
+            currentProjekt.Rechnungsempfaenger = currentRechnungsempfaenger;
+            currentRechnungsempfaenger.Projekte.Add(currentProjekt);
+
             currentAuftrag = await doePaAdminService.CreateAuftragAsync(cancellationToken);
             currentAuftrag.Auftragsbeginn = new(1991, 2, 1);
             currentAuftrag.Auftragsdatum = new(1991, 2, 1);
-            currentAuftrag.Auftragsende = new(1992, 12, 31);
+            currentAuftrag.Auftragsende = new(1991, 03, 31);
             currentAuftrag.Auftragsname = "Gamer's Edge Q1 1991";
-            currentAuftrag.Kunde = currentKunde;
-            currentKunde.Auftraege.Add(currentAuftrag);
+            currentAuftrag.ZugehoerigesProjekt = currentProjekt;
+            currentProjekt.ZugehoerigeAuftraege.Add(currentAuftrag);
             currentAuftrag.VerantwortlicherMitarbeiter = listMitarbeiter.Where(m => m.Nachname.Equals("Hall")).First();
             currentAuftrag.Vertragsnummer = 1;
 

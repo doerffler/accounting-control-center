@@ -58,7 +58,6 @@
             FontSize="20"
             >
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Kunde" Binding="{Binding Path=Kunde.Kundenname}" />
                 <DataGridTextColumn Header="VertragsNr." Binding="{Binding Path=Vertragsnummer}" />
                 <DataGridTextColumn Header="Auftragsname" Binding="{Binding Path=Auftragsname}" />
                 <DataGridComboBoxColumn Header="Verantwortlicher Mitarbeiter" ItemsSource="{Binding Source={StaticResource Locator}, Path=ManageAuftraegeViewModel.Mitarbeiter}" SelectedItemBinding="{Binding Path=VerantwortlicherMitarbeiter}" DisplayMemberPath="Kuerzel"/>
