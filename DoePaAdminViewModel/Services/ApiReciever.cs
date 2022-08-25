@@ -9,20 +9,17 @@ using System.Threading.Tasks;
 
 namespace DoePaAdmin.ViewModel.Services
 {
-    public class ApiReciever<T> : IApiReciever<T>
+    public class ApiReciever : IApiReciever
     {
-        public string Endpoint { get; set; }
-        public T Response { get; set; }
-        public static HttpClient client = new();
-
-        public ApiReciever(string Endpoint)
+        public static async Task<T> ReadData<T>(string Endpoint)
         {
-            this.Endpoint = Endpoint;
-        }
+            T Response = default;
 
-        public async Task<T> ReadData()
-        {
-            client.BaseAddress = new Uri(Endpoint);
+            HttpClient client = new()
+            {
+                BaseAddress = new Uri(Endpoint)
+            };
+
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             
