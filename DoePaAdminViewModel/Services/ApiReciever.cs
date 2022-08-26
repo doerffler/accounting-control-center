@@ -11,19 +11,18 @@ namespace DoePaAdmin.ViewModel.Services
 {
     public class ApiReciever : IApiReciever
     {
+
+        private static HttpClient _client = new();
+
         public static async Task<T> ReadData<T>(string Endpoint)
         {
             T Response = default;
 
-            HttpClient client = new()
-            {
-                BaseAddress = new Uri(Endpoint)
-            };
-
-            client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            _client.BaseAddress = new Uri(Endpoint);
+            _client.DefaultRequestHeaders.Accept.Clear();
+            _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             
-            HttpResponseMessage response = await client.GetAsync(Endpoint);
+            HttpResponseMessage response = await _client.GetAsync(Endpoint);
             if (response.IsSuccessStatusCode)
             {
                 string data = await response.Content.ReadAsStringAsync();
