@@ -261,7 +261,12 @@ namespace DoePaAdmin.ViewModel.Services
         {
             return await AddDataToDbSetAsync(DBContext.Geschaeftsjahre, cancellationToken);
         }
-        
+
+        public void RemoveGeschaeftsjahr(Geschaeftsjahr geschaeftsjahrToRemove)
+        {
+            _ = DBContext.Geschaeftsjahre.Remove(geschaeftsjahrToRemove);
+        }
+
         public async Task<IEnumerable<Postleitzahl>> GetPostleitzahlenAsync(CancellationToken cancellationToken = default)
         {
             return await GetDataFromDbSetAsync(DBContext.Postleitzahlen, cancellationToken);
@@ -285,6 +290,11 @@ namespace DoePaAdmin.ViewModel.Services
         public async Task<IEnumerable<Feiertag>> GetFeiertageAsync(CancellationToken cancellationToken = default)
         {
             return await GetDataFromDbSetAsync(DBContext.Feiertage, cancellationToken);
+        }
+
+        public void RemoveFeiertag(Feiertag feiertagToRemove)
+        {
+            _ = DBContext.Feiertage.Remove(feiertagToRemove);
         }
 
         #endregion

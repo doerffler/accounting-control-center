@@ -281,5 +281,15 @@ namespace DoePaAdmin.ViewModel.Services
         {
             throw new NotImplementedException();
         }
+
+        public void RemoveGeschaeftsjahr(Geschaeftsjahr selectedGeschaeftsjahr)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveFeiertag(Feiertag selectedFeiertag)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
