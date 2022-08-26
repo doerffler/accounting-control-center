@@ -31,13 +31,21 @@
     <None Remove="Resources\sd_card_32x32.png" />
     <None Remove="Resources\Supplier.svg" />
     <None Remove="Resources\TestConfiguration.svg" />
+    <None Remove="Resources\undraw_calendar_re_ki49.svg" />
     <None Remove="Resources\undraw_handcrafts_location.svg" />
+    <None Remove="Resources\undraw_schedule_re_2vro.svg" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="appsettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Resources\undraw_calendar_re_ki49.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\undraw_schedule_re_2vro.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
   <ItemGroup>

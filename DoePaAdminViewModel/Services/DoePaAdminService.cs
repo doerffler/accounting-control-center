@@ -162,11 +162,6 @@ namespace DoePaAdmin.ViewModel.Services
 
         #region Ausgangsrechnungen
 
-        public async Task<IEnumerable<Geschaeftsjahr>> GetGeschaeftsjahreAsync(CancellationToken cancellationToken = default)
-        {
-            return await GetDataFromDbSetAsync(DBContext.Geschaeftsjahre, cancellationToken);
-        }
-
         public async Task<IEnumerable<Ausgangsrechnung>> GetAusgangsrechnungenAsync(CancellationToken cancellationToken = default)
         {
             return await GetDataFromDbSetAsync(DBContext.Ausgangsrechnungen.Include(ar => ar.Rechnungspositionen), cancellationToken);
@@ -257,11 +252,21 @@ namespace DoePaAdmin.ViewModel.Services
             return await AddDataToDbSetAsync(DBContext.Abrechnungseinheiten, cancellationToken);
         }
 
+        public async Task<IEnumerable<Geschaeftsjahr>> GetGeschaeftsjahreAsync(CancellationToken cancellationToken = default)
+        {
+            return await GetDataFromDbSetAsync(DBContext.Geschaeftsjahre, cancellationToken);
+        }
+
         public async Task<Geschaeftsjahr> CreateGeschaeftsjahrAsync(CancellationToken cancellationToken = default)
         {
             return await AddDataToDbSetAsync(DBContext.Geschaeftsjahre, cancellationToken);
         }
-        
+
+        public void RemoveGeschaeftsjahr(Geschaeftsjahr geschaeftsjahrToRemove)
+        {
+            _ = DBContext.Geschaeftsjahre.Remove(geschaeftsjahrToRemove);
+        }
+
         public async Task<IEnumerable<Postleitzahl>> GetPostleitzahlenAsync(CancellationToken cancellationToken = default)
         {
             return await GetDataFromDbSetAsync(DBContext.Postleitzahlen, cancellationToken);
@@ -275,6 +280,21 @@ namespace DoePaAdmin.ViewModel.Services
         public async Task<Adresse> CreateAdresseAsync(CancellationToken cancellationToken = default)
         {
             return await AddDataToDbSetAsync(DBContext.Adressen, cancellationToken);
+        }
+
+        public async Task<Feiertag> CreateFeiertagAsync(CancellationToken cancellationToken = default)
+        {
+            return await AddDataToDbSetAsync(DBContext.Feiertage, cancellationToken);
+        }
+
+        public async Task<IEnumerable<Feiertag>> GetFeiertageAsync(CancellationToken cancellationToken = default)
+        {
+            return await GetDataFromDbSetAsync(DBContext.Feiertage, cancellationToken);
+        }
+
+        public void RemoveFeiertag(Feiertag feiertagToRemove)
+        {
+            _ = DBContext.Feiertage.Remove(feiertagToRemove);
         }
 
         #endregion

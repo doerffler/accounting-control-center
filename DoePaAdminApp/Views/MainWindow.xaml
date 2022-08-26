@@ -159,6 +159,13 @@
                         LargeImageSource="{svg:SvgImage /Resources/undraw_handcrafts_location.svg}"
                         Label="{StaticResource strManagePostleitzahlen}" />
                 </RibbonGroup>
+                <RibbonGroup Header="Geschäftsjahr">
+                    <RibbonButton
+                        x:Name="RBOpenGeschaeftsjahrManagement"
+                        Click="RBOpenGeschaeftsjahrManagement_Click"
+                        LargeImageSource="{svg:SvgImage /Resources/undraw_schedule_re_2vro.svg}"
+                        Label="{StaticResource strManageGeschaeftsjahre}" />
+                </RibbonGroup>
             </RibbonTab>
             <RibbonTab Header="Kostenrechnung">
                 <RibbonGroup Header="Eingehende Rechnungen">

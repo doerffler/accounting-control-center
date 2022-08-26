@@ -117,6 +117,30 @@ namespace DoePaAdmin.ViewModel.Services
             currentGeschaeftsjahr.Name = "1994/1995";
             currentGeschaeftsjahr.Rechnungsprefix = "1994";
 
+            currentGeschaeftsjahr = await doePaAdminService.CreateGeschaeftsjahrAsync(cancellationToken);
+            currentGeschaeftsjahr.DatumBis = new(2020, 12, 31);
+            currentGeschaeftsjahr.DatumVon = new(2020, 1, 1);
+            currentGeschaeftsjahr.Name = "2020";
+            currentGeschaeftsjahr.Rechnungsprefix = "2020";
+
+            currentGeschaeftsjahr = await doePaAdminService.CreateGeschaeftsjahrAsync(cancellationToken);
+            currentGeschaeftsjahr.DatumBis = new(2021, 6, 30);
+            currentGeschaeftsjahr.DatumVon = new(2021, 1, 1);
+            currentGeschaeftsjahr.Name = "2021";
+            currentGeschaeftsjahr.Rechnungsprefix = "2021";
+
+            currentGeschaeftsjahr = await doePaAdminService.CreateGeschaeftsjahrAsync(cancellationToken);
+            currentGeschaeftsjahr.DatumBis = new(2022, 6, 30);
+            currentGeschaeftsjahr.DatumVon = new(2021, 7, 1);
+            currentGeschaeftsjahr.Name = "2021/2022";
+            currentGeschaeftsjahr.Rechnungsprefix = "2021";
+
+            currentGeschaeftsjahr = await doePaAdminService.CreateGeschaeftsjahrAsync(cancellationToken);
+            currentGeschaeftsjahr.DatumBis = new(2023, 6, 30);
+            currentGeschaeftsjahr.DatumVon = new(2022, 7, 1);
+            currentGeschaeftsjahr.Name = "2022/2023";
+            currentGeschaeftsjahr.Rechnungsprefix = "2022";
+
             Postleitzahl currentPostleitzahl;
 
             currentPostleitzahl = await doePaAdminService.CreatePostleitzahlAsync(cancellationToken);

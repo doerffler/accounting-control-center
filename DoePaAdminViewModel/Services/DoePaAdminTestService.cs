@@ -271,5 +271,25 @@ namespace DoePaAdmin.ViewModel.Services
         {
             throw new NotImplementedException();
         }
+
+        public Task<Feiertag> CreateFeiertagAsync(CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<Feiertag>> GetFeiertageAsync(CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveGeschaeftsjahr(Geschaeftsjahr selectedGeschaeftsjahr)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveFeiertag(Feiertag selectedFeiertag)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -43,8 +43,8 @@
       <Property Name="Abrechnungseinheit" />
     </ShowAsAssociation>
   </Class>
-  <Class Name="DoePaAdminDataModel.Stammdaten.Bankverbindung" Collapsed="true">
-    <Position X="29.5" Y="0.5" Width="1.5" />
+  <Class Name="DoePaAdminDataModel.Stammdaten.Bankverbindung">
+    <Position X="23.5" Y="2.75" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAICAAAAAAAACA=</HashCode>
       <FileName>Stammdaten\Bankverbindung.cs</FileName>
@@ -251,6 +251,16 @@
       <HashCode>BAAAAAAAAAAAAAAAAAAAAAYAAAAAAgAAAgAAAAAAAAA=</HashCode>
       <FileName>Stammdaten\Geschaeftsjahr.cs</FileName>
     </TypeIdentifier>
+  </Class>
+  <Class Name="DoePaAdminDataModel.Stammdaten.Datum">
+    <Position X="5.5" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>QACAAEAAAAAMAAQgAAAAEABACIAAEQAIIAAAgQAAASE=</HashCode>
+      <FileName>Stammdaten\Datum.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Geschaeftsjahr" />
+    </ShowAsAssociation>
   </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>
