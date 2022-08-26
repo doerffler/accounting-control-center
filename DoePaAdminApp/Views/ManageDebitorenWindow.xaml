@@ -18,10 +18,6 @@
             <CollectionViewSource.GroupDescriptions>
                 <PropertyGroupDescription PropertyName="ZugehoerigerKunde.Kundenname"/>
             </CollectionViewSource.GroupDescriptions>
-            
-            <CollectionViewSource.SortDescriptions>
-                <scm:SortDescription PropertyName="Nachname"/>
-            </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
     </Window.Resources>
     <Grid>
@@ -42,8 +38,7 @@
             SelectedItem="{Binding SelectedGeschaeftspartner}">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Nachname" DisplayMemberBinding="{Binding Nachname}" />
-                    <GridViewColumn Header="Vorname" DisplayMemberBinding="{Binding Vorname}" />
+                    <GridViewColumn Header="Debitor" DisplayMemberBinding="{Binding Anschrift}" />
                 </GridView>
             </ListView.View>
 
@@ -95,24 +90,24 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <Label Grid.Row="0" Grid.Column="0">Anrede:</Label>
-            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding SelectedGeschaeftspartner.Anrede}" />
+            <Label Grid.Row="0" Grid.Column="0">Anschrift:</Label>
+            <TextBox Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding SelectedGeschaeftspartner.Anschrift}" TextWrapping="Wrap" AcceptsReturn="True"/>
             
-            <Label Grid.Row="0" Grid.Column="2">Titel:</Label>
-            <TextBox Grid.Row="0" Grid.Column="3" Text="{Binding SelectedGeschaeftspartner.Titel}" />
+            <Label Grid.Row="1" Grid.Column="0" Visibility="Hidden">Dummytext:</Label>
+
+            <Label Grid.Row="2" Grid.Column="0">Kunde:</Label>
+            <WrapPanel
+                Grid.Row="2"
+                Grid.Column="1"
+                Grid.ColumnSpan="3"
+                Orientation="Horizontal"
+                DataContext="{Binding Source={StaticResource Locator}, Path=ManageKundenViewModel}">
+                <ComboBox ItemsSource="{Binding Kunden}"  SelectedItem="{Binding Source={StaticResource Locator}, Path=ManageDebitorenViewModel.SelectedGeschaeftspartner.ZugehoerigerKunde}" DisplayMemberPath="Kundenname" />
+                <Button Height="32" Width="32" Command="{Binding AddKundeCommand}">
+                    <Image Source="{svg:SvgImage /Resources/Customer.svg}" />
+                </Button>
+            </WrapPanel>
             
-            <Label Grid.Row="1" Grid.Column="0">Vorname:</Label>
-            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding SelectedGeschaeftspartner.Vorname}" />
-
-            <Label Grid.Row="1" Grid.Column="2">Zuname:</Label>
-            <TextBox Grid.Row="1" Grid.Column="3" Text="{Binding SelectedGeschaeftspartner.Zuname}" />
-
-            <Label Grid.Row="2" Grid.Column="0">Nachname:</Label>
-            <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding SelectedGeschaeftspartner.Nachname}" />
-
-            <Label Grid.Row="2" Grid.Column="2">Position:</Label>
-            <TextBox Grid.Row="2" Grid.Column="3" Text="{Binding SelectedGeschaeftspartner.Position}" />
-
             <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4">Adresse:</Label>
             <dpadminControls:AdressenControl
                 Grid.Row="4"

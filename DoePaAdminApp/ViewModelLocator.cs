@@ -30,5 +30,7 @@ namespace DoePaAdminApp.ViewModels
 
         public ManageFeiertageViewModel ManageFeiertageViewModel => App.ServiceProvider.GetRequiredService<ManageFeiertageViewModel>();
 
+        public ManageKundenViewModel ManageKundenViewModel => App.ServiceProvider.GetRequiredService<ManageKundenViewModel>();
+
     }
 }
