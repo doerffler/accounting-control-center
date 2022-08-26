@@ -28,8 +28,6 @@ namespace DoePaAdminApp.ViewModels
 
         public ManageGeschaeftsjahreViewModel ManageGeschaeftsjahreViewModel => App.ServiceProvider.GetRequiredService<ManageGeschaeftsjahreViewModel>();
 
-        public ManageFeiertageViewModel ManageFeiertageViewModel => App.ServiceProvider.GetRequiredService<ManageFeiertageViewModel>();
-
         public ManageKundenViewModel ManageKundenViewModel => App.ServiceProvider.GetRequiredService<ManageKundenViewModel>();
 
     }
