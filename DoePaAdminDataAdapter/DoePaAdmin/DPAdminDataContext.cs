@@ -63,6 +63,8 @@ namespace DoePaAdminDataAdapter.DoePaAdmin
 
         public DbSet<Kreditor> Kreditoren { get; set; }
 
+        public DbSet<Feiertag> Feiertage { get; set; }
+
         #endregion
 
         #region Kostenrechnung

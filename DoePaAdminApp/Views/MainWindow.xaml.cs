@@ -66,5 +66,11 @@ namespace DoePaAdminApp.Views
         {
             throw new NotImplementedException();
         }
+
+        private void RBOpenGeschaeftsjahrManagement_Click(object sender, RoutedEventArgs e)
+        {
+            ManageGeschaeftsjahreWindow manageGeschaeftsjahre = App.ServiceProvider.GetRequiredService<ManageGeschaeftsjahreWindow>();
+            manageGeschaeftsjahre.Show();
+        }
     }
 }

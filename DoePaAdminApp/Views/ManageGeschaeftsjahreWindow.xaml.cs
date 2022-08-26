@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,14 +16,13 @@ using System.Windows.Shapes;
 namespace DoePaAdminApp.Views
 {
     /// <summary>
-    /// Interaktionslogik für ManageDebitorenWindow.xaml
+    /// Interaktionslogik für ManageGeschaeftsjahreWindow.xaml
     /// </summary>
-    public partial class ManageDebitorenWindow : Window
+    public partial class ManageGeschaeftsjahreWindow : Window
     {
-        public ManageDebitorenWindow()
+        public ManageGeschaeftsjahreWindow()
         {
             InitializeComponent();
         }
-
     }
 }

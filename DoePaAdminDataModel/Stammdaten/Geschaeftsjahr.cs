@@ -17,7 +17,13 @@ namespace DoePaAdminDataModel.Stammdaten
 
         public DateTime DatumBis { get; set; }
 
+        public List<Feiertag> Feiertage { get; set; }
+
         public string Rechnungsprefix { get; set; }
 
+        public Geschaeftsjahr()
+        {
+            Feiertage = new();
+        }
     }
 }

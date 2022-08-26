@@ -45,7 +45,7 @@ namespace DoePaAdmin.ViewModel.Services
 
         #region Kunde
 
-        public Task<IEnumerable<Kunde>> GetKundeAsync(CancellationToken cancellationToken = default);
+        public Task<IEnumerable<Kunde>> GetKundenAsync(CancellationToken cancellationToken = default);
 
         public Task<Kunde> CreateKundeAsync(CancellationToken cancellationToken = default);
 
@@ -73,8 +73,6 @@ namespace DoePaAdmin.ViewModel.Services
 
         #region Ausgangsrechnungen
 
-        public Task<IEnumerable<Geschaeftsjahr>> GetGeschaeftsjahreAsync(CancellationToken cancellationToken = default);
-
         public Task<IEnumerable<Ausgangsrechnung>> GetAusgangsrechnungenAsync(CancellationToken cancellationToken = default);
 
         public Task<Ausgangsrechnung> CreateAusgangsrechnungAsync(CancellationToken cancellationToken = default);
@@ -96,10 +94,19 @@ namespace DoePaAdmin.ViewModel.Services
         public Task<IEnumerable<T>> GetGeschaeftspartnerAsync<T>(CancellationToken cancellationToken = default) where T : Geschaeftspartner;
 
         public Task<T> CreateGeschaeftspartnerAsync<T>(CancellationToken cancellationToken = default) where T : Geschaeftspartner, new();
-
         public void RemoveGeschaeftspartner<T>(T debitorToRemove) where T : Geschaeftspartner;
 
         public Task<Geschaeftsjahr> CreateGeschaeftsjahrAsync(CancellationToken cancellationToken = default);
+        
+        public Task<IEnumerable<Geschaeftsjahr>> GetGeschaeftsjahreAsync(CancellationToken cancellationToken = default);
+        
+        public void RemoveGeschaeftsjahr(Geschaeftsjahr selectedGeschaeftsjahr);
+
+        public Task<Feiertag> CreateFeiertagAsync(CancellationToken cancellationToken = default);
+
+        public Task<IEnumerable<Feiertag>> GetFeiertageAsync(CancellationToken cancellationToken = default);
+
+        public void RemoveFeiertag(Feiertag selectedFeiertag);
 
         public Task<IEnumerable<Postleitzahl>> GetPostleitzahlenAsync(CancellationToken cancellationToken = default);
 

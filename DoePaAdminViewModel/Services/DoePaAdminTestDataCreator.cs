@@ -117,6 +117,30 @@ namespace DoePaAdmin.ViewModel.Services
             currentGeschaeftsjahr.Name = "1994/1995";
             currentGeschaeftsjahr.Rechnungsprefix = "1994";
 
+            currentGeschaeftsjahr = await doePaAdminService.CreateGeschaeftsjahrAsync(cancellationToken);
+            currentGeschaeftsjahr.DatumBis = new(2020, 12, 31);
+            currentGeschaeftsjahr.DatumVon = new(2020, 1, 1);
+            currentGeschaeftsjahr.Name = "2020";
+            currentGeschaeftsjahr.Rechnungsprefix = "2020";
+
+            currentGeschaeftsjahr = await doePaAdminService.CreateGeschaeftsjahrAsync(cancellationToken);
+            currentGeschaeftsjahr.DatumBis = new(2021, 6, 30);
+            currentGeschaeftsjahr.DatumVon = new(2021, 1, 1);
+            currentGeschaeftsjahr.Name = "2021";
+            currentGeschaeftsjahr.Rechnungsprefix = "2021";
+
+            currentGeschaeftsjahr = await doePaAdminService.CreateGeschaeftsjahrAsync(cancellationToken);
+            currentGeschaeftsjahr.DatumBis = new(2022, 6, 30);
+            currentGeschaeftsjahr.DatumVon = new(2021, 7, 1);
+            currentGeschaeftsjahr.Name = "2021/2022";
+            currentGeschaeftsjahr.Rechnungsprefix = "2021";
+
+            currentGeschaeftsjahr = await doePaAdminService.CreateGeschaeftsjahrAsync(cancellationToken);
+            currentGeschaeftsjahr.DatumBis = new(2023, 6, 30);
+            currentGeschaeftsjahr.DatumVon = new(2022, 7, 1);
+            currentGeschaeftsjahr.Name = "2022/2023";
+            currentGeschaeftsjahr.Rechnungsprefix = "2022";
+
             Postleitzahl currentPostleitzahl;
 
             currentPostleitzahl = await doePaAdminService.CreatePostleitzahlAsync(cancellationToken);
@@ -387,7 +411,10 @@ namespace DoePaAdmin.ViewModel.Services
         {
 
             Kunde currentKunde;
+            Debitor currentRechnungsempfaenger;
+            Projekt currentProjekt;
             Auftrag currentAuftrag;
+            Adresse currentAdresse;
             Auftragsposition currentAuftragsposition;
 
             Abrechnungseinheit aeStunden = (await doePaAdminService.GetAbrechnungseinheitenAsync(cancellationToken)).Where(ae => ae.AbrechnungseinheitName.Equals("Stunden")).First();
@@ -397,14 +424,28 @@ namespace DoePaAdmin.ViewModel.Services
 
             currentKunde = await doePaAdminService.CreateKundeAsync(cancellationToken);
             currentKunde.Kundenname = "Softdisk";
+            currentKunde.Langname = "Softdisk Magazette";
+
+            currentRechnungsempfaenger = await doePaAdminService.CreateGeschaeftspartnerAsync<Debitor>(cancellationToken);
+            currentRechnungsempfaenger.Anschrift = "Gamer's Edge";
+            currentRechnungsempfaenger.ZugehoerigerKunde = currentKunde;
+            currentRechnungsempfaenger.ZugehoerigeAdresse = new();
+            currentKunde.Rechnungsempfaenger.Add(currentRechnungsempfaenger);
+
+            currentProjekt = await doePaAdminService.CreateProjektAsync(cancellationToken);
+            currentProjekt.Projektstart = new(1991, 2, 1);
+            currentProjekt.Projektende = new(1992, 12, 31);
+            currentProjekt.Projektname = "Vertragliche Verbindlichkeiten gegenüber Softdisk";
+            currentProjekt.Rechnungsempfaenger = currentRechnungsempfaenger;
+            currentRechnungsempfaenger.Projekte.Add(currentProjekt);
 
             currentAuftrag = await doePaAdminService.CreateAuftragAsync(cancellationToken);
             currentAuftrag.Auftragsbeginn = new(1991, 2, 1);
             currentAuftrag.Auftragsdatum = new(1991, 2, 1);
-            currentAuftrag.Auftragsende = new(1992, 12, 31);
+            currentAuftrag.Auftragsende = new(1991, 03, 31);
             currentAuftrag.Auftragsname = "Gamer's Edge Q1 1991";
-            currentAuftrag.Kunde = currentKunde;
-            currentKunde.Auftraege.Add(currentAuftrag);
+            currentAuftrag.ZugehoerigesProjekt = currentProjekt;
+            currentProjekt.ZugehoerigeAuftraege.Add(currentAuftrag);
             currentAuftrag.VerantwortlicherMitarbeiter = listMitarbeiter.Where(m => m.Nachname.Equals("Hall")).First();
             currentAuftrag.Vertragsnummer = 1;
 

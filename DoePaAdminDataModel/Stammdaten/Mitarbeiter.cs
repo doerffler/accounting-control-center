@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DoePaAdminDataModel.Stammdaten
 {
-    public class Mitarbeiter
+    public class Mitarbeiter : Person
     {
 
         public int MitarbeiterID { get; set; }
@@ -14,16 +14,6 @@ namespace DoePaAdminDataModel.Stammdaten
         public int? PersonalnummerDatev { get; set; }
 
         public Kostenstelle ZugehoerigeKostenstelle { get; set; }
-
-        public string Anrede { get; set; }
-
-        public string Titel { get; set; }
-
-        public string Vorname { get; set; }
-
-        public string Zuname { get; set; }
-
-        public string Nachname { get; set; }
 
         public DateTime Geburtsdatum { get; set; }
 

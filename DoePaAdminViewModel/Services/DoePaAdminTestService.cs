@@ -156,7 +156,7 @@ namespace DoePaAdmin.ViewModel.Services
             return Task.FromResult(KostenstellenSet.AsEnumerable());
         }
 
-        public Task<IEnumerable<Kunde>> GetKundeAsync(CancellationToken cancellationToken = default)
+        public Task<IEnumerable<Kunde>> GetKundenAsync(CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
@@ -268,6 +268,26 @@ namespace DoePaAdmin.ViewModel.Services
         }
 
         public Task<Adresse> CreateAdresseAsync(CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Feiertag> CreateFeiertagAsync(CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<Feiertag>> GetFeiertageAsync(CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveGeschaeftsjahr(Geschaeftsjahr selectedGeschaeftsjahr)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveFeiertag(Feiertag selectedFeiertag)
         {
             throw new NotImplementedException();
         }
