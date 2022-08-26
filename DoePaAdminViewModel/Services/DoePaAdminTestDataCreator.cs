@@ -400,6 +400,7 @@ namespace DoePaAdmin.ViewModel.Services
 
             currentKunde = await doePaAdminService.CreateKundeAsync(cancellationToken);
             currentKunde.Kundenname = "Softdisk";
+            currentKunde.Langname = "Softdisk Magazette";
 
             currentRechnungsempfaenger = await doePaAdminService.CreateGeschaeftspartnerAsync<Debitor>(cancellationToken);
             currentRechnungsempfaenger.Anschrift = "Gamer's Edge";

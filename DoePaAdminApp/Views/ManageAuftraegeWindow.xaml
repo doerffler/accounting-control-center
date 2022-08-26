@@ -12,6 +12,13 @@
         Height="450"
         Width="800"
         DataContext="{Binding Source={StaticResource Locator}, Path=ManageAuftraegeViewModel}">
+    <Window.Resources>
+        <CollectionViewSource x:Key="cvsProjekte" Source="{Binding Source={StaticResource Locator}, Path=ManageProjekteViewModel.Projekte}">
+            <CollectionViewSource.GroupDescriptions>
+                <PropertyGroupDescription PropertyName="Rechnungsempfaenger.ZugehoerigerKunde.Kundenname"/>
+            </CollectionViewSource.GroupDescriptions>
+        </CollectionViewSource>
+    </Window.Resources>
        <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*" />
@@ -29,7 +36,7 @@
                   Grid.Column="0"
                   Grid.Row="0"
                   Grid.RowSpan="2"
-                  ItemsSource="{Binding Source={StaticResource Locator}, Path=ManageProjekteViewModel.Projekte}"
+                  ItemsSource="{Binding Source={StaticResource cvsProjekte}}"
                   SelectedItem="{Binding SelectedProjekt}"
                   FontSize="20"
                   >
@@ -38,6 +45,16 @@
                     <GridViewColumn DisplayMemberBinding="{Binding Path=Projektname}" Header="Projekt"/>
                 </GridView>
             </ListView.View>
+
+            <ListView.GroupStyle>
+                <GroupStyle>
+                    <GroupStyle.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock FontWeight="Bold" Text="{Binding Name}"/>
+                        </DataTemplate>
+                    </GroupStyle.HeaderTemplate>
+                </GroupStyle>
+            </ListView.GroupStyle>
         </ListView>
 
         <StackPanel Grid.Row="3" Orientation="Horizontal">

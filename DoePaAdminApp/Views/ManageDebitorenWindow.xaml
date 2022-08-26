@@ -18,10 +18,6 @@
             <CollectionViewSource.GroupDescriptions>
                 <PropertyGroupDescription PropertyName="ZugehoerigerKunde.Kundenname"/>
             </CollectionViewSource.GroupDescriptions>
-            
-            <CollectionViewSource.SortDescriptions>
-                <scm:SortDescription PropertyName="Nachname"/>
-            </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
     </Window.Resources>
     <Grid>
@@ -42,8 +38,7 @@
             SelectedItem="{Binding SelectedGeschaeftspartner}">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Nachname" DisplayMemberBinding="{Binding Nachname}" />
-                    <GridViewColumn Header="Vorname" DisplayMemberBinding="{Binding Vorname}" />
+                    <GridViewColumn Header="Debitor" DisplayMemberBinding="{Binding Anschrift}" />
                 </GridView>
             </ListView.View>
 
@@ -105,9 +100,10 @@
                 Grid.Row="2"
                 Grid.Column="1"
                 Grid.ColumnSpan="3"
-                Orientation="Horizontal">
-                <ComboBox  SelectedItem="{Binding SelectedGeschaeftspartner.ZugehoerigerKunde}" DisplayMemberPath="Kundenname" />
-                <Button Height="32" Width="32" Click="HandleBtnManageKunde_Click">
+                Orientation="Horizontal"
+                DataContext="{Binding Source={StaticResource Locator}, Path=ManageKundenViewModel}">
+                <ComboBox ItemsSource="{Binding Kunden}"  SelectedItem="{Binding Source={StaticResource Locator}, Path=ManageDebitorenViewModel.SelectedGeschaeftspartner.ZugehoerigerKunde}" DisplayMemberPath="Kundenname" />
+                <Button Height="32" Width="32" Command="{Binding AddKundeCommand}">
                     <Image Source="{svg:SvgImage /Resources/Customer.svg}" />
                 </Button>
             </WrapPanel>

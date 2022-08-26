@@ -24,9 +24,5 @@ namespace DoePaAdminApp.Views
             InitializeComponent();
         }
 
-        private void HandleBtnManageKunde_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
     }
 }

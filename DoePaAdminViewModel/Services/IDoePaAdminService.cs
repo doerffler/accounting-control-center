@@ -45,7 +45,7 @@ namespace DoePaAdmin.ViewModel.Services
 
         #region Kunde
 
-        public Task<IEnumerable<Kunde>> GetKundeAsync(CancellationToken cancellationToken = default);
+        public Task<IEnumerable<Kunde>> GetKundenAsync(CancellationToken cancellationToken = default);
 
         public Task<Kunde> CreateKundeAsync(CancellationToken cancellationToken = default);
 

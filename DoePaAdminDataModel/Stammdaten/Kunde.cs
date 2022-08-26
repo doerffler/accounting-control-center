@@ -9,6 +9,8 @@ namespace DoePaAdminDataModel.Stammdaten
         
         public int KundeID { get; set; }
 
+        public string Langname { get; set; }
+
         public string Kundenname { get; set; }
 
         public List<Debitor> Rechnungsempfaenger { get; set; }
