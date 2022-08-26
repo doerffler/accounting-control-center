@@ -72,11 +72,5 @@ namespace DoePaAdminApp.Views
             ManageGeschaeftsjahreWindow manageGeschaeftsjahre = App.ServiceProvider.GetRequiredService<ManageGeschaeftsjahreWindow>();
             manageGeschaeftsjahre.Show();
         }
-
-        private void RBOpenFeiertagManagement_Click(object sender, RoutedEventArgs e)
-        {
-            ManageFeiertageWindow manageFeiertage = App.ServiceProvider.GetRequiredService<ManageFeiertageWindow>();
-            manageFeiertage.Show();
-        }
     }
 }

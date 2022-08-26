@@ -165,11 +165,6 @@
                         Click="RBOpenGeschaeftsjahrManagement_Click"
                         LargeImageSource="{svg:SvgImage /Resources/undraw_schedule_re_2vro.svg}"
                         Label="{StaticResource strManageGeschaeftsjahre}" />
-                    <RibbonButton
-                        x:Name="RBOpenFeiertagManagement"
-                        Click="RBOpenFeiertagManagement_Click"
-                        LargeImageSource="{svg:SvgImage /Resources/undraw_calendar_re_ki49.svg}"
-                        Label="{StaticResource strManageFeiertage}" />
                 </RibbonGroup>
             </RibbonTab>
             <RibbonTab Header="Kostenrechnung">
