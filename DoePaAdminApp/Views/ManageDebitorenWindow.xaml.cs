@@ -23,5 +23,6 @@ namespace DoePaAdminApp.Views
         {
             InitializeComponent();
         }
+
     }
 }

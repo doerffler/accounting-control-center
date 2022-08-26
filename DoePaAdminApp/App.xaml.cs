@@ -66,6 +66,7 @@ namespace DoePaAdminApp
             services.AddSingleton<ManageAusgangsrechnungenViewModel>();
             services.AddSingleton<ManageDebitorenViewModel>();
             services.AddSingleton<ManagePostleitzahlenViewModel>();
+            services.AddSingleton<ManageKundenViewModel>();
                         
             services.AddTransient<MainWindow>();
             services.AddTransient<ManageKostenstellenWindow>();

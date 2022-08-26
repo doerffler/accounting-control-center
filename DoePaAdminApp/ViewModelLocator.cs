@@ -26,5 +26,7 @@ namespace DoePaAdminApp.ViewModels
 
         public ManagePostleitzahlenViewModel ManagePostleitzahlenViewModel => App.ServiceProvider.GetRequiredService<ManagePostleitzahlenViewModel>();
 
+        public ManageKundenViewModel ManageKundenViewModel => App.ServiceProvider.GetRequiredService<ManageKundenViewModel>();
+
     }
 }

@@ -112,9 +112,9 @@ namespace DoePaAdmin.ViewModel.Services
 
         #region Kunde
 
-        public async Task<IEnumerable<Kunde>> GetKundeAsync(CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<Kunde>> GetKundenAsync(CancellationToken cancellationToken = default)
         {
-            return await GetDataFromDbSetAsync(DBContext.Kunden.Include(a => a.Auftraege).ThenInclude(ap => ap.Auftragspositionen), cancellationToken);
+            return await GetDataFromDbSetAsync(DBContext.Kunden, cancellationToken);
         }
 
         public async Task<Kunde> CreateKundeAsync(CancellationToken cancellationToken = default)
@@ -151,7 +151,7 @@ namespace DoePaAdmin.ViewModel.Services
         #region Projekt
         public async Task<IEnumerable<Projekt>> GetProjekteAsync(CancellationToken cancellationToken = default)
         {
-            return await GetDataFromDbSetAsync(DBContext.Projekte.Include(p => p.Skills).Include(a => a.ZugehoerigeAuftraege), cancellationToken);
+            return await GetDataFromDbSetAsync(DBContext.Projekte.Include(p => p.Skills).Include(a => a.ZugehoerigeAuftraege).ThenInclude(ap => ap.Auftragspositionen).Include(p => p.Rechnungsempfaenger).ThenInclude(re => re.ZugehoerigerKunde), cancellationToken);
         }
         
         public async Task<Projekt> CreateProjektAsync(CancellationToken cancellationToken = default)
@@ -200,7 +200,7 @@ namespace DoePaAdmin.ViewModel.Services
 
             if (typeof(T) == typeof(Debitor))
             {
-                result = DBContext.Debitoren;
+                result = DBContext.Debitoren.Include(d => d.ZugehoerigerKunde);
             }
             else if (typeof(T) == typeof(Kreditor))
             {
@@ -307,9 +307,6 @@ namespace DoePaAdmin.ViewModel.Services
         }
 
         #endregion
-
-        
-
 
     }
 }
