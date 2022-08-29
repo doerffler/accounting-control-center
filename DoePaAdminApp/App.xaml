@@ -29,6 +29,10 @@
             <sys:String x:Key="strImportOutgoingInvoices">Ausgangsrechnungen importieren</sys:String>
             <sys:String x:Key="strManageGeschaeftsjahre">Geschäftsjahre bearbeiten</sys:String>
             <sys:String x:Key="strManageFeiertage">Feiertage bearbeiten</sys:String>
+            <sys:String x:Key="strManageKostenstellenarten">Kostenstellenarten bearbeiten</sys:String>
+            <sys:String x:Key="strManageAbrechnungseinheiten">Abrechnungseinheiten bearbeiten</sys:String>
+            <sys:String x:Key="strManageWaehrungen">Währungen bearbeiten</sys:String>
+            <sys:String x:Key="strManageTaetigkeiten">Tätigkeiten bearbeiten</sys:String>
 
             <sys:String x:Key="strAddItem">Neu</sys:String>
             <sys:String x:Key="strRemoveItem">Löschen</sys:String>
