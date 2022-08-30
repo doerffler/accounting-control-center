@@ -16,14 +16,8 @@ namespace DoePaAdmin.ViewModel.Services
         #region Kostenstelle
 
         public Task<IEnumerable<Kostenstelle>> GetKostenstellenAsync(CancellationToken cancellationToken = default);
-
         public Task<Kostenstelle> CreateKostenstelleAsync(CancellationToken cancellationToken = default);
-
         public void RemoveKostenstelle(Kostenstelle kostenstelleToRemove);
-
-        public Task<IEnumerable<Kostenstellenart>> GetKostenstellenartenAsync(CancellationToken cancellationToken = default);
-        
-        public Task<Kostenstellenart> CreateKostenstellenartAsync(CancellationToken cancellationToken = default);
 
         #endregion 
 
@@ -37,17 +31,13 @@ namespace DoePaAdmin.ViewModel.Services
 
         Task<Anstellungsdetail> CreateAnstellungsdetailAsync(CancellationToken cancellationToken = default);
 
-        public Task<IEnumerable<Taetigkeit>> GetTaetigkeitenAsync(CancellationToken cancellationToken = default);
-        
-        Task<Taetigkeit> CreateTaetigkeitAsync(CancellationToken cancellationToken = default);
-
         #endregion
 
         #region Kunde
 
         public Task<IEnumerable<Kunde>> GetKundenAsync(CancellationToken cancellationToken = default);
-
         public Task<Kunde> CreateKundeAsync(CancellationToken cancellationToken = default);
+        public void RemoveKunde(Kunde selectedKunde);
 
         #endregion
 
@@ -84,35 +74,40 @@ namespace DoePaAdmin.ViewModel.Services
         #region Masterdata
 
         public Task<IEnumerable<Waehrung>> GetWaehrungenAsync(CancellationToken cancellationToken = default);
-
         public Task<Waehrung> CreateWaehrungAsync(CancellationToken cancellationToken = default);
+        void RemoveWaehrung(Waehrung selectedWaehrung);
 
         public Task<IEnumerable<Abrechnungseinheit>> GetAbrechnungseinheitenAsync(CancellationToken cancellationToken = default);
-
         public Task<Abrechnungseinheit> CreateAbrechnungseinheitAsync(CancellationToken cancellationToken = default);
+        void RemoveAbrechnungseinheit(Abrechnungseinheit selectedAbrechnungseinheit);
 
         public Task<IEnumerable<T>> GetGeschaeftspartnerAsync<T>(CancellationToken cancellationToken = default) where T : Geschaeftspartner;
-
         public Task<T> CreateGeschaeftspartnerAsync<T>(CancellationToken cancellationToken = default) where T : Geschaeftspartner, new();
         public void RemoveGeschaeftspartner<T>(T debitorToRemove) where T : Geschaeftspartner;
 
-        public Task<Geschaeftsjahr> CreateGeschaeftsjahrAsync(CancellationToken cancellationToken = default);
-        
         public Task<IEnumerable<Geschaeftsjahr>> GetGeschaeftsjahreAsync(CancellationToken cancellationToken = default);
-        
+        public Task<Geschaeftsjahr> CreateGeschaeftsjahrAsync(CancellationToken cancellationToken = default);        
         public void RemoveGeschaeftsjahr(Geschaeftsjahr selectedGeschaeftsjahr);
 
-        public Task<Feiertag> CreateFeiertagAsync(CancellationToken cancellationToken = default);
-
         public Task<IEnumerable<Feiertag>> GetFeiertageAsync(CancellationToken cancellationToken = default);
-
+        public Task<Feiertag> CreateFeiertagAsync(CancellationToken cancellationToken = default);
         public void RemoveFeiertag(Feiertag selectedFeiertag);
 
         public Task<IEnumerable<Postleitzahl>> GetPostleitzahlenAsync(CancellationToken cancellationToken = default);
-
         public Task<Postleitzahl> CreatePostleitzahlAsync(CancellationToken cancellationToken = default);
+        public void RemovePostleitzahl(Postleitzahl selectedPostleitzahl);
 
+        public Task<IEnumerable<Adresse>> GetAdressenAsync(CancellationToken cancellationToken = default);
         public Task<Adresse> CreateAdresseAsync(CancellationToken cancellationToken = default);
+        public void RemoveAdresse(Adresse selectedAdresse);
+
+        public Task<IEnumerable<Kostenstellenart>> GetKostenstellenartenAsync(CancellationToken cancellationToken = default);
+        public Task<Kostenstellenart> CreateKostenstellenartAsync(CancellationToken cancellationToken = default);
+        public void RemoveKostenstellenart(Kostenstellenart selectedKostenstellenart);
+
+        public Task<IEnumerable<Taetigkeit>> GetTaetigkeitenAsync(CancellationToken cancellationToken = default);
+        public Task<Taetigkeit> CreateTaetigkeitAsync(CancellationToken cancellationToken = default);
+        public void RemoveTaetigkeit(Taetigkeit selectedTaetigkeit);
 
         #endregion
 

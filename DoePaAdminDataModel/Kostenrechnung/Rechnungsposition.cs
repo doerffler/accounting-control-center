@@ -16,7 +16,7 @@ namespace DoePaAdminDataModel.Kostenrechnung
 
         public int? ZugehoerigeAbrechnungseinheitID { get; set; }
 
-        public Abrechnungseinheit ZugehoerigeAbrechnungseinheit { get; set; }
+        public Waehrung ZugehoerigeAbrechnungseinheit { get; set; }
 
         public decimal StueckpreisNetto { get; set; }
 

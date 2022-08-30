@@ -64,13 +64,38 @@ namespace DoePaAdminApp.Views
 
         private void RBOpenPostleitzahlManagement_Click(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            ManagePostleitzahlenWindow managePostleitzahlen = App.ServiceProvider.GetRequiredService<ManagePostleitzahlenWindow>();
+            managePostleitzahlen.Show();
         }
 
         private void RBOpenGeschaeftsjahrManagement_Click(object sender, RoutedEventArgs e)
         {
             ManageGeschaeftsjahreWindow manageGeschaeftsjahre = App.ServiceProvider.GetRequiredService<ManageGeschaeftsjahreWindow>();
             manageGeschaeftsjahre.Show();
+        }
+
+        private void RBOpenAbrechnungseinheitManagement_Click(object sender, RoutedEventArgs e)
+        {
+            ManageAbrechnungseinheitWindow manageAbrechnungseinheit = App.ServiceProvider.GetRequiredService<ManageAbrechnungseinheitWindow>();
+            manageAbrechnungseinheit.Show();
+        }
+
+        private void RBOpenKostenstellenartManagement_Click(object sender, RoutedEventArgs e)
+        {
+            ManageKostenstellenartWindow manageKostenstellenart = App.ServiceProvider.GetRequiredService<ManageKostenstellenartWindow>();
+            manageKostenstellenart.Show();
+        }
+
+        private void RBOpenTaetigkeitManagement_Click(object sender, RoutedEventArgs e)
+        {
+            ManageTaetigkeitWindow manageTaetigkeit = App.ServiceProvider.GetRequiredService<ManageTaetigkeitWindow>();
+            manageTaetigkeit.Show();
+        }
+
+        private void RBOpenWaehrungManagement_Click(object sender, RoutedEventArgs e)
+        {
+            ManageWaehrungWindow manageWaehrung = App.ServiceProvider.GetRequiredService<ManageWaehrungWindow>();
+            manageWaehrung.Show();
         }
     }
 }

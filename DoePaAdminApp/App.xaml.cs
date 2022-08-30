@@ -83,6 +83,7 @@ namespace DoePaAdminApp
             services.AddTransient<AskForUserInputWindow>();
             services.AddTransient<ManageAusgangsrechnungenWindow>();
             services.AddTransient<ManageDebitorenWindow>();
+            services.AddTransient<ManagePostleitzahlenWindow>();
             services.AddTransient<ManageGeschaeftsjahreWindow>();
             services.AddTransient<ManageAbrechnungseinheitWindow>();
             services.AddTransient<ManageKostenstellenartWindow>();

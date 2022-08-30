@@ -11,7 +11,7 @@
         Title="Dörffler &amp; Partner GmbH - DoePaAdmin"
         Icon="/Resources/doerffler_icon_496x496.png"
         Height="450"
-        Width="800"
+        Width="1080"
         DataContext="{Binding Source={StaticResource Locator}, Path=MainViewModel}">
     <Grid>
         <Grid.RowDefinitions>
@@ -165,6 +165,28 @@
                         Click="RBOpenGeschaeftsjahrManagement_Click"
                         LargeImageSource="{svg:SvgImage /Resources/undraw_schedule_re_2vro.svg}"
                         Label="{StaticResource strManageGeschaeftsjahre}" />
+                </RibbonGroup>
+                <RibbonGroup Header="Anderes">
+                    <RibbonButton
+                        x:Name="RBOpenAbrechnungseinheitManagement"
+                        Click="RBOpenAbrechnungseinheitManagement_Click"
+                        LargeImageSource="{svg:SvgImage /Resources/reshot-icon-business-man-JSQ35TMBH8.svg}"
+                        Label="{StaticResource strManageAbrechnungseinheiten}" />
+                    <RibbonButton
+                        x:Name="RBOpenWaehrungManagement"
+                        Click="RBOpenWaehrungManagement_Click"
+                        LargeImageSource="{svg:SvgImage /Resources/reshot-icon-euro-WNGEZBR69A.svg}"
+                        Label="{StaticResource strManageWaehrungen}" />
+                    <RibbonButton
+                        x:Name="RBOpenTaetigkeitManagement"
+                        Click="RBOpenTaetigkeitManagement_Click"
+                        LargeImageSource="{svg:SvgImage /Resources/reshot-icon-technical-support-GZRXMNY39U.svg}"
+                        Label="{StaticResource strManageTaetigkeiten}" />
+                    <RibbonButton
+                        x:Name="RBOpenKostenstellenartManagement"
+                        Click="RBOpenKostenstellenartManagement_Click"
+                        LargeImageSource="{svg:SvgImage /Resources/reshot-icon-drawer-box-LVKWMU6DC5.svg}"
+                        Label="{StaticResource strManageKostenstellenarten}" />
                 </RibbonGroup>
             </RibbonTab>
             <RibbonTab Header="Kostenrechnung">
