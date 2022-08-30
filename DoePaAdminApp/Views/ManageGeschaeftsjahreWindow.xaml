@@ -35,7 +35,6 @@
             <ListView ItemsSource="{Binding Source={StaticResource cvsGeschaeftsjahre}}" SelectedItem="{Binding SelectedGeschaeftsjahr}" Grid.Row="0" Grid.RowSpan="2" Grid.Column="0">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn DisplayMemberBinding="{Binding Path=GeschaeftsjahrId}" Header="Nr"/>
                         <GridViewColumn DisplayMemberBinding="{Binding Path=Name}" Header="Name"/>
                         <GridViewColumn DisplayMemberBinding="{Binding Path=DatumVon, StringFormat=dd.MM.yyyy}" Header="Von"/>
                         <GridViewColumn DisplayMemberBinding="{Binding Path=DatumBis, StringFormat=dd.MM.yyyy}" Header="Bis"/>
