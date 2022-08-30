@@ -11,7 +11,7 @@
         Title="Dörffler &amp; Partner GmbH - DoePaAdmin"
         Icon="/Resources/doerffler_icon_496x496.png"
         Height="450"
-        Width="1080"
+        Width="1200"
         DataContext="{Binding Source={StaticResource Locator}, Path=MainViewModel}">
     <Grid>
         <Grid.RowDefinitions>
@@ -151,14 +151,6 @@
                         LargeImageSource="{svg:SvgImage /Resources/Supplier.svg}"
                         Label="{StaticResource strManageKreditors}" />
                 </RibbonGroup>
-                <RibbonGroup Header="Adressen">
-                    <RibbonButton
-                        x:Name="RBOpenPostleitzahlManagement"
-                        Click="RBOpenPostleitzahlManagement_Click"
-                        SmallImageSource="{svg:SvgImage /Resources/undraw_handcrafts_location.svg}"
-                        LargeImageSource="{svg:SvgImage /Resources/undraw_handcrafts_location.svg}"
-                        Label="{StaticResource strManagePostleitzahlen}" />
-                </RibbonGroup>
                 <RibbonGroup Header="Geschäftsjahr">
                     <RibbonButton
                         x:Name="RBOpenGeschaeftsjahrManagement"
@@ -167,6 +159,12 @@
                         Label="{StaticResource strManageGeschaeftsjahre}" />
                 </RibbonGroup>
                 <RibbonGroup Header="Anderes">
+                    <RibbonButton
+                        x:Name="RBOpenPostleitzahlManagement"
+                        Click="RBOpenPostleitzahlManagement_Click"
+                        SmallImageSource="{svg:SvgImage /Resources/undraw_handcrafts_location.svg}"
+                        LargeImageSource="{svg:SvgImage /Resources/undraw_handcrafts_location.svg}"
+                        Label="{StaticResource strManagePostleitzahlen}" />
                     <RibbonButton
                         x:Name="RBOpenAbrechnungseinheitManagement"
                         Click="RBOpenAbrechnungseinheitManagement_Click"
@@ -187,6 +185,11 @@
                         Click="RBOpenKostenstellenartManagement_Click"
                         LargeImageSource="{svg:SvgImage /Resources/reshot-icon-drawer-box-LVKWMU6DC5.svg}"
                         Label="{StaticResource strManageKostenstellenarten}" />
+                    <RibbonButton
+                        x:Name="RBOpenKundenManagement"
+                        Click="RBOpenKundenManagement_Click"
+                        LargeImageSource="{svg:SvgImage /Resources/Customer.svg}"
+                        Label="{StaticResource strManageKunden}" />
                 </RibbonGroup>
             </RibbonTab>
             <RibbonTab Header="Kostenrechnung">

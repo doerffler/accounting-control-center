@@ -97,5 +97,11 @@ namespace DoePaAdminApp.Views
             ManageWaehrungWindow manageWaehrung = App.ServiceProvider.GetRequiredService<ManageWaehrungWindow>();
             manageWaehrung.Show();
         }
+
+        private void RBOpenKundenManagement_Click(object sender, RoutedEventArgs e)
+        {
+            ManageKundenWindow manageKunden = App.ServiceProvider.GetRequiredService<ManageKundenWindow>();
+            manageKunden.Show();
+        }
     }
 }

@@ -33,6 +33,7 @@
             <sys:String x:Key="strManageAbrechnungseinheiten">Abrechnungseinheiten bearbeiten</sys:String>
             <sys:String x:Key="strManageWaehrungen">Währungen bearbeiten</sys:String>
             <sys:String x:Key="strManageTaetigkeiten">Tätigkeiten bearbeiten</sys:String>
+            <sys:String x:Key="strManageKunden">Kunden bearbeiten</sys:String>
 
             <sys:String x:Key="strAddItem">Neu</sys:String>
             <sys:String x:Key="strRemoveItem">Löschen</sys:String>

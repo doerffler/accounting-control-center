@@ -13,8 +13,7 @@ namespace DoePaAdmin.ViewModel
 {
     public class ManageKundenViewModel : DoePaAdminViewModelBase
     {
-
-        private IUserInteractionService UserInteractionService { get; set; }
+        #region Kunde
 
         private ObservableCollection<Kunde> _kunden = new();
 
@@ -24,33 +23,44 @@ namespace DoePaAdmin.ViewModel
             set => SetProperty(ref _kunden, value, true);
         }
 
-        public IRelayCommand AddKundeCommand
+        private Kunde _selectedKunde = new();
+
+        public Kunde SelectedKunde
         {
-            get;
+            get => _selectedKunde;
+            set => SetProperty(ref _selectedKunde, value, true);
         }
+
+        #endregion
+
+        public IRelayCommand AddCommand { get; }
+        public IRelayCommand RemoveCommand { get; }
 
         public ManageKundenViewModel(IDoePaAdminService doePaAdminService, IUserInteractionService userInteractionService) : base(doePaAdminService)
         {
-
-            UserInteractionService = userInteractionService;
-
-            AddKundeCommand = new AsyncRelayCommand(DoAddKundeAsync);
-
             Kunden = new(Task.Run(async () => await DoePaAdminService.GetKundenAsync()).Result);
+            
+            AddCommand = new AsyncRelayCommand(DoAddAsync);
 
+            //TODO: Implement CanExecute-Functionality
+            RemoveCommand = new RelayCommand(DoRemove);
         }
 
-        private async Task DoAddKundeAsync(CancellationToken cancellationToken = default)
+        private async Task DoAddAsync(CancellationToken cancellationToken = default)
         {
+            Kunde kunde = await DoePaAdminService.CreateKundeAsync(cancellationToken);
+            kunde.Langname = "Neuer Kunde";
 
-            //TODO: Introduce string localization for this message:
-            string kundenName = UserInteractionService.AskForUserInput("Bitte geben Sie den Namen des neuen Kunden ein:", "Kundennamen eingeben");
+            Kunden.Add(kunde);
+        }
 
-            if (kundenName != null)
+
+        private void DoRemove()
+        {
+            if (SelectedKunde != null)
             {
-                Kunde newKunde = await DoePaAdminService.CreateKundeAsync(cancellationToken);
-                newKunde.Kundenname = kundenName;
-                Kunden.Add(newKunde);
+                DoePaAdminService.RemoveKunde(SelectedKunde);
+                _ = Kunden.Remove(SelectedKunde);
             }
         }
 
