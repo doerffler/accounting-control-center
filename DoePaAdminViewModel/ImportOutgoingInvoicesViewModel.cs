@@ -28,7 +28,7 @@ namespace DoePaAdmin.ViewModel
             set => SetProperty(ref _outgoingInvoices, value, true);
         }
 
-        public ImportOutgoingInvoicesViewModel(IDoePaAdminService doePaAdminService, IDPAppService dpAppService) : base(doePaAdminService)
+        public ImportOutgoingInvoicesViewModel(IDoePaAdminService doePaAdminService, IDPAppService dpAppService, IUserInteractionService userInteractionService) : base(doePaAdminService, userInteractionService)
         {
             DPAppService = dpAppService;
 

@@ -191,7 +191,7 @@ namespace DoePaAdmin.ViewModel.Services
             MitarbeiterSet.Remove(mitarbeiterToRemove);
         }
 
-        public Task SaveChangesAsync(CancellationToken cancellationToken = default)
+        public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
