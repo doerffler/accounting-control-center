@@ -32,7 +32,7 @@ namespace DoePaAdmin.ViewModel
 
         public IRelayCommand AddPostleitzahlCommand { get; }
 
-        public ManagePostleitzahlenViewModel(IDoePaAdminService doePaAdminService) : base(doePaAdminService)
+        public ManagePostleitzahlenViewModel(IDoePaAdminService doePaAdminService, IUserInteractionService userInteractionService) : base(doePaAdminService, userInteractionService)
         {
             AddPostleitzahlCommand = new AsyncRelayCommand(DoAddPostleitzhalAsync);
 

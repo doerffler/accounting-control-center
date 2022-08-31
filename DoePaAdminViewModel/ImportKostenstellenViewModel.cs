@@ -31,7 +31,7 @@ namespace DoePaAdmin.ViewModel
             set => SetProperty(ref _kostenstellen, value, true);
         }
 
-        public ImportKostenstellenViewModel(IDPAppService dpAppService, IDoePaAdminService doePaAdminService)
+        public ImportKostenstellenViewModel(IDPAppService dpAppService, IDoePaAdminService doePaAdminService, IUserInteractionService userInteractionService)
         {
             DPAppService = dpAppService;
             DoePaAdminService = doePaAdminService;

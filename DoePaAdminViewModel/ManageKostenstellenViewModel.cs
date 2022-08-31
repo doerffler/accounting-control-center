@@ -16,9 +16,6 @@ namespace DoePaAdmin.ViewModel
 {
     public class ManageKostenstellenViewModel : DoePaAdminViewModelBase
     {
-
-        private IUserInteractionService UserInteractionService { get; set; }
-
         private ObservableCollection<Kostenstelle> _kostenstellen;
         public ObservableCollection<Kostenstelle> Kostenstellen
         {
@@ -54,7 +51,7 @@ namespace DoePaAdmin.ViewModel
 
         public IRelayCommand AddKostenstellenartCommand { get; }
 
-        public ManageKostenstellenViewModel(IDoePaAdminService doePaAdminService, IUserInteractionService userInteractionService) : base(doePaAdminService)
+        public ManageKostenstellenViewModel(IDoePaAdminService doePaAdminService, IUserInteractionService userInteractionService) : base(doePaAdminService, userInteractionService)
         {
 
             UserInteractionService = userInteractionService;
