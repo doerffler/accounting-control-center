@@ -19,10 +19,10 @@ namespace DoePaAdminApp.Properties {
     // -Klasse über ein Tool wie ResGen oder Visual Studio automatisch generiert.
     // Um einen Member hinzuzufügen oder zu entfernen, bearbeiten Sie die .ResX-Datei und führen dann ResGen
     // mit der /str-Option erneut aus, oder Sie erstellen Ihr VS-Projekt neu.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    public class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace DoePaAdminApp.Properties {
         ///   Gibt die zwischengespeicherte ResourceManager-Instanz zurück, die von dieser Klasse verwendet wird.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("DoePaAdminApp.Properties.Resources", typeof(Resources).Assembly);
@@ -51,12 +51,174 @@ namespace DoePaAdminApp.Properties {
         ///   Ressourcenzuordnungen, die diese stark typisierte Ressourcenklasse verwenden.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die strAddItem ähnelt.
+        /// </summary>
+        public static string strAddItem {
+            get {
+                return ResourceManager.GetString("strAddItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die strCopy ähnelt.
+        /// </summary>
+        public static string strCopy {
+            get {
+                return ResourceManager.GetString("strCopy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die strEditCostCenter ähnelt.
+        /// </summary>
+        public static string strEditCostCenter {
+            get {
+                return ResourceManager.GetString("strEditCostCenter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die strEditOrder ähnelt.
+        /// </summary>
+        public static string strEditOrder {
+            get {
+                return ResourceManager.GetString("strEditOrder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die strEditProject ähnelt.
+        /// </summary>
+        public static string strEditProject {
+            get {
+                return ResourceManager.GetString("strEditProject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die strEditWorkforce ähnelt.
+        /// </summary>
+        public static string strEditWorkforce {
+            get {
+                return ResourceManager.GetString("strEditWorkforce", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die strImportOutgoingInvoices ähnelt.
+        /// </summary>
+        public static string strImportOutgoingInvoices {
+            get {
+                return ResourceManager.GetString("strImportOutgoingInvoices", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die strManageDebitors ähnelt.
+        /// </summary>
+        public static string strManageDebitors {
+            get {
+                return ResourceManager.GetString("strManageDebitors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die strManageFeiertage ähnelt.
+        /// </summary>
+        public static string strManageFeiertage {
+            get {
+                return ResourceManager.GetString("strManageFeiertage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die strManageGeschaeftsjahre ähnelt.
+        /// </summary>
+        public static string strManageGeschaeftsjahre {
+            get {
+                return ResourceManager.GetString("strManageGeschaeftsjahre", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die strManageKreditors ähnelt.
+        /// </summary>
+        public static string strManageKreditors {
+            get {
+                return ResourceManager.GetString("strManageKreditors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die strManageOutgoingInvoices ähnelt.
+        /// </summary>
+        public static string strManageOutgoingInvoices {
+            get {
+                return ResourceManager.GetString("strManageOutgoingInvoices", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die strManagePostleitzahlen ähnelt.
+        /// </summary>
+        public static string strManagePostleitzahlen {
+            get {
+                return ResourceManager.GetString("strManagePostleitzahlen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die strManageSkillMenue ähnelt.
+        /// </summary>
+        public static string strManageSkillMenue {
+            get {
+                return ResourceManager.GetString("strManageSkillMenue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die strPaste ähnelt.
+        /// </summary>
+        public static string strPaste {
+            get {
+                return ResourceManager.GetString("strPaste", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die strRefreshView ähnelt.
+        /// </summary>
+        public static string strRefreshView {
+            get {
+                return ResourceManager.GetString("strRefreshView", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die strRemoveItem ähnelt.
+        /// </summary>
+        public static string strRemoveItem {
+            get {
+                return ResourceManager.GetString("strRemoveItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die strSaveData ähnelt.
+        /// </summary>
+        public static string strSaveData {
+            get {
+                return ResourceManager.GetString("strSaveData", resourceCulture);
             }
         }
     }

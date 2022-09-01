@@ -8,6 +8,9 @@ using DoePaAdmin.ViewModel.Services;
 using DoePaAdmin.ViewModel;
 using DoePaAdminApp.Views;
 using DoePaAdminApp.Services;
+using System.Configuration;
+using System.Threading;
+using System.Globalization;
 
 namespace DoePaAdminApp
 {
@@ -18,11 +21,14 @@ namespace DoePaAdminApp
     {
 
         private readonly IHost host;
+        private readonly dynamic config;
 
         public static IServiceProvider ServiceProvider { get; private set; }
 
         public App()
         {
+            config = ConfigurationManager.AppSettings;
+            Thread.CurrentThread.CurrentUICulture = new(config["Language"]);
 
             host = Host.CreateDefaultBuilder()  // Use default settings
                                                 //new HostBuilder()          // Initialize an empty HostBuilder

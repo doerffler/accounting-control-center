@@ -11,7 +11,8 @@
         Height="450"
         Width="800"
         Icon="{svg:SvgImage /Resources/invoice_icon.svg}"
-        Title="{StaticResource strManageOutgoingInvoices}"
+        xmlns:p="clr-namespace:DoePaAdminApp.Properties"
+        Title="{x:Static p:Resources.strManageOutgoingInvoices}"
         DataContext="{Binding Source={StaticResource Locator}, Path=ManageAusgangsrechnungenViewModel}">
     <Window.Resources>
         <CollectionViewSource x:Key="cvsGeschaeftsjahre" Source="{Binding Geschaeftsjahre}">
