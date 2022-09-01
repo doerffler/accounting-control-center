@@ -9,9 +9,15 @@ namespace DoePaAdminDataModel.Stammdaten
     public class Skill
     {
         public int SkillID { get; set; }
-        public string SkillName { get; set; }  
-        public int? ParentSkillID { get; set; }
+        public string SkillName { get; set; }
         public Skill ParentSkill { get; set; }
+        public List<Skill> ChildSkills { get; set; }
         public List<Projekt> Projekte { get; set; }
+        
+        public Skill()
+        {
+            ChildSkills = new();
+            Projekte = new();
+        }
     }
 }
