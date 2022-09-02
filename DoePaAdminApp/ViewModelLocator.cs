@@ -30,5 +30,7 @@ namespace DoePaAdminApp.ViewModels
 
         public ManageKundenViewModel ManageKundenViewModel => App.ServiceProvider.GetRequiredService<ManageKundenViewModel>();
 
+        public ManageSkillsViewModel ManageSkillsViewModel => App.ServiceProvider.GetRequiredService<ManageSkillsViewModel>();
+
     }
 }

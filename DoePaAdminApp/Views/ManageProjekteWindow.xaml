@@ -121,7 +121,7 @@
 
             <!-- Skill Menü Button -->
             <Button Grid.Column="1"
-            Grid.Row="0" Command="{Binding SaveChangesCommand}">
+            Grid.Row="0" Name="ManageSkills" Click="ManageSkills_Click">
                 <Control Template="{StaticResource tmpManageSkillMenueButton}" />
             </Button>
 

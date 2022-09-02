@@ -151,13 +151,40 @@ namespace DoePaAdmin.ViewModel.Services
         #region Projekt
         public async Task<IEnumerable<Projekt>> GetProjekteAsync(CancellationToken cancellationToken = default)
         {
-            return await GetDataFromDbSetAsync(DBContext.Projekte.Include(p => p.Skills).Include(a => a.ZugehoerigeAuftraege).ThenInclude(ap => ap.Auftragspositionen).Include(p => p.Rechnungsempfaenger).ThenInclude(re => re.ZugehoerigerKunde), cancellationToken);
+            return await GetDataFromDbSetAsync(DBContext.Projekte
+                .Include(p => p.Skills)
+                .Include(a => a.ZugehoerigeAuftraege)
+                .ThenInclude(ap => ap.Auftragspositionen)
+                .Include(p => p.Rechnungsempfaenger)
+                .ThenInclude(re => re.ZugehoerigerKunde), cancellationToken);
         }
         
         public async Task<Projekt> CreateProjektAsync(CancellationToken cancellationToken = default)
         {
             return await AddDataToDbSetAsync(DBContext.Projekte, cancellationToken);
         }
+
+        public async Task<Skill> CreateSkillAsync(CancellationToken cancellationToken = default)
+        {
+            return await AddDataToDbSetAsync(DBContext.Skills, cancellationToken);
+        }
+
+        public async Task<IEnumerable<Skill>> GetSkillsAsync(CancellationToken cancellationToken = default)
+        {
+            return await GetDataFromDbSetAsync(DBContext.Skills
+                .Where(s => s.ParentSkill == null)
+                .Include(s => s.ChildSkills)
+                .ThenInclude(s => s.ChildSkills)
+                .ThenInclude(s => s.ChildSkills)
+                .ThenInclude(s => s.ChildSkills), cancellationToken);
+        }
+
+        public void RemoveSkill(Skill skillToRemove)
+        {
+            _ = DBContext.Skills.Remove(skillToRemove);
+        }
+
+
         #endregion
 
         #region Ausgangsrechnungen

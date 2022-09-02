@@ -56,11 +56,17 @@ namespace DoePaAdmin.ViewModel.Services
         public Task<IEnumerable<Projekt>> GetProjekteAsync(CancellationToken cancellationToken = default);
 
         public Task<Projekt> CreateProjektAsync(CancellationToken cancellationToken = default);
-        
+
+        public Task<Skill> CreateSkillAsync(CancellationToken cancellationToken = default);
+
+        public Task<IEnumerable<Skill>> GetSkillsAsync(CancellationToken cancellationToken = default);
+       
+        void RemoveSkill(Skill selectedSkill);
+
         #endregion
 
         #region Auftrag
-        
+
         public Task<IEnumerable<Auftrag>> GetAuftraegeAsync(CancellationToken cancellationToken = default);
 
         public Task<Auftrag> CreateAuftragAsync(CancellationToken cancellationToken = default);
