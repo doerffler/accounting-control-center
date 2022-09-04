@@ -7,7 +7,8 @@
         mc:Ignorable="d"
         xmlns:svg="http://sharpvectors.codeplex.com/svgc/"
         xmlns:dpAdminControls="clr-namespace:DoePaAdminApp.Controls"
-        Title="{StaticResource strEditWorkforce}"
+        xmlns:p="clr-namespace:DoePaAdminApp.Properties"
+        Title="{x:Static p:Resources.strEditWorkforce}"
         Icon="{svg:SvgImage /Resources/Employee.svg}"
         DataContext="{Binding Source={StaticResource Locator}, Path=ManageMitarbeiterViewModel}">
     <Grid>

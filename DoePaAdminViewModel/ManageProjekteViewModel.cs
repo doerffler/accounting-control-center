@@ -92,7 +92,7 @@ namespace DoePaAdmin.ViewModel
         public IRelayCommand RemoveAuftragCommand { get; }
         #endregion
 
-        public ManageProjekteViewModel(IDoePaAdminService doePaAdminService) : base(doePaAdminService)
+        public ManageProjekteViewModel(IDoePaAdminService doePaAdminService, IUserInteractionService userInteractionService) : base(doePaAdminService, userInteractionService)
         {
             AddProjektCommand = new AsyncRelayCommand(DoAddProjektAsync);
 

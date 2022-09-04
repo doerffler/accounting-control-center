@@ -35,7 +35,7 @@ namespace DoePaAdmin.ViewModel
 
         #endregion
 
-        public ManagePostleitzahlenViewModel(IDoePaAdminService doePaAdminService) : base(doePaAdminService)
+        public ManagePostleitzahlenViewModel(IDoePaAdminService doePaAdminService, IUserInteractionService userInteractionService) : base(doePaAdminService, userInteractionService)
         {
             AddCommand = new AsyncRelayCommand(DoAddAsync);
 

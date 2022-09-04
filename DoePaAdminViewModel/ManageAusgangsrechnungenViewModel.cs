@@ -66,7 +66,7 @@ namespace DoePaAdmin.ViewModel
         public IRelayCommand RemoveRechnungCommand { get; }
 
 
-        public ManageAusgangsrechnungenViewModel(IDoePaAdminService doePaAdminService) : base(doePaAdminService)
+        public ManageAusgangsrechnungenViewModel(IDoePaAdminService doePaAdminService, IUserInteractionService userInteractionService) : base(doePaAdminService, userInteractionService)
         {
 
             //TODO: Implement CanExecute-Functionality

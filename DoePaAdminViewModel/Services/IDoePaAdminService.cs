@@ -115,7 +115,7 @@ namespace DoePaAdmin.ViewModel.Services
 
         public Task<bool> CheckForChangesAsync(CancellationToken cancellationToken = default);
 
-        public Task SaveChangesAsync(CancellationToken cancellationToken = default);
+        public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 
         #endregion
 

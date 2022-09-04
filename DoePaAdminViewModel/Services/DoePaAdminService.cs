@@ -347,9 +347,9 @@ namespace DoePaAdmin.ViewModel.Services
             return await Task.Run(() => DBContext.ChangeTracker.HasChanges(), cancellationToken);
         }
 
-        public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
+        public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-            _ = await DBContext.SaveChangesAsync(cancellationToken);
+            return await DBContext.SaveChangesAsync(cancellationToken);
         }
 
         private async Task<IEnumerable<T>> GetDataFromDbSetAsync<T>(IQueryable<T> dbQuery, CancellationToken cancellationToken) where T : class
