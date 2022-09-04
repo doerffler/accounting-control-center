@@ -138,6 +138,9 @@
   <data name="strImportOutgoingInvoices" xml:space="preserve">
     <value>Ausgangsrechnungen importieren</value>
   </data>
+  <data name="strManageAbrechnungseinheiten" xml:space="preserve">
+    <value>Abrechnungseinheiten bearbeiten</value>
+  </data>
   <data name="strManageDebitors" xml:space="preserve">
     <value>Debitoren bearbeiten</value>
   </data>
@@ -147,8 +150,14 @@
   <data name="strManageGeschaeftsjahre" xml:space="preserve">
     <value>Geschäftsjahre bearbeiten</value>
   </data>
+  <data name="strManageKostenstellenarten" xml:space="preserve">
+    <value>Kostenstellenarten bearbeiten</value>
+  </data>
   <data name="strManageKreditors" xml:space="preserve">
     <value>Kreditoren bearbeiten</value>
+  </data>
+  <data name="strManageKunden" xml:space="preserve">
+    <value>Kunden bearbeiten</value>
   </data>
   <data name="strManageOutgoingInvoices" xml:space="preserve">
     <value>Ausgangsrechnungen bearbeiten</value>
@@ -158,6 +167,12 @@
   </data>
   <data name="strManageSkillMenue" xml:space="preserve">
     <value>Skills bearbeiten</value>
+  </data>
+  <data name="strManageTaetigkeiten" xml:space="preserve">
+    <value>Tätigkeiten bearbeiten</value>
+  </data>
+  <data name="strManageWaehrungen" xml:space="preserve">
+    <value>Währungen bearbeiten</value>
   </data>
   <data name="strPaste" xml:space="preserve">
     <value>Einfügen</value>

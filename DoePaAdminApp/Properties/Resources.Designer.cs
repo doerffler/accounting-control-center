@@ -124,6 +124,15 @@ namespace DoePaAdminApp.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die strManageAbrechnungseinheiten ähnelt.
+        /// </summary>
+        public static string strManageAbrechnungseinheiten {
+            get {
+                return ResourceManager.GetString("strManageAbrechnungseinheiten", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die strManageDebitors ähnelt.
         /// </summary>
         public static string strManageDebitors {
@@ -151,11 +160,29 @@ namespace DoePaAdminApp.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die strManageKostenstellenarten ähnelt.
+        /// </summary>
+        public static string strManageKostenstellenarten {
+            get {
+                return ResourceManager.GetString("strManageKostenstellenarten", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die strManageKreditors ähnelt.
         /// </summary>
         public static string strManageKreditors {
             get {
                 return ResourceManager.GetString("strManageKreditors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die strManageKunden ähnelt.
+        /// </summary>
+        public static string strManageKunden {
+            get {
+                return ResourceManager.GetString("strManageKunden", resourceCulture);
             }
         }
         
@@ -183,6 +210,24 @@ namespace DoePaAdminApp.Properties {
         public static string strManageSkillMenue {
             get {
                 return ResourceManager.GetString("strManageSkillMenue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die strManageTaetigkeiten ähnelt.
+        /// </summary>
+        public static string strManageTaetigkeiten {
+            get {
+                return ResourceManager.GetString("strManageTaetigkeiten", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die strManageWaehrungen ähnelt.
+        /// </summary>
+        public static string strManageWaehrungen {
+            get {
+                return ResourceManager.GetString("strManageWaehrungen", resourceCulture);
             }
         }
         

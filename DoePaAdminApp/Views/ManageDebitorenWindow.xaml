@@ -104,7 +104,7 @@
                 Orientation="Horizontal"
                 DataContext="{Binding Source={StaticResource Locator}, Path=ManageKundenViewModel}">
                 <ComboBox ItemsSource="{Binding Kunden}"  SelectedItem="{Binding Source={StaticResource Locator}, Path=ManageDebitorenViewModel.SelectedGeschaeftspartner.ZugehoerigerKunde}" DisplayMemberPath="Kundenname" />
-                <Button Height="32" Width="32" Command="{Binding AddKundeCommand}">
+                <Button Height="32" Width="32" Command="{Binding AddCommand}">
                     <Image Source="{svg:SvgImage /Resources/Customer.svg}" />
                 </Button>
             </WrapPanel>
