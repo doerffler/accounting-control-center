@@ -116,7 +116,7 @@ namespace DoePaAdmin.ViewModel.Services
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Waehrung>> GetAbrechnungseinheitenAsync(CancellationToken cancellationToken = default)
+        public Task<IEnumerable<Abrechnungseinheit>> GetAbrechnungseinheitenAsync(CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
