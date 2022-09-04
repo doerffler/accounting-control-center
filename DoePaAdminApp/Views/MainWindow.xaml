@@ -169,26 +169,31 @@
                         x:Name="RBOpenAbrechnungseinheitManagement"
                         Click="RBOpenAbrechnungseinheitManagement_Click"
                         LargeImageSource="{svg:SvgImage /Resources/reshot-icon-business-man-JSQ35TMBH8.svg}"
+                        SmallImageSource="{svg:SvgImage /Resources/reshot-icon-business-man-JSQ35TMBH8.svg}"
                         Label="{StaticResource strManageAbrechnungseinheiten}" />
                     <RibbonButton
                         x:Name="RBOpenWaehrungManagement"
                         Click="RBOpenWaehrungManagement_Click"
                         LargeImageSource="{svg:SvgImage /Resources/reshot-icon-euro-WNGEZBR69A.svg}"
+                        SmallImageSource="{svg:SvgImage /Resources/reshot-icon-euro-WNGEZBR69A.svg}"
                         Label="{StaticResource strManageWaehrungen}" />
                     <RibbonButton
                         x:Name="RBOpenTaetigkeitManagement"
                         Click="RBOpenTaetigkeitManagement_Click"
                         LargeImageSource="{svg:SvgImage /Resources/reshot-icon-technical-support-GZRXMNY39U.svg}"
+                        SmallImageSource="{svg:SvgImage /Resources/reshot-icon-technical-support-GZRXMNY39U.svg}"
                         Label="{StaticResource strManageTaetigkeiten}" />
                     <RibbonButton
                         x:Name="RBOpenKostenstellenartManagement"
                         Click="RBOpenKostenstellenartManagement_Click"
                         LargeImageSource="{svg:SvgImage /Resources/reshot-icon-drawer-box-LVKWMU6DC5.svg}"
+                        SmallImageSource="{svg:SvgImage /Resources/reshot-icon-drawer-box-LVKWMU6DC5.svg}"
                         Label="{StaticResource strManageKostenstellenarten}" />
                     <RibbonButton
                         x:Name="RBOpenKundenManagement"
                         Click="RBOpenKundenManagement_Click"
                         LargeImageSource="{svg:SvgImage /Resources/Customer.svg}"
+                        SmallImageSource="{svg:SvgImage /Resources/Customer.svg}"
                         Label="{StaticResource strManageKunden}" />
                 </RibbonGroup>
             </RibbonTab>
