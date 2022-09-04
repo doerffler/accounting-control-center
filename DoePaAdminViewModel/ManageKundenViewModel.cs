@@ -48,8 +48,11 @@ namespace DoePaAdmin.ViewModel
 
         private async Task DoAddAsync(CancellationToken cancellationToken = default)
         {
+            //TODO: Introduce string localization for this message:
+            string kundenName = UserInteractionService.AskForUserInput("Bitte geben Sie den Namen des neuen Kunden ein:", "Kundennamen eingeben");
+
             Kunde kunde = await DoePaAdminService.CreateKundeAsync(cancellationToken);
-            kunde.Langname = "Neuer Kunde";
+            kunde.Langname = kundenName;
 
             Kunden.Add(kunde);
         }

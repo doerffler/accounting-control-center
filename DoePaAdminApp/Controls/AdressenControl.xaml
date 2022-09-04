@@ -37,7 +37,7 @@
                     ItemsSource="{Binding Postleitzahlen}"
                     SelectedItem="{Binding ElementName=adressControl, Path=SelectedItem.ZugehoerigePostleitzahl}"
                     DisplayMemberPath="PLZ" />
-            <Button Command="{Binding AddPostleitzahlCommand}">
+            <Button Command="{Binding AddCommand}">
                 <Control Template="{StaticResource tmpAddItemButton}" />
             </Button>
 

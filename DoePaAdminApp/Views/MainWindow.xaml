@@ -156,6 +156,7 @@
                     <RibbonButton
                         x:Name="RBOpenGeschaeftsjahrManagement"
                         Click="RBOpenGeschaeftsjahrManagement_Click"
+                        SmallImageSource="{svg:SvgImage /Resources/undraw_schedule_re_2vro.svg}"
                         LargeImageSource="{svg:SvgImage /Resources/undraw_schedule_re_2vro.svg}"
                         Label="{x:Static p:Resources.strManageGeschaeftsjahre}" />
                 </RibbonGroup>
