@@ -7,7 +7,8 @@
         mc:Ignorable="d"
         xmlns:svg="http://sharpvectors.codeplex.com/svgc/" 
         Icon="{svg:SvgImage /Resources/reshot-icon-business-man-JSQ35TMBH8.svg}"
-        Title="{StaticResource strManageAbrechnungseinheiten}"
+        xmlns:p="clr-namespace:DoePaAdminApp.Properties"
+        Title="{x:Static p:Resources.strManageAbrechnungseinheiten}"
         DataContext="{Binding Source={StaticResource Locator}, Path=ManageAbrechnungseinheitViewModel}">
     <Grid>
         <Grid.ColumnDefinitions>

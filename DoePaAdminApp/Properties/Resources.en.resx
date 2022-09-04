@@ -118,57 +118,72 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="strAddItem" xml:space="preserve">
-    <value>strAddItem</value>
+    <value>New</value>
   </data>
   <data name="strCopy" xml:space="preserve">
-    <value>strCopy</value>
+    <value>Copy</value>
   </data>
   <data name="strEditCostCenter" xml:space="preserve">
-    <value>strEditCostCenter</value>
+    <value>Edit cost centers</value>
   </data>
   <data name="strEditOrder" xml:space="preserve">
-    <value>strEditOrder</value>
+    <value>Edit orders</value>
   </data>
   <data name="strEditProject" xml:space="preserve">
-    <value>strEditProject</value>
+    <value>Edit projects</value>
   </data>
   <data name="strEditWorkforce" xml:space="preserve">
-    <value>strEditWorkforce</value>
+    <value>Edit workforce</value>
   </data>
   <data name="strImportOutgoingInvoices" xml:space="preserve">
-    <value>strImportOutgoingInvoices</value>
+    <value>Import outgoing invoices</value>
+  </data>
+  <data name="strManageAbrechnungseinheiten" xml:space="preserve">
+    <value>Edit accounting units</value>
   </data>
   <data name="strManageDebitors" xml:space="preserve">
-    <value>strManageDebitors</value>
+    <value>Edit debitors</value>
   </data>
   <data name="strManageFeiertage" xml:space="preserve">
-    <value>strManageFeiertage</value>
+    <value>Edit holidays</value>
   </data>
   <data name="strManageGeschaeftsjahre" xml:space="preserve">
-    <value>strManageGeschaeftsjahre</value>
+    <value>Edit business years</value>
+  </data>
+  <data name="strManageKostenstellenarten" xml:space="preserve">
+    <value>Edit cost center types</value>
   </data>
   <data name="strManageKreditors" xml:space="preserve">
-    <value>strManageKreditors</value>
+    <value>Edit vendors</value>
+  </data>
+  <data name="strManageKunden" xml:space="preserve">
+    <value>Edit customers</value>
   </data>
   <data name="strManageOutgoingInvoices" xml:space="preserve">
-    <value>strManageOutgoingInvoices</value>
+    <value>Edit outgoing invoices</value>
   </data>
   <data name="strManagePostleitzahlen" xml:space="preserve">
-    <value>strManagePostleitzahlen</value>
+    <value>Edit postal codes</value>
   </data>
   <data name="strManageSkillMenue" xml:space="preserve">
-    <value>strManageSkillMenue</value>
+    <value>Edit Skills</value>
+  </data>
+  <data name="strManageTaetigkeiten" xml:space="preserve">
+    <value>Edit activities</value>
+  </data>
+  <data name="strManageWaehrungen" xml:space="preserve">
+    <value>Edit currencies</value>
   </data>
   <data name="strPaste" xml:space="preserve">
-    <value>strPaste</value>
+    <value>Pase</value>
   </data>
   <data name="strRefreshView" xml:space="preserve">
-    <value>strRefreshView</value>
+    <value>Refresh view</value>
   </data>
   <data name="strRemoveItem" xml:space="preserve">
-    <value>strRemoveItem</value>
+    <value>Remove</value>
   </data>
   <data name="strSaveData" xml:space="preserve">
-    <value>strSaveData</value>
+    <value>Save</value>
   </data>
 </root>

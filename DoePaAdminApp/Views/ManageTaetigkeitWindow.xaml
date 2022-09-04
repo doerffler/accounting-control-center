@@ -7,7 +7,8 @@
         mc:Ignorable="d"
         xmlns:svg="http://sharpvectors.codeplex.com/svgc/" 
         Icon="{svg:SvgImage /Resources/reshot-icon-technical-support-GZRXMNY39U.svg}"
-        Title="{StaticResource strManageTaetigkeiten}"
+        xmlns:p="clr-namespace:DoePaAdminApp.Properties"
+        Title="{x:Static p:Resources.strManageTaetigkeiten}"
         DataContext="{Binding Source={StaticResource Locator}, Path=ManageTaetigkeitViewModel}">
     <Grid>
         <Grid.ColumnDefinitions>

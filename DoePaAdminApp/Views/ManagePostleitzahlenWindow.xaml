@@ -7,7 +7,8 @@
         mc:Ignorable="d"
         xmlns:svg="http://sharpvectors.codeplex.com/svgc/" 
         Icon="{svg:SvgImage /Resources/reshot-icon-euro-WNGEZBR69A.svg}"
-        Title="{StaticResource strManagePostleitzahlen}"
+        xmlns:p="clr-namespace:DoePaAdminApp.Properties"
+        Title="{x:Static p:Resources.strManagePostleitzahlen}"
         DataContext="{Binding Source={StaticResource Locator}, Path=ManagePostleitzahlenViewModel}">
     <Grid>
         <Grid.ColumnDefinitions>
