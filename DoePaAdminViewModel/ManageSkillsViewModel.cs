@@ -4,6 +4,7 @@ using Microsoft.Toolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -16,12 +17,14 @@ namespace DoePaAdmin.ViewModel
         public IRelayCommand AddSkillCommand { get; }
         public IRelayCommand RemoveSkillCommand { get; }
 
+        private IUserInteractionService UserInteractionService { get; set; }
+
         #region Skill
         private ObservableCollection<Skill> _skills = new();
         public ObservableCollection<Skill> Skills
         {
             get => _skills;
-            set => SetProperty(ref _skills, value, true);
+            set => _skills = value;
         }
 
         private Skill _selectedSkill = new();
@@ -32,15 +35,17 @@ namespace DoePaAdmin.ViewModel
         }
         #endregion
 
-        public ManageSkillsViewModel(IDoePaAdminService doePaAdminService) : base(doePaAdminService)
+        public ManageSkillsViewModel(IDoePaAdminService doePaAdminService, IUserInteractionService userInteractionService) : base(doePaAdminService)
         {
             Skills = new(Task.Run(async () => await DoePaAdminService.GetSkillsAsync()).Result);
 
+            UserInteractionService = userInteractionService;
 
             AddSkillCommand = new AsyncRelayCommand(DoAddSkillAsync);
 
             //TODO: Implement CanExecute-Functionality
             RemoveSkillCommand = new RelayCommand(DoRemoveSkill);
+
         }
 
         private void DoRemoveSkill()
@@ -54,9 +59,14 @@ namespace DoePaAdmin.ViewModel
 
         private async Task DoAddSkillAsync(CancellationToken cancellationToken)
         {
-            Skill skill = await DoePaAdminService.CreateSkillAsync(cancellationToken);
-            skill.SkillName = "Neuer Skill";
-            Skills.Add(skill);
+            string skillName = UserInteractionService.AskForUserInput("Bitte geben Sie den Namen des neuen Skills ein:", "Skillnamen eingeben");
+
+            if (skillName != null)
+            {
+                Skill newSkill = await DoePaAdminService.CreateSkillAsync(cancellationToken);
+                newSkill.SkillName = skillName;
+                Skills.Add(newSkill);
+            }
         }
     }
 }

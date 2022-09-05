@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DoePaAdminApp.Views"
+        xmlns:dd="urn:gong-wpf-dragdrop"
         mc:Ignorable="d"
         xmlns:svg="http://sharpvectors.codeplex.com/svgc/" 
         xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase" xmlns:clr="clr-namespace:System;assembly=System.Runtime"
@@ -16,9 +17,17 @@
         </Grid.RowDefinitions>
         <TreeView
                 Name="tvSkills"
+                dd:DragDrop.IsDragSource="True"
+                dd:DragDrop.IsDropTarget="True"
+                dd:DragDrop.DropHandler="{Binding}"
                 Grid.Column="0"
                 Grid.Row="0"
-                ItemsSource="{Binding Skills}">
+                ItemsSource="{Binding Skills, Mode=TwoWay}">
+            <TreeView.ItemContainerStyle>
+                <Style TargetType="{x:Type TreeViewItem}">
+                    <Setter Property="IsExpanded" Value="True"/>
+                </Style>
+            </TreeView.ItemContainerStyle>
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding ChildSkills}">
                     <TextBlock Text="{Binding SkillName}" />
