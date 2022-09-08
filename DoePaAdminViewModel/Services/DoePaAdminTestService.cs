@@ -191,7 +191,7 @@ namespace DoePaAdmin.ViewModel.Services
             MitarbeiterSet.Remove(mitarbeiterToRemove);
         }
 
-        public Task SaveChangesAsync(CancellationToken cancellationToken = default)
+        public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
@@ -288,6 +288,56 @@ namespace DoePaAdmin.ViewModel.Services
         }
 
         public void RemoveFeiertag(Feiertag selectedFeiertag)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveKunde(Kunde selectedKunde)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveWaehrung(Waehrung selectedWaehrung)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveAbrechnungseinheit(Waehrung selectedAbrechnungseinheit)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemovePostleitzahl(Postleitzahl selectedPostleitzahl)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<Adresse>> GetAdressenAsync(CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveAdresse(Adresse selectedAdresse)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveKostenstellenart(Kostenstellenart selectedKostenstellenart)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveTaetigkeit(Taetigkeit selectedTaetigkeit)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<IEnumerable<Abrechnungseinheit>> IDoePaAdminService.GetAbrechnungseinheitenAsync(CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveAbrechnungseinheit(Abrechnungseinheit selectedAbrechnungseinheit)
         {
             throw new NotImplementedException();
         }

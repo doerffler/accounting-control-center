@@ -34,7 +34,7 @@ namespace DoePaAdmin.ViewModel
 
         public IRelayCommand RemoveGeschaeftspartnerCommand { get; set; }
 
-        public ManageGeschaeftspartnerViewModel(IDoePaAdminService doePaAdminService) : base(doePaAdminService)
+        public ManageGeschaeftspartnerViewModel(IDoePaAdminService doePaAdminService, IUserInteractionService userInteractionService) : base(doePaAdminService, userInteractionService)
         {
 
             AddGeschaeftspartnerCommand = new AsyncRelayCommand(DoAddGeschaeftspartnerAsync);

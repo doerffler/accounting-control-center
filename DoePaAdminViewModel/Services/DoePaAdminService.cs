@@ -275,6 +275,11 @@ namespace DoePaAdmin.ViewModel.Services
             return await AddDataToDbSetAsync(DBContext.Abrechnungseinheiten, cancellationToken);
         }
 
+        public void RemoveAbrechnungseinheit(Abrechnungseinheit selectedAbrechnungseinheit)
+        {
+            _ = DBContext.Abrechnungseinheiten.Remove(selectedAbrechnungseinheit);
+        }
+
         public async Task<IEnumerable<Geschaeftsjahr>> GetGeschaeftsjahreAsync(CancellationToken cancellationToken = default)
         {
             return await GetDataFromDbSetAsync(DBContext.Geschaeftsjahre, cancellationToken);
@@ -320,6 +325,42 @@ namespace DoePaAdmin.ViewModel.Services
             _ = DBContext.Feiertage.Remove(feiertagToRemove);
         }
 
+        public void RemoveKunde(Kunde selectedKunde)
+        {
+            _ = DBContext.Kunden.Remove(selectedKunde);
+        }
+
+        public void RemoveWaehrung(Waehrung selectedWaehrung)
+        {
+            _ = DBContext.Waehrungen.Remove(selectedWaehrung);
+        }
+
+        public void RemovePostleitzahl(Postleitzahl selectedPostleitzahl)
+        {
+            _ = DBContext.Postleitzahlen.Remove(selectedPostleitzahl);
+        }
+
+        public async Task<IEnumerable<Adresse>> GetAdressenAsync(CancellationToken cancellationToken = default)
+        {
+            return await GetDataFromDbSetAsync(DBContext.Adressen, cancellationToken);
+        }
+
+        public void RemoveAdresse(Adresse selectedAdresse)
+        {
+            _ = DBContext.Adressen.Remove(selectedAdresse);
+        }
+
+        public void RemoveKostenstellenart(Kostenstellenart selectedKostenstellenart)
+        {
+            _ = DBContext.Kostenstellenarten.Remove(selectedKostenstellenart);
+        }
+
+        public void RemoveTaetigkeit(Taetigkeit selectedTaetigkeit)
+        {
+            _ = DBContext.Taetigkeiten.Remove(selectedTaetigkeit);
+        }
+
+
         #endregion
 
         #region Utility functions
@@ -329,9 +370,9 @@ namespace DoePaAdmin.ViewModel.Services
             return await Task.Run(() => DBContext.ChangeTracker.HasChanges(), cancellationToken);
         }
 
-        public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
+        public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-            _ = await DBContext.SaveChangesAsync(cancellationToken);
+            return await DBContext.SaveChangesAsync(cancellationToken);
         }
 
         private async Task<IEnumerable<T>> GetDataFromDbSetAsync<T>(IQueryable<T> dbQuery, CancellationToken cancellationToken) where T : class

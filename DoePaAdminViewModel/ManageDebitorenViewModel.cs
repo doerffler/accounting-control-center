@@ -12,7 +12,7 @@ namespace DoePaAdmin.ViewModel
     public class ManageDebitorenViewModel : ManageGeschaeftspartnerViewModel<Debitor>
     {
 
-        public ManageDebitorenViewModel(IDoePaAdminService doePaAdminService) : base(doePaAdminService)
+        public ManageDebitorenViewModel(IDoePaAdminService doePaAdminService, IUserInteractionService userInteractionService) : base(doePaAdminService, userInteractionService)
         {
 
         }

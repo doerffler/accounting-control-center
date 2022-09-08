@@ -118,72 +118,72 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="strAddItem" xml:space="preserve">
-    <value>strAddItem</value>
+    <value>Neu</value>
   </data>
   <data name="strCopy" xml:space="preserve">
-    <value>strCopy</value>
+    <value>Kopieren</value>
   </data>
   <data name="strEditCostCenter" xml:space="preserve">
-    <value>strEditCostCenter</value>
+    <value>Kostenstellen bearbeiten</value>
   </data>
   <data name="strEditOrder" xml:space="preserve">
-    <value>strEditOrder</value>
+    <value>Aufträge bearbeiten</value>
   </data>
   <data name="strEditProject" xml:space="preserve">
-    <value>strEditProject</value>
+    <value>Projekte bearbeiten</value>
   </data>
   <data name="strEditWorkforce" xml:space="preserve">
-    <value>strEditWorkforce</value>
+    <value>Mitarbeiter bearbeiten</value>
   </data>
   <data name="strImportOutgoingInvoices" xml:space="preserve">
-    <value>strImportOutgoingInvoices</value>
+    <value>Ausgangsrechnungen importieren</value>
   </data>
   <data name="strManageAbrechnungseinheiten" xml:space="preserve">
-    <value>strManageAbrechnungseinheiten</value>
+    <value>Abrechnungseinheiten bearbeiten</value>
   </data>
   <data name="strManageDebitors" xml:space="preserve">
-    <value>strManageDebitors</value>
+    <value>Debitoren bearbeiten</value>
   </data>
   <data name="strManageFeiertage" xml:space="preserve">
-    <value>strManageFeiertage</value>
+    <value>Feiertage bearbeiten</value>
   </data>
   <data name="strManageGeschaeftsjahre" xml:space="preserve">
-    <value>strManageGeschaeftsjahre</value>
+    <value>Geschäftsjahre bearbeiten</value>
   </data>
   <data name="strManageKostenstellenarten" xml:space="preserve">
-    <value>strManageKostenstellenarten</value>
+    <value>Kostenstellenarten bearbeiten</value>
   </data>
   <data name="strManageKreditors" xml:space="preserve">
-    <value>strManageKreditors</value>
+    <value>Kreditoren bearbeiten</value>
   </data>
   <data name="strManageKunden" xml:space="preserve">
-    <value>strManageKunden</value>
+    <value>Kunden bearbeiten</value>
   </data>
   <data name="strManageOutgoingInvoices" xml:space="preserve">
-    <value>strManageOutgoingInvoices</value>
+    <value>Ausgangsrechnungen bearbeiten</value>
   </data>
   <data name="strManagePostleitzahlen" xml:space="preserve">
-    <value>strManagePostleitzahlen</value>
+    <value>Postleitzahlen bearbeiten</value>
   </data>
   <data name="strManageSkillMenue" xml:space="preserve">
-    <value>strManageSkillMenue</value>
+    <value>Skills bearbeiten</value>
   </data>
   <data name="strManageTaetigkeiten" xml:space="preserve">
-    <value>strManageTaetigkeiten</value>
+    <value>Tätigkeiten bearbeiten</value>
   </data>
   <data name="strManageWaehrungen" xml:space="preserve">
-    <value>strManageWaehrungen</value>
+    <value>Währungen bearbeiten</value>
   </data>
   <data name="strPaste" xml:space="preserve">
-    <value>strPaste</value>
+    <value>Einfügen</value>
   </data>
   <data name="strRefreshView" xml:space="preserve">
-    <value>strRefreshView</value>
+    <value>Anzeige aktualisieren</value>
   </data>
   <data name="strRemoveItem" xml:space="preserve">
-    <value>strRemoveItem</value>
+    <value>Löschen</value>
   </data>
   <data name="strSaveData" xml:space="preserve">
-    <value>strSaveData</value>
+    <value>Speichern</value>
   </data>
 </root>
