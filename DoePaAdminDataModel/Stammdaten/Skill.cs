@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore.Infrastructure;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,10 @@ namespace DoePaAdminDataModel.Stammdaten
 {
     public class Skill
     {
+        private ILazyLoader LazyLoader { get; set; }
+
         public int SkillID { get; set; }
+
         public string SkillName { get; set; }
 
         public Skill ParentSkill { get; set; }
@@ -16,6 +20,13 @@ namespace DoePaAdminDataModel.Stammdaten
         public List<Skill> ChildSkills { get; set; }
 
         public List<Projekt> Projekte { get; set; }
+
+        public Skill(ILazyLoader lazyLoader)
+        {
+            LazyLoader = lazyLoader;
+            Projekte = new List<Projekt>();
+            ChildSkills = new List<Skill>();
+        }
 
         public Skill()
         {

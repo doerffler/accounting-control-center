@@ -171,12 +171,8 @@ namespace DoePaAdmin.ViewModel.Services
 
         public async Task<IEnumerable<Skill>> GetSkillsAsync(CancellationToken cancellationToken = default)
         {
-            return await GetDataFromDbSetAsync(DBContext.Skills
-                .Where(s => s.ParentSkill == null)
-                .Include(s => s.ChildSkills)
-                .ThenInclude(s => s.ChildSkills)
-                .ThenInclude(s => s.ChildSkills)
-                .ThenInclude(s => s.ChildSkills), cancellationToken);
+            var result = await GetDataFromDbSetAsync(DBContext.Skills, cancellationToken);
+            return result.Where(s => s.ParentSkill == null);
         }
 
         public void RemoveSkill(Skill skillToRemove)

@@ -12,10 +12,11 @@ using System.Threading.Tasks;
 
 namespace DoePaAdmin.ViewModel
 {
-    public class ManageSkillsViewModel : DoePaAdminViewModelBase
+    public class ManageSkillsViewModel : DoePaAdminViewModelBase, INotifyPropertyChanged
     {
         public IRelayCommand AddSkillCommand { get; }
         public IRelayCommand RemoveSkillCommand { get; }
+        public IRelayCommand DragDropCommand { get; }
 
         private IUserInteractionService UserInteractionService { get; set; }
 
@@ -45,6 +46,12 @@ namespace DoePaAdmin.ViewModel
 
             //TODO: Implement CanExecute-Functionality
             RemoveSkillCommand = new RelayCommand(DoRemoveSkill);
+
+            DragDropCommand = new RelayCommand(DoDragDrap);
+        }
+
+        private void DoDragDrap()
+        {
 
         }
 
