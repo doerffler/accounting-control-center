@@ -8,22 +8,23 @@
         mc:Ignorable="d"
         xmlns:svg="http://sharpvectors.codeplex.com/svgc/" 
         xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase" xmlns:clr="clr-namespace:System;assembly=System.Runtime"
-        Title="ManageSkillsWindow"
-        DataContext="{Binding Source={StaticResource Locator}, Path=ManageSkillsViewModel}">
+        xmlns:p="clr-namespace:DoePaAdminApp.Properties" xmlns:i="http://schemas.microsoft.com/xaml/behaviors" xmlns:behaviors="clr-namespace:DoePaAdminApp.Behaviors"
+        Title="{x:Static p:Resources.strManageSkillMenue}"
+        DataContext="{Binding Source={StaticResource Locator}, Path=ManageSkillsViewModel}" d:Width="Auto" d:DesignWidth="638.933">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="5*"/>
+            <RowDefinition Height="2*"/>
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <TreeView
                 Name="tvSkills"
-                dd:DragDrop.IsDragSource="True"
-                dd:DragDrop.IsDropTarget="True"
-                dd:DragDrop.DropHandler="{Binding}"
-                
+                        
                 Grid.Column="0"
                 Grid.Row="0"
                 ItemsSource="{Binding Skills, Mode=TwoWay}">
+            <i:Interaction.Behaviors>
+                <behaviors:BindableSelectedItemBehavior SelectedItem="{Binding SelectedSkill, Mode=TwoWay}" />
+            </i:Interaction.Behaviors>
             <TreeView.ItemContainerStyle>
                 <Style TargetType="{x:Type TreeViewItem}">
                     <Setter Property="IsExpanded" Value="True"/>

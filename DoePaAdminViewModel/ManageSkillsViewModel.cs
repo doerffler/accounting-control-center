@@ -6,13 +6,14 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace DoePaAdmin.ViewModel
 {
-    public class ManageSkillsViewModel : DoePaAdminViewModelBase, INotifyPropertyChanged
+    public class ManageSkillsViewModel : DoePaAdminViewModelBase
     {
         public IRelayCommand AddSkillCommand { get; }
         public IRelayCommand RemoveSkillCommand { get; }
@@ -25,7 +26,7 @@ namespace DoePaAdmin.ViewModel
         public ObservableCollection<Skill> Skills
         {
             get => _skills;
-            set => _skills = value;
+            set => SetProperty(ref _skills, value, true);
         }
 
         private Skill _selectedSkill = new();
@@ -36,7 +37,7 @@ namespace DoePaAdmin.ViewModel
         }
         #endregion
 
-        public ManageSkillsViewModel(IDoePaAdminService doePaAdminService, IUserInteractionService userInteractionService) : base(doePaAdminService)
+        public ManageSkillsViewModel(IDoePaAdminService doePaAdminService, IUserInteractionService userInteractionService) : base(doePaAdminService, userInteractionService)
         {
             Skills = new(Task.Run(async () => await DoePaAdminService.GetSkillsAsync()).Result);
 
