@@ -341,5 +341,20 @@ namespace DoePaAdmin.ViewModel.Services
         {
             throw new NotImplementedException();
         }
+
+        public Task<Skill> CreateSkillAsync(CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<Skill>> GetSkillsAsync(CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveSkill(Skill selectedSkill)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

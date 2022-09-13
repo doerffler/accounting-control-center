@@ -17,9 +17,7 @@ namespace DoePaAdminDataAdapter.DoePaAdmin
 
         protected override void OnConfiguring(DbContextOptionsBuilder builder)
         {
-
             builder.UseSqlServer(ConnectionString);
-
         }
 
         public async Task<int> InitializeMasterdataTablesAsync(CancellationToken cancellationToken = default)

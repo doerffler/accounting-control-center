@@ -38,5 +38,7 @@ namespace DoePaAdminApp.ViewModels
 
         public ManageAbrechnungseinheitViewModel ManageAbrechnungseinheitViewModel => App.ServiceProvider.GetRequiredService<ManageAbrechnungseinheitViewModel>();
 
+        public ManageSkillsViewModel ManageSkillsViewModel => App.ServiceProvider.GetRequiredService<ManageSkillsViewModel>();
+
     }
 }

@@ -79,6 +79,8 @@ namespace DoePaAdminApp
             services.AddSingleton<ManageTaetigkeitViewModel>();
             services.AddSingleton<ManageWaehrungViewModel>();
 
+            services.AddSingleton<ManageSkillsViewModel>();
+
             services.AddTransient<MainWindow>();
             services.AddTransient<ManageKostenstellenWindow>();
             services.AddTransient<ManageMitarbeiterWindow>();
@@ -96,6 +98,7 @@ namespace DoePaAdminApp
             services.AddTransient<ManageKostenstellenartWindow>();
             services.AddTransient<ManageTaetigkeitWindow>();
             services.AddTransient<ManageWaehrungWindow>();
+            services.AddTransient<ManageSkillsWindow>();
 
         }
 
