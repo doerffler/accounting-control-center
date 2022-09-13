@@ -30,5 +30,15 @@ namespace DoePaAdminApp.ViewModels
 
         public ManageKundenViewModel ManageKundenViewModel => App.ServiceProvider.GetRequiredService<ManageKundenViewModel>();
 
+        public ManageWaehrungViewModel ManageWaehrungViewModel => App.ServiceProvider.GetRequiredService<ManageWaehrungViewModel>();
+
+        public ManageTaetigkeitViewModel ManageTaetigkeitViewModel => App.ServiceProvider.GetRequiredService<ManageTaetigkeitViewModel>();
+
+        public ManageKostenstellenartViewModel ManageKostenstellenartViewModel => App.ServiceProvider.GetRequiredService<ManageKostenstellenartViewModel>();
+
+        public ManageAbrechnungseinheitViewModel ManageAbrechnungseinheitViewModel => App.ServiceProvider.GetRequiredService<ManageAbrechnungseinheitViewModel>();
+
+        public ManageSkillsViewModel ManageSkillsViewModel => App.ServiceProvider.GetRequiredService<ManageSkillsViewModel>();
+
     }
 }

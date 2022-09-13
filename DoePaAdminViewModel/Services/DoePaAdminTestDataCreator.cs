@@ -439,6 +439,24 @@ namespace DoePaAdmin.ViewModel.Services
             currentProjekt.Rechnungsempfaenger = currentRechnungsempfaenger;
             currentRechnungsempfaenger.Projekte.Add(currentProjekt);
 
+            Skill techSkill = await doePaAdminService.CreateSkillAsync(cancellationToken);
+            techSkill.SkillName = "Technische Skills";
+
+            Skill progSkill = await doePaAdminService.CreateSkillAsync(cancellationToken);
+            progSkill.SkillName = "Programmiersprachen ";
+
+            Skill netSkill = await doePaAdminService.CreateSkillAsync(cancellationToken);
+            netSkill.SkillName = ".NET";
+
+            Skill csSkill = await doePaAdminService.CreateSkillAsync(cancellationToken);
+            csSkill.SkillName = "C#";
+
+            techSkill.ChildSkills.Add(progSkill);
+            progSkill.ChildSkills.Add(netSkill);
+            netSkill.ChildSkills.Add(csSkill);
+
+            currentProjekt.Skills.Add(techSkill);
+
             currentAuftrag = await doePaAdminService.CreateAuftragAsync(cancellationToken);
             currentAuftrag.Auftragsbeginn = new(1991, 2, 1);
             currentAuftrag.Auftragsdatum = new(1991, 2, 1);

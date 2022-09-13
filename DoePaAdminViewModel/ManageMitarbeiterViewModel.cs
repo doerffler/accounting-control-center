@@ -46,7 +46,7 @@ namespace DoePaAdmin.ViewModel
 
         public IRelayCommand RemoveMitarbeiterCommand { get; }
 
-        public ManageMitarbeiterViewModel(IDoePaAdminService doePaAdminService) : base(doePaAdminService)
+        public ManageMitarbeiterViewModel(IDoePaAdminService doePaAdminService, IUserInteractionService userInteractionService) : base(doePaAdminService, userInteractionService)
         {
             AddMitarbeiterCommand = new AsyncRelayCommand(DoAddMitarbeiterAsync);
 
