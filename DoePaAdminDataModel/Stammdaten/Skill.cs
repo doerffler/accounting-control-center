@@ -21,11 +21,9 @@ namespace DoePaAdminDataModel.Stammdaten
 
         public List<Projekt> Projekte { get; set; }
 
-        public Skill(ILazyLoader lazyLoader)
+        public Skill(ILazyLoader lazyLoader): this()
         {
             LazyLoader = lazyLoader;
-            Projekte = new List<Projekt>();
-            ChildSkills = new List<Skill>();
         }
 
         public Skill()
