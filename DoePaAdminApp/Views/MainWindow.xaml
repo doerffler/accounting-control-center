@@ -219,10 +219,10 @@
         </Ribbon>
         <TabControl Grid.Row="1">
             <TabItem Header="Geschäftsjahresübersicht">
-                <oxy:PlotView Model="{Binding Model}"/>
+                
             </TabItem>
-            <TabItem Header="Auftragsstatus">
-
+            <TabItem Header="Auftragsstatus" DataContext="{Binding Source={StaticResource Locator}, Path=DisplayAuftragsstatusViewModel}">
+                <oxy:PlotView Model="{Binding Model}"/>
             </TabItem>
             <TabItem Header="Mitarbeiterperformance">
 
