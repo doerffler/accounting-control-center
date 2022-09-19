@@ -54,7 +54,7 @@ namespace DoePaAdmin.ViewModel
         private async Task DoAddAsync(CancellationToken cancellationToken = default)
         {
             Abrechnungseinheit abrechnungseinheit = await DoePaAdminService.CreateAbrechnungseinheitAsync(cancellationToken);
-            abrechnungseinheit.AbrechnungseinheitName = "Neue Abrechnungseinheit";
+            abrechnungseinheit.Name = "Neue Abrechnungseinheit";
 
             Abrechnungseinheiten.Add(abrechnungseinheit);
         }

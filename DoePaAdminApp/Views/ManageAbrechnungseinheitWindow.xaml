@@ -22,7 +22,8 @@
         </Grid.RowDefinitions>
         <DataGrid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"  ItemsSource="{Binding Abrechnungseinheiten}" SelectedItem="{Binding SelectedAbrechnungseinheit}" AutoGenerateColumns="False" CanUserAddRows="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Name" Binding="{Binding AbrechnungseinheitName}" />
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
+                <DataGridTextColumn Header="Abkürzung" Binding="{Binding Abkuerzung}" />
             </DataGrid.Columns>
         </DataGrid>
         <Button Grid.Row="1" Grid.Column="0" Command="{Binding AddCommand}">

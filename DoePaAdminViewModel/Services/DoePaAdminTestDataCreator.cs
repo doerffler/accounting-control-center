@@ -55,13 +55,16 @@ namespace DoePaAdmin.ViewModel.Services
             Abrechnungseinheit currentAbrechnungseinheit;
 
             currentAbrechnungseinheit = await doePaAdminService.CreateAbrechnungseinheitAsync(cancellationToken);
-            currentAbrechnungseinheit.AbrechnungseinheitName = "Stunden";
+            currentAbrechnungseinheit.Name = "Stunden";
+            currentAbrechnungseinheit.Abkuerzung = "h";
 
             currentAbrechnungseinheit = await doePaAdminService.CreateAbrechnungseinheitAsync(cancellationToken);
-            currentAbrechnungseinheit.AbrechnungseinheitName = "Personentage";
+            currentAbrechnungseinheit.Name = "Personentage";
+            currentAbrechnungseinheit.Abkuerzung = "PT";
 
             currentAbrechnungseinheit = await doePaAdminService.CreateAbrechnungseinheitAsync(cancellationToken);
-            currentAbrechnungseinheit.AbrechnungseinheitName = "Stück";
+            currentAbrechnungseinheit.Name = "Stück";
+            currentAbrechnungseinheit.Abkuerzung = "Stk";
 
             Waehrung currentWaehrung;
 
@@ -417,7 +420,7 @@ namespace DoePaAdmin.ViewModel.Services
             Adresse currentAdresse;
             Auftragsposition currentAuftragsposition;
 
-            Abrechnungseinheit aeStunden = (await doePaAdminService.GetAbrechnungseinheitenAsync(cancellationToken)).Where(ae => ae.AbrechnungseinheitName.Equals("Stunden")).First();
+            Abrechnungseinheit aeStunden = (await doePaAdminService.GetAbrechnungseinheitenAsync(cancellationToken)).Where(ae => ae.Name.Equals("Stunden")).First();
             Waehrung wEuro = (await doePaAdminService.GetWaehrungenAsync(cancellationToken)).Where(w => w.WaehrungName.Equals("Euro")).First();
 
             IEnumerable<Mitarbeiter> listMitarbeiter = await doePaAdminService.GetMitarbeiterAsync(cancellationToken);
