@@ -1,0 +1,39 @@
+﻿<Window x:Class="DoePaAdminApp.Views.ManageKundenWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DoePaAdminApp.Views"
+        mc:Ignorable="d"
+        xmlns:svg="http://sharpvectors.codeplex.com/svgc/" 
+        Icon="{svg:SvgImage /Resources/Customer.svg}"
+        xmlns:p="clr-namespace:DoePaAdminApp.Properties"
+        Title="{x:Static p:Resources.strManageKunden}"
+        DataContext="{Binding Source={StaticResource Locator}, Path=ManageKundenViewModel}">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <DataGrid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"  ItemsSource="{Binding Kunden}" SelectedItem="{Binding SelectedKunde}" AutoGenerateColumns="False" CanUserAddRows="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Langname" Binding="{Binding  Langname}" />
+                <DataGridTextColumn Header="Kundenname" Binding="{Binding Kundenname}" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button Grid.Row="1" Grid.Column="0" Command="{Binding AddCommand}">
+            <Control Template="{StaticResource tmpAddItemButton}" />
+        </Button>
+        <Button Grid.Row="1" Grid.Column="1" Command="{Binding RemoveCommand}">
+            <Control Template="{StaticResource tmpRemoveItemButton}" />
+        </Button>
+        <Button Grid.Row="1" Grid.Column="2" Command="{Binding SaveChangesCommand}">
+            <Control Template="{StaticResource tmpSaveDbDataButton}" />
+        </Button>
+    </Grid>
+</Window>

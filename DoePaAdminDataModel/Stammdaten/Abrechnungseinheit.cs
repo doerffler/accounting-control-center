@@ -8,7 +8,12 @@ namespace DoePaAdminDataModel.Stammdaten
 {
     public class Abrechnungseinheit
     {
+
         public int AbrechnungseinheitID { get; set; }
-        public string AbrechnungseinheitName { get; set; }
+
+        public string Name { get; set; }
+
+        public string Abkuerzung { get; set; }
+
     }
 }

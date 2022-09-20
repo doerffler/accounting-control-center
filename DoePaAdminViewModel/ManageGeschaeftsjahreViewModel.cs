@@ -53,7 +53,7 @@ namespace DoePaAdmin.ViewModel
         public IRelayCommand AddFeiertagCommand { get; }
         public IRelayCommand RemoveFeiertagCommand { get; }
 
-        public ManageGeschaeftsjahreViewModel(IDoePaAdminService doePaAdminService) : base(doePaAdminService)
+        public ManageGeschaeftsjahreViewModel(IDoePaAdminService doePaAdminService, IUserInteractionService userInteractionService) : base(doePaAdminService, userInteractionService)
         {
             Feiertage = new(Task.Run(async () => await DoePaAdminService.GetFeiertageAsync()).Result); 
             Geschaeftsjahre = new(Task.Run(async () => await DoePaAdminService.GetGeschaeftsjahreAsync()).Result);

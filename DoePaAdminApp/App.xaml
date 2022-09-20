@@ -16,28 +16,7 @@
                 <Setter Property="FontSize" Value="28" />
             </Style>
 
-            <sys:String x:Key="strEditCostCenter">Kostenstellen bearbeiten</sys:String>
-            <sys:String x:Key="strEditWorkforce">Mitarbeiter bearbeiten</sys:String>
-            <sys:String x:Key="strEditOrder">Aufträge bearbeiten</sys:String>
-            <sys:String x:Key="strEditProject">Projekte bearbeiten</sys:String>
-            
-            <sys:String x:Key="strManageOutgoingInvoices">Ausgangsrechnungen bearbeiten</sys:String>
-            <sys:String x:Key="strManageDebitors">Debitoren bearbeiten</sys:String>
-            <sys:String x:Key="strManageKreditors">Kreditoren bearbeiten</sys:String>
-            <sys:String x:Key="strManageSkillMenue">Skills bearbeiten</sys:String>
-            <sys:String x:Key="strManagePostleitzahlen">Postleitzahlen bearbeiten</sys:String>
-            <sys:String x:Key="strImportOutgoingInvoices">Ausgangsrechnungen importieren</sys:String>
-            <sys:String x:Key="strManageGeschaeftsjahre">Geschäftsjahre bearbeiten</sys:String>
-            <sys:String x:Key="strManageFeiertage">Feiertage bearbeiten</sys:String>
-
-            <sys:String x:Key="strAddItem">Neu</sys:String>
-            <sys:String x:Key="strRemoveItem">Löschen</sys:String>
-            <sys:String x:Key="strSaveData">Speichern</sys:String>
-            <sys:String x:Key="strRefreshView">Anzeige aktualisieren</sys:String>
-            <sys:String x:Key="strCopy">Kopieren</sys:String>
-            <sys:String x:Key="strPaste">Einfügen</sys:String>
-            
-            <ControlTemplate x:Key="tmpSaveDbDataButton">
+            <ControlTemplate x:Key="tmpSaveDbDataButton" xmlns:p="clr-namespace:DoePaAdminApp.Properties">
                 <StackPanel Orientation="Horizontal">
                         <Viewbox Width="16" Height="16" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
                             <Rectangle Width="16" Height="16">
@@ -58,11 +37,11 @@
                                 </Rectangle.Fill>
                             </Rectangle>
                         </Viewbox>
-                        <Label Content="{StaticResource strSaveData}" />
+                    <Label Content="{x:Static p:Resources.strSaveData}" />
                     </StackPanel>
             </ControlTemplate>
 
-            <ControlTemplate x:Key="tmpAddItemButton">
+            <ControlTemplate x:Key="tmpAddItemButton" xmlns:p="clr-namespace:DoePaAdminApp.Properties">
                 <StackPanel Orientation="Horizontal">
                         <Viewbox Width="16" Height="16" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
                             <Rectangle Width="16" Height="16">
@@ -81,11 +60,11 @@
                                 </Rectangle.Fill>
                             </Rectangle>
                         </Viewbox>
-                        <Label Content="{StaticResource strAddItem}" />
+                    <Label Content="{x:Static p:Resources.strAddItem}" />
                     </StackPanel>
             </ControlTemplate>
 
-            <ControlTemplate x:Key="tmpRemoveItemButton">
+            <ControlTemplate x:Key="tmpRemoveItemButton" xmlns:p="clr-namespace:DoePaAdminApp.Properties">
                 <StackPanel Orientation="Horizontal">
                         <Viewbox Width="16" Height="16" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
                             <Rectangle Width="16" Height="16">
@@ -104,11 +83,11 @@
                                 </Rectangle.Fill>
                             </Rectangle>
                         </Viewbox>
-                        <Label Content="{StaticResource strRemoveItem}" />
+                    <Label Content="{x:Static p:Resources.strRemoveItem}" />
                     </StackPanel>
             </ControlTemplate>
 
-            <ControlTemplate x:Key="tmpManageSkillMenueButton">
+            <ControlTemplate x:Key="tmpManageSkillMenueButton" xmlns:p="clr-namespace:DoePaAdminApp.Properties">
                 <StackPanel Orientation="Horizontal">
                     <Viewbox Width="16" Height="16" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
                         <Rectangle Width="16" Height="16">
@@ -129,7 +108,7 @@
                             </Rectangle.Fill>
                         </Rectangle>
                     </Viewbox>
-                    <Label Content="{StaticResource strManageSkillMenue}" />
+                    <Label Content="{x:Static p:Resources.strManageSkillMenue}" />
                 </StackPanel>
             </ControlTemplate>
 

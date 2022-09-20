@@ -29,7 +29,7 @@ namespace DoePaAdmin.ViewModel
 
         public IRelayCommand GenerateTestdataCommand { get; }
 
-        public MainViewModel(IDoePaAdminService doePaAdminService, IOptions<AppSettings> options)
+        public MainViewModel(IDoePaAdminService doePaAdminService, IOptions<AppSettings> options, IUserInteractionService userInteractionService)
         {
             this.doePaAdminService = doePaAdminService;
             settings = options.Value;
