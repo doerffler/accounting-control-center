@@ -123,8 +123,11 @@
         </DataGrid>
 
         <StackPanel
+            Orientation="Horizontal"
             Grid.Column="2"
             Grid.Row="3">
+            <Label>Geschäftsjahr:</Label>
+            <ComboBox ItemsSource="{Binding Geschaeftsjahre}" SelectedItem="{Binding SelectedAuftrag.Geschaeftsjahr, Mode=TwoWay}" DisplayMemberPath="Name" />
             <Button Command="{Binding SaveChangesCommand}">
                 <Control Template="{StaticResource tmpSaveDbDataButton}" />
             </Button>

@@ -37,6 +37,14 @@ namespace DoePaAdmin.ViewModel
             set => SetProperty(ref _abrechnungseinheiten, value, true);
         }
 
+        private ObservableCollection<Geschaeftsjahr> _geschaeftsjahre = new();
+
+        public ObservableCollection<Geschaeftsjahr> Geschaeftsjahre
+        {
+            get => _geschaeftsjahre;
+            set => SetProperty(ref _geschaeftsjahre, value, true);
+        }
+
         private ObservableCollection<Mitarbeiter> _mitarbeiter = new();
 
         public ObservableCollection<Mitarbeiter> Mitarbeiter
@@ -47,7 +55,7 @@ namespace DoePaAdmin.ViewModel
 
         public ManageAuftraegeViewModel(IDoePaAdminService doePaAdminService, IUserInteractionService userInteractionService) : base(doePaAdminService, userInteractionService)
         {
-            
+            Geschaeftsjahre = new(Task.Run(async () => await DoePaAdminService.GetGeschaeftsjahreAsync()).Result);
             Abrechnungseinheiten = new (Task.Run(async () => await DoePaAdminService.GetAbrechnungseinheitenAsync()).Result);
             Mitarbeiter = new (Task.Run(async () => await DoePaAdminService.GetMitarbeiterAsync()).Result);
             
