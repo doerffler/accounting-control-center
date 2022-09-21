@@ -21,6 +21,8 @@ namespace DoePaAdminDataModel.Stammdaten
         public List<Auftragsposition> Auftragspositionen { get; set; }
 
         public Mitarbeiter VerantwortlicherMitarbeiter { get; set; }
+        
+        public Geschaeftsjahr Geschaeftsjahr { get; set; }
 
         public Projekt ZugehoerigesProjekt { get; set; }
 
