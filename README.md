@@ -18,7 +18,7 @@ Since the application is still work in progress you probably won't be able to us
 At this moment there is no documentation for end users. We'll create a wiki to document all development related stuff. An detailed documentation will be added after the basic development is done.
 
 # Questions
-## Why is this a windows applicaion? I would like to use it on my smartphone, tablet or unix machine!
+## Why is this a windows application? I would like to use it on my smartphone, tablet or unix machine!
 We started development alongside our main business, so we used the technology we knew best. If there is time or a significant demand for a web based application we'll be happy to work on that as soon as possible.
 
 ## Is this software independent of a country? Can I use it for my business based in the united states?
