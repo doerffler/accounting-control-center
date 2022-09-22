@@ -22,7 +22,7 @@ namespace DoePaAdminDataModel.Stammdaten
 
         public Mitarbeiter VerantwortlicherMitarbeiter { get; set; }
         
-        public Geschaeftsjahr Geschaeftsjahr { get; set; }
+        public Geschaeftsjahr ZugehoerigesGeschaeftsjahr { get; set; }
 
         public Projekt ZugehoerigesProjekt { get; set; }
 
