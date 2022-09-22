@@ -29,3 +29,4 @@ To spice up our app visually we use some graphics we found on the internet and w
 - [The Visual Studio image library](https://learn.microsoft.com/en-us/visualstudio/designers/the-visual-studio-image-library?view=vs-2022)
 - [Free onlinewebfonts.com](https://www.onlinewebfonts.com/icon/)
 - [Undraw](https://undraw.co/)
+- [Reshot](https://www.reshot.com/)

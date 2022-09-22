@@ -1,10 +1,12 @@
 ﻿using DoePaAdmin.ViewModel.Model;
 using DoePaAdmin.ViewModel.Services;
+using DoePaAdminDataModel.DataMigration;
 using DoePaAdminDataModel.DPApp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace DoePaAdmin.ViewModel
@@ -32,7 +34,21 @@ namespace DoePaAdmin.ViewModel
         {
             DPAppService = dpAppService;
 
-            OutgoingInvoices = new OutgoingInvoiceEnumerable(Task.Run(async () => await DPAppService.GetOutgoingInvoicesAsync()).Result);
+            IEnumerable<OutgoingInvoiceMigration> outgoingInvoiceMigrations = Task.Run(async () => await DPAppService.GetOutgoingInvoicesAsync()).Result;
+
+            Task.Run(async () => await MapDPAppMasterdata(outgoingInvoiceMigrations));
+
+            OutgoingInvoices = new(outgoingInvoiceMigrations);
+        }
+
+        private async Task MapDPAppMasterdata(IEnumerable<OutgoingInvoiceMigration> outgoingInvoiceMigrations, CancellationToken cancellationToken = default)
+        {
+
+            foreach (OutgoingInvoiceMigration currentInvoice in outgoingInvoiceMigrations)
+            {
+                //Map cost centers first:
+            }
+
         }
 
     }

@@ -83,7 +83,8 @@
                             <DataGridTextColumn Header="Mehrwertsteuer" Binding="{Binding OutgoingInvoicePositionForImport.Tax}" />
                             <DataGridTextColumn Header="Mehrwertsteuersatz" Binding="{Binding OutgoingInvoicePositionForImport.TaxPercent}" />
                             <DataGridTextColumn Header="Bruttowert" Binding="{Binding OutgoingInvoicePositionForImport.Gross}" />
-                            <DataGridTextColumn Header="Kostenstelle" Binding="{Binding OutgoingInvoicePositionForImport.RelatedCostCenter.Name}" />
+                            <DataGridComboBoxColumn Header="Kostenstelle" ItemsSource="{Binding Source={StaticResource Locator}, Path=ManageKostenstellenViewModel.Kostenstellen}" SelectedItemBinding="{Binding RelatedKostenstelle}" DisplayMemberPath="Name" />
+                            <DataGridTextColumn Header="" Binding="{Binding RelatedKostenstelle.Name}" />
                             <DataGridTextColumn Header="Projekt" Binding="{Binding OutgoingInvoicePositionForImport.RelatedProject.Name}" />
                             <DataGridTextColumn Header="Kostenart" Binding="{Binding OutgoingInvoicePositionForImport.RelatedCostType.Name}" />                            
                         </DataGrid.Columns>
