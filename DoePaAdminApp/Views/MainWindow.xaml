@@ -8,10 +8,11 @@
         xmlns:properties="clr-namespace:DoePaAdminApp.Properties"
         xmlns:svg="http://sharpvectors.codeplex.com/svgc/"
         mc:Ignorable="d"
+        xmlns:p="clr-namespace:DoePaAdminApp.Properties"
         Title="Dörffler &amp; Partner GmbH - DoePaAdmin"
         Icon="/Resources/doerffler_icon_496x496.png"
         Height="450"
-        Width="800"
+        Width="1200"
         DataContext="{Binding Source={StaticResource Locator}, Path=MainViewModel}">
     <Grid>
         <Grid.RowDefinitions>
@@ -27,7 +28,6 @@
                                           KeyTip="O" />
                     <RibbonApplicationMenuItem Header="Save"
                                           Command="Save"
-                                          ImageSource="/Resources/sd_card_32x32.png"
                                           KeyTip="S" />
                     <RibbonApplicationSplitMenuItem Header="Save As"
                                                Command="SaveAs"
@@ -80,7 +80,7 @@
                         x:Name="RBRefreshView"
                         SmallImageSource="{svg:SvgImage /Resources/Refresh.svg}"
                         LargeImageSource="{svg:SvgImage /Resources/Refresh.svg}"
-                        Label="{StaticResource strRefreshView}" />
+                        Label="{x:Static p:Resources.strRefreshView}" />
                 </RibbonGroup>
                 <RibbonGroup Header="Zwischenablage">
                     <RibbonGroup.GroupSizeDefinitions>
@@ -93,12 +93,12 @@
                         x:Name="RBCopy"
                         SmallImageSource="{svg:SvgImage /Resources/Copy.svg}"
                         LargeImageSource="{svg:SvgImage /Resources/Copy.svg}"
-                        Label="{StaticResource strCopy}" />
+                        Label="{x:Static p:Resources.strCopy}" />
                     <RibbonButton
                         x:Name="RBPaste"
                         SmallImageSource="{svg:SvgImage /Resources/Paste.svg}"
                         LargeImageSource="{svg:SvgImage /Resources/Paste.svg}"
-                        Label="{StaticResource strPaste}" />
+                        Label="{x:Static p:Resources.strPaste}" />
                 </RibbonGroup>
             </RibbonTab>
 
@@ -110,7 +110,7 @@
                         Click="RBOpenCostCenterManagement_Click"
                         SmallImageSource="/Resources/costcenter_icon_16x16.png"
                         LargeImageSource="/Resources/costcenter_icon_32x32.png"
-                        Label="{StaticResource strEditCostCenter}"
+                        Label="{x:Static p:Resources.strEditCostCenter}"
                         />
                 </RibbonGroup>
                 <RibbonGroup Header="Mitarbeiter">
@@ -119,7 +119,7 @@
                         Click="RBOpenWorkforceManagement_Click"
                         SmallImageSource="{svg:SvgImage \\Resources\\Employee.svg}"
                         LargeImageSource="{svg:SvgImage \\Resources\\Employee.svg}"
-                        Label="{StaticResource strEditWorkforce}" />
+                        Label="{x:Static p:Resources.strEditWorkforce}" />
                 </RibbonGroup>
                 <RibbonGroup Header="Aufträge">
                     <RibbonButton
@@ -127,7 +127,7 @@
                         Click="RBOpenOrderManagement_Click"
                         SmallImageSource="{svg:SvgImage /Resources/Order.svg}"
                         LargeImageSource="{svg:SvgImage /Resources/Order.svg}"
-                        Label="{StaticResource strEditOrder}" />
+                        Label="{x:Static p:Resources.strEditOrder}" />
                 </RibbonGroup>
                 <RibbonGroup Header="Projekte">
                     <RibbonButton
@@ -135,7 +135,7 @@
                         Click="RBOpenProjectManagement_Click"
                         SmallImageSource="{svg:SvgImage /Resources/Project.svg}"
                         LargeImageSource="{svg:SvgImage /Resources/Project.svg}"
-                        Label="{StaticResource strEditProject}" />
+                        Label="{x:Static p:Resources.strEditProject}" />
                 </RibbonGroup>
                 <RibbonGroup Header="Geschäftspartner">
                     <RibbonButton
@@ -143,28 +143,59 @@
                         Click="RBOpenDebitorManagement_Click"
                         SmallImageSource="{svg:SvgImage /Resources/Customer.svg}"
                         LargeImageSource="{svg:SvgImage /Resources/Customer.svg}"
-                        Label="{StaticResource strManageDebitors}" />
+                        Label="{x:Static p:Resources.strManageDebitors}" />
                     <RibbonButton
                         x:Name="RBOpenKreditorManagement"
                         Click="RBOpenKreditorManagement_Click"
                         SmallImageSource="{svg:SvgImage /Resources/Supplier.svg}"
                         LargeImageSource="{svg:SvgImage /Resources/Supplier.svg}"
-                        Label="{StaticResource strManageKreditors}" />
-                </RibbonGroup>
-                <RibbonGroup Header="Adressen">
-                    <RibbonButton
-                        x:Name="RBOpenPostleitzahlManagement"
-                        Click="RBOpenPostleitzahlManagement_Click"
-                        SmallImageSource="{svg:SvgImage /Resources/undraw_handcrafts_location.svg}"
-                        LargeImageSource="{svg:SvgImage /Resources/undraw_handcrafts_location.svg}"
-                        Label="{StaticResource strManagePostleitzahlen}" />
+                        Label="{x:Static p:Resources.strManageKreditors}" />
                 </RibbonGroup>
                 <RibbonGroup Header="Geschäftsjahr">
                     <RibbonButton
                         x:Name="RBOpenGeschaeftsjahrManagement"
                         Click="RBOpenGeschaeftsjahrManagement_Click"
+                        SmallImageSource="{svg:SvgImage /Resources/reshot_calendar.svg}"
                         LargeImageSource="{svg:SvgImage /Resources/reshot_calendar.svg}"
-                        Label="{StaticResource strManageGeschaeftsjahre}" />
+                        Label="{x:Static p:Resources.strManageGeschaeftsjahre}" />
+                </RibbonGroup>
+                <RibbonGroup Header="Anderes">
+                    <RibbonButton
+                        x:Name="RBOpenPostleitzahlManagement"
+                        Click="RBOpenPostleitzahlManagement_Click"
+                        SmallImageSource="{svg:SvgImage /Resources/undraw_handcrafts_location.svg}"
+                        LargeImageSource="{svg:SvgImage /Resources/undraw_handcrafts_location.svg}"
+                        Label="{x:Static p:Resources.strManagePostleitzahlen}" />
+                    <RibbonButton
+                        x:Name="RBOpenAbrechnungseinheitManagement"
+                        Click="RBOpenAbrechnungseinheitManagement_Click"
+                        LargeImageSource="{svg:SvgImage /Resources/reshot-icon-business-man-JSQ35TMBH8.svg}"
+                        SmallImageSource="{svg:SvgImage /Resources/reshot-icon-business-man-JSQ35TMBH8.svg}"
+                        Label="{x:Static p:Resources.strManageAbrechnungseinheiten}" />
+                    <RibbonButton
+                        x:Name="RBOpenWaehrungManagement"
+                        Click="RBOpenWaehrungManagement_Click"
+                        LargeImageSource="{svg:SvgImage /Resources/reshot-icon-euro-WNGEZBR69A.svg}"
+                        SmallImageSource="{svg:SvgImage /Resources/reshot-icon-euro-WNGEZBR69A.svg}"
+                        Label="{x:Static p:Resources.strManageWaehrungen}" />
+                    <RibbonButton
+                        x:Name="RBOpenTaetigkeitManagement"
+                        Click="RBOpenTaetigkeitManagement_Click"
+                        LargeImageSource="{svg:SvgImage /Resources/reshot-icon-technical-support-GZRXMNY39U.svg}"
+                        SmallImageSource="{svg:SvgImage /Resources/reshot-icon-technical-support-GZRXMNY39U.svg}"
+                        Label="{x:Static p:Resources.strManageTaetigkeiten}" />
+                    <RibbonButton
+                        x:Name="RBOpenKostenstellenartManagement"
+                        Click="RBOpenKostenstellenartManagement_Click"
+                        LargeImageSource="{svg:SvgImage /Resources/reshot-icon-drawer-box-LVKWMU6DC5.svg}"
+                        SmallImageSource="{svg:SvgImage /Resources/reshot-icon-drawer-box-LVKWMU6DC5.svg}"
+                        Label="{x:Static p:Resources.strManageKostenstellenarten}" />
+                    <RibbonButton
+                        x:Name="RBOpenKundenManagement"
+                        Click="RBOpenKundenManagement_Click"
+                        LargeImageSource="{svg:SvgImage /Resources/Customer.svg}"
+                        SmallImageSource="{svg:SvgImage /Resources/Customer.svg}"
+                        Label="{x:Static p:Resources.strManageKunden}" />
                 </RibbonGroup>
             </RibbonTab>
             <RibbonTab Header="Kostenrechnung">
@@ -176,12 +207,12 @@
                         Click="RBOpenOutgoingInvoices_Click"
                         SmallImageSource="{svg:SvgImage /Resources/invoice_icon.svg}"
                         LargeImageSource="{svg:SvgImage /Resources/invoice_icon.svg}"
-                        Label="{StaticResource strManageOutgoingInvoices}" />
+                        Label="{x:Static p:Resources.strManageOutgoingInvoices}" />
                     <RibbonButton x:Name="RBOpenImportOutgoingInvoices"
                         Click="RBOpenOutgoingInvoicesImport_Click"
                         SmallImageSource="{svg:SvgImage /Resources/invoice_icon.svg}"
                         LargeImageSource="{svg:SvgImage /Resources/invoice_icon.svg}"
-                        Label="{StaticResource strImportOutgoingInvoices}" />
+                        Label="{x:Static p:Resources.strImportOutgoingInvoices}" />
                 </RibbonGroup>
             </RibbonTab>
         </Ribbon>

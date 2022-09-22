@@ -45,9 +45,8 @@ namespace DoePaAdmin.ViewModel
             set => SetProperty(ref _mitarbeiter, value, true);
         }
 
-        public ManageAuftraegeViewModel(IDoePaAdminService doePaAdminService) : base(doePaAdminService)
+        public ManageAuftraegeViewModel(IDoePaAdminService doePaAdminService, IUserInteractionService userInteractionService) : base(doePaAdminService, userInteractionService)
         {
-            
             Abrechnungseinheiten = new (Task.Run(async () => await DoePaAdminService.GetAbrechnungseinheitenAsync()).Result);
             Mitarbeiter = new (Task.Run(async () => await DoePaAdminService.GetMitarbeiterAsync()).Result);
             

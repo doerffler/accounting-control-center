@@ -8,7 +8,8 @@
         xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
         mc:Ignorable="d"
         Icon="{svg:SvgImage /Resources/invoice_icon.svg}"
-        Title="{StaticResource strImportOutgoingInvoices}"
+        xmlns:p="clr-namespace:DoePaAdminApp.Properties"
+        Title="{x:Static p:Resources.strImportOutgoingInvoices}"
         DataContext="{Binding Source={StaticResource Locator}, Path=ImportOutgoingInvoicesViewModel}"
         Height="450"
         Width="800">

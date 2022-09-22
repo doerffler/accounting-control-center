@@ -6,7 +6,8 @@
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:bhvrs="clr-namespace:DoePaAdminApp.Behaviors"
         mc:Ignorable="d"
-        Title="{StaticResource strEditCostCenter}"
+        xmlns:p="clr-namespace:DoePaAdminApp.Properties"
+        Title="{x:Static p:Resources.strEditCostCenter}"
         Icon="/Resources/costcenter_icon_16x16.png"
         DataContext="{Binding Source={StaticResource Locator}, Path=ManageKostenstellenViewModel}">
     <Grid>

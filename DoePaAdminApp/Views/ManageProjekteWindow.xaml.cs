@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,12 @@ namespace DoePaAdminApp.Views
         public ManageProjekteWindow()
         {
             InitializeComponent();
+        }
+
+        private void ManageSkills_Click(object sender, RoutedEventArgs e)
+        {
+            ManageSkillsWindow manageSkills = App.ServiceProvider.GetRequiredService<ManageSkillsWindow>();
+            manageSkills.Show();
         }
     }
 }

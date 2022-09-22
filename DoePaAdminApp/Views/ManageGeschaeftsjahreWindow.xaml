@@ -6,8 +6,9 @@
         xmlns:local="clr-namespace:DoePaAdminApp.Views"
         mc:Ignorable="d"
         xmlns:svg="http://sharpvectors.codeplex.com/svgc/" 
-        xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase" xmlns:clr="clr-namespace:System;assembly=System.Runtime"
-        Title="{StaticResource strManageGeschaeftsjahre}"
+        xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+        xmlns:p="clr-namespace:DoePaAdminApp.Properties"
+        Title="{x:Static p:Resources.strManageGeschaeftsjahre}"
         Icon="{svg:SvgImage /Resources/reshot_calendar.svg}"
         DataContext="{Binding Source={StaticResource Locator}, Path=ManageGeschaeftsjahreViewModel}">
     <Window.Resources>
@@ -35,7 +36,6 @@
             <ListView ItemsSource="{Binding Source={StaticResource cvsGeschaeftsjahre}}" SelectedItem="{Binding SelectedGeschaeftsjahr}" Grid.Row="0" Grid.RowSpan="2" Grid.Column="0">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn DisplayMemberBinding="{Binding Path=GeschaeftsjahrId}" Header="Nr"/>
                         <GridViewColumn DisplayMemberBinding="{Binding Path=Name}" Header="Name"/>
                         <GridViewColumn DisplayMemberBinding="{Binding Path=DatumVon, StringFormat=dd.MM.yyyy}" Header="Von"/>
                         <GridViewColumn DisplayMemberBinding="{Binding Path=DatumBis, StringFormat=dd.MM.yyyy}" Header="Bis"/>

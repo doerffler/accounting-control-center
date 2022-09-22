@@ -8,6 +8,9 @@ using DoePaAdmin.ViewModel.Services;
 using DoePaAdmin.ViewModel;
 using DoePaAdminApp.Views;
 using DoePaAdminApp.Services;
+using System.Configuration;
+using System.Threading;
+using System.Globalization;
 
 namespace DoePaAdminApp
 {
@@ -18,11 +21,14 @@ namespace DoePaAdminApp
     {
 
         private readonly IHost host;
+        private readonly dynamic config;
 
         public static IServiceProvider ServiceProvider { get; private set; }
 
         public App()
         {
+            config = ConfigurationManager.AppSettings;
+            Thread.CurrentThread.CurrentUICulture = new(config["Language"]);
 
             host = Host.CreateDefaultBuilder()  // Use default settings
                                                 //new HostBuilder()          // Initialize an empty HostBuilder
@@ -68,6 +74,13 @@ namespace DoePaAdminApp
             services.AddSingleton<ManagePostleitzahlenViewModel>();
             services.AddSingleton<ManageKundenViewModel>();
             services.AddSingleton<ManageGeschaeftsjahreViewModel>();
+            services.AddSingleton<ManageAbrechnungseinheitViewModel>();
+            services.AddSingleton<ManageKostenstellenartViewModel>();
+            services.AddSingleton<ManageTaetigkeitViewModel>();
+            services.AddSingleton<ManageWaehrungViewModel>();
+
+            services.AddSingleton<ManageSkillsViewModel>();
+
             services.AddTransient<MainWindow>();
             services.AddTransient<ManageKostenstellenWindow>();
             services.AddTransient<ManageMitarbeiterWindow>();
@@ -78,7 +91,14 @@ namespace DoePaAdminApp
             services.AddTransient<AskForUserInputWindow>();
             services.AddTransient<ManageAusgangsrechnungenWindow>();
             services.AddTransient<ManageDebitorenWindow>();
+            services.AddTransient<ManagePostleitzahlenWindow>();
+            services.AddTransient<ManageKundenWindow>();
             services.AddTransient<ManageGeschaeftsjahreWindow>();
+            services.AddTransient<ManageAbrechnungseinheitWindow>();
+            services.AddTransient<ManageKostenstellenartWindow>();
+            services.AddTransient<ManageTaetigkeitWindow>();
+            services.AddTransient<ManageWaehrungWindow>();
+            services.AddTransient<ManageSkillsWindow>();
 
         }
 
