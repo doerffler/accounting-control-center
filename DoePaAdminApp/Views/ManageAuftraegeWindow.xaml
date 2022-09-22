@@ -103,6 +103,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellEditingTemplate>
                 </DataGridTemplateColumn>
+                <DataGridComboBoxColumn Header="Geschäftsjahr" ItemsSource="{Binding Source={StaticResource Locator}, Path=ManageGeschaeftsjahreViewModel.Geschaeftsjahre, Mode=TwoWay}" SelectedItemBinding="{Binding Path=ZugehoerigesGeschaeftsjahr}" DisplayMemberPath="Name"/>
             </DataGrid.Columns>
         </DataGrid>
 
