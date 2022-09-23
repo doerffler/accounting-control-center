@@ -28,7 +28,6 @@
                                           KeyTip="O" />
                     <RibbonApplicationMenuItem Header="Save"
                                           Command="Save"
-                                          ImageSource="/Resources/sd_card_32x32.png"
                                           KeyTip="S" />
                     <RibbonApplicationSplitMenuItem Header="Save As"
                                                Command="SaveAs"

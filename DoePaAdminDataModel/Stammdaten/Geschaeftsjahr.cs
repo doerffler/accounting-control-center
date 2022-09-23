@@ -19,11 +19,14 @@ namespace DoePaAdminDataModel.Stammdaten
 
         public List<Feiertag> Feiertage { get; set; }
 
+        public List<Auftrag> Auftraege { get; set; }
+
         public string Rechnungsprefix { get; set; }
 
         public Geschaeftsjahr()
         {
             Feiertage = new();
+            Auftraege = new();
         }
     }
 }

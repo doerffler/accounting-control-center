@@ -31,8 +31,6 @@
     <None Remove="Resources\reshot-icon-euro-WNGEZBR69A.svg" />
     <None Remove="Resources\reshot-icon-technical-support-GZRXMNY39U.svg" />
     <None Remove="Resources\SaveAs.svg" />
-    <None Remove="Resources\sd_card_16x16.png" />
-    <None Remove="Resources\sd_card_32x32.png" />
     <None Remove="Resources\Supplier.svg" />
     <None Remove="Resources\TestConfiguration.svg" />
     <None Remove="Resources\undraw_calendar_re_ki49.svg" />
@@ -129,12 +127,6 @@
     <Resource Include="Resources\SaveAs.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Resources\sd_card_16x16.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\sd_card_32x32.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
     <Resource Include="Resources\Supplier.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
@@ -170,9 +162,6 @@
   <ItemGroup>
     <None Update="appsettings.Development.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resources\sd_card_512x512.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 
