@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:oxy="clr-namespace:OxyPlot.Wpf;assembly=OxyPlot.Wpf"
         xmlns:local="clr-namespace:DoePaAdminApp.Views"
+        xmlns:datamodel="clr-namespace:DoePaAdminDataModel.Stammdaten;assembly=DoePaAdminDataModel"
         xmlns:properties="clr-namespace:DoePaAdminApp.Properties"
         xmlns:svg="http://sharpvectors.codeplex.com/svgc/"
         mc:Ignorable="d"
@@ -218,10 +219,31 @@
         </Ribbon>
         <TabControl Grid.Row="1">
             <TabItem Header="Geschäftsjahresübersicht">
-                
+
             </TabItem>
             <TabItem Header="Auftragsstatus" DataContext="{Binding Source={StaticResource Locator}, Path=DisplayAuftragsstatusViewModel}">
-                <oxy:PlotView Model="{Binding Model}"/>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="25*"/>
+                        <RowDefinition Height="199*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="99*"/>
+                        <ColumnDefinition Width="100*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="99*"/>
+                            <ColumnDefinition Width="100*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Row="1" Grid.Column="0">Geschäftsjahr:</Label>
+                        <ComboBox Grid.Row="1" Grid.Column="1" SelectedItem="{Binding SelectedGeschaeftsjahr}" ItemsSource="{Binding Source={StaticResource Locator}, Path=ManageGeschaeftsjahreViewModel.Geschaeftsjahre}" DisplayMemberPath="Name" />
+                    </Grid>
+
+                </Grid>
             </TabItem>
             <TabItem Header="Mitarbeiterperformance">
 

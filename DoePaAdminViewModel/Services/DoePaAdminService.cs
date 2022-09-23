@@ -282,7 +282,7 @@ namespace DoePaAdmin.ViewModel.Services
 
         public async Task<IEnumerable<Geschaeftsjahr>> GetGeschaeftsjahreAsync(CancellationToken cancellationToken = default)
         {
-            return await GetDataFromDbSetAsync(DBContext.Geschaeftsjahre, cancellationToken);
+            return await GetDataFromDbSetAsync(DBContext.Geschaeftsjahre.Include(g => g.Auftraege), cancellationToken);
         }
 
         public async Task<Geschaeftsjahr> CreateGeschaeftsjahrAsync(CancellationToken cancellationToken = default)
