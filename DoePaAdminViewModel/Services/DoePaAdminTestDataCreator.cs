@@ -422,6 +422,7 @@ namespace DoePaAdmin.ViewModel.Services
 
             Abrechnungseinheit aeStunden = (await doePaAdminService.GetAbrechnungseinheitenAsync(cancellationToken)).Where(ae => ae.Name.Equals("Stunden")).First();
             Waehrung wEuro = (await doePaAdminService.GetWaehrungenAsync(cancellationToken)).Where(w => w.WaehrungName.Equals("Euro")).First();
+            Geschaeftsjahr gJahr1991 = (await doePaAdminService.GetGeschaeftsjahreAsync(cancellationToken)).Where(gj => gj.Name.Equals("1991")).First();
 
             IEnumerable<Mitarbeiter> listMitarbeiter = await doePaAdminService.GetMitarbeiterAsync(cancellationToken);
 
@@ -465,6 +466,7 @@ namespace DoePaAdmin.ViewModel.Services
             currentAuftrag.Auftragsdatum = new(1991, 2, 1);
             currentAuftrag.Auftragsende = new(1991, 03, 31);
             currentAuftrag.Auftragsname = "Gamer's Edge Q1 1991";
+            currentAuftrag.ZugehoerigesGeschaeftsjahr = gJahr1991;
             currentAuftrag.ZugehoerigesProjekt = currentProjekt;
             currentProjekt.ZugehoerigeAuftraege.Add(currentAuftrag);
             currentAuftrag.VerantwortlicherMitarbeiter = listMitarbeiter.Where(m => m.Nachname.Equals("Hall")).First();
