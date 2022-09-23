@@ -242,7 +242,7 @@
                         <Label Grid.Row="1" Grid.Column="0">Geschäftsjahr:</Label>
                         <ComboBox Grid.Row="1" Grid.Column="1" SelectedItem="{Binding SelectedGeschaeftsjahr}" ItemsSource="{Binding Source={StaticResource Locator}, Path=ManageGeschaeftsjahreViewModel.Geschaeftsjahre}" DisplayMemberPath="Name" />
                     </Grid>
-                    <oxy:PlotView Grid.ColumnSpan="2" Grid.Row="1" />
+                    <oxy:PlotView x:Name="AuftragChart" Grid.ColumnSpan="2" Grid.Row="1" />
                 </Grid>
             </TabItem>
             <TabItem Header="Mitarbeiterperformance">

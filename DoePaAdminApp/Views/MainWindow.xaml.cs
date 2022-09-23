@@ -2,6 +2,7 @@
 using System;
 using System.Windows;
 using System.Windows.Controls.Ribbon;
+using OxyPlot;
 
 namespace DoePaAdminApp.Views
 {
@@ -14,6 +15,7 @@ namespace DoePaAdminApp.Views
         public MainWindow()
         {
             InitializeComponent();
+            AuftragChart.Model = new PlotModel();
         }
 
         private void RBOpenCostCenterManagement_Click(object sender, RoutedEventArgs e)
