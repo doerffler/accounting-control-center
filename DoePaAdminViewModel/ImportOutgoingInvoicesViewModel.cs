@@ -2,6 +2,7 @@
 using DoePaAdmin.ViewModel.Services;
 using DoePaAdminDataModel.DataMigration;
 using DoePaAdminDataModel.DPApp;
+using DoePaAdminDataModel.Stammdaten;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,10 +44,22 @@ namespace DoePaAdmin.ViewModel
 
         private async Task MapDPAppMasterdata(IEnumerable<OutgoingInvoiceMigration> outgoingInvoiceMigrations, CancellationToken cancellationToken = default)
         {
+            IEnumerable<Kostenstelle> listCostCenters = await DoePaAdminService.GetKostenstellenAsync(cancellationToken);
 
             foreach (OutgoingInvoiceMigration currentInvoice in outgoingInvoiceMigrations)
             {
                 //Map cost centers first:
+                foreach (OutgoingInvoicePositionMigration currentPosition in currentInvoice.OutgoingInvoicePositions)
+                {
+                    int? costCenterNo = currentPosition.OutgoingInvoicePositionForImport.RelatedCostCenter != null ? currentPosition.OutgoingInvoicePositionForImport.RelatedCostCenter.Number : null;
+
+                    if (costCenterNo.HasValue)
+                    {
+                        currentPosition.RelatedKostenstelle = listCostCenters.Where(cc => cc.KostenstellenNummer.Equals(costCenterNo.Value)).FirstOrDefault();
+                    }
+
+                }
+
             }
 
         }

@@ -9,6 +9,8 @@ namespace DoePaAdminDataModel.Stammdaten
 
         public int KostenstelleID { get; set; }
 
+        public int KostenstellenNummer { get; set; }
+
         public string Kostenstellenbezeichnung { get; set; }
                 
         public int ZugehoerigeKostenstellenartId { get; set; }
