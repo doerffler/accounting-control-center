@@ -27,7 +27,7 @@ namespace DoePaAdminApp
 
         public App()
         {
-            config = ConfigurationManager.AppSettings;
+            config = System.Configuration.ConfigurationManager.AppSettings;
             Thread.CurrentThread.CurrentUICulture = new(config["Language"]);
 
             host = Host.CreateDefaultBuilder()  // Use default settings
