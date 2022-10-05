@@ -8,8 +8,10 @@ using DoePaAdminDataModel.Stammdaten;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using LiveCharts;
-using LiveCharts.Wpf;
+using System.Windows.Media;
+using OxyPlot;
+using OxyPlot.Axes;
+using OxyPlot.Series;
 
 namespace DoePaAdmin.ViewModel
 {
@@ -22,20 +24,6 @@ namespace DoePaAdmin.ViewModel
             set => SetProperty(ref _selectedGeschaeftsjahr, value);
         }
 
-        private SeriesCollection _chartModel;
-        public SeriesCollection ChartModel
-        {
-            get => _chartModel;
-            set => SetProperty(ref _chartModel, value);
-        }
-
-        private string[] _labels;
-        public string[] Labels
-        {
-            get => _labels;
-            set => SetProperty(ref _labels, value);
-        }
-
         public DisplayAuftragsstatusViewModel(IDoePaAdminService doePaAdminService) : base(doePaAdminService)
         {
             SelectedGeschaeftsjahr = Task.Run(async () => await DoePaAdminService
@@ -43,22 +31,24 @@ namespace DoePaAdmin.ViewModel
                 .Result
                 .FirstOrDefault(g => g.DatumVon <= DateTime.Now && g.DatumBis >= DateTime.Now);
 
-            ChartModel = new()
-            {
-                new ColumnSeries
-                {
-                    Title = "Draw Character Graphics",
-                    Values = new ChartValues<double> { 800, 500, 400 }     
-                },
+            Charts = new();
 
-                new ColumnSeries
-                {
-                    Title = "Implement Gameengine",
-                    Values = new ChartValues<double> { 600, 500, 250 }
-                },
-            };
+            var Chart = new PlotModel { Title = "Example 1" };
+            Chart.Series.Add(new FunctionSeries(Math.Cos, 0, 10, 0.1, "cos(x)"));
 
-            Labels = new[] { "Januar", "Februar", "März" };
+            Charts.Add(Chart);
+
+            Chart = new PlotModel { Title = "Example 2" };
+            Chart.Series.Add(new FunctionSeries(Math.Tan, 0, 10, 0.1, "tan(x)"));
+
+            Charts.Add(Chart);
+
+            Chart = new PlotModel { Title = "Example 3" };
+            Chart.Series.Add(new FunctionSeries(Math.Sin, 0, 10, 0.1, "sin(x)"));
+
+            Charts.Add(Chart);
         }
+
+        public ObservableCollection<PlotModel> Charts { get; private set; }
     }
 }
