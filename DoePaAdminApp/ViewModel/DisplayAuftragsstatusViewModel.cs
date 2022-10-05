@@ -1,17 +1,14 @@
 ﻿using DoePaAdmin.ViewModel.Services;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using DoePaAdminDataModel.Stammdaten;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Windows.Media;
 using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.Series;
+using OxyPlot.Legends;
 
 namespace DoePaAdmin.ViewModel
 {
@@ -24,6 +21,13 @@ namespace DoePaAdmin.ViewModel
             set => SetProperty(ref _selectedGeschaeftsjahr, value);
         }
 
+        private ObservableCollection<Auftrag> _auftraege;
+        public ObservableCollection<Auftrag> Auftraege
+        {
+            get => _auftraege;
+            set => SetProperty(ref _auftraege, value);
+        }
+
         public DisplayAuftragsstatusViewModel(IDoePaAdminService doePaAdminService) : base(doePaAdminService)
         {
             SelectedGeschaeftsjahr = Task.Run(async () => await DoePaAdminService
@@ -31,24 +35,63 @@ namespace DoePaAdmin.ViewModel
                 .Result
                 .FirstOrDefault(g => g.DatumVon <= DateTime.Now && g.DatumBis >= DateTime.Now);
 
+            Controller = new PlotController();
+            Controller.UnbindMouseDown(OxyMouseButton.Left);
+            Controller.BindMouseEnter(PlotCommands.HoverSnapTrack);
+
             Charts = new();
 
-            var Chart = new PlotModel { Title = "Example 1" };
-            Chart.Series.Add(new FunctionSeries(Math.Cos, 0, 10, 0.1, "cos(x)"));
+            Auftraege = new();
 
-            Charts.Add(Chart);
+            PropertyChanged += HandlePropertyChanged;
+        }
 
-            Chart = new PlotModel { Title = "Example 2" };
-            Chart.Series.Add(new FunctionSeries(Math.Tan, 0, 10, 0.1, "tan(x)"));
+        private void HandlePropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(SelectedGeschaeftsjahr):
+                    Auftraege = new ObservableCollection<Auftrag>(SelectedGeschaeftsjahr.Auftraege);
 
-            Charts.Add(Chart);
+                    Charts.Clear();
 
-            Chart = new PlotModel { Title = "Example 3" };
-            Chart.Series.Add(new FunctionSeries(Math.Sin, 0, 10, 0.1, "sin(x)"));
+                    foreach (Auftrag auftrag in Auftraege)
+                    {                        
+                        PlotModel Chart = new() { Title = auftrag.Auftragsname };
+                        Chart.Legends.Add(new Legend()
+                        {
+                            LegendTitle = "Legende",
+                            LegendPosition = LegendPosition.TopCenter,
+                        });
 
-            Charts.Add(Chart);
+                        CategoryAxis Month = new() { Position = AxisPosition.Bottom, Title = "Monat" };
+                        Month.Labels.Add("Januar");
+                        Month.Labels.Add("Februar");
+                        Month.Labels.Add("März");
+                        Chart.Axes.Add(Month);
+
+                        Chart.Axes.Add(new LinearAxis { Position = AxisPosition.Left, Title = "Restbudget" });
+
+                        foreach (Auftragsposition auftragsposition in auftrag.Auftragspositionen)
+                        {
+                            LineSeries soll = new();
+                            soll.Title = string.Format("{0} (Soll)", auftragsposition.Positionsbezeichnung);
+
+                            soll.Points.Add(new DataPoint(0, 660));
+                            soll.Points.Add(new DataPoint(1, 520));
+                            soll.Points.Add(new DataPoint(2, 380));
+
+                            Chart.Series.Add(soll);
+                        }
+
+                        Charts.Add(Chart);
+                    }
+
+                    break;
+            }
         }
 
         public ObservableCollection<PlotModel> Charts { get; private set; }
+        public PlotController Controller { get; private set; }
     }
 }
