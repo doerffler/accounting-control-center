@@ -1,5 +1,6 @@
 ﻿using DoePaAdmin.ViewModel.Model;
 using DoePaAdminDataAdapter.DoePaAdmin;
+using DoePaAdminDataModel.API;
 using DoePaAdminDataModel.Kostenrechnung;
 using DoePaAdminDataModel.Stammdaten;
 using Microsoft.EntityFrameworkCore;
@@ -106,6 +107,11 @@ namespace DoePaAdmin.ViewModel.Services
         public async Task<Anstellungsdetail> CreateAnstellungsdetailAsync(CancellationToken cancellationToken = default)
         {
             return await AddDataToDbSetAsync(DBContext.Anstellungsdetails, cancellationToken);
+        }
+
+        public async Task<IEnumerable<EmployeeInvoicedHours>> GetEmployeeInvoicedHours(int UserId, CancellationToken cancellationToken = default)
+        {
+            return null;
         }
 
         #endregion

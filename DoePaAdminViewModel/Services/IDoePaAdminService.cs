@@ -1,4 +1,5 @@
-﻿using DoePaAdminDataModel.Kostenrechnung;
+﻿using DoePaAdminDataModel.API;
+using DoePaAdminDataModel.Kostenrechnung;
 using DoePaAdminDataModel.Stammdaten;
 using System;
 using System.Collections.Generic;
@@ -29,7 +30,9 @@ namespace DoePaAdmin.ViewModel.Services
 
         public void RemoveMitarbeiter(Mitarbeiter mitarbeiterToRemove);
 
-        Task<Anstellungsdetail> CreateAnstellungsdetailAsync(CancellationToken cancellationToken = default);
+        public Task<Anstellungsdetail> CreateAnstellungsdetailAsync(CancellationToken cancellationToken = default);
+
+        public Task<IEnumerable<EmployeeInvoicedHours>> GetEmployeeInvoicedHours(int UserId, CancellationToken cancellationToken = default);
 
         #endregion
 

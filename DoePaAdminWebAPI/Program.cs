@@ -1,3 +1,5 @@
+using DoePaAdmin.ViewModel.Services;
+using DoePaAdmin.ViewModel;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Identity.Web;
@@ -12,6 +14,9 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddScoped<IDoePaAdminService, DoePaAdminService>();
+builder.Services.AddScoped<ReceiveMitarbeiterPerformanceViewModel>();
 
 var app = builder.Build();
 
