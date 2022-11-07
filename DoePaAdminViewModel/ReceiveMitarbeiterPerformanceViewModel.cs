@@ -13,8 +13,8 @@ namespace DoePaAdmin.ViewModel
     public class ReceiveMitarbeiterPerformanceViewModel : DoePaAdminViewModelBase
     {
         #region InvoicedHours
-        private ObservableCollection<EmployeeInvoicedHours> _invoicedHours = new();
-        public ObservableCollection<EmployeeInvoicedHours> InvoicedHours
+        private IEnumerable<EmployeeInvoicedHours> _invoicedHours;
+        public IEnumerable<EmployeeInvoicedHours> InvoicedHours
         {
             get => _invoicedHours;
             set => SetProperty(ref _invoicedHours, value, true);
@@ -26,11 +26,11 @@ namespace DoePaAdmin.ViewModel
 
         }
 
-        public  IEnumerable<EmployeeInvoicedHours> GetEmployeeInvoicedHours(int UserId)
+        public async Task<IEnumerable<EmployeeInvoicedHours>> GetEmployeeInvoicedHours(string email)
         {
             // Filter InvoicedHours
-
-            return _invoicedHours;
+            
+            return await DoePaAdminService.GetEmployeeInvoicedHours(email, default);
         }
     }
 }

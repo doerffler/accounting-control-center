@@ -358,7 +358,7 @@ namespace DoePaAdmin.ViewModel.Services
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<EmployeeInvoicedHours>> GetEmployeeInvoicedHours(int UserId, CancellationToken cancellationToken = default)
+        public Task<IEnumerable<EmployeeInvoicedHours>> GetEmployeeInvoicedHours(string email, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }

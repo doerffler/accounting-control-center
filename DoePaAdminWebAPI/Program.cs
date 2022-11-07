@@ -3,11 +3,14 @@ using DoePaAdmin.ViewModel;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Identity.Web;
+using DoePaAdmin.ViewModel.Model;
+using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+builder.Services
+    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"));
 
 builder.Services.AddControllers();
@@ -15,8 +18,15 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<IDoePaAdminService, DoePaAdminService>();
-builder.Services.AddScoped<ReceiveMitarbeiterPerformanceViewModel>();
+builder.Host.ConfigureAppConfiguration((context, builder) =>
+{
+    builder.AddJsonFile("appsettings.Development.json", true);
+}).ConfigureServices((context, services) =>
+{
+    services.Configure<DoePaAdminConnectionSettings>(context.Configuration.GetSection(nameof(DoePaAdminConnectionSettings)));
+    services.AddScoped<IDoePaAdminService, DoePaAdminService>();
+    services.AddScoped<ReceiveMitarbeiterPerformanceViewModel>();
+});
 
 var app = builder.Build();
 

@@ -14,7 +14,7 @@ namespace DoePaAdminWebAPI.Controllers
     public class EmployeeController : ControllerBase
     {
         private readonly ILogger<EmployeeController> _logger;
-        private ReceiveMitarbeiterPerformanceViewModel _viewModel;
+        private readonly ReceiveMitarbeiterPerformanceViewModel _viewModel;
 
         public EmployeeController(ILogger<EmployeeController> logger, ReceiveMitarbeiterPerformanceViewModel viewModel)
         {
@@ -22,19 +22,21 @@ namespace DoePaAdminWebAPI.Controllers
             _viewModel = viewModel;
         }
 
-        [HttpGet("{id:int}/invoiced")]
-        public IEnumerable<EmployeeInvoicedHours> InvoicedByUserId(int id, string from, string to)
-        {
-
-            return new List<EmployeeInvoicedHours>();
-        }
-
         [HttpGet("current/invoiced")]
-        public IEnumerable<EmployeeInvoicedHours> InvoicedByCurrentUser(string from, string to)
+        public async Task<IActionResult> InvoicedByCurrentUser(string from, string to)
         {
-            string? email = User.FindFirst(ClaimTypes.Name)?.Value;
+            try
+            {
+                string? email = User.FindFirst(ClaimTypes.Name)?.Value;
 
-            return new List<EmployeeInvoicedHours>();
+                IEnumerable<EmployeeInvoicedHours> result = await _viewModel.GetEmployeeInvoicedHours(email);
+
+                return Ok(result);
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
     }
 }

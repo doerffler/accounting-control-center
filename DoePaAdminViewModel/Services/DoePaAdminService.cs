@@ -109,7 +109,7 @@ namespace DoePaAdmin.ViewModel.Services
             return await AddDataToDbSetAsync(DBContext.Anstellungsdetails, cancellationToken);
         }
 
-        public async Task<IEnumerable<EmployeeInvoicedHours>> GetEmployeeInvoicedHours(int UserId, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<EmployeeInvoicedHours>> GetEmployeeInvoicedHours(string email, CancellationToken cancellationToken = default)
         {
             return null;
         }
