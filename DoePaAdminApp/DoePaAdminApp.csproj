@@ -30,6 +30,7 @@
     <None Remove="Resources\reshot-icon-drawer-box-LVKWMU6DC5.svg" />
     <None Remove="Resources\reshot-icon-euro-WNGEZBR69A.svg" />
     <None Remove="Resources\reshot-icon-technical-support-GZRXMNY39U.svg" />
+    <None Remove="Resources\reshot_calendar.svg" />
     <None Remove="Resources\SaveAs.svg" />
     <None Remove="Resources\Supplier.svg" />
     <None Remove="Resources\TestConfiguration.svg" />
@@ -52,6 +53,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\reshot-icon-technical-support-GZRXMNY39U.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\reshot_calendar.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\undraw_calendar_re_ki49.svg">
@@ -138,13 +142,13 @@
     </Resource>
   </ItemGroup>
 
-  <ItemGroup>
-    <Compile Update="Properties\Resources.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
+	<ItemGroup>
+		<Compile Update="Properties\Resources.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Resources.resx</DependentUpon>
+		</Compile>
+	</ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Update="Properties\Resources.de.resx">

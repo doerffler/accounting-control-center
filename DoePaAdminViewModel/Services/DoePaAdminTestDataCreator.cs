@@ -390,21 +390,27 @@ namespace DoePaAdmin.ViewModel.Services
             
             Kostenstelle kstOfficeRichardson = await doePaAdminService.CreateKostenstelleAsync(cancellationToken);
             kstOfficeRichardson.Kostenstellenbezeichnung = "Office Richardson";
+            kstOfficeRichardson.KostenstellenNummer = 5020;
             kstOfficeRichardson.ZugehoerigeKostenstellenart = listKostenstellenarten.Where(ka => ka.Kostenstellenartbezeichnung.Equals("Geschäftsräume")).First();
 
             Kostenstelle currentKostenstelle;
 
             currentKostenstelle = await doePaAdminService.CreateKostenstelleAsync(cancellationToken);
             currentKostenstelle.Kostenstellenbezeichnung = "Bobby Prince";
+            currentKostenstelle.KostenstellenNummer = 2002;
             currentKostenstelle.ZugehoerigeKostenstellenart = listKostenstellenarten.Where(ka => ka.Kostenstellenartbezeichnung.Equals("Freie Mitarbeiter/innen")).First();
 
+            int currentKostenstellenNummer = 1003;
             foreach (string currentEmployeeName in new String[] { "John Carmack", "John Romero", "Adrian Carmack", "Tom Hall" })
             { 
-            currentKostenstelle = await doePaAdminService.CreateKostenstelleAsync(cancellationToken);
-            currentKostenstelle.Kostenstellenbezeichnung = currentEmployeeName;
-            currentKostenstelle.ZugehoerigeKostenstellenart = listKostenstellenarten.Where(ka => ka.Kostenstellenartbezeichnung.Equals("Angestellte Mitarbeiter/innen")).First(); ;
-            currentKostenstelle.UebergeordneteKostenstellen.Add(kstOfficeRichardson);
-            kstOfficeRichardson.UntergeordneteKostenstellen.Add(currentKostenstelle);
+                currentKostenstelle = await doePaAdminService.CreateKostenstelleAsync(cancellationToken);
+                currentKostenstelle.Kostenstellenbezeichnung = currentEmployeeName;
+                currentKostenstelle.KostenstellenNummer = currentKostenstellenNummer;
+                currentKostenstelle.ZugehoerigeKostenstellenart = listKostenstellenarten.Where(ka => ka.Kostenstellenartbezeichnung.Equals("Angestellte Mitarbeiter/innen")).First(); ;
+                currentKostenstelle.UebergeordneteKostenstellen.Add(kstOfficeRichardson);
+                kstOfficeRichardson.UntergeordneteKostenstellen.Add(currentKostenstelle);
+
+                currentKostenstellenNummer += 3;
             }
 
             await doePaAdminService.SaveChangesAsync(cancellationToken);
