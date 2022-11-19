@@ -205,7 +205,14 @@ namespace DoePaAdmin.ViewModel.Services
             _ = DBContext.Ausgangsrechnungen.Remove(ausgangsrechnungToRemove);
         }
 
+        public async Task<Ausgangsrechnungsposition> CreateAusgangsrechnungspositionAsync(CancellationToken cancellationToken = default)
+        {
 
+            Ausgangsrechnungsposition newAusgangsrechnungsposition = await AddDataToDbSetAsync(DBContext.Ausgangsrechnungspositionen, cancellationToken);
+
+            return newAusgangsrechnungsposition;
+
+        }
 
         #endregion
 

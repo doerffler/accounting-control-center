@@ -356,5 +356,10 @@ namespace DoePaAdmin.ViewModel.Services
         {
             throw new NotImplementedException();
         }
+
+        public Task<Ausgangsrechnungsposition> CreateAusgangsrechnungspositionAsync(CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
