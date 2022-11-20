@@ -28,8 +28,10 @@ namespace DoePaAdminWebAPI.Controllers
             try
             {
                 string? email = User.FindFirst(ClaimTypes.Name)?.Value;
+                DateTime fromDate = DateTime.Parse(from);
+                DateTime toDate = DateTime.Parse(to).AddMonths(1).AddDays(-1);
 
-                IEnumerable<EmployeeInvoicedHours> result = await _viewModel.GetEmployeeInvoicedHours(email);
+                IEnumerable<EmployeeInvoicedHours> result = await _viewModel.GetEmployeeInvoicedHours(email, fromDate, toDate);
 
                 return Ok(result);
             }

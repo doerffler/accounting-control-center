@@ -26,11 +26,9 @@ namespace DoePaAdmin.ViewModel
 
         }
 
-        public async Task<IEnumerable<EmployeeInvoicedHours>> GetEmployeeInvoicedHours(string email)
-        {
-            // Filter InvoicedHours
-            
-            return await DoePaAdminService.GetEmployeeInvoicedHours(email, default);
+        public async Task<IEnumerable<EmployeeInvoicedHours>> GetEmployeeInvoicedHours(string email, DateTime from, DateTime to)
+        {            
+            return await DoePaAdminService.GetEmployeeInvoicedHours(email, from, to, default);
         }
     }
 }

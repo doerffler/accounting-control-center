@@ -8,6 +8,7 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -109,9 +110,33 @@ namespace DoePaAdmin.ViewModel.Services
             return await AddDataToDbSetAsync(DBContext.Anstellungsdetails, cancellationToken);
         }
 
-        public async Task<IEnumerable<EmployeeInvoicedHours>> GetEmployeeInvoicedHours(string email, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<EmployeeInvoicedHours>> GetEmployeeInvoicedHours(string email, DateTime from, DateTime to, CancellationToken cancellationToken = default)
         {
-            return null;
+            var result = DBContext
+                .Ausgangsrechnungspositionen
+                        .Include(arp => arp.ZugehoerigeRechnung)
+                        .Include(arp => arp.ZugehoerigeKostenstelle)
+                        .Include(arp => arp.ZugehoerigeAuftragsposition)
+                            .ThenInclude(zap => zap.Auftrag)
+                                .ThenInclude(a => a.ZugehoerigesProjekt)
+                                    .ThenInclude(p => p.Rechnungsempfaenger)
+                                        .ThenInclude(r => r.ZugehoerigerKunde)
+                        .Include(arp => arp.ZugehoerigeAuftragsposition.Auftrag.VerantwortlicherMitarbeiter)
+                        .Include(arp => arp.ZugehoerigeAbrechnungseinheit)
+                    .Where(arp => arp.ZugehoerigeAuftragsposition.Auftrag.VerantwortlicherMitarbeiter.Email == email)
+                    .Where(arp => arp.ZugehoerigeAbrechnungseinheit.Name.Equals("Stunden"))
+                    .Where(arp => arp.LeistungszeitraumVon >= from)
+                    .Where(arp => arp.LeistungszeitraumBis <= to)
+                    .ToList()
+                    .GroupBy(arp => arp.ZugehoerigeAuftragsposition.Auftrag.ZugehoerigesProjekt)
+                    .Select(project => new EmployeeInvoicedHours {
+                        Month = "",
+                        Project = project.Key.Projektname,
+                        Customer = project.Key.Rechnungsempfaenger.ZugehoerigerKunde.Kundenname,
+                        HoursCount = (double)project.Sum(p => p.Stueckzahl),
+                    });
+
+            return result;
         }
 
         #endregion
