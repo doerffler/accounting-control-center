@@ -1,4 +1,5 @@
-﻿using DoePaAdminDataModel.Stammdaten;
+﻿using DoePaAdminDataModel.Kostenrechnung;
+using DoePaAdminDataModel.Stammdaten;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -22,8 +23,11 @@ namespace DoePaAdmin.ViewModel.Services
             await CreateMitarbeiterAsync(doePaAdminService, cancellationToken);
 
             await CreateAuftraegeAsync(doePaAdminService, cancellationToken);
+
+            await CreateAusgangsrechnungenAsync(doePaAdminService, cancellationToken);
                         
         }
+
 
         public static async Task CreateMasterdataAsync(IDoePaAdminService doePaAdminService, CancellationToken cancellationToken = default)
         {
@@ -484,6 +488,66 @@ namespace DoePaAdmin.ViewModel.Services
             
             currentKunde = await doePaAdminService.CreateKundeAsync(cancellationToken);
             currentKunde.Kundenname = "Apogee";
+
+            await doePaAdminService.SaveChangesAsync(cancellationToken);
+
+        }
+
+        private static async Task CreateAusgangsrechnungenAsync(IDoePaAdminService doePaAdminService, CancellationToken cancellationToken)
+        {
+
+            Ausgangsrechnung currentAusgangsrechnung;
+            Ausgangsrechnungsposition currentAusgangsrechnungsposition;
+
+            Geschaeftsjahr gJahr1991 = (await doePaAdminService.GetGeschaeftsjahreAsync(cancellationToken)).Where(gj => gj.Name.Equals("1991")).First();
+            Debitor gamersEdge = (await doePaAdminService.GetGeschaeftspartnerAsync<Debitor>(cancellationToken)).Where(gp => gp.Anschrift.Equals("Gamer's Edge")).First();
+            Waehrung wEuro = (await doePaAdminService.GetWaehrungenAsync(cancellationToken)).Where(w => w.WaehrungName.Equals("Euro")).First();
+            Abrechnungseinheit aeStunden = (await doePaAdminService.GetAbrechnungseinheitenAsync(cancellationToken)).Where(ae => ae.Name.Equals("Stunden")).First();
+            Auftragsposition apGESpieleentwicklung = (await doePaAdminService.GetAuftragspositionAsync(cancellationToken)).Where(ap => ap.Positionsbezeichnung.Equals("Spieleentwicklung")).First();
+            Kostenstelle kstCarmack = (await doePaAdminService.GetKostenstellenAsync(cancellationToken)).Where(kst => kst.Kostenstellenbezeichnung.Equals("John Carmack")).First();
+            Kostenstelle kstHall = (await doePaAdminService.GetKostenstellenAsync(cancellationToken)).Where(kst => kst.Kostenstellenbezeichnung.Equals("Tom Hall")).First();
+
+            currentAusgangsrechnung = await doePaAdminService.CreateAusgangsrechnungAsync(cancellationToken);
+            
+            currentAusgangsrechnung.RechnungsDatum = new(1991, 2, 28);
+            currentAusgangsrechnung.BezahltDatum = new(1991,3,15);
+            currentAusgangsrechnung.RechnungsNummer = "19910001";
+            currentAusgangsrechnung.ZugehoerigesGeschaeftsjahr = gJahr1991;
+            currentAusgangsrechnung.Rechnungsempfaenger = gamersEdge;
+
+            currentAusgangsrechnungsposition = await doePaAdminService.CreateAusgangsrechnungspositionAsync(cancellationToken);
+
+            currentAusgangsrechnungsposition.PositionsNummer = 1;
+            currentAusgangsrechnungsposition.LeistungszeitraumBis = new(1991, 2, 28);
+            currentAusgangsrechnungsposition.LeistungszeitraumVon = new(1991, 2, 1);
+            currentAusgangsrechnungsposition.NettobetragWaehrung = wEuro;
+            currentAusgangsrechnungsposition.Positionsbeschreibung = "Entwicklung der Engine für Commander Keen";
+            currentAusgangsrechnungsposition.Steuersatz = 0.16M;
+            currentAusgangsrechnungsposition.StueckpreisNetto = 50M;
+            currentAusgangsrechnungsposition.Stueckzahl = 100;
+            currentAusgangsrechnungsposition.ZugehoerigeAbrechnungseinheit = aeStunden;
+            currentAusgangsrechnungsposition.ZugehoerigeAuftragsposition = apGESpieleentwicklung;
+            currentAusgangsrechnungsposition.ZugehoerigeKostenstelle = kstCarmack;
+            currentAusgangsrechnungsposition.ZugehoerigeRechnung = currentAusgangsrechnung;
+            
+            currentAusgangsrechnung.Rechnungspositionen.Add(currentAusgangsrechnungsposition);
+
+            currentAusgangsrechnungsposition = await doePaAdminService.CreateAusgangsrechnungspositionAsync(cancellationToken);
+
+            currentAusgangsrechnungsposition.PositionsNummer = 2;
+            currentAusgangsrechnungsposition.LeistungszeitraumBis = new(1991, 2, 28);
+            currentAusgangsrechnungsposition.LeistungszeitraumVon = new(1991, 2, 1);
+            currentAusgangsrechnungsposition.NettobetragWaehrung = wEuro;
+            currentAusgangsrechnungsposition.Positionsbeschreibung = "Design der Sprites für Commander Keen";
+            currentAusgangsrechnungsposition.Steuersatz = 0.16M;
+            currentAusgangsrechnungsposition.StueckpreisNetto = 45M;
+            currentAusgangsrechnungsposition.Stueckzahl = 50;
+            currentAusgangsrechnungsposition.ZugehoerigeAbrechnungseinheit = aeStunden;
+            currentAusgangsrechnungsposition.ZugehoerigeAuftragsposition = apGESpieleentwicklung;
+            currentAusgangsrechnungsposition.ZugehoerigeKostenstelle = kstHall;
+            currentAusgangsrechnungsposition.ZugehoerigeRechnung = currentAusgangsrechnung;
+
+            currentAusgangsrechnung.Rechnungspositionen.Add(currentAusgangsrechnungsposition);
 
             await doePaAdminService.SaveChangesAsync(cancellationToken);
 

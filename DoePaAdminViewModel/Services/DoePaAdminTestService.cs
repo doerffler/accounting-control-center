@@ -1,4 +1,4 @@
-﻿using DoePaAdminDataModel.API;
+using DoePaAdminDataModel.API;
 using DoePaAdminDataModel.Kostenrechnung;
 using DoePaAdminDataModel.Stammdaten;
 using System;
@@ -359,6 +359,11 @@ namespace DoePaAdmin.ViewModel.Services
         }
 
         public Task<IEnumerable<EmployeeInvoicedHours>> GetEmployeeInvoicedHours(string email, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Ausgangsrechnungsposition> CreateAusgangsrechnungspositionAsync(CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }

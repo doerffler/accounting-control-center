@@ -77,7 +77,9 @@ namespace DoePaAdmin.ViewModel.Services
         public Task<Ausgangsrechnung> CreateAusgangsrechnungAsync(CancellationToken cancellationToken = default);
 
         public void RemoveAusgangsrechnung(Ausgangsrechnung ausgangsrechnungToRemove);
-        
+
+        public Task<Ausgangsrechnungsposition> CreateAusgangsrechnungspositionAsync(CancellationToken cancellationToken = default);
+            
         #endregion
 
         #region Masterdata
