@@ -110,7 +110,7 @@ namespace DoePaAdmin.ViewModel.Services
             return await AddDataToDbSetAsync(DBContext.Anstellungsdetails, cancellationToken);
         }
 
-        public async Task<IEnumerable<EmployeeInvoicedHours>> GetEmployeeInvoicedHours(string email, DateTime from, DateTime to, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<EmployeeInvoicedHours>> GetEmployeeInvoicedHoursAsync(string email, DateTime from, DateTime to, CancellationToken cancellationToken = default)
         {
             var result = DBContext
                 .Ausgangsrechnungspositionen
@@ -130,7 +130,7 @@ namespace DoePaAdmin.ViewModel.Services
                     .ToList()
                     .GroupBy(arp => arp.ZugehoerigeAuftragsposition.Auftrag.ZugehoerigesProjekt)
                     .Select(project => new EmployeeInvoicedHours {
-                        Month = "",
+                        Month = string.Format("{0}-{1}", to.Year, to.Month),
                         Project = project.Key.Projektname,
                         Customer = project.Key.Rechnungsempfaenger.ZugehoerigerKunde.Kundenname,
                         HoursCount = (double)project.Sum(p => p.Stueckzahl),

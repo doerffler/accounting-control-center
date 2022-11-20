@@ -31,7 +31,7 @@ namespace DoePaAdminWebAPI.Controllers
                 DateTime fromDate = DateTime.Parse(from);
                 DateTime toDate = DateTime.Parse(to).AddMonths(1).AddDays(-1);
 
-                IEnumerable<EmployeeInvoicedHours> result = await _viewModel.GetEmployeeInvoicedHours(email, fromDate, toDate);
+                IEnumerable<EmployeeInvoicedHours> result = await _viewModel.GetEmployeeInvoicedHoursAsync(email, fromDate, toDate);
 
                 return Ok(result);
             }

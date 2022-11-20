@@ -32,7 +32,7 @@ namespace DoePaAdmin.ViewModel.Services
 
         public Task<Anstellungsdetail> CreateAnstellungsdetailAsync(CancellationToken cancellationToken = default);
 
-        public Task<IEnumerable<EmployeeInvoicedHours>> GetEmployeeInvoicedHours(string email, DateTime from, DateTime to, CancellationToken cancellationToken = default);
+        public Task<IEnumerable<EmployeeInvoicedHours>> GetEmployeeInvoicedHoursAsync(string email, DateTime from, DateTime to, CancellationToken cancellationToken = default);
 
         #endregion
 
