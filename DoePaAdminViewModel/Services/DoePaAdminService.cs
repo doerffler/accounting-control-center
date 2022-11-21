@@ -125,8 +125,8 @@ namespace DoePaAdmin.ViewModel.Services
                         .Include(arp => arp.ZugehoerigeAbrechnungseinheit)
                     .Where(arp => arp.ZugehoerigeAuftragsposition.Auftrag.VerantwortlicherMitarbeiter.Email == email)
                     .Where(arp => arp.ZugehoerigeAbrechnungseinheit.Name.Equals("Stunden"))
-                    .Where(arp => arp.LeistungszeitraumVon >= from)
-                    .Where(arp => arp.LeistungszeitraumBis <= to)
+                    .Where(arp => arp.LeistungszeitraumVon <= to)
+                    .Where(arp => arp.LeistungszeitraumBis >= to)
                     .ToList()
                     .GroupBy(arp => arp.ZugehoerigeAuftragsposition.Auftrag.ZugehoerigesProjekt)
                     .Select(project => new EmployeeInvoicedHours {
