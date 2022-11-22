@@ -118,10 +118,10 @@ namespace DoePaAdmin.ViewModel.Services
 
             var query = DBContext.Ausgangsrechnungspositionen
                             .Include(arp => arp.ZugehoerigeAuftragsposition)
-                            .ThenInclude(zap => zap.Auftrag)
-                                .ThenInclude(a => a.ZugehoerigesProjekt)
-                                    .ThenInclude(p => p.Rechnungsempfaenger)
-                                        .ThenInclude(r => r.ZugehoerigerKunde)
+                                .ThenInclude(zap => zap.Auftrag)
+                                    .ThenInclude(a => a.ZugehoerigesProjekt)
+                                        .ThenInclude(p => p.Rechnungsempfaenger)
+                                            .ThenInclude(r => r.ZugehoerigerKunde)
                             .Include(arp => arp.ZugehoerigeAbrechnungseinheit)
                             .Where(arp => arp.ZugehoerigeKostenstelle == maKostenstelle && arp.LeistungszeitraumBis >= from && arp.LeistungszeitraumBis <= to);
 
