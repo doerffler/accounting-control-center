@@ -1,6 +1,7 @@
 ﻿using DoePaAdmin.ViewModel.Model;
 using DoePaAdminDataAdapter.DoePaAdmin;
-using DoePaAdminDataModel.API;
+using DoePaAdminDataModel.DPApp;
+using DoePaAdminDataModel.DTO;
 using DoePaAdminDataModel.Kostenrechnung;
 using DoePaAdminDataModel.Stammdaten;
 using Microsoft.EntityFrameworkCore;
@@ -110,33 +111,36 @@ namespace DoePaAdmin.ViewModel.Services
             return await AddDataToDbSetAsync(DBContext.Anstellungsdetails, cancellationToken);
         }
 
-        public async Task<IEnumerable<EmployeeInvoicedHours>> GetEmployeeInvoicedHoursAsync(string email, DateTime from, DateTime to, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<EmployeeAccountingDTO>> GetEmployeeAccountingAsync(string email, DateTime from, DateTime to, CancellationToken cancellationToken = default)
         {
-            var result = DBContext
-                .Ausgangsrechnungspositionen
-                        .Include(arp => arp.ZugehoerigeRechnung)
-                        .Include(arp => arp.ZugehoerigeKostenstelle)
-                        .Include(arp => arp.ZugehoerigeAuftragsposition)
+
+            Kostenstelle maKostenstelle = DBContext.Mitarbeiter.Where(ma => ma.Email == email).Select(ma => ma.ZugehoerigeKostenstelle).First();
+
+            var query = DBContext.Ausgangsrechnungspositionen
+                            .Include(arp => arp.ZugehoerigeAuftragsposition)
                             .ThenInclude(zap => zap.Auftrag)
                                 .ThenInclude(a => a.ZugehoerigesProjekt)
                                     .ThenInclude(p => p.Rechnungsempfaenger)
                                         .ThenInclude(r => r.ZugehoerigerKunde)
-                        .Include(arp => arp.ZugehoerigeAuftragsposition.Auftrag.VerantwortlicherMitarbeiter)
-                        .Include(arp => arp.ZugehoerigeAbrechnungseinheit)
-                    .Where(arp => arp.ZugehoerigeAuftragsposition.Auftrag.VerantwortlicherMitarbeiter.Email == email)
-                    .Where(arp => arp.ZugehoerigeAbrechnungseinheit.Name.Equals("Stunden"))
-                    .Where(arp => arp.LeistungszeitraumVon <= to)
-                    .Where(arp => arp.LeistungszeitraumBis >= to)
-                    .ToList()
-                    .GroupBy(arp => arp.ZugehoerigeAuftragsposition.Auftrag.ZugehoerigesProjekt)
-                    .Select(project => new EmployeeInvoicedHours {
-                        Month = string.Format("{0}-{1}", to.Year, to.Month),
-                        Project = project.Key.Projektname,
-                        Customer = project.Key.Rechnungsempfaenger.ZugehoerigerKunde.Kundenname,
-                        HoursCount = (double)project.Sum(p => p.Stueckzahl),
-                    });
+                            .Include(arp => arp.ZugehoerigeAbrechnungseinheit)
+                            .Where(arp => arp.ZugehoerigeKostenstelle == maKostenstelle)
+                            .Where(arp => arp.LeistungszeitraumBis >= from)
+                            .Where(arp => arp.LeistungszeitraumBis <= to);
 
-            return result;
+            IEnumerable<Ausgangsrechnungsposition> queryData = await GetDataFromDbSetAsync(query, cancellationToken);
+
+            IEnumerable<EmployeeAccountingDTO> dtoObject = queryData
+                            .GroupBy(arp => new { arp.ZugehoerigeAuftragsposition.Auftrag.ZugehoerigesProjekt, arp.ZugehoerigeAbrechnungseinheit, arp.LeistungszeitraumBis.Year, arp.LeistungszeitraumBis.Month })
+                            .Select(project => new EmployeeAccountingDTO {
+                                Month = string.Format("{0}-{1}", project.Key.Year, project.Key.Month),
+                                Project = project.Key.ZugehoerigesProjekt.Projektname,
+                                Customer = project.Key.ZugehoerigesProjekt.Rechnungsempfaenger.ZugehoerigerKunde.Kundenname,
+                                AccountingCount = project.Sum(p => p.Stueckzahl),
+                                AccountingUnitName = project.Key.ZugehoerigeAbrechnungseinheit.Name
+                            });
+
+            return dtoObject;
+
         }
 
         #endregion

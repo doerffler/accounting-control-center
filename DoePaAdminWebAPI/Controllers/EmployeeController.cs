@@ -1,4 +1,4 @@
-﻿using DoePaAdminDataModel.API;
+﻿using DoePaAdminDataModel.DTO;
 using DoePaAdmin.ViewModel.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -22,18 +22,33 @@ namespace DoePaAdminWebAPI.Controllers
             _viewModel = viewModel;
         }
 
-        [HttpGet("current/invoiced")]
-        public async Task<IActionResult> InvoicedByCurrentUser(string from, string to)
+        [HttpGet("current/accounted")]
+        public async Task<IActionResult> GetAccountingForCurrentUser(string from, string to)
         {
             try
             {
+                
+                bool datesParsed = false;
+
                 string? email = User.FindFirst(ClaimTypes.Name)?.Value;
-                DateTime fromDate = DateTime.Parse(from);
-                DateTime toDate = DateTime.Parse(to).AddMonths(1).AddDays(-1);
 
-                IEnumerable<EmployeeInvoicedHours> result = await _viewModel.GetEmployeeInvoicedHoursAsync(email, fromDate, toDate);
+                DateTime fromDate = DateTime.MinValue;
+                DateTime toDate = DateTime.MaxValue;
 
-                return Ok(result);
+                datesParsed = DateTime.TryParse(from, out fromDate);
+                datesParsed = datesParsed && DateTime.TryParse(to, out toDate);
+
+                if (!string.IsNullOrEmpty(email) && datesParsed)
+                {
+                    IEnumerable<EmployeeAccountingDTO> result = await _viewModel.GetEmployeeAccountingAsync(email, fromDate, toDate);
+
+                    return Ok(result);
+                }
+                else
+                {
+                    return BadRequest();
+                }
+                                
             }
             catch(Exception ex)
             {

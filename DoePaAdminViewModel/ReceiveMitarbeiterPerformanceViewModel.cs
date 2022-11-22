@@ -1,5 +1,5 @@
 ﻿using DoePaAdmin.ViewModel.Services;
-using DoePaAdminDataModel.API;
+using DoePaAdminDataModel.DTO;
 using Microsoft.Toolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
@@ -13,11 +13,11 @@ namespace DoePaAdmin.ViewModel
     public class ReceiveMitarbeiterPerformanceViewModel : DoePaAdminViewModelBase
     {
         #region InvoicedHours
-        private IEnumerable<EmployeeInvoicedHours> _invoicedHours;
-        public IEnumerable<EmployeeInvoicedHours> InvoicedHours
+        private IEnumerable<EmployeeAccountingDTO> _accountingInformation;
+        public IEnumerable<EmployeeAccountingDTO> AccountingInformation
         {
-            get => _invoicedHours;
-            set => SetProperty(ref _invoicedHours, value, true);
+            get => _accountingInformation;
+            set => SetProperty(ref _accountingInformation, value, true);
         }
         #endregion
 
@@ -26,9 +26,9 @@ namespace DoePaAdmin.ViewModel
 
         }
 
-        public async Task<IEnumerable<EmployeeInvoicedHours>> GetEmployeeInvoicedHoursAsync(string email, DateTime from, DateTime to)
+        public async Task<IEnumerable<EmployeeAccountingDTO>> GetEmployeeAccountingAsync(string email, DateTime from, DateTime to)
         {            
-            return await DoePaAdminService.GetEmployeeInvoicedHoursAsync(email, from, to, default);
+            return await DoePaAdminService.GetEmployeeAccountingAsync(email, from, to, default);
         }
     }
 }
