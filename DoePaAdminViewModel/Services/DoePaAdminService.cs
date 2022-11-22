@@ -123,9 +123,7 @@ namespace DoePaAdmin.ViewModel.Services
                                     .ThenInclude(p => p.Rechnungsempfaenger)
                                         .ThenInclude(r => r.ZugehoerigerKunde)
                             .Include(arp => arp.ZugehoerigeAbrechnungseinheit)
-                            .Where(arp => arp.ZugehoerigeKostenstelle == maKostenstelle)
-                            .Where(arp => arp.LeistungszeitraumBis >= from)
-                            .Where(arp => arp.LeistungszeitraumBis <= to);
+                            .Where(arp => arp.ZugehoerigeKostenstelle == maKostenstelle && arp.LeistungszeitraumBis >= from && arp.LeistungszeitraumBis <= to);
 
             IEnumerable<Ausgangsrechnungsposition> queryData = await GetDataFromDbSetAsync(query, cancellationToken);
 
