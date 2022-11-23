@@ -79,7 +79,7 @@ namespace DoePaAdmin.ViewModel
                         Chart.Legends.Add(new Legend()
                         {
                             LegendTitle = "Legende",
-                            LegendPosition = LegendPosition.TopRight,
+                            LegendPosition = LegendPosition.BottomCenter,
                         });
 
                         // Zeitraum
@@ -132,6 +132,24 @@ namespace DoePaAdmin.ViewModel
                             ist.Points.Add(new(beginnDouble, (double)auftragsposition.Auftragsvolumen));
 
                             // Ausgangsrechnungspositionen abfragen
+                            Task.Run(async () => await DoePaAdminService.GetAusgangsrechnungenAsync())
+                                .Result
+                                .SelectMany(rechnung => rechnung.Rechnungspositionen)
+                                .Where(arp => arp.ZugehoerigeAuftragsposition.AuftragspositionID == auftragsposition.AuftragspositionID)
+                                .GroupBy(arp => arp.LeistungszeitraumBis)
+                                .Select(arp => new
+                                {
+                                    Date = arp.Key.Date,
+                                    Remaining = arp.Sum(rb => rb.Stueckzahl)
+                                }).ToList().ForEach(pos =>
+                                {
+                                    DataPoint last = ist.Points.Last();
+                                    
+                                    double day = Axis.ToDouble(pos.Date);
+                                    double remaining = last.Y - (double)pos.Remaining;
+
+                                    ist.Points.Add(new(day, remaining));
+                                });
 
                             Chart.Series.Add(ist);
                         }
