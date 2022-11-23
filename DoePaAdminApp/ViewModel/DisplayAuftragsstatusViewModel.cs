@@ -9,11 +9,29 @@ using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.Series;
 using OxyPlot.Legends;
+using System.Collections.Generic;
+using Microsoft.VisualBasic;
+using DoePaAdminDataModel.Kostenrechnung;
 
 namespace DoePaAdmin.ViewModel
 {
     public class DisplayAuftragsstatusViewModel : DoePaAdminViewModelBase
     {
+        protected readonly List<OxyColor> Colors = new List<OxyColor>()
+        {
+                OxyColor.FromRgb(0x4E, 0x9A, 0x06),
+                OxyColor.FromRgb(0xC8, 0x8D, 0x00),
+                OxyColor.FromRgb(0xCC, 0x00, 0x00),
+                OxyColor.FromRgb(0x20, 0x4A, 0x87),
+                OxyColors.Red,
+                OxyColors.Orange,
+                OxyColors.Yellow,
+                OxyColors.Green,
+                OxyColors.Blue,
+                OxyColors.Indigo,
+                OxyColors.Violet
+        };
+
         private Geschaeftsjahr _selectedGeschaeftsjahr;
         public Geschaeftsjahr SelectedGeschaeftsjahr
         {
@@ -61,27 +79,61 @@ namespace DoePaAdmin.ViewModel
                         Chart.Legends.Add(new Legend()
                         {
                             LegendTitle = "Legende",
-                            LegendPosition = LegendPosition.TopCenter,
+                            LegendPosition = LegendPosition.TopRight,
                         });
 
-                        CategoryAxis Month = new() { Position = AxisPosition.Bottom, Title = "Monat" };
-                        Month.Labels.Add("Januar");
-                        Month.Labels.Add("Februar");
-                        Month.Labels.Add("März");
-                        Chart.Axes.Add(Month);
+                        // Zeitraum
+                        double beginnDouble = Axis.ToDouble(auftrag.Auftragsbeginn);
+                        double endeDouble = Axis.ToDouble(auftrag.Auftragsende);
 
-                        Chart.Axes.Add(new LinearAxis { Position = AxisPosition.Left, Title = "Restbudget" });
+                        Chart.Axes.Add(new DateTimeAxis()
+                        {
+                            Position = AxisPosition.Bottom,
+                            Title = "Zeitraum",
+                            StringFormat = "dd.MM.yyyy",
+                            MinorIntervalType = DateTimeIntervalType.Days,
+                            IntervalType = DateTimeIntervalType.Days,
+                            MajorGridlineStyle = LineStyle.Solid,
+                            MinorGridlineStyle = LineStyle.None,
+                            Minimum = beginnDouble,
+                            Maximum = endeDouble
+                        });
+
+                        Chart.Axes.Add(new LinearAxis()
+                        {
+                            Position = AxisPosition.Left,
+                            Title = "Volumen",
+                            MajorGridlineStyle = LineStyle.Solid,
+                            MinorGridlineStyle = LineStyle.None,
+                            Minimum = 0
+                        });
 
                         foreach (Auftragsposition auftragsposition in auftrag.Auftragspositionen)
                         {
-                            LineSeries soll = new();
-                            soll.Title = string.Format("{0} (Soll)", auftragsposition.Positionsbezeichnung);
-
-                            soll.Points.Add(new DataPoint(0, 660));
-                            soll.Points.Add(new DataPoint(1, 520));
-                            soll.Points.Add(new DataPoint(2, 380));
-
+                            // Soll Verlauf
+                            LineSeries soll = new()
+                            {
+                                StrokeThickness = 2,
+                                Dashes = new double[] {1},
+                                Color = Colors[auftragsposition.AuftragspositionNummer],
+                                Title = string.Format("{0} (Soll)", auftragsposition.Positionsbezeichnung)
+                            };
+                            soll.Points.Add(new(beginnDouble, (double)auftragsposition.Auftragsvolumen));
+                            soll.Points.Add(new(endeDouble, 0));
                             Chart.Series.Add(soll);
+
+                            // Ist Verlauf
+                            LineSeries ist = new()
+                            {
+                                StrokeThickness = 2,
+                                Color = Colors[auftragsposition.AuftragspositionNummer],
+                                Title = string.Format("{0} (Ist)", auftragsposition.Positionsbezeichnung)
+                            };
+                            ist.Points.Add(new(beginnDouble, (double)auftragsposition.Auftragsvolumen));
+
+                            // Ausgangsrechnungspositionen abfragen
+
+                            Chart.Series.Add(ist);
                         }
 
                         Charts.Add(Chart);
