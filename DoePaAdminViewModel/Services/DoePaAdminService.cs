@@ -14,6 +14,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace DoePaAdmin.ViewModel.Services
 {
@@ -245,6 +246,26 @@ namespace DoePaAdmin.ViewModel.Services
 
             return newAusgangsrechnungsposition;
 
+        }
+
+        public async Task<IEnumerable<RemainingBudgetOnOrdersDTO>> GetRemainingBudgetOnOrdersAsync(int AuftragspositionID, CancellationToken cancellationToken = default)
+        {
+            var query = DBContext.Ausgangsrechnungen
+                .Include(ar => ar.Rechnungspositionen)
+                .SelectMany(rechnung => rechnung.Rechnungspositionen)
+                .Where(arp => arp.ZugehoerigeAuftragsposition.AuftragspositionID == AuftragspositionID);
+
+            IEnumerable<Ausgangsrechnungsposition> queryData = await GetDataFromDbSetAsync(query, cancellationToken);
+
+            IEnumerable<RemainingBudgetOnOrdersDTO> dtoObject = queryData
+                                .GroupBy(arp => arp.LeistungszeitraumBis)
+                                .Select(arp => new RemainingBudgetOnOrdersDTO
+                                {
+                                    Date = arp.Key.Date,
+                                    Remaining = arp.Sum(rb => rb.Stueckzahl)
+                                }).ToList();
+
+            return dtoObject;
         }
 
         #endregion

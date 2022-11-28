@@ -367,5 +367,10 @@ namespace DoePaAdmin.ViewModel.Services
         {
             throw new NotImplementedException();
         }
+
+        public Task<IEnumerable<RemainingBudgetOnOrdersDTO>> GetRemainingBudgetOnOrdersAsync(int AuftragspositionID, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

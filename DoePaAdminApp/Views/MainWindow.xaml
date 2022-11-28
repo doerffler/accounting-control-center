@@ -250,7 +250,7 @@
                             </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <oxy:PlotView 
+                                    <oxy:PlotView
                                         Controller="{Binding Source={StaticResource Locator}, Path=DisplayAuftragsstatusViewModel.Controller}" 
                                         Model="{Binding}" 
                                         Width="500" 
