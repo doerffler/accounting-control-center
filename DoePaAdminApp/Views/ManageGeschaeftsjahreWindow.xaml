@@ -9,7 +9,7 @@
         xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
         xmlns:p="clr-namespace:DoePaAdminApp.Properties"
         Title="{x:Static p:Resources.strManageGeschaeftsjahre}"
-        Icon="{svg:SvgImage /Resources/undraw_schedule_re_2vro.svg}"
+        Icon="{svg:SvgImage /Resources/reshot_calendar.svg}"
         DataContext="{Binding Source={StaticResource Locator}, Path=ManageGeschaeftsjahreViewModel}">
     <Window.Resources>
         <CollectionViewSource x:Key="cvsGeschaeftsjahre" Source="{Binding Geschaeftsjahre}">
