@@ -1,6 +1,5 @@
 ﻿using DoePaAdmin.ViewModel.Model;
 using DoePaAdminDataAdapter.DoePaAdmin;
-using DoePaAdminDataModel.DPApp;
 using DoePaAdminDataModel.DTO;
 using DoePaAdminDataModel.Kostenrechnung;
 using DoePaAdminDataModel.Stammdaten;
@@ -8,13 +7,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace DoePaAdmin.ViewModel.Services
 {

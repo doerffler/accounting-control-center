@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using Microsoft.VisualBasic;
 using DoePaAdminDataModel.Kostenrechnung;
 using DoePaAdminDataModel.DTO;
+using System.Threading;
 
 namespace DoePaAdmin.ViewModel
 {
@@ -57,13 +58,13 @@ namespace DoePaAdmin.ViewModel
                 case nameof(SelectedGeschaeftsjahr):
                     Auftraege = new ObservableCollection<Auftrag>(SelectedGeschaeftsjahr.Auftraege);
 
-                    DrawCharts();
+                    _ = DrawChartsAsync();
 
                     break;
             }
         }
 
-        private async void DrawCharts()
+        private async Task DrawChartsAsync(CancellationToken cancellationToken = default)
         {
             Charts.Clear();
 
@@ -133,7 +134,7 @@ namespace DoePaAdmin.ViewModel
 
                     // Ausgangsrechnungspositionen abfragen
                     IEnumerable<RemainingBudgetOnOrdersDTO> chartPositions = await DoePaAdminService
-                        .GetRemainingBudgetOnOrdersAsync(auftragsposition.AuftragspositionID);
+                        .GetRemainingBudgetOnOrdersAsync(auftragsposition.AuftragspositionID, cancellationToken);
                     
                     chartPositions.ToList().ForEach(pos =>
                     {
