@@ -88,10 +88,12 @@ namespace DoePaAdmin.ViewModel.Services
 
         public Task<IEnumerable<Waehrung>> GetWaehrungenAsync(CancellationToken cancellationToken = default);
         public Task<Waehrung> CreateWaehrungAsync(CancellationToken cancellationToken = default);
+        public Task<Waehrung> CreateWaehrungAsync(String waehrungName, string waehrungZeichen, string waehrungISO, CancellationToken cancellationToken = default);
         void RemoveWaehrung(Waehrung selectedWaehrung);
 
         public Task<IEnumerable<Abrechnungseinheit>> GetAbrechnungseinheitenAsync(CancellationToken cancellationToken = default);
         public Task<Abrechnungseinheit> CreateAbrechnungseinheitAsync(CancellationToken cancellationToken = default);
+        public Task<Abrechnungseinheit> CreateAbrechnungseinheitAsync(string name, string abkuerzung, CancellationToken cancellationToken = default);
         void RemoveAbrechnungseinheit(Abrechnungseinheit selectedAbrechnungseinheit);
 
         public Task<IEnumerable<T>> GetGeschaeftspartnerAsync<T>(CancellationToken cancellationToken = default) where T : Geschaeftspartner;
@@ -99,7 +101,8 @@ namespace DoePaAdmin.ViewModel.Services
         public void RemoveGeschaeftspartner<T>(T debitorToRemove) where T : Geschaeftspartner;
 
         public Task<IEnumerable<Geschaeftsjahr>> GetGeschaeftsjahreAsync(CancellationToken cancellationToken = default);
-        public Task<Geschaeftsjahr> CreateGeschaeftsjahrAsync(CancellationToken cancellationToken = default);        
+        public Task<Geschaeftsjahr> CreateGeschaeftsjahrAsync(CancellationToken cancellationToken = default);
+        public Task<Geschaeftsjahr> CreateGeschaeftsjahrAsync(DateTime datumBis, DateTime datumVon, string geschaeftsjahrName, string rechnungsprefix, CancellationToken cancellationToken = default);
         public void RemoveGeschaeftsjahr(Geschaeftsjahr selectedGeschaeftsjahr);
 
         public Task<IEnumerable<Feiertag>> GetFeiertageAsync(CancellationToken cancellationToken = default);
@@ -108,6 +111,7 @@ namespace DoePaAdmin.ViewModel.Services
 
         public Task<IEnumerable<Postleitzahl>> GetPostleitzahlenAsync(CancellationToken cancellationToken = default);
         public Task<Postleitzahl> CreatePostleitzahlAsync(CancellationToken cancellationToken = default);
+        public Task<Postleitzahl> CreatePostleitzahlAsync(string bundesland, string land, string ortsname, string plz, CancellationToken cancellationToken = default);
         public void RemovePostleitzahl(Postleitzahl selectedPostleitzahl);
 
         public Task<IEnumerable<Adresse>> GetAdressenAsync(CancellationToken cancellationToken = default);
@@ -116,10 +120,12 @@ namespace DoePaAdmin.ViewModel.Services
 
         public Task<IEnumerable<Kostenstellenart>> GetKostenstellenartenAsync(CancellationToken cancellationToken = default);
         public Task<Kostenstellenart> CreateKostenstellenartAsync(CancellationToken cancellationToken = default);
+        public Task<Kostenstellenart> CreateKostenstellenartAsync(string bezeichnung, CancellationToken cancellationToken = default);
         public void RemoveKostenstellenart(Kostenstellenart selectedKostenstellenart);
 
         public Task<IEnumerable<Taetigkeit>> GetTaetigkeitenAsync(CancellationToken cancellationToken = default);
         public Task<Taetigkeit> CreateTaetigkeitAsync(CancellationToken cancellationToken = default);
+        public Task<Taetigkeit> CreateTaetigkeitAsync(String taetigkeitsbeschreibung, CancellationToken cancellationToken = default);
         public void RemoveTaetigkeit(Taetigkeit selectedTaetigkeit);
 
         #endregion
