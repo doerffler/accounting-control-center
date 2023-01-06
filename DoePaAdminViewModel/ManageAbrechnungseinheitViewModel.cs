@@ -1,6 +1,6 @@
 ﻿using DoePaAdmin.ViewModel.Services;
 using DoePaAdminDataModel.Stammdaten;
-using Microsoft.Toolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -32,7 +32,7 @@ namespace DoePaAdmin.ViewModel
         }
         #endregion
 
-        public ManageAbrechnungseinheitViewModel(IDoePaAdminService doePaAdminService) : base(doePaAdminService)
+        public ManageAbrechnungseinheitViewModel(IDoePaAdminService doePaAdminService, IUserInteractionService userInteractionService) : base(doePaAdminService, userInteractionService)
         {
             Abrechnungseinheiten = new(Task.Run(async () => await DoePaAdminService.GetAbrechnungseinheitenAsync()).Result);
 
