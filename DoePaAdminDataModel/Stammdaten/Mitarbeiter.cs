@@ -11,6 +11,8 @@ namespace DoePaAdminDataModel.Stammdaten
 
         public string Kuerzel { get; set; }
 
+        public string Email { get; set; }
+
         public int? PersonalnummerDatev { get; set; }
 
         public Kostenstelle ZugehoerigeKostenstelle { get; set; }

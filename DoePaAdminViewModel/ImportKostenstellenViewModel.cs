@@ -1,6 +1,6 @@
 ﻿using DoePaAdmin.ViewModel.Services;
 using DoePaAdminDataModel.Stammdaten;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;

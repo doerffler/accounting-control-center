@@ -1,14 +1,13 @@
 ﻿using DoePaAdmin.ViewModel.Model;
 using DoePaAdminDataAdapter.DoePaAdmin;
+using DoePaAdminDataModel.DTO;
 using DoePaAdminDataModel.Kostenrechnung;
 using DoePaAdminDataModel.Stammdaten;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -108,6 +107,36 @@ namespace DoePaAdmin.ViewModel.Services
             return await AddDataToDbSetAsync(DBContext.Anstellungsdetails, cancellationToken);
         }
 
+        public async Task<IEnumerable<EmployeeAccountingDTO>> GetEmployeeAccountingAsync(string email, DateTime from, DateTime to, CancellationToken cancellationToken = default)
+        {
+
+            Kostenstelle maKostenstelle = DBContext.Mitarbeiter.Where(ma => ma.Email == email).Select(ma => ma.ZugehoerigeKostenstelle).First();
+
+            var query = DBContext.Ausgangsrechnungspositionen
+                            .Include(arp => arp.ZugehoerigeAuftragsposition)
+                                .ThenInclude(zap => zap.Auftrag)
+                                    .ThenInclude(a => a.ZugehoerigesProjekt)
+                                        .ThenInclude(p => p.Rechnungsempfaenger)
+                                            .ThenInclude(r => r.ZugehoerigerKunde)
+                            .Include(arp => arp.ZugehoerigeAbrechnungseinheit)
+                            .Where(arp => arp.ZugehoerigeKostenstelle == maKostenstelle && arp.LeistungszeitraumBis >= from && arp.LeistungszeitraumBis <= to);
+
+            IEnumerable<Ausgangsrechnungsposition> queryData = await GetDataFromDbSetAsync(query, cancellationToken);
+
+            IEnumerable<EmployeeAccountingDTO> dtoObject = queryData
+                            .GroupBy(arp => new { arp.ZugehoerigeAuftragsposition.Auftrag.ZugehoerigesProjekt, arp.ZugehoerigeAbrechnungseinheit, arp.LeistungszeitraumBis.Year, arp.LeistungszeitraumBis.Month })
+                            .Select(project => new EmployeeAccountingDTO {
+                                Month = string.Format("{0}-{1}", project.Key.Year, project.Key.Month),
+                                Project = project.Key.ZugehoerigesProjekt.Projektname,
+                                Customer = project.Key.ZugehoerigesProjekt.Rechnungsempfaenger.ZugehoerigerKunde.Kundenname,
+                                AccountingCount = project.Sum(p => p.Stueckzahl),
+                                AccountingUnitName = project.Key.ZugehoerigeAbrechnungseinheit.Name
+                            });
+
+            return dtoObject;
+
+        }
+
         #endregion
 
         #region Kunde
@@ -205,7 +234,34 @@ namespace DoePaAdmin.ViewModel.Services
             _ = DBContext.Ausgangsrechnungen.Remove(ausgangsrechnungToRemove);
         }
 
+        public async Task<Ausgangsrechnungsposition> CreateAusgangsrechnungspositionAsync(CancellationToken cancellationToken = default)
+        {
 
+            Ausgangsrechnungsposition newAusgangsrechnungsposition = await AddDataToDbSetAsync(DBContext.Ausgangsrechnungspositionen, cancellationToken);
+
+            return newAusgangsrechnungsposition;
+
+        }
+
+        public async Task<IEnumerable<RemainingBudgetOnOrdersDTO>> GetRemainingBudgetOnOrdersAsync(int AuftragspositionID, CancellationToken cancellationToken = default)
+        {
+            var query = DBContext.Ausgangsrechnungen
+                .Include(ar => ar.Rechnungspositionen)
+                .SelectMany(rechnung => rechnung.Rechnungspositionen)
+                .Where(arp => arp.ZugehoerigeAuftragsposition.AuftragspositionID == AuftragspositionID);
+
+            IEnumerable<Ausgangsrechnungsposition> queryData = await GetDataFromDbSetAsync(query, cancellationToken);
+
+            IEnumerable<RemainingBudgetOnOrdersDTO> dtoObject = queryData
+                                .GroupBy(arp => arp.LeistungszeitraumBis)
+                                .Select(arp => new RemainingBudgetOnOrdersDTO
+                                {
+                                    Date = arp.Key.Date,
+                                    Remaining = arp.Sum(rb => rb.Stueckzahl)
+                                }).ToList();
+
+            return dtoObject;
+        }
 
         #endregion
 
@@ -282,7 +338,7 @@ namespace DoePaAdmin.ViewModel.Services
 
         public async Task<IEnumerable<Geschaeftsjahr>> GetGeschaeftsjahreAsync(CancellationToken cancellationToken = default)
         {
-            return await GetDataFromDbSetAsync(DBContext.Geschaeftsjahre, cancellationToken);
+            return await GetDataFromDbSetAsync(DBContext.Geschaeftsjahre.Include(g => g.Auftraege).ThenInclude(a => a.Auftragspositionen), cancellationToken);
         }
 
         public async Task<Geschaeftsjahr> CreateGeschaeftsjahrAsync(CancellationToken cancellationToken = default)

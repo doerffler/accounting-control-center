@@ -1,4 +1,5 @@
-﻿using DoePaAdminDataModel.Stammdaten;
+﻿using DoePaAdminDataModel.Kostenrechnung;
+using DoePaAdminDataModel.Stammdaten;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -22,8 +23,11 @@ namespace DoePaAdmin.ViewModel.Services
             await CreateMitarbeiterAsync(doePaAdminService, cancellationToken);
 
             await CreateAuftraegeAsync(doePaAdminService, cancellationToken);
+
+            await CreateAusgangsrechnungenAsync(doePaAdminService, cancellationToken);
                         
         }
+
 
         public static async Task CreateMasterdataAsync(IDoePaAdminService doePaAdminService, CancellationToken cancellationToken = default)
         {
@@ -55,13 +59,16 @@ namespace DoePaAdmin.ViewModel.Services
             Abrechnungseinheit currentAbrechnungseinheit;
 
             currentAbrechnungseinheit = await doePaAdminService.CreateAbrechnungseinheitAsync(cancellationToken);
-            currentAbrechnungseinheit.AbrechnungseinheitName = "Stunden";
+            currentAbrechnungseinheit.Name = "Stunden";
+            currentAbrechnungseinheit.Abkuerzung = "h";
 
             currentAbrechnungseinheit = await doePaAdminService.CreateAbrechnungseinheitAsync(cancellationToken);
-            currentAbrechnungseinheit.AbrechnungseinheitName = "Personentage";
+            currentAbrechnungseinheit.Name = "Personentage";
+            currentAbrechnungseinheit.Abkuerzung = "PT";
 
             currentAbrechnungseinheit = await doePaAdminService.CreateAbrechnungseinheitAsync(cancellationToken);
-            currentAbrechnungseinheit.AbrechnungseinheitName = "Stück";
+            currentAbrechnungseinheit.Name = "Stück";
+            currentAbrechnungseinheit.Abkuerzung = "Stk";
 
             Waehrung currentWaehrung;
 
@@ -387,21 +394,27 @@ namespace DoePaAdmin.ViewModel.Services
             
             Kostenstelle kstOfficeRichardson = await doePaAdminService.CreateKostenstelleAsync(cancellationToken);
             kstOfficeRichardson.Kostenstellenbezeichnung = "Office Richardson";
+            kstOfficeRichardson.KostenstellenNummer = 5020;
             kstOfficeRichardson.ZugehoerigeKostenstellenart = listKostenstellenarten.Where(ka => ka.Kostenstellenartbezeichnung.Equals("Geschäftsräume")).First();
 
             Kostenstelle currentKostenstelle;
 
             currentKostenstelle = await doePaAdminService.CreateKostenstelleAsync(cancellationToken);
             currentKostenstelle.Kostenstellenbezeichnung = "Bobby Prince";
+            currentKostenstelle.KostenstellenNummer = 2002;
             currentKostenstelle.ZugehoerigeKostenstellenart = listKostenstellenarten.Where(ka => ka.Kostenstellenartbezeichnung.Equals("Freie Mitarbeiter/innen")).First();
 
+            int currentKostenstellenNummer = 1003;
             foreach (string currentEmployeeName in new String[] { "John Carmack", "John Romero", "Adrian Carmack", "Tom Hall" })
             { 
-            currentKostenstelle = await doePaAdminService.CreateKostenstelleAsync(cancellationToken);
-            currentKostenstelle.Kostenstellenbezeichnung = currentEmployeeName;
-            currentKostenstelle.ZugehoerigeKostenstellenart = listKostenstellenarten.Where(ka => ka.Kostenstellenartbezeichnung.Equals("Angestellte Mitarbeiter/innen")).First(); ;
-            currentKostenstelle.UebergeordneteKostenstellen.Add(kstOfficeRichardson);
-            kstOfficeRichardson.UntergeordneteKostenstellen.Add(currentKostenstelle);
+                currentKostenstelle = await doePaAdminService.CreateKostenstelleAsync(cancellationToken);
+                currentKostenstelle.Kostenstellenbezeichnung = currentEmployeeName;
+                currentKostenstelle.KostenstellenNummer = currentKostenstellenNummer;
+                currentKostenstelle.ZugehoerigeKostenstellenart = listKostenstellenarten.Where(ka => ka.Kostenstellenartbezeichnung.Equals("Angestellte Mitarbeiter/innen")).First(); ;
+                currentKostenstelle.UebergeordneteKostenstellen.Add(kstOfficeRichardson);
+                kstOfficeRichardson.UntergeordneteKostenstellen.Add(currentKostenstelle);
+
+                currentKostenstellenNummer += 3;
             }
 
             await doePaAdminService.SaveChangesAsync(cancellationToken);
@@ -417,8 +430,9 @@ namespace DoePaAdmin.ViewModel.Services
             Adresse currentAdresse;
             Auftragsposition currentAuftragsposition;
 
-            Abrechnungseinheit aeStunden = (await doePaAdminService.GetAbrechnungseinheitenAsync(cancellationToken)).Where(ae => ae.AbrechnungseinheitName.Equals("Stunden")).First();
+            Abrechnungseinheit aeStunden = (await doePaAdminService.GetAbrechnungseinheitenAsync(cancellationToken)).Where(ae => ae.Name.Equals("Stunden")).First();
             Waehrung wEuro = (await doePaAdminService.GetWaehrungenAsync(cancellationToken)).Where(w => w.WaehrungName.Equals("Euro")).First();
+            Geschaeftsjahr gJahr1991 = (await doePaAdminService.GetGeschaeftsjahreAsync(cancellationToken)).Where(gj => gj.Name.Equals("1991")).First();
 
             IEnumerable<Mitarbeiter> listMitarbeiter = await doePaAdminService.GetMitarbeiterAsync(cancellationToken);
 
@@ -462,6 +476,7 @@ namespace DoePaAdmin.ViewModel.Services
             currentAuftrag.Auftragsdatum = new(1991, 2, 1);
             currentAuftrag.Auftragsende = new(1991, 03, 31);
             currentAuftrag.Auftragsname = "Gamer's Edge Q1 1991";
+            currentAuftrag.ZugehoerigesGeschaeftsjahr = gJahr1991;
             currentAuftrag.ZugehoerigesProjekt = currentProjekt;
             currentProjekt.ZugehoerigeAuftraege.Add(currentAuftrag);
             currentAuftrag.VerantwortlicherMitarbeiter = listMitarbeiter.Where(m => m.Nachname.Equals("Hall")).First();
@@ -481,6 +496,68 @@ namespace DoePaAdmin.ViewModel.Services
             currentKunde.Kundenname = "Apogee";
 
             await doePaAdminService.SaveChangesAsync(cancellationToken);
+
+        }
+
+        private static async Task CreateAusgangsrechnungenAsync(IDoePaAdminService doePaAdminService, CancellationToken cancellationToken)
+        {
+
+            Ausgangsrechnung currentAusgangsrechnung;
+            Ausgangsrechnungsposition currentAusgangsrechnungsposition;
+
+            Geschaeftsjahr gJahr1991 = (await doePaAdminService.GetGeschaeftsjahreAsync(cancellationToken)).Where(gj => gj.Name.Equals("1991")).First();
+            Debitor gamersEdge = (await doePaAdminService.GetGeschaeftspartnerAsync<Debitor>(cancellationToken)).Where(gp => gp.Anschrift.Equals("Gamer's Edge")).First();
+            Waehrung wEuro = (await doePaAdminService.GetWaehrungenAsync(cancellationToken)).Where(w => w.WaehrungName.Equals("Euro")).First();
+            Abrechnungseinheit aeStunden = (await doePaAdminService.GetAbrechnungseinheitenAsync(cancellationToken)).Where(ae => ae.Name.Equals("Stunden")).First();
+            Auftragsposition apGESpieleentwicklung = (await doePaAdminService.GetAuftragspositionAsync(cancellationToken)).Where(ap => ap.Positionsbezeichnung.Equals("Spieleentwicklung")).First();
+            Kostenstelle kstCarmack = (await doePaAdminService.GetKostenstellenAsync(cancellationToken)).Where(kst => kst.Kostenstellenbezeichnung.Equals("John Carmack")).First();
+            Kostenstelle kstHall = (await doePaAdminService.GetKostenstellenAsync(cancellationToken)).Where(kst => kst.Kostenstellenbezeichnung.Equals("Tom Hall")).First();
+
+            currentAusgangsrechnung = await doePaAdminService.CreateAusgangsrechnungAsync(cancellationToken);
+            
+            currentAusgangsrechnung.RechnungsDatum = new(1991, 2, 28);
+            currentAusgangsrechnung.BezahltDatum = new(1991,3,15);
+            currentAusgangsrechnung.RechnungsNummer = "19910001";
+            currentAusgangsrechnung.ZugehoerigesGeschaeftsjahr = gJahr1991;
+            currentAusgangsrechnung.Rechnungsempfaenger = gamersEdge;
+
+            currentAusgangsrechnungsposition = await doePaAdminService.CreateAusgangsrechnungspositionAsync(cancellationToken);
+
+            currentAusgangsrechnungsposition.PositionsNummer = 1;
+            currentAusgangsrechnungsposition.LeistungszeitraumBis = new(1991, 2, 28);
+            currentAusgangsrechnungsposition.LeistungszeitraumVon = new(1991, 2, 1);
+            currentAusgangsrechnungsposition.NettobetragWaehrung = wEuro;
+            currentAusgangsrechnungsposition.Positionsbeschreibung = "Entwicklung der Engine für Commander Keen";
+            currentAusgangsrechnungsposition.Steuersatz = 0.16M;
+            currentAusgangsrechnungsposition.StueckpreisNetto = 50M;
+            currentAusgangsrechnungsposition.Stueckzahl = 100;
+            currentAusgangsrechnungsposition.ZugehoerigeAbrechnungseinheit = aeStunden;
+            currentAusgangsrechnungsposition.ZugehoerigeAuftragsposition = apGESpieleentwicklung;
+            currentAusgangsrechnungsposition.ZugehoerigeKostenstelle = kstCarmack;
+            currentAusgangsrechnungsposition.ZugehoerigeRechnung = currentAusgangsrechnung;
+            
+            currentAusgangsrechnung.Rechnungspositionen.Add(currentAusgangsrechnungsposition);
+
+            currentAusgangsrechnungsposition = await doePaAdminService.CreateAusgangsrechnungspositionAsync(cancellationToken);
+
+            currentAusgangsrechnungsposition.PositionsNummer = 2;
+            currentAusgangsrechnungsposition.LeistungszeitraumBis = new(1991, 2, 28);
+            currentAusgangsrechnungsposition.LeistungszeitraumVon = new(1991, 2, 1);
+            currentAusgangsrechnungsposition.NettobetragWaehrung = wEuro;
+            currentAusgangsrechnungsposition.Positionsbeschreibung = "Design der Sprites für Commander Keen";
+            currentAusgangsrechnungsposition.Steuersatz = 0.16M;
+            currentAusgangsrechnungsposition.StueckpreisNetto = 45M;
+            currentAusgangsrechnungsposition.Stueckzahl = 50;
+            currentAusgangsrechnungsposition.ZugehoerigeAbrechnungseinheit = aeStunden;
+            currentAusgangsrechnungsposition.ZugehoerigeAuftragsposition = apGESpieleentwicklung;
+            currentAusgangsrechnungsposition.ZugehoerigeKostenstelle = kstHall;
+            currentAusgangsrechnungsposition.ZugehoerigeRechnung = currentAusgangsrechnung;
+
+            currentAusgangsrechnung.Rechnungspositionen.Add(currentAusgangsrechnungsposition);
+
+            await doePaAdminService.SaveChangesAsync(cancellationToken);
+
+            //TODO: We need a canceled invoice here.
 
         }
 

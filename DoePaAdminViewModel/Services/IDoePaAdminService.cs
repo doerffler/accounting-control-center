@@ -1,4 +1,5 @@
-﻿using DoePaAdminDataModel.Kostenrechnung;
+﻿using DoePaAdminDataModel.DTO;
+using DoePaAdminDataModel.Kostenrechnung;
 using DoePaAdminDataModel.Stammdaten;
 using System;
 using System.Collections.Generic;
@@ -29,7 +30,9 @@ namespace DoePaAdmin.ViewModel.Services
 
         public void RemoveMitarbeiter(Mitarbeiter mitarbeiterToRemove);
 
-        Task<Anstellungsdetail> CreateAnstellungsdetailAsync(CancellationToken cancellationToken = default);
+        public Task<Anstellungsdetail> CreateAnstellungsdetailAsync(CancellationToken cancellationToken = default);
+
+        public Task<IEnumerable<EmployeeAccountingDTO>> GetEmployeeAccountingAsync(string email, DateTime from, DateTime to, CancellationToken cancellationToken = default);
 
         #endregion
 
@@ -70,11 +73,15 @@ namespace DoePaAdmin.ViewModel.Services
         #region Ausgangsrechnungen
 
         public Task<IEnumerable<Ausgangsrechnung>> GetAusgangsrechnungenAsync(CancellationToken cancellationToken = default);
+        
+        public Task<IEnumerable<RemainingBudgetOnOrdersDTO>> GetRemainingBudgetOnOrdersAsync(int AuftragspositionID, CancellationToken cancellationToken = default);
 
         public Task<Ausgangsrechnung> CreateAusgangsrechnungAsync(CancellationToken cancellationToken = default);
 
         public void RemoveAusgangsrechnung(Ausgangsrechnung ausgangsrechnungToRemove);
-        
+
+        public Task<Ausgangsrechnungsposition> CreateAusgangsrechnungspositionAsync(CancellationToken cancellationToken = default);
+            
         #endregion
 
         #region Masterdata

@@ -1,4 +1,5 @@
-﻿using DoePaAdminDataModel.Kostenrechnung;
+using DoePaAdminDataModel.DTO;
+using DoePaAdminDataModel.Kostenrechnung;
 using DoePaAdminDataModel.Stammdaten;
 using System;
 using System.Collections.Generic;
@@ -353,6 +354,21 @@ namespace DoePaAdmin.ViewModel.Services
         }
 
         public void RemoveSkill(Skill selectedSkill)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<EmployeeAccountingDTO>> GetEmployeeAccountingAsync(string email, DateTime from, DateTime to, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Ausgangsrechnungsposition> CreateAusgangsrechnungspositionAsync(CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<RemainingBudgetOnOrdersDTO>> GetRemainingBudgetOnOrdersAsync(int AuftragspositionID, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
