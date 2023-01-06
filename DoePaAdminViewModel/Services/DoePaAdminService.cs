@@ -49,6 +49,16 @@ namespace DoePaAdmin.ViewModel.Services
             return await AddDataToDbSetAsync(DBContext.Kostenstellen, cancellationToken);
         }
 
+        public async Task<Kostenstelle> CreateKostenstelleAsync(string kostenstellenBezeichnung, int kostenstellenNummer, Kostenstellenart kostenstellenArt, CancellationToken cancellationToken = default)
+        {
+            Kostenstelle newKostenstelle = await CreateKostenstelleAsync(cancellationToken);
+            newKostenstelle.Kostenstellenbezeichnung = kostenstellenBezeichnung;
+            newKostenstelle.KostenstellenNummer = kostenstellenNummer;
+            newKostenstelle.ZugehoerigeKostenstellenart = kostenstellenArt;
+
+            return newKostenstelle;
+        }
+
         public void RemoveKostenstelle(Kostenstelle kostenstelleToRemove)
         {
             _ = DBContext.Kostenstellen.Remove(kostenstelleToRemove);
@@ -166,7 +176,16 @@ namespace DoePaAdmin.ViewModel.Services
         {
             return await AddDataToDbSetAsync(DBContext.Kunden, cancellationToken);
         }
-        
+
+        public async Task<Kunde> CreateKundeAsync(string kundenname, string kundennameLang = null, CancellationToken cancellationToken = default)
+        {
+            Kunde newKunde = await CreateKundeAsync(cancellationToken);
+            newKunde.Kundenname = kundenname;
+            newKunde.Langname = !string.IsNullOrEmpty(kundennameLang) ? kundennameLang : kundenname;
+
+            return newKunde;
+        }
+
         #endregion
 
         #region Auftrag
@@ -212,6 +231,14 @@ namespace DoePaAdmin.ViewModel.Services
         public async Task<Skill> CreateSkillAsync(CancellationToken cancellationToken = default)
         {
             return await AddDataToDbSetAsync(DBContext.Skills, cancellationToken);
+        }
+
+        public async Task<Skill> CreateSkillAsync(string skillName, CancellationToken cancellationToken = default)
+        {
+            Skill newSkill = await CreateSkillAsync(cancellationToken);
+            newSkill.SkillName = skillName;
+
+            return newSkill;
         }
 
         public async Task<IEnumerable<Skill>> GetSkillsAsync(CancellationToken cancellationToken = default)
@@ -261,6 +288,8 @@ namespace DoePaAdmin.ViewModel.Services
 
         public async Task<IEnumerable<RemainingBudgetOnOrdersDTO>> GetRemainingBudgetOnOrdersAsync(int AuftragspositionID, CancellationToken cancellationToken = default)
         {
+
+            //TODO: I tend to move this to our DTOFactory introduced today.
             var query = DBContext.Ausgangsrechnungen
                 .Include(ar => ar.Rechnungspositionen)
                 .SelectMany(rechnung => rechnung.Rechnungspositionen)

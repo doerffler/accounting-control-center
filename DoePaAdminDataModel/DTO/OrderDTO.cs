@@ -1,0 +1,23 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DoePaAdminDataModel.DTO
+{
+    public class OrderDTO
+    {
+
+        public DateTime OrderStartDate { get; set; }
+
+        public DateTime OrderEndDate { get; set; }
+
+        public DateTime OrderDate { get; set; }
+
+        public string OrderName { get; set; }
+        public string BusinessYear { get; set; }
+        public int ContractNumber { get; set; }
+        public string CodeOfEmployeeInCharge { get; set; }
+    }
+}

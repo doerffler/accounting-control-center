@@ -18,6 +18,7 @@ namespace DoePaAdmin.ViewModel.Services
 
         public Task<IEnumerable<Kostenstelle>> GetKostenstellenAsync(CancellationToken cancellationToken = default);
         public Task<Kostenstelle> CreateKostenstelleAsync(CancellationToken cancellationToken = default);
+        public Task<Kostenstelle> CreateKostenstelleAsync(string kostenstellenBezeichnung, int kostenstellenNummer, Kostenstellenart kostenstellenArt, CancellationToken cancellationToken = default);
         public void RemoveKostenstelle(Kostenstelle kostenstelleToRemove);
 
         #endregion 
@@ -40,6 +41,7 @@ namespace DoePaAdmin.ViewModel.Services
 
         public Task<IEnumerable<Kunde>> GetKundenAsync(CancellationToken cancellationToken = default);
         public Task<Kunde> CreateKundeAsync(CancellationToken cancellationToken = default);
+        public Task<Kunde> CreateKundeAsync(string kundenname, string kundennameLang = null, CancellationToken cancellationToken = default);
         public void RemoveKunde(Kunde selectedKunde);
 
         #endregion
@@ -47,15 +49,12 @@ namespace DoePaAdmin.ViewModel.Services
         #region Projekt
 
         public Task<IEnumerable<Projekt>> GetProjekteAsync(CancellationToken cancellationToken = default);
-
         public Task<Projekt> CreateProjektAsync(CancellationToken cancellationToken = default);
-
         public Task<Skill> CreateSkillAsync(CancellationToken cancellationToken = default);
-
+        public Task<Skill> CreateSkillAsync(string skillName, CancellationToken cancellationToken = default);
         public Task<IEnumerable<Skill>> GetSkillsAsync(CancellationToken cancellationToken = default);
-       
-        void RemoveSkill(Skill selectedSkill);
-
+        public void RemoveSkill(Skill selectedSkill);
+         
         #endregion
 
         #region Auftrag

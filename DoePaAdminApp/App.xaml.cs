@@ -57,7 +57,6 @@ namespace DoePaAdminApp
             services.Configure<DPAppConnectionSettings>(configuration.GetSection(nameof(DPAppConnectionSettings)));
             services.Configure<DoePaAdminConnectionSettings>(configuration.GetSection(nameof(DoePaAdminConnectionSettings)));
 
-            services.AddScoped<ISampleService, SampleService>();
             services.AddScoped<IDPAppService, DPAppService>();
             services.AddScoped<IDoePaAdminService, DoePaAdminService>();
             services.AddScoped<IUserInteractionService, UserInteractionService>();
