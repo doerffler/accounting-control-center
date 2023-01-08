@@ -9,7 +9,6 @@ namespace DoePaAdminDataModel.DTO
     public class CustomerDTO
     {
         public string CustomerName { get; set; }
-
         public string InvoiceRecipient { get; set; }
         public string PostalCode { get; set; }
         public string StreetNumber { get; set; }

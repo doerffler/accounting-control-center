@@ -88,16 +88,16 @@ namespace DoePaAdmin.ViewModel.Services
             IEnumerable<Kostenstellenart> listKostenstellenarten = await doePaAdminService.GetKostenstellenartenAsync(cancellationToken);
             
             //Create a cost center for a freelancer
-            _ = await doePaAdminService.CreateKostenstelleAsync("Bobby Prince", 2002, listKostenstellenarten.Where(ka => ka.Kostenstellenartbezeichnung.Equals("Freie Mitarbeiter/innen")).First(), cancellationToken);
+            _ = await doePaAdminService.CreateKostenstelleAsync("Bobby Prince", 2002, listKostenstellenarten.First(ka => ka.Kostenstellenartbezeichnung.Equals("Freie Mitarbeiter/innen")), cancellationToken);
 
             //Create a cost center for the office, we'll use this later to assign it to the staff
-            Kostenstelle kstOfficeRichardson = await doePaAdminService.CreateKostenstelleAsync("Office Richardson", 5020, listKostenstellenarten.Where(ka => ka.Kostenstellenartbezeichnung.Equals("Geschäftsräume")).First(), cancellationToken);
+            Kostenstelle kstOfficeRichardson = await doePaAdminService.CreateKostenstelleAsync("Office Richardson", 5020, listKostenstellenarten.First(ka => ka.Kostenstellenartbezeichnung.Equals("Geschäftsräume")), cancellationToken);
 
             //Create some staff cost center
             Kostenstelle currentKostenstelle;
             foreach (var currentEmployee in new[] { new { Name = "John Carmack", KstNummer = 1003 }, new { Name = "John Romero", KstNummer = 1006 }, new { Name = "Adrian Carmack", KstNummer = 1009 }, new { Name = "Tom Hall", KstNummer = 1012 } })
             { 
-                currentKostenstelle = await doePaAdminService.CreateKostenstelleAsync(currentEmployee.Name, currentEmployee.KstNummer, listKostenstellenarten.Where(ka => ka.Kostenstellenartbezeichnung.Equals("Angestellte Mitarbeiter/innen")).First(), cancellationToken);
+                currentKostenstelle = await doePaAdminService.CreateKostenstelleAsync(currentEmployee.Name, currentEmployee.KstNummer, listKostenstellenarten.First(ka => ka.Kostenstellenartbezeichnung.Equals("Angestellte Mitarbeiter/innen")), cancellationToken);
                 currentKostenstelle.UebergeordneteKostenstellen.Add(kstOfficeRichardson);
                 kstOfficeRichardson.UntergeordneteKostenstellen.Add(currentKostenstelle);
             }
@@ -124,7 +124,7 @@ namespace DoePaAdmin.ViewModel.Services
                     StreetNumber = "23",
                     Street = "Freundallee",
                     CostCenterNumber = 1003,
-                    HiringDetails = new HiringDetailDTO[]
+                    HiringDetails = new[]
                     {
                         new HiringDetailDTO() { MonthlySalaryCount = 12, WorkingHoursCount = 40, ValidFrom = new DateTime(1991, 2, 1), MonthlySalaryAmount = 250, IsTerminated = false, JobDescription = "Technical Director"},
                         new HiringDetailDTO() { MonthlySalaryCount = 12, WorkingHoursCount = 40, ValidFrom = new DateTime(1991, 11, 30), MonthlySalaryAmount = 2090, IsTerminated = false, JobDescription = "Technical Director"},
@@ -145,7 +145,7 @@ namespace DoePaAdmin.ViewModel.Services
                     StreetNumber = "59",
                     Street = "Georgstr.",
                     CostCenterNumber = 1006,
-                    HiringDetails = new HiringDetailDTO[]
+                    HiringDetails = new[]
                     {
                         new HiringDetailDTO() { MonthlySalaryCount = 12, WorkingHoursCount = 40, ValidFrom = new DateTime(1991, 2, 1), MonthlySalaryAmount = 250, IsTerminated = false, JobDescription = "Game Designer"},
                         new HiringDetailDTO() { MonthlySalaryCount = 12, WorkingHoursCount = 40, ValidFrom = new DateTime(1991, 11, 30), MonthlySalaryAmount = 2090, IsTerminated = false, JobDescription = "Game Designer"},
@@ -166,7 +166,7 @@ namespace DoePaAdmin.ViewModel.Services
                     StreetNumber = "1",
                     Street = "Heinrich-Heine-Str. 1",
                     CostCenterNumber = 1012,
-                    HiringDetails = new HiringDetailDTO[]
+                    HiringDetails = new[]
                     {
                         new HiringDetailDTO() { MonthlySalaryCount = 12, WorkingHoursCount = 40, ValidFrom = new DateTime(1991, 2, 1), MonthlySalaryAmount = 250, IsTerminated = false, JobDescription = "Game Designer"},
                         new HiringDetailDTO() { MonthlySalaryCount = 12, WorkingHoursCount = 40, ValidFrom = new DateTime(1991, 11, 30), MonthlySalaryAmount = 2090, IsTerminated = false, JobDescription = "Game Designer"},
@@ -187,7 +187,7 @@ namespace DoePaAdmin.ViewModel.Services
                     StreetNumber = "43",
                     Street = "Marienstr.",
                     CostCenterNumber = 1009,
-                    HiringDetails = new HiringDetailDTO[]
+                    HiringDetails = new[]
                     {
                         new HiringDetailDTO() { MonthlySalaryCount = 12, WorkingHoursCount = 40, ValidFrom = new DateTime(1991, 2, 1), MonthlySalaryAmount = 250, IsTerminated = false, JobDescription = "Artist"},
                         new HiringDetailDTO() { MonthlySalaryCount = 12, WorkingHoursCount = 40, ValidFrom = new DateTime(1991, 11, 30), MonthlySalaryAmount = 2090, IsTerminated = false, JobDescription = "Artist"},
@@ -216,111 +216,190 @@ namespace DoePaAdmin.ViewModel.Services
 
         private static async Task CreateAuftraegeAsync(IDoePaAdminService doePaAdminService, CancellationToken cancellationToken = default)
         {
-
+            
+            IEnumerable<CustomerDTO> customers = new[]
+            {
+                new CustomerDTO()
+                {
+                    CustomerName = "Softdisk",
+                    InvoiceRecipient = "Gamer's Edge",
+                    PostalCode = "80807",
+                    StreetNumber = "17",
+                    Street = "Walter-Gropius-Straße",
+                    Projects = new[]
+                    {
+                        new ProjectDTO()
+                        {
+                            ProjectName = "Vertragliche Verbindlichkeiten gegenüber Softdisk",
+                            ProjectStartDate = new(1991, 2, 1),
+                            ProjectEndDate = new(1992, 12, 31),
+                            Skills = { "C#", "Grafische Gestaltung" },
+                            Orders = new[]
+                            {
+                                new OrderDTO()
+                                {
+                                    OrderName = "Gamer's Edge Q1 1991",
+                                    OrderDate = new(1991, 2, 1),
+                                    OrderStartDate = new(1991, 2, 1),
+                                    OrderEndDate = new(1991, 03, 31),
+                                    ContractNumber = 1,
+                                    BusinessYear = "1991",
+                                    CodeOfEmployeeInCharge = "TOHA",
+                                    OrderItems = new[]
+                                    {
+                                        new OrderItemDTO()
+                                        {
+                                            OrderItemPosition = 1,
+                                            ItemBillingUnitCode = "h",
+                                            OrderItemDescription = "Spieleentwicklung",
+                                            OrderVolumeAmount = 480,
+                                            ItemCurrencyISO = "EUR"
+                                        }
+                                    }
+                                },
+                                new OrderDTO()
+                                {
+                                    OrderName = "Gamer's Edge Q2 1991",
+                                    OrderDate = new(1991, 4, 1),
+                                    OrderStartDate = new(1991, 4, 1),
+                                    OrderEndDate = new(1991, 6, 30),
+                                    ContractNumber = 2,
+                                    BusinessYear = "1991",
+                                    CodeOfEmployeeInCharge = "TOHA",
+                                    OrderItems = new[]
+                                    {
+                                        new OrderItemDTO()
+                                        {
+                                            OrderItemPosition = 1,
+                                            ItemBillingUnitCode = "h",
+                                            OrderItemDescription = "Spieleentwicklung",
+                                            OrderVolumeAmount = 480,
+                                            ItemCurrencyISO = "EUR"
+                                        }
+                                    }
+                                },
+                                new OrderDTO()
+                                {
+                                    OrderName = "Gamer's Edge Q3 1991",
+                                    OrderDate = new(1991, 7, 1),
+                                    OrderStartDate = new(1991, 7, 1),
+                                    OrderEndDate = new(1991, 9, 30),
+                                    ContractNumber = 2,
+                                    BusinessYear = "1991",
+                                    CodeOfEmployeeInCharge = "TOHA",
+                                    OrderItems = new[]
+                                    {
+                                        new OrderItemDTO()
+                                        {
+                                            OrderItemPosition = 1,
+                                            ItemBillingUnitCode = "h",
+                                            OrderItemDescription = "Spieleentwicklung",
+                                            OrderVolumeAmount = 480,
+                                            ItemCurrencyISO = "EUR"
+                                        }
+                                    }
+                                },
+                                new OrderDTO()
+                                {
+                                    OrderName = "Gamer's Edge Q4 1991",
+                                    OrderDate = new(1991, 10, 1),
+                                    OrderStartDate = new(1991, 10, 1),
+                                    OrderEndDate = new(1991, 12, 31),
+                                    ContractNumber = 2,
+                                    BusinessYear = "1991",
+                                    CodeOfEmployeeInCharge = "TOHA",
+                                    OrderItems = new[]
+                                    {
+                                        new OrderItemDTO()
+                                        {
+                                            OrderItemPosition = 1,
+                                            ItemBillingUnitCode = "h",
+                                            OrderItemDescription = "Spieleentwicklung",
+                                            OrderVolumeAmount = 480,
+                                            ItemCurrencyISO = "EUR"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+            
             Kunde currentKunde;
             Debitor currentRechnungsempfaenger;
             Projekt currentProjekt;
             Auftrag currentAuftrag;
             Auftragsposition currentAuftragsposition;
-
-            Abrechnungseinheit aeStunden = (await doePaAdminService.GetAbrechnungseinheitenAsync(cancellationToken)).Where(ae => ae.Name.Equals("Stunden")).First();
-            Waehrung wEuro = (await doePaAdminService.GetWaehrungenAsync(cancellationToken)).Where(w => w.WaehrungName.Equals("Euro")).First();
             
             IEnumerable<Mitarbeiter> listMitarbeiter = await doePaAdminService.GetMitarbeiterAsync(cancellationToken);
             IEnumerable<Kunde> listKunden = await doePaAdminService.GetKundenAsync(cancellationToken);
             IEnumerable<Postleitzahl> listPostleitzahlen = await doePaAdminService.GetPostleitzahlenAsync(cancellationToken);
             IEnumerable<Skill> listSkills = await doePaAdminService.GetSkillsAsync(cancellationToken);
             IEnumerable<Geschaeftsjahr> listGeschaeftsjahre = await doePaAdminService.GetGeschaeftsjahreAsync(cancellationToken);
+            IEnumerable<Abrechnungseinheit> listAbrechnungseinheiten = await doePaAdminService.GetAbrechnungseinheitenAsync(cancellationToken);
+            IEnumerable<Waehrung> listWaehrungen = await doePaAdminService.GetWaehrungenAsync(cancellationToken);
 
-            CustomerDTO customer = new()
+            foreach (CustomerDTO customer in customers)
             {
-                CustomerName = "Softdisk",
-                InvoiceRecipient = "Gamer's Edge",
-                PostalCode = "80807",
-                StreetNumber = "17",
-                Street = "Walter-Gropius-Straße",
-                Projects = new ProjectDTO[]
-                {
-                    new ProjectDTO()
-                    {
-                        ProjectName = "Vertragliche Verbindlichkeiten gegenüber Softdisk",
-                        ProjectStartDate = new(1991, 2, 1),
-                        ProjectEndDate = new(1992, 12, 31),
-                        Skills = { "C#", "Grafische Gestaltung" },
-                        Orders = new OrderDTO[]
-                        {
-                            new OrderDTO()
-                            {
-                                OrderName = "Gamer's Edge Q1 1991",
-                                OrderDate = new(1991, 2, 1),
-                                OrderStartDate = new(1991, 2, 1),
-                                OrderEndDate = new(1991, 03, 31),
-                                ContractNumber = 1,
-                                BusinessYear = "1991",
-                                CodeOfEmployeeInCharge = "TOHA"
-                            },
-                            new OrderDTO()
-                            {
+                currentKunde = listKunden.First(k => k.Kundenname.Equals(customer.CustomerName));
 
-                            }
+                currentRechnungsempfaenger = await doePaAdminService.CreateGeschaeftspartnerAsync<Debitor>(cancellationToken);
+                currentRechnungsempfaenger.Anschrift = customer.InvoiceRecipient;
+                currentRechnungsempfaenger.ZugehoerigerKunde = currentKunde;
+
+                currentRechnungsempfaenger.ZugehoerigeAdresse = await doePaAdminService.CreateAdresseAsync(cancellationToken);
+                currentRechnungsempfaenger.ZugehoerigeAdresse.ZugehoerigePostleitzahl = listPostleitzahlen.First(plz => plz.PLZ.Equals(customer.PostalCode));
+                currentRechnungsempfaenger.ZugehoerigeAdresse.Strasse = customer.Street;
+                currentRechnungsempfaenger.ZugehoerigeAdresse.Hausnummer = customer.StreetNumber;
+
+                currentKunde.Rechnungsempfaenger.Add(currentRechnungsempfaenger);
+
+                foreach (ProjectDTO project in customer.Projects)
+                { 
+                    currentProjekt = await doePaAdminService.CreateProjektAsync(cancellationToken);
+                    currentProjekt.Projektstart = project.ProjectStartDate;
+                    currentProjekt.Projektende = project.ProjectEndDate;
+                    currentProjekt.Projektname = project.ProjectName;
+
+                    currentProjekt.Rechnungsempfaenger = currentRechnungsempfaenger;
+                    currentRechnungsempfaenger.Projekte.Add(currentProjekt);
+
+                    foreach (string skill in project.Skills)
+                    {
+                        currentProjekt.Skills.Add(listSkills.First(s => s.SkillName.Equals(skill)));
+                    }
+
+                    foreach (OrderDTO order in project.Orders)
+                    { 
+                        currentAuftrag = await doePaAdminService.CreateAuftragAsync(cancellationToken);
+                        currentAuftrag.Auftragsbeginn = order.OrderStartDate;
+                        currentAuftrag.Auftragsdatum = order.OrderDate;
+                        currentAuftrag.Auftragsende = order.OrderEndDate;
+                        currentAuftrag.Auftragsname = order.OrderName;
+                        currentAuftrag.ZugehoerigesGeschaeftsjahr = listGeschaeftsjahre.First(gj => gj.Name.Equals(order.BusinessYear));
+
+                        currentAuftrag.ZugehoerigesProjekt = currentProjekt;
+                        currentProjekt.ZugehoerigeAuftraege.Add(currentAuftrag);
+
+                        currentAuftrag.VerantwortlicherMitarbeiter = listMitarbeiter.First(m => m.Kuerzel.Equals(order.CodeOfEmployeeInCharge));
+                        currentAuftrag.Vertragsnummer = order.ContractNumber;
+
+                        foreach (OrderItemDTO item in order.OrderItems)
+                        {
+                            currentAuftragsposition = await doePaAdminService.CreateAuftragspositionAsync(cancellationToken);
+                            currentAuftragsposition.Abrechnungseinheit = listAbrechnungseinheiten.First(ae => ae.Abkuerzung.Equals(item.ItemBillingUnitCode));;
+                            currentAuftragsposition.AuftragspositionNummer = item.OrderItemPosition;
+                            currentAuftragsposition.Auftragsvolumen = item.OrderVolumeAmount;
+                            currentAuftragsposition.Positionsbezeichnung = item.OrderItemDescription;
+                            currentAuftragsposition.Waehrung = listWaehrungen.First(w => w.WaehrungISO.Equals(item.ItemCurrencyISO));
+
+                            currentAuftragsposition.Auftrag = currentAuftrag;
+                            currentAuftrag.Auftragspositionen.Add(currentAuftragsposition);
                         }
                     }
                 }
-            };
-
-            currentKunde = listKunden.Where(k => k.Kundenname.Equals(customer.CustomerName)).First();
-
-            currentRechnungsempfaenger = await doePaAdminService.CreateGeschaeftspartnerAsync<Debitor>(cancellationToken);
-            currentRechnungsempfaenger.Anschrift = customer.InvoiceRecipient;
-            currentRechnungsempfaenger.ZugehoerigerKunde = currentKunde;
-
-            currentRechnungsempfaenger.ZugehoerigeAdresse = await doePaAdminService.CreateAdresseAsync(cancellationToken);
-            currentRechnungsempfaenger.ZugehoerigeAdresse.ZugehoerigePostleitzahl = listPostleitzahlen.Where(plz => plz.PLZ.Equals(customer.PostalCode)).First();
-            currentRechnungsempfaenger.ZugehoerigeAdresse.Strasse = customer.Street;
-            currentRechnungsempfaenger.ZugehoerigeAdresse.Hausnummer = customer.StreetNumber;
-
-            currentKunde.Rechnungsempfaenger.Add(currentRechnungsempfaenger);
-
-            foreach (ProjectDTO project in customer.Projects)
-            { 
-                currentProjekt = await doePaAdminService.CreateProjektAsync(cancellationToken);
-                currentProjekt.Projektstart = project.ProjectStartDate;
-                currentProjekt.Projektende = project.ProjectEndDate;
-                currentProjekt.Projektname = project.ProjectName;
-
-                currentProjekt.Rechnungsempfaenger = currentRechnungsempfaenger;
-                currentRechnungsempfaenger.Projekte.Add(currentProjekt);
-
-                foreach (string skill in project.Skills)
-                {
-                    currentProjekt.Skills.Add(listSkills.Where(s => s.SkillName.Equals(skill)).First());
-                }
-
-                foreach (OrderDTO order in project.Orders)
-                { 
-                    currentAuftrag = await doePaAdminService.CreateAuftragAsync(cancellationToken);
-                    currentAuftrag.Auftragsbeginn = order.OrderStartDate;
-                    currentAuftrag.Auftragsdatum = order.OrderDate;
-                    currentAuftrag.Auftragsende = order.OrderEndDate;
-                    currentAuftrag.Auftragsname = order.OrderName;
-                    currentAuftrag.ZugehoerigesGeschaeftsjahr = listGeschaeftsjahre.Where(gj => gj.Name.Equals(order.BusinessYear)).First();
-
-                    currentAuftrag.ZugehoerigesProjekt = currentProjekt;
-                    currentProjekt.ZugehoerigeAuftraege.Add(currentAuftrag);
-
-                    currentAuftrag.VerantwortlicherMitarbeiter = listMitarbeiter.Where(m => m.Kuerzel.Equals(order.CodeOfEmployeeInCharge)).First();
-                    currentAuftrag.Vertragsnummer = order.ContractNumber;
-
-                    currentAuftragsposition = await doePaAdminService.CreateAuftragspositionAsync(cancellationToken);
-                    currentAuftragsposition.Abrechnungseinheit = aeStunden;
-                    currentAuftragsposition.AuftragspositionNummer = 1;
-                    currentAuftragsposition.Auftragsvolumen = 480;
-                    currentAuftragsposition.Positionsbezeichnung = "Spieleentwicklung";
-                    currentAuftragsposition.Waehrung = wEuro;
-
-                    currentAuftragsposition.Auftrag = currentAuftrag;
-                    currentAuftrag.Auftragspositionen.Add(currentAuftragsposition);
-                }
+                
             }
 
             await doePaAdminService.SaveChangesAsync(cancellationToken);
@@ -333,13 +412,13 @@ namespace DoePaAdmin.ViewModel.Services
             Ausgangsrechnung currentAusgangsrechnung;
             Ausgangsrechnungsposition currentAusgangsrechnungsposition;
 
-            Geschaeftsjahr gJahr1991 = (await doePaAdminService.GetGeschaeftsjahreAsync(cancellationToken)).Where(gj => gj.Name.Equals("1991")).First();
-            Debitor gamersEdge = (await doePaAdminService.GetGeschaeftspartnerAsync<Debitor>(cancellationToken)).Where(gp => gp.Anschrift.Equals("Gamer's Edge")).First();
-            Waehrung wEuro = (await doePaAdminService.GetWaehrungenAsync(cancellationToken)).Where(w => w.WaehrungName.Equals("Euro")).First();
-            Abrechnungseinheit aeStunden = (await doePaAdminService.GetAbrechnungseinheitenAsync(cancellationToken)).Where(ae => ae.Name.Equals("Stunden")).First();
-            Auftragsposition apGESpieleentwicklung = (await doePaAdminService.GetAuftragspositionAsync(cancellationToken)).Where(ap => ap.Positionsbezeichnung.Equals("Spieleentwicklung")).First();
-            Kostenstelle kstCarmack = (await doePaAdminService.GetKostenstellenAsync(cancellationToken)).Where(kst => kst.Kostenstellenbezeichnung.Equals("John Carmack")).First();
-            Kostenstelle kstHall = (await doePaAdminService.GetKostenstellenAsync(cancellationToken)).Where(kst => kst.Kostenstellenbezeichnung.Equals("Tom Hall")).First();
+            Geschaeftsjahr gJahr1991 = (await doePaAdminService.GetGeschaeftsjahreAsync(cancellationToken)).First(gj => gj.Name.Equals("1991"));
+            Debitor gamersEdge = (await doePaAdminService.GetGeschaeftspartnerAsync<Debitor>(cancellationToken)).First(gp => gp.Anschrift.Equals("Gamer's Edge"));
+            Waehrung wEuro = (await doePaAdminService.GetWaehrungenAsync(cancellationToken)).First(w => w.WaehrungName.Equals("Euro"));
+            Abrechnungseinheit aeStunden = (await doePaAdminService.GetAbrechnungseinheitenAsync(cancellationToken)).First(ae => ae.Name.Equals("Stunden"));
+            Auftragsposition apGESpieleentwicklung = (await doePaAdminService.GetAuftragspositionAsync(cancellationToken)).First(ap => ap.Positionsbezeichnung.Equals("Spieleentwicklung"));
+            Kostenstelle kstCarmack = (await doePaAdminService.GetKostenstellenAsync(cancellationToken)).First(kst => kst.Kostenstellenbezeichnung.Equals("John Carmack"));
+            Kostenstelle kstHall = (await doePaAdminService.GetKostenstellenAsync(cancellationToken)).First(kst => kst.Kostenstellenbezeichnung.Equals("Tom Hall"));
 
             currentAusgangsrechnung = await doePaAdminService.CreateAusgangsrechnungAsync(cancellationToken);
             

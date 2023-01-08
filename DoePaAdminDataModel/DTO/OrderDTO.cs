@@ -10,14 +10,17 @@ namespace DoePaAdminDataModel.DTO
     {
 
         public DateTime OrderStartDate { get; set; }
-
         public DateTime OrderEndDate { get; set; }
-
         public DateTime OrderDate { get; set; }
-
         public string OrderName { get; set; }
         public string BusinessYear { get; set; }
         public int ContractNumber { get; set; }
         public string CodeOfEmployeeInCharge { get; set; }
+        public IList<OrderItemDTO> OrderItems { get; set; }
+
+        public OrderDTO()
+        {
+            OrderItems = new List<OrderItemDTO>();
+        }
     }
 }

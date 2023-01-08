@@ -13,6 +13,12 @@ namespace DoePaAdmin.ViewModel.Services
 {
     public class DoePaAdminTestService : IDoePaAdminService
     {
+        public DoePaAdminTestService()
+        {
+
+            Task.Run(async () => await DoePaAdminTestDataCreator.CreateCompleteTestDataAsync(this));
+
+        }
 
         private List<Kostenstelle> KostenstellenSet { get; set; }
 
@@ -29,13 +35,6 @@ namespace DoePaAdmin.ViewModel.Services
         private List<Geschaeftsjahr> GeschaeftsjahreSet { get; set; } = new();
 
         private List<Abrechnungseinheit> AbrechnungseinheitenSet { get; set; } = new();
-
-        public DoePaAdminTestService()
-        {
-
-            Task.Run(async () => await DoePaAdminTestDataCreator.CreateCompleteTestDataAsync(this));
-
-        }
 
         public Task<bool> CheckForChangesAsync(CancellationToken cancellationToken = default)
         {
@@ -85,6 +84,12 @@ namespace DoePaAdmin.ViewModel.Services
             return Task.FromResult(newKostenstelle);
         }
 
+        public Task<Kostenstelle> CreateKostenstelleAsync(string kostenstellenBezeichnung, int kostenstellenNummer,
+            Kostenstellenart kostenstellenArt, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<Kostenstellenart> CreateKostenstellenartAsync(CancellationToken cancellationToken = default)
         {
             Kostenstellenart newKostenstellenart = new()
@@ -101,6 +106,11 @@ namespace DoePaAdmin.ViewModel.Services
             throw new NotImplementedException();
         }
 
+        public Task<Kunde> CreateKundeAsync(string kundenname, string kundennameLang = null, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<Mitarbeiter> CreateMitarbeiterAsync(CancellationToken cancellationToken = default)
         {
             Mitarbeiter newMitarbeiter = new()
@@ -113,16 +123,6 @@ namespace DoePaAdmin.ViewModel.Services
         }
 
         public Task<Projekt> CreateProjektAsync(CancellationToken cancellationToke = default)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<Abrechnungseinheit>> GetAbrechnungseinheitenAsync(CancellationToken cancellationToken = default)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<Auftrag>> GetAlleAuftraegeAsync(CancellationToken cancellationToke = default)
         {
             throw new NotImplementedException();
         }
@@ -228,21 +228,6 @@ namespace DoePaAdmin.ViewModel.Services
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Kreditor>> GetDebitorenAsync(CancellationToken cancellationToken = default)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Kreditor> CreateKreditorAsync(CancellationToken cancellationToken = default)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void RemoveKreditor(Kreditor kreditorToRemove)
-        {
-            throw new NotImplementedException();
-        }
-
         public Task<IEnumerable<T>> GetGeschaeftspartnerAsync<T>(CancellationToken cancellationToken = default) where T : Geschaeftspartner
         {
             throw new NotImplementedException();
@@ -303,11 +288,6 @@ namespace DoePaAdmin.ViewModel.Services
             throw new NotImplementedException();
         }
 
-        public void RemoveAbrechnungseinheit(Waehrung selectedAbrechnungseinheit)
-        {
-            throw new NotImplementedException();
-        }
-
         public void RemovePostleitzahl(Postleitzahl selectedPostleitzahl)
         {
             throw new NotImplementedException();
@@ -348,6 +328,11 @@ namespace DoePaAdmin.ViewModel.Services
             throw new NotImplementedException();
         }
 
+        public Task<Skill> CreateSkillAsync(string skillName, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<IEnumerable<Skill>> GetSkillsAsync(CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
@@ -368,7 +353,7 @@ namespace DoePaAdmin.ViewModel.Services
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<RemainingBudgetOnOrdersDTO>> GetRemainingBudgetOnOrdersAsync(int AuftragspositionID, CancellationToken cancellationToken = default)
+        public Task<IEnumerable<RemainingBudgetOnOrdersDTO>> GetRemainingBudgetOnOrdersAsync(int auftragspositionID, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
@@ -399,6 +384,36 @@ namespace DoePaAdmin.ViewModel.Services
         }
 
         public Task<Taetigkeit> CreateTaetigkeitAsync(string taetigkeitsbeschreibung, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<Abrechnungseinheit>> GetAbrechnungseinheitenAsync(CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<Auftrag>> GetAlleAuftraegeAsync(CancellationToken cancellationToke = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<Kreditor>> GetDebitorenAsync(CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Kreditor> CreateKreditorAsync(CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveKreditor(Kreditor kreditorToRemove)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveAbrechnungseinheit(Waehrung selectedAbrechnungseinheit)
         {
             throw new NotImplementedException();
         }
