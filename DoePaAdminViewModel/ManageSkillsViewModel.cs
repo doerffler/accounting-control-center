@@ -19,8 +19,6 @@ namespace DoePaAdmin.ViewModel
         public IRelayCommand RemoveSkillCommand { get; }
         public IRelayCommand DragDropCommand { get; }
 
-        private IUserInteractionService UserInteractionService { get; set; }
-
         #region Skill
         private ObservableCollection<Skill> _skills = new();
         public ObservableCollection<Skill> Skills
@@ -40,8 +38,6 @@ namespace DoePaAdmin.ViewModel
         public ManageSkillsViewModel(IDoePaAdminService doePaAdminService, IUserInteractionService userInteractionService) : base(doePaAdminService, userInteractionService)
         {
             Skills = new(Task.Run(async () => await DoePaAdminService.GetSkillsAsync()).Result);
-
-            UserInteractionService = userInteractionService;
 
             AddSkillCommand = new AsyncRelayCommand(DoAddSkillAsync);
 
