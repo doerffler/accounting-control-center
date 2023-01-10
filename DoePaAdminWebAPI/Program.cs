@@ -6,7 +6,7 @@ using Microsoft.Identity.Web;
 using DoePaAdmin.ViewModel.Model;
 using Microsoft.Extensions.Configuration;
 
-var builder = WebApplication.CreateBuilder(args);
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services
@@ -28,7 +28,7 @@ builder.Host.ConfigureAppConfiguration((context, builder) =>
     services.AddScoped<ReceiveMitarbeiterPerformanceViewModel>();
 });
 
-var app = builder.Build();
+WebApplication app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

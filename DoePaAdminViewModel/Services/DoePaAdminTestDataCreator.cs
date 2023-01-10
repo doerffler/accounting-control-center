@@ -326,80 +326,9 @@ namespace DoePaAdmin.ViewModel.Services
                 }
             };
             
-            Kunde currentKunde;
-            Debitor currentRechnungsempfaenger;
-            Projekt currentProjekt;
-            Auftrag currentAuftrag;
-            Auftragsposition currentAuftragsposition;
-            
-            IEnumerable<Mitarbeiter> listMitarbeiter = await doePaAdminService.GetMitarbeiterAsync(cancellationToken);
-            IEnumerable<Kunde> listKunden = await doePaAdminService.GetKundenAsync(cancellationToken);
-            IEnumerable<Postleitzahl> listPostleitzahlen = await doePaAdminService.GetPostleitzahlenAsync(cancellationToken);
-            IEnumerable<Skill> listSkills = await doePaAdminService.GetSkillsAsync(cancellationToken);
-            IEnumerable<Geschaeftsjahr> listGeschaeftsjahre = await doePaAdminService.GetGeschaeftsjahreAsync(cancellationToken);
-            IEnumerable<Abrechnungseinheit> listAbrechnungseinheiten = await doePaAdminService.GetAbrechnungseinheitenAsync(cancellationToken);
-            IEnumerable<Waehrung> listWaehrungen = await doePaAdminService.GetWaehrungenAsync(cancellationToken);
-
             foreach (CustomerDTO customer in customers)
             {
-                currentKunde = listKunden.First(k => k.Kundenname.Equals(customer.CustomerName));
-
-                currentRechnungsempfaenger = await doePaAdminService.CreateGeschaeftspartnerAsync<Debitor>(cancellationToken);
-                currentRechnungsempfaenger.Anschrift = customer.InvoiceRecipient;
-                currentRechnungsempfaenger.ZugehoerigerKunde = currentKunde;
-
-                currentRechnungsempfaenger.ZugehoerigeAdresse = await doePaAdminService.CreateAdresseAsync(cancellationToken);
-                currentRechnungsempfaenger.ZugehoerigeAdresse.ZugehoerigePostleitzahl = listPostleitzahlen.First(plz => plz.PLZ.Equals(customer.PostalCode));
-                currentRechnungsempfaenger.ZugehoerigeAdresse.Strasse = customer.Street;
-                currentRechnungsempfaenger.ZugehoerigeAdresse.Hausnummer = customer.StreetNumber;
-
-                currentKunde.Rechnungsempfaenger.Add(currentRechnungsempfaenger);
-
-                foreach (ProjectDTO project in customer.Projects)
-                { 
-                    currentProjekt = await doePaAdminService.CreateProjektAsync(cancellationToken);
-                    currentProjekt.Projektstart = project.ProjectStartDate;
-                    currentProjekt.Projektende = project.ProjectEndDate;
-                    currentProjekt.Projektname = project.ProjectName;
-
-                    currentProjekt.Rechnungsempfaenger = currentRechnungsempfaenger;
-                    currentRechnungsempfaenger.Projekte.Add(currentProjekt);
-
-                    foreach (string skill in project.Skills)
-                    {
-                        currentProjekt.Skills.Add(listSkills.First(s => s.SkillName.Equals(skill)));
-                    }
-
-                    foreach (OrderDTO order in project.Orders)
-                    { 
-                        currentAuftrag = await doePaAdminService.CreateAuftragAsync(cancellationToken);
-                        currentAuftrag.Auftragsbeginn = order.OrderStartDate;
-                        currentAuftrag.Auftragsdatum = order.OrderDate;
-                        currentAuftrag.Auftragsende = order.OrderEndDate;
-                        currentAuftrag.Auftragsname = order.OrderName;
-                        currentAuftrag.ZugehoerigesGeschaeftsjahr = listGeschaeftsjahre.First(gj => gj.Name.Equals(order.BusinessYear));
-
-                        currentAuftrag.ZugehoerigesProjekt = currentProjekt;
-                        currentProjekt.ZugehoerigeAuftraege.Add(currentAuftrag);
-
-                        currentAuftrag.VerantwortlicherMitarbeiter = listMitarbeiter.First(m => m.Kuerzel.Equals(order.CodeOfEmployeeInCharge));
-                        currentAuftrag.Vertragsnummer = order.ContractNumber;
-
-                        foreach (OrderItemDTO item in order.OrderItems)
-                        {
-                            currentAuftragsposition = await doePaAdminService.CreateAuftragspositionAsync(cancellationToken);
-                            currentAuftragsposition.Abrechnungseinheit = listAbrechnungseinheiten.First(ae => ae.Abkuerzung.Equals(item.ItemBillingUnitCode));;
-                            currentAuftragsposition.AuftragspositionNummer = item.OrderItemPosition;
-                            currentAuftragsposition.Auftragsvolumen = item.OrderVolumeAmount;
-                            currentAuftragsposition.Positionsbezeichnung = item.OrderItemDescription;
-                            currentAuftragsposition.Waehrung = listWaehrungen.First(w => w.WaehrungISO.Equals(item.ItemCurrencyISO));
-
-                            currentAuftragsposition.Auftrag = currentAuftrag;
-                            currentAuftrag.Auftragspositionen.Add(currentAuftragsposition);
-                        }
-                    }
-                }
-                
+                DoePaAdminDTOFactory.CreateCustomerFromDTOAsync(customer, doePaAdminService, cancellationToken);
             }
 
             await doePaAdminService.SaveChangesAsync(cancellationToken);

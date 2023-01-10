@@ -138,7 +138,7 @@ namespace DoePaAdmin.ViewModel.Services
 
             Kostenstelle maKostenstelle = DBContext.Mitarbeiter.Where(ma => ma.Email == email).Select(ma => ma.ZugehoerigeKostenstelle).First();
 
-            var query = DBContext.Ausgangsrechnungspositionen
+            IQueryable<Ausgangsrechnungsposition> query = DBContext.Ausgangsrechnungspositionen
                             .Include(arp => arp.ZugehoerigeAuftragsposition)
                                 .ThenInclude(zap => zap.Auftrag)
                                     .ThenInclude(a => a.ZugehoerigesProjekt)
@@ -152,7 +152,7 @@ namespace DoePaAdmin.ViewModel.Services
             IEnumerable<EmployeeAccountingDTO> dtoObject = queryData
                             .GroupBy(arp => new { arp.ZugehoerigeAuftragsposition.Auftrag.ZugehoerigesProjekt, arp.ZugehoerigeAbrechnungseinheit, arp.LeistungszeitraumBis.Year, arp.LeistungszeitraumBis.Month })
                             .Select(project => new EmployeeAccountingDTO {
-                                Month = string.Format("{0}-{1}", project.Key.Year, project.Key.Month),
+                                Month = $"{project.Key.Year}-{project.Key.Month}",
                                 Project = project.Key.ZugehoerigesProjekt.Projektname,
                                 Customer = project.Key.ZugehoerigesProjekt.Rechnungsempfaenger.ZugehoerigerKunde.Kundenname,
                                 AccountingCount = project.Sum(p => p.Stueckzahl),
@@ -243,7 +243,7 @@ namespace DoePaAdmin.ViewModel.Services
 
         public async Task<IEnumerable<Skill>> GetSkillsAsync(CancellationToken cancellationToken = default)
         {
-            var result = await GetDataFromDbSetAsync(DBContext.Skills, cancellationToken);
+            IEnumerable<Skill> result = await GetDataFromDbSetAsync(DBContext.Skills, cancellationToken);
             return result.Where(s => s.ParentSkill == null);
         }
 
@@ -290,7 +290,7 @@ namespace DoePaAdmin.ViewModel.Services
         {
 
             //TODO: I tend to move this to our DTOFactory introduced today.
-            var query = DBContext.Ausgangsrechnungen
+            IQueryable<Ausgangsrechnungsposition> query = DBContext.Ausgangsrechnungen
                 .Include(ar => ar.Rechnungspositionen)
                 .SelectMany(rechnung => rechnung.Rechnungspositionen)
                 .Where(arp => arp.ZugehoerigeAuftragsposition.AuftragspositionID == AuftragspositionID);
