@@ -15,6 +15,16 @@ namespace DoePaAdminDataModel.DTO
 
         public DateTime ProjectEndDate { get; set; }
 
+        public string CustomerName { get; set; }
+
+        public string InvoiceRecipient { get; set; }
+
+        public string PostalCode { get; set; }
+
+        public string StreetNumber { get; set; }
+
+        public string Street { get; set; }
+
         public IList<string> Skills { get; set; }
 
         public IList<OrderDTO> Orders { get; set; }

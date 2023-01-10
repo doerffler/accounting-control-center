@@ -243,6 +243,11 @@ namespace DoePaAdmin.ViewModel.Services
 
         public async Task<IEnumerable<Skill>> GetSkillsAsync(CancellationToken cancellationToken = default)
         {
+            return await GetDataFromDbSetAsync(DBContext.Skills, cancellationToken);
+        }
+
+        public async Task<IEnumerable<Skill>> GetSkillTreeAsync(CancellationToken cancellationToken = default)
+        {
             IEnumerable<Skill> result = await GetDataFromDbSetAsync(DBContext.Skills, cancellationToken);
             return result.Where(s => s.ParentSkill == null);
         }

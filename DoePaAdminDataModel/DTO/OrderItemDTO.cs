@@ -7,4 +7,5 @@ public class OrderItemDTO
     public decimal OrderVolumeAmount { get; set; }
     public string OrderItemDescription { get; set; }
     public string ItemCurrencyISO { get; set; }
+    public decimal NetUnitPrice { get; set; }
 }

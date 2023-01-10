@@ -37,7 +37,7 @@ namespace DoePaAdmin.ViewModel
 
         public ManageSkillsViewModel(IDoePaAdminService doePaAdminService, IUserInteractionService userInteractionService) : base(doePaAdminService, userInteractionService)
         {
-            Skills = new(Task.Run(async () => await DoePaAdminService.GetSkillsAsync()).Result);
+            Skills = new(Task.Run(async () => await DoePaAdminService.GetSkillTreeAsync()).Result);
 
             AddSkillCommand = new AsyncRelayCommand(DoAddSkillAsync);
 

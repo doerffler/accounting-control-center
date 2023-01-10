@@ -53,6 +53,7 @@ namespace DoePaAdmin.ViewModel.Services
         public Task<Skill> CreateSkillAsync(CancellationToken cancellationToken = default);
         public Task<Skill> CreateSkillAsync(string skillName, CancellationToken cancellationToken = default);
         public Task<IEnumerable<Skill>> GetSkillsAsync(CancellationToken cancellationToken = default);
+        public Task<IEnumerable<Skill>> GetSkillTreeAsync(CancellationToken cancellationToken = default);
         public void RemoveSkill(Skill selectedSkill);
          
         #endregion
