@@ -37,12 +37,12 @@ namespace DoePaAdmin.ViewModel
 
             IEnumerable<OutgoingInvoiceMigration> outgoingInvoiceMigrations = Task.Run(async () => await DPAppService.GetOutgoingInvoicesAsync()).Result;
 
-            Task.Run(async () => await MapDPAppMasterdata(outgoingInvoiceMigrations));
+            Task.Run(async () => await MapDPAppMasterdataAsync(outgoingInvoiceMigrations));
 
             OutgoingInvoices = new(outgoingInvoiceMigrations);
         }
 
-        private async Task MapDPAppMasterdata(IEnumerable<OutgoingInvoiceMigration> outgoingInvoiceMigrations, CancellationToken cancellationToken = default)
+        private async Task MapDPAppMasterdataAsync(IEnumerable<OutgoingInvoiceMigration> outgoingInvoiceMigrations, CancellationToken cancellationToken = default)
         {
             IEnumerable<Kostenstelle> listCostCenters = await DoePaAdminService.GetKostenstellenAsync(cancellationToken);
 
@@ -59,6 +59,10 @@ namespace DoePaAdmin.ViewModel
                     }
 
                 }
+
+
+
+                //Order position next (maybe use the RAID?)
 
             }
 
