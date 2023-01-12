@@ -106,7 +106,7 @@ namespace DoePaAdmin.ViewModel
             IEnumerable<Kostenstelle> listCostCenters = await DoePaAdminService.GetKostenstellenAsync(cancellationToken);
             IEnumerable<Waehrung> listWaehrungen = await DoePaAdminService.GetWaehrungenAsync(cancellationToken);
             IEnumerable<Abrechnungseinheit> listAbrechnungseinheiten = await DoePaAdminService.GetAbrechnungseinheitenAsync(cancellationToken);
-            IEnumerable<Auftragsposition> listAuftragspositionen = Auftragspositionen;
+            IEnumerable<Auftrag> listAuftraege = await DoePaAdminService.GetAuftraegeAsync(cancellationToken);
                         
             foreach (OutgoingInvoiceMigration currentInvoice in outgoingInvoiceMigrations)
             {
@@ -129,7 +129,8 @@ namespace DoePaAdmin.ViewModel
                     currentPosition.RelatedAbrechnungseinheit = MapAbrechnungseinheit(listAbrechnungseinheiten, currentPosition.OutgoingInvoicePositionForImport.TypeOfSettlement);
 
                     //Order position next (maybe use the RAID?)
-
+                    //We could also think about creating a list of orders, that could match the invoice item
+                    Auftrag auftrag = listAuftraege.FirstOrDefault(a => a.Vertragsnummer.Equals(currentPosition.OutgoingInvoicePositionForImport.Raid));
 
                 };
 
