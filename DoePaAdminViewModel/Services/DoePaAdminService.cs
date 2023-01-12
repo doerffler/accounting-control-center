@@ -378,12 +378,13 @@ namespace DoePaAdmin.ViewModel.Services
             return await AddDataToDbSetAsync(DBContext.Waehrungen, cancellationToken);
         }
 
-        public async Task<Waehrung> CreateWaehrungAsync(String waehrungName, string waehrungZeichen, string waehrungISO, CancellationToken cancellationToken = default)
+        public async Task<Waehrung> CreateWaehrungAsync(String waehrungName, string waehrungZeichen, string waehrungISO, Dictionary<string, string> waehrungAdditions = null, CancellationToken cancellationToken = default)
         { 
             Waehrung newWaehrung = await CreateWaehrungAsync(cancellationToken);
             newWaehrung.WaehrungName = waehrungName;
             newWaehrung.WaehrungZeichen = waehrungZeichen;
             newWaehrung.WaehrungISO = waehrungISO;
+            newWaehrung.WaehrungAdditions = waehrungAdditions;
 
             return newWaehrung;
         }
@@ -398,11 +399,12 @@ namespace DoePaAdmin.ViewModel.Services
             return await AddDataToDbSetAsync(DBContext.Abrechnungseinheiten, cancellationToken);
         }
 
-        public async Task<Abrechnungseinheit> CreateAbrechnungseinheitAsync(string name, string abkuerzung, CancellationToken cancellationToken = default)
+        public async Task<Abrechnungseinheit> CreateAbrechnungseinheitAsync(string name, string abkuerzung, Dictionary<string, string> additions = null, CancellationToken cancellationToken = default)
         {
             Abrechnungseinheit newAbrechnungseinheit = await CreateAbrechnungseinheitAsync(cancellationToken);
             newAbrechnungseinheit.Name = name;
             newAbrechnungseinheit.Abkuerzung = abkuerzung;
+            newAbrechnungseinheit.Additions = additions;
 
             return newAbrechnungseinheit;
         }

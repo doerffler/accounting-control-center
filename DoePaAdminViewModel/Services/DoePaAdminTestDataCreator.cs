@@ -45,14 +45,14 @@ namespace DoePaAdmin.ViewModel.Services
             _ = await doePaAdminService.CreateKostenstellenartAsync("Freie Mitarbeiter/innen", cancellationToken);
             _ = await doePaAdminService.CreateKostenstellenartAsync("Sonstige Kostenstellen", cancellationToken);
 
-            _ = await doePaAdminService.CreateAbrechnungseinheitAsync("Stunden", "h", cancellationToken);
-            _ = await doePaAdminService.CreateAbrechnungseinheitAsync("Personentage", "PT", cancellationToken);
-            _ = await doePaAdminService.CreateAbrechnungseinheitAsync("Stück", "Stk", cancellationToken);
+            _ = await doePaAdminService.CreateAbrechnungseinheitAsync("Stunden", "h", new(1) { { "DPAppKey", "Stunden" } }, cancellationToken);
+            _ = await doePaAdminService.CreateAbrechnungseinheitAsync("Personentage", "PT", new(1) { { "DPAppKey", "Tage" } }, cancellationToken);
+            _ = await doePaAdminService.CreateAbrechnungseinheitAsync("Stück", "Stk", new(1) { { "DPAppKey", "Preis" } }, cancellationToken);
 
-            _ = await doePaAdminService.CreateWaehrungAsync("Euro", "€", "EUR", cancellationToken);
-            _ = await doePaAdminService.CreateWaehrungAsync("US Dollar", "$", "USD", cancellationToken);
-            _ = await doePaAdminService.CreateWaehrungAsync("Schweizer Franken", "Fr", "CHF", cancellationToken);
-            _ = await doePaAdminService.CreateWaehrungAsync("Britisches Pfund", "£", "GBP", cancellationToken);
+            _ = await doePaAdminService.CreateWaehrungAsync("Euro", "€", "EUR", new(1) { { "DPAppKey", "€" } }, cancellationToken);
+            _ = await doePaAdminService.CreateWaehrungAsync("US Dollar", "$", "USD", null, cancellationToken);
+            _ = await doePaAdminService.CreateWaehrungAsync("Schweizer Franken", "Fr", "CHF", new(1) { { "DPAppKey", "CHF" } }, cancellationToken);
+            _ = await doePaAdminService.CreateWaehrungAsync("Britisches Pfund", "£", "GBP", null, cancellationToken);
 
             _ = await doePaAdminService.CreateGeschaeftsjahrAsync(new(1991, 12, 31), new(1991, 1, 1), "1991", "1991", cancellationToken);
             _ = await doePaAdminService.CreateGeschaeftsjahrAsync(new(1992, 12, 31), new(1992, 1, 1), "1992", "1992", cancellationToken);

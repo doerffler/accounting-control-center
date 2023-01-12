@@ -422,5 +422,15 @@ namespace DoePaAdmin.ViewModel.Services
         {
             throw new NotImplementedException();
         }
+
+        public Task<Waehrung> CreateWaehrungAsync(string waehrungName, string waehrungZeichen, string waehrungISO, Dictionary<string, string> waehrungAdditions = null, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Abrechnungseinheit> CreateAbrechnungseinheitAsync(string name, string abkuerzung, Dictionary<string, string> additions = null, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

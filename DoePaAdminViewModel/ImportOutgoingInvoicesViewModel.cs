@@ -3,6 +3,7 @@ using DoePaAdmin.ViewModel.Services;
 using DoePaAdminDataModel.DataMigration;
 using DoePaAdminDataModel.DPApp;
 using DoePaAdminDataModel.Stammdaten;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -52,31 +53,66 @@ namespace DoePaAdmin.ViewModel
 
         }
 
+        private static Waehrung MapWaehrung(IEnumerable<Waehrung> listWaehrungen, string waehrungDPApp)
+        {
+            Waehrung waehrungEURO = null;
+
+            foreach (Waehrung currentWaehrung in listWaehrungen)
+            {
+                
+                if (currentWaehrung.WaehrungISO.Equals("EUR"))
+                {
+                    waehrungEURO = currentWaehrung;
+                }
+
+                if (currentWaehrung.WaehrungAdditions != null && currentWaehrung.WaehrungAdditions.TryGetValue("DPAppKey", out string waehrungDPAppValue))
+                {
+                    if (waehrungDPAppValue.Equals(waehrungDPApp))
+                    {
+                        return currentWaehrung;
+                    }
+                }
+            }
+
+            return waehrungEURO;
+        }
+
+        private static Abrechnungseinheit MapAbrechnungseinheit(IEnumerable<Abrechnungseinheit> listAbrechnungseinheiten, string abrechnungseinheitDPApp)
+        {
+            Abrechnungseinheit aeStunden = null;
+
+            foreach (Abrechnungseinheit currentAbrechnungseinheit in listAbrechnungseinheiten)
+            {
+
+                if (currentAbrechnungseinheit.Name.Equals("Stunden"))
+                {
+                    aeStunden = currentAbrechnungseinheit;
+                }
+
+                if (currentAbrechnungseinheit.Additions != null && currentAbrechnungseinheit.Additions.TryGetValue("DPAppKey", out string aeDPAppValue))
+                {
+                    if (aeDPAppValue.Equals(abrechnungseinheitDPApp))
+                    {
+                        return currentAbrechnungseinheit;
+                    }
+                }
+            }
+
+            return aeStunden;
+        }
+
         private async Task MapDPAppMasterdataAsync(IEnumerable<OutgoingInvoiceMigration> outgoingInvoiceMigrations, CancellationToken cancellationToken = default)
         {
             IEnumerable<Kostenstelle> listCostCenters = await DoePaAdminService.GetKostenstellenAsync(cancellationToken);
             IEnumerable<Waehrung> listWaehrungen = await DoePaAdminService.GetWaehrungenAsync(cancellationToken);
             IEnumerable<Abrechnungseinheit> listAbrechnungseinheiten = await DoePaAdminService.GetAbrechnungseinheitenAsync(cancellationToken);
             IEnumerable<Auftragsposition> listAuftragspositionen = Auftragspositionen;
-
-            string waehrungISO;
-            string abrechnungseinheitName;
-
+                        
             foreach (OutgoingInvoiceMigration currentInvoice in outgoingInvoiceMigrations)
             {
 
-                //Map currency (easy one):
-
-                //TODO: There needs to be a place to store this mapping information:
-                //Issue #80 was created for this one.
-                waehrungISO = currentInvoice.OutgoingInvoiceForImport.Currency.Trim() switch
-                {
-                    "CHF" => "CHF",
-                    "€" => "EUR",
-                    _ => "EUR",
-                };
-                                
-                currentInvoice.RelatedWaehrung = listWaehrungen.First(w => w.WaehrungISO.Equals(waehrungISO));
+                //Map currency:
+                currentInvoice.RelatedWaehrung = MapWaehrung(listWaehrungen, currentInvoice.OutgoingInvoiceForImport.Currency.Trim());
 
                 foreach (OutgoingInvoicePositionMigration currentPosition in currentInvoice.OutgoingInvoicePositions)
                 {
@@ -90,17 +126,7 @@ namespace DoePaAdmin.ViewModel
                     }
 
                     //Map Abrechnungseinheit:
-
-                    //TODO: Issue #80
-                    abrechnungseinheitName = currentPosition.OutgoingInvoicePositionForImport.TypeOfSettlement switch
-                    {
-                        "Tage" => "Personentage",
-                        "Stunden" => "Stunden",
-                        "Preis" => "Stück",
-                        _ => "Stunden"
-                    };
-
-                    currentPosition.RelatedAbrechnungseinheit = listAbrechnungseinheiten.First(ae => ae.Name.Equals(abrechnungseinheitName));
+                    currentPosition.RelatedAbrechnungseinheit = MapAbrechnungseinheit(listAbrechnungseinheiten, currentPosition.OutgoingInvoicePositionForImport.TypeOfSettlement);
 
                     //Order position next (maybe use the RAID?)
 

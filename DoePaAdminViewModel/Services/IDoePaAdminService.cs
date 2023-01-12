@@ -88,12 +88,12 @@ namespace DoePaAdmin.ViewModel.Services
 
         public Task<IEnumerable<Waehrung>> GetWaehrungenAsync(CancellationToken cancellationToken = default);
         public Task<Waehrung> CreateWaehrungAsync(CancellationToken cancellationToken = default);
-        public Task<Waehrung> CreateWaehrungAsync(String waehrungName, string waehrungZeichen, string waehrungISO, CancellationToken cancellationToken = default);
+        public Task<Waehrung> CreateWaehrungAsync(String waehrungName, string waehrungZeichen, string waehrungISO, Dictionary<string, string> waehrungAdditions = null, CancellationToken cancellationToken = default);
         void RemoveWaehrung(Waehrung selectedWaehrung);
 
         public Task<IEnumerable<Abrechnungseinheit>> GetAbrechnungseinheitenAsync(CancellationToken cancellationToken = default);
         public Task<Abrechnungseinheit> CreateAbrechnungseinheitAsync(CancellationToken cancellationToken = default);
-        public Task<Abrechnungseinheit> CreateAbrechnungseinheitAsync(string name, string abkuerzung, CancellationToken cancellationToken = default);
+        public Task<Abrechnungseinheit> CreateAbrechnungseinheitAsync(string name, string abkuerzung, Dictionary<string, string> additions = null, CancellationToken cancellationToken = default);
         void RemoveAbrechnungseinheit(Abrechnungseinheit selectedAbrechnungseinheit);
 
         public Task<IEnumerable<T>> GetGeschaeftspartnerAsync<T>(CancellationToken cancellationToken = default) where T : Geschaeftspartner;
