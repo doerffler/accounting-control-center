@@ -113,6 +113,7 @@ namespace DoePaAdmin.ViewModel.Services
 
                 currentAuftrag.VerantwortlicherMitarbeiter = listMitarbeiter.First(m => m.Kuerzel.Equals(order.CodeOfEmployeeInCharge));
                 currentAuftrag.Vertragsnummer = order.ContractNumber;
+                currentAuftrag.ZugehoerigeWaehrung = listWaehrungen.First(w => w.WaehrungISO.Equals(order.CurrencyISO));
 
                 foreach (OrderItemDTO item in order.OrderItems)
                 {
@@ -121,7 +122,6 @@ namespace DoePaAdmin.ViewModel.Services
                     currentAuftragsposition.AuftragspositionNummer = item.OrderItemPosition;
                     currentAuftragsposition.Auftragsvolumen = item.OrderVolumeAmount;
                     currentAuftragsposition.Positionsbezeichnung = item.OrderItemDescription;
-                    currentAuftragsposition.Waehrung = listWaehrungen.First(w => w.WaehrungISO.Equals(item.ItemCurrencyISO));
                     currentAuftragsposition.StueckpreisNetto = item.NetUnitPrice;
 
                     currentAuftragsposition.Auftrag = currentAuftrag;
@@ -138,7 +138,7 @@ namespace DoePaAdmin.ViewModel.Services
             IEnumerable<Waehrung> listWaehrungen = await doePaAdminService.GetWaehrungenAsync(cancellationToken);
             IEnumerable<Kostenstelle> listKostenstellen = await doePaAdminService.GetKostenstellenAsync(cancellationToken);
             IEnumerable<Abrechnungseinheit> listAbrechnungseinheiten = await doePaAdminService.GetAbrechnungseinheitenAsync(cancellationToken);
-            IEnumerable<Auftragsposition> listAuftragspositionen = await doePaAdminService.GetAuftragspositionAsync(cancellationToken);
+            IEnumerable<Auftragsposition> listAuftragspositionen = await doePaAdminService.GetAuftragspositionenAsync(cancellationToken);
 
             Ausgangsrechnung currentAusgangsrechnung;
             Ausgangsrechnungsposition currentAusgangsrechnungsposition;
@@ -149,6 +149,7 @@ namespace DoePaAdmin.ViewModel.Services
             currentAusgangsrechnung.BezahltDatum = invoice.DatePaid;
             currentAusgangsrechnung.RechnungsNummer = invoice.InvoiceNumber;
             currentAusgangsrechnung.ZugehoerigesGeschaeftsjahr = listGeschaeftsjahre.First(gj => gj.Name.Equals(invoice.BusinessYear));
+            currentAusgangsrechnung.ZugehoerigeWaehrung = listWaehrungen.First(w => w.WaehrungISO.Equals(invoice.CurrencyISO));
             currentAusgangsrechnung.Rechnungsempfaenger = listDebitoren.First(gp =>
                 gp.Anschrift.Equals(invoice.InvoiceRecipient) &&
                 gp.ZugehoerigeAdresse.ZugehoerigePostleitzahl.PLZ.Equals(invoice.PostalCode) &&
@@ -164,7 +165,6 @@ namespace DoePaAdmin.ViewModel.Services
                 currentAusgangsrechnungsposition.PositionsNummer = position.ItemNumber;
                 currentAusgangsrechnungsposition.LeistungszeitraumBis = position.DateServiceUntil;
                 currentAusgangsrechnungsposition.LeistungszeitraumVon = position.DateServiceFrom;
-                currentAusgangsrechnungsposition.NettobetragWaehrung = listWaehrungen.First(w => w.WaehrungISO.Equals(position.ItemCurrencyISO));
                 currentAusgangsrechnungsposition.Positionsbeschreibung = position.ItemDescription;
                 currentAusgangsrechnungsposition.Steuersatz = position.TaxRateDecimal;
                 currentAusgangsrechnungsposition.StueckpreisNetto = position.NetUnitPrice;

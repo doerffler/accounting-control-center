@@ -200,7 +200,7 @@ namespace DoePaAdmin.ViewModel.Services
             return await AddDataToDbSetAsync(DBContext.Auftraege, cancellationToken);
         }
 
-        public async Task<IEnumerable<Auftragsposition>> GetAuftragspositionAsync(CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<Auftragsposition>> GetAuftragspositionenAsync(CancellationToken cancellationToken = default)
         {
             return await GetDataFromDbSetAsync(DBContext.Auftragspositionen, cancellationToken);
         }
@@ -266,7 +266,7 @@ namespace DoePaAdmin.ViewModel.Services
         {
             return await GetDataFromDbSetAsync(
                 DBContext.Ausgangsrechnungen
-                .Include(ar => ar.Rechnungspositionen).ThenInclude(rp => rp.NettobetragWaehrung)
+                .Include(ar => ar.ZugehoerigeWaehrung)
                 .Include(ar => ar.Rechnungspositionen).ThenInclude(rp => rp.ZugehoerigeAbrechnungseinheit)
                 .Include(ar => ar.Rechnungspositionen).ThenInclude(rp => rp.ZugehoerigeKostenstelle)
                 .Include(ar => ar.Rechnungspositionen).ThenInclude(rp => rp.ZugehoerigeAuftragsposition)

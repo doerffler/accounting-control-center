@@ -11,13 +11,12 @@ namespace DoePaAdminDataModel.DTO
         public int ItemNumber { get; set; }
         public DateTime? DateServiceFrom { get; set; }
         public DateTime DateServiceUntil { get; set; }
-        public object ItemCurrencyISO { get; set; }
         public string ItemDescription { get; set; }
         public decimal TaxRateDecimal { get; set; }
         public decimal NetUnitPrice { get; set; }
         public decimal UnitQuantity { get; set; }
         public int CostCenterNumber { get; set; }
-        public object ItemBillingUnitCode { get; set; }
+        public string ItemBillingUnitCode { get; set; }
         public int OrderContractNumber { get; set; }
         public int OrderItemPosition { get; set; }
     }

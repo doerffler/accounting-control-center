@@ -23,6 +23,14 @@ namespace DoePaAdmin.ViewModel
             set { _dpAppservice = value; }
         }
 
+        private IEnumerable<Auftragsposition> _auftragspositionen;
+
+        public IEnumerable<Auftragsposition> Auftragspositionen
+        {
+            get => _auftragspositionen;
+            set => SetProperty(ref _auftragspositionen, value, true);
+        }
+
         private OutgoingInvoiceEnumerable _outgoingInvoices = new();
 
         public OutgoingInvoiceEnumerable OutgoingInvoices
@@ -37,32 +45,71 @@ namespace DoePaAdmin.ViewModel
 
             IEnumerable<OutgoingInvoiceMigration> outgoingInvoiceMigrations = Task.Run(async () => await DPAppService.GetOutgoingInvoicesAsync()).Result;
 
-            Task.Run(async () => await MapDPAppMasterdataAsync(outgoingInvoiceMigrations));
+            Task.Run(async () => await MapDPAppMasterdataAsync(outgoingInvoiceMigrations)).Wait();
 
+            Auftragspositionen = Task.Run(async () => await DoePaAdminService.GetAuftragspositionenAsync()).Result;
             OutgoingInvoices = new(outgoingInvoiceMigrations);
+
         }
 
         private async Task MapDPAppMasterdataAsync(IEnumerable<OutgoingInvoiceMigration> outgoingInvoiceMigrations, CancellationToken cancellationToken = default)
         {
             IEnumerable<Kostenstelle> listCostCenters = await DoePaAdminService.GetKostenstellenAsync(cancellationToken);
+            IEnumerable<Waehrung> listWaehrungen = await DoePaAdminService.GetWaehrungenAsync(cancellationToken);
+            IEnumerable<Abrechnungseinheit> listAbrechnungseinheiten = await DoePaAdminService.GetAbrechnungseinheitenAsync(cancellationToken);
+            IEnumerable<Auftragsposition> listAuftragspositionen = Auftragspositionen;
+
+            string waehrungISO;
+            string abrechnungseinheitName;
 
             foreach (OutgoingInvoiceMigration currentInvoice in outgoingInvoiceMigrations)
             {
-                //Map cost centers first:
+
+                //Map currency (easy one):
+
+                //TODO: There needs to be a place to store this mapping information:
+                //Issue #80 was created for this one.
+                waehrungISO = currentInvoice.OutgoingInvoiceForImport.Currency.Trim() switch
+                {
+                    "CHF" => "CHF",
+                    "€" => "EUR",
+                    _ => "EUR",
+                };
+                                
+                currentInvoice.RelatedWaehrung = listWaehrungen.First(w => w.WaehrungISO.Equals(waehrungISO));
+
                 foreach (OutgoingInvoicePositionMigration currentPosition in currentInvoice.OutgoingInvoicePositions)
                 {
-                    int? costCenterNo = currentPosition.OutgoingInvoicePositionForImport.RelatedCostCenter != null ? currentPosition.OutgoingInvoicePositionForImport.RelatedCostCenter.Number : null;
+
+                    //Map cost centers first:
+                    int? costCenterNo = currentPosition.OutgoingInvoicePositionForImport.RelatedCostCenter?.Number;
 
                     if (costCenterNo.HasValue)
                     {
-                        currentPosition.RelatedKostenstelle = listCostCenters.Where(cc => cc.KostenstellenNummer.Equals(costCenterNo.Value)).FirstOrDefault();
+                        currentPosition.RelatedKostenstelle = listCostCenters.FirstOrDefault(cc => cc.KostenstellenNummer.Equals(costCenterNo.Value));
                     }
 
-                }
+                    //Map Abrechnungseinheit:
+
+                    //TODO: Issue #80
+                    abrechnungseinheitName = currentPosition.OutgoingInvoicePositionForImport.TypeOfSettlement switch
+                    {
+                        "Tage" => "Personentage",
+                        "Stunden" => "Stunden",
+                        "Preis" => "Stück",
+                        _ => "Stunden"
+                    };
+
+                    currentPosition.RelatedAbrechnungseinheit = listAbrechnungseinheiten.First(ae => ae.Name.Equals(abrechnungseinheitName));
+
+                    //Order position next (maybe use the RAID?)
+
+
+                };
 
 
 
-                //Order position next (maybe use the RAID?)
+                
 
             }
 

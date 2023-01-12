@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DoePaAdminDataModel.DPApp;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,9 @@ namespace DoePaAdminDataModel.Stammdaten
         
         public string Positionsbezeichnung { get; set; }   
         
-        public Waehrung Waehrung { get; set; }   
+        public override string ToString()
+        {
+            return $"{Auftrag?.ToString()}|{Positionsbezeichnung}";
+        }
     }
 }

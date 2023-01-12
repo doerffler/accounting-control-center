@@ -35,9 +35,7 @@ namespace DoePaAdmin.ViewModel
 
         public DisplayAuftragsstatusViewModel(IDoePaAdminService doePaAdminService) : base(doePaAdminService)
         {
-            SelectedGeschaeftsjahr = Task.Run(async () => await DoePaAdminService
-                .GetGeschaeftsjahreAsync())
-                .Result
+            SelectedGeschaeftsjahr = Task.Run(async () => await DoePaAdminService.GetGeschaeftsjahreAsync()).Result
                 .FirstOrDefault(g => g.DatumVon <= DateTime.Now && g.DatumBis >= DateTime.Now);
 
             Controller = new PlotController();
@@ -58,6 +56,7 @@ namespace DoePaAdmin.ViewModel
                 case nameof(SelectedGeschaeftsjahr):
                     Auftraege = new ObservableCollection<Auftrag>(SelectedGeschaeftsjahr.Auftraege);
 
+                    //TODO: Implement Task.Run() here:
                     _ = DrawChartsAsync();
 
                     break;
@@ -133,8 +132,7 @@ namespace DoePaAdmin.ViewModel
                     ist.Points.Add(new(beginnDouble, (double)auftragsposition.Auftragsvolumen));
 
                     // Ausgangsrechnungspositionen abfragen
-                    IEnumerable<RemainingBudgetOnOrdersDTO> chartPositions = await DoePaAdminService
-                        .GetRemainingBudgetOnOrdersAsync(auftragsposition.AuftragspositionID, cancellationToken);
+                    IEnumerable<RemainingBudgetOnOrdersDTO> chartPositions = await DoePaAdminService.GetRemainingBudgetOnOrdersAsync(auftragsposition.AuftragspositionID, cancellationToken);
                     
                     chartPositions.ToList().ForEach(pos =>
                     {

@@ -17,6 +17,7 @@ namespace DoePaAdminDataModel.DTO
         public string PostalCode { get; set; }
         public string StreetNumber { get; set; }
         public string Street { get; set; }
+        public string CurrencyISO { get; set; }
         public IList<InvoiceItemDTO> InvoiceItems { get; set; }
 
         public InvoiceDTO()

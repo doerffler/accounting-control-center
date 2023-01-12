@@ -116,6 +116,14 @@
                 </Button>
             </WrapPanel>
 
+            <Label Grid.Row="1" Grid.Column="2">Währung:</Label>
+            <ComboBox
+                Grid.Row="1"
+                Grid.Column="3"
+                ItemsSource="{Binding Source={StaticResource Locator}, Path=ManageWaehrungViewModel.Waehrungen}"
+                SelectedItem="{Binding SelectedRechnung.ZugehoerigeWaehrung}"
+                DisplayMemberPath="WaehrungISO" />
+
         </Grid>
 
         <DataGrid
@@ -134,7 +142,6 @@
                 <DataGridTextColumn Header="Stückpreis Netto" Binding="{Binding Path=StueckpreisNetto}" />
                 <DataGridTextColumn Header="Mehrwertsteuersatz" Binding="{Binding Path=Steuersatz}" />
                 <DataGridTextColumn Header="Nettobetrag" Binding="{Binding Path=Nettobetrag}" />
-                <DataGridComboBoxColumn Header="Währung" ItemsSource="{Binding Source={StaticResource Locator}, Path=ManageWaehrungViewModel.Waehrungen}" SelectedItemBinding="{Binding Path=NettobetragWaehrung}" DisplayMemberPath="WaehrungISO" />
                 <DataGridComboBoxColumn Header="Kostenstelle" ItemsSource="{Binding Source={StaticResource Locator}, Path=ManageKostenstellenViewModel.Kostenstellen}" SelectedItemBinding="{Binding Path=ZugehoerigeKostenstelle}" DisplayMemberPath="Kostenstellenbezeichnung" />
                 <DataGridTextColumn Header="Auftragsposition" Binding="{Binding Path=ZugehoerigeAuftragsposition.Positionsbezeichnung}"/>
             </DataGrid.Columns>

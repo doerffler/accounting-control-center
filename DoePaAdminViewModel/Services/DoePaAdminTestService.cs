@@ -132,7 +132,7 @@ namespace DoePaAdmin.ViewModel.Services
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Auftragsposition>> GetAuftragspositionAsync(CancellationToken cancellationToken = default)
+        public Task<IEnumerable<Auftragsposition>> GetAuftragspositionenAsync(CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }

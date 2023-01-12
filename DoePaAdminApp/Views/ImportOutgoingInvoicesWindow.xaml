@@ -23,6 +23,16 @@
                 <scm:SortDescription PropertyName="OutgoingInvoiceForImport.RelatedBusinessYear.DateFrom"/>
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
+        <CollectionViewSource x:Key="cvsOrderPositions" Source="{Binding Auftragspositionen}">
+            <CollectionViewSource.GroupDescriptions>
+                <PropertyGroupDescription PropertyName="Auftrag.ZugehoerigesGeschaeftsjahr.Name"/>
+                <PropertyGroupDescription PropertyName="Auftrag.Auftragsname"/>
+            </CollectionViewSource.GroupDescriptions>
+            <CollectionViewSource.SortDescriptions>
+                <scm:SortDescription PropertyName="Auftrag.ZugehoerigesGeschaeftsjahr.Name"/>
+                <scm:SortDescription PropertyName="Auftrag.Auftragsname"/>
+            </CollectionViewSource.SortDescriptions>
+        </CollectionViewSource>
     </Window.Resources>
     <Grid>
         <DataGrid ItemsSource="{Binding Source={StaticResource cvsInvoices}}" AutoGenerateColumns="False" CanUserAddRows="False">
@@ -32,6 +42,7 @@
                 <DataGridTextColumn Header="Rechnungssumme Netto" Binding="{Binding OutgoingInvoiceForImport.NettoSum}" />
                 <DataGridTextColumn Header="Geschäftsjahr" Binding="{Binding OutgoingInvoiceForImport.RelatedBusinessYear.Name}" />
                 <DataGridTextColumn Header="Kunde" Binding="{Binding OutgoingInvoiceForImport.RelatedCompany.Name1}" />
+                <DataGridComboBoxColumn Header="Währung" ItemsSource="{Binding Source={StaticResource Locator}, Path=ManageWaehrungViewModel.Waehrungen}" SelectedItemBinding="{Binding RelatedWaehrung}" DisplayMemberPath="WaehrungISO" />
             </DataGrid.Columns>
             <DataGrid.GroupStyle>
                 <GroupStyle>
@@ -83,11 +94,11 @@
                             <DataGridTextColumn Header="Mehrwertsteuer" Binding="{Binding OutgoingInvoicePositionForImport.Tax}" />
                             <DataGridTextColumn Header="Mehrwertsteuersatz" Binding="{Binding OutgoingInvoicePositionForImport.TaxPercent}" />
                             <DataGridTextColumn Header="Bruttowert" Binding="{Binding OutgoingInvoicePositionForImport.Gross}" />
-                            <DataGridComboBoxColumn Header="Kostenstelle" ItemsSource="{Binding Source={StaticResource Locator}, Path=ManageKostenstellenViewModel.Kostenstellen}" SelectedItemBinding="{Binding RelatedKostenstelle}" DisplayMemberPath="Kostenstellenbezeichnung" />
-                            <DataGridComboBoxColumn Header="Währung" ItemsSource="{Binding Source={StaticResource Locator}, Path=ManageWaehrungViewModel.Waehrungen}" SelectedItemBinding="{Binding RelatedWaehrung}" DisplayMemberPath="WaehrungISO" />
-                            <DataGridComboBoxColumn Header="Abrechnungseinheit" ItemsSource="{Binding Source={StaticResource Locator}, Path=ManageAbrechnungseinheitViewModel.Abrechnungseinheiten}" SelectedItemBinding="{Binding RelatedAbrechnungseinheit}" DisplayMemberPath="Name" />
                             <DataGridTextColumn Header="Projekt" Binding="{Binding OutgoingInvoicePositionForImport.RelatedProject.Name}" />
-                            <DataGridTextColumn Header="Kostenart" Binding="{Binding OutgoingInvoicePositionForImport.RelatedCostType.Name}" />                            
+                            <DataGridTextColumn Header="Kostenart" Binding="{Binding OutgoingInvoicePositionForImport.RelatedCostType.Name}" />
+                            <DataGridComboBoxColumn Header="Kostenstelle" ItemsSource="{Binding Source={StaticResource Locator}, Path=ManageKostenstellenViewModel.Kostenstellen}" SelectedItemBinding="{Binding RelatedKostenstelle}" DisplayMemberPath="Kostenstellenbezeichnung" />
+                            <DataGridComboBoxColumn Header="Abrechnungseinheit" ItemsSource="{Binding Source={StaticResource Locator}, Path=ManageAbrechnungseinheitViewModel.Abrechnungseinheiten}" SelectedItemBinding="{Binding RelatedAbrechnungseinheit}" DisplayMemberPath="Name" />
+                            <DataGridComboBoxColumn Header="Auftragsposition" ItemsSource="{Binding Source={StaticResource cvsOrderPositions}}" SelectedItemBinding="{Binding RelatedAuftragsposition}" />
                         </DataGrid.Columns>
                     </DataGrid>
                 </DataTemplate>

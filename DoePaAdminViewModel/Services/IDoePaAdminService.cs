@@ -64,7 +64,7 @@ namespace DoePaAdmin.ViewModel.Services
 
         public Task<Auftrag> CreateAuftragAsync(CancellationToken cancellationToken = default);
 
-        public Task<IEnumerable<Auftragsposition>> GetAuftragspositionAsync(CancellationToken cancellationToken = default);
+        public Task<IEnumerable<Auftragsposition>> GetAuftragspositionenAsync(CancellationToken cancellationToken = default);
         
         public Task<Auftragsposition> CreateAuftragspositionAsync(CancellationToken cancellationToken = default);
 

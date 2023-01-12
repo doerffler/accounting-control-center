@@ -241,6 +241,7 @@ namespace DoePaAdmin.ViewModel.Services
                             ContractNumber = 1,
                             BusinessYear = "1991",
                             CodeOfEmployeeInCharge = "TOHA",
+                            CurrencyISO = "EUR",
                             OrderItems = new[]
                             {
                                 new OrderItemDTO()
@@ -249,7 +250,6 @@ namespace DoePaAdmin.ViewModel.Services
                                     ItemBillingUnitCode = "h",
                                     OrderItemDescription = "Spieleentwicklung",
                                     OrderVolumeAmount = 480,
-                                    ItemCurrencyISO = "EUR",
                                     NetUnitPrice = 50
                                 },
                                 new OrderItemDTO()
@@ -258,7 +258,6 @@ namespace DoePaAdmin.ViewModel.Services
                                     ItemBillingUnitCode = "h",
                                     OrderItemDescription = "Dokumentation",
                                     OrderVolumeAmount = 50,
-                                    ItemCurrencyISO = "EUR",
                                     NetUnitPrice = 45
                                 }
                             }
@@ -272,6 +271,7 @@ namespace DoePaAdmin.ViewModel.Services
                             ContractNumber = 2,
                             BusinessYear = "1991",
                             CodeOfEmployeeInCharge = "TOHA",
+                            CurrencyISO = "EUR",
                             OrderItems = new[]
                             {
                                 new OrderItemDTO()
@@ -280,7 +280,6 @@ namespace DoePaAdmin.ViewModel.Services
                                     ItemBillingUnitCode = "h",
                                     OrderItemDescription = "Spieleentwicklung",
                                     OrderVolumeAmount = 480,
-                                    ItemCurrencyISO = "EUR",
                                     NetUnitPrice = 50
                                 }
                             }
@@ -294,6 +293,7 @@ namespace DoePaAdmin.ViewModel.Services
                             ContractNumber = 3,
                             BusinessYear = "1991",
                             CodeOfEmployeeInCharge = "TOHA",
+                            CurrencyISO = "EUR",
                             OrderItems = new[]
                             {
                                 new OrderItemDTO()
@@ -302,7 +302,6 @@ namespace DoePaAdmin.ViewModel.Services
                                     ItemBillingUnitCode = "h",
                                     OrderItemDescription = "Spieleentwicklung",
                                     OrderVolumeAmount = 480,
-                                    ItemCurrencyISO = "EUR",
                                     NetUnitPrice = 50
                                 }
                             }
@@ -316,6 +315,7 @@ namespace DoePaAdmin.ViewModel.Services
                             ContractNumber = 4,
                             BusinessYear = "1991",
                             CodeOfEmployeeInCharge = "TOHA",
+                            CurrencyISO = "EUR",
                             OrderItems = new[]
                             {
                                 new OrderItemDTO()
@@ -324,7 +324,6 @@ namespace DoePaAdmin.ViewModel.Services
                                     ItemBillingUnitCode = "h",
                                     OrderItemDescription = "Spieleentwicklung",
                                     OrderVolumeAmount = 480,
-                                    ItemCurrencyISO = "EUR",
                                     NetUnitPrice = 50
                                 }
                             }
@@ -353,6 +352,7 @@ namespace DoePaAdmin.ViewModel.Services
                             ContractNumber = 5,
                             BusinessYear = "1991",
                             CodeOfEmployeeInCharge = "JOCA",
+                            CurrencyISO = "EUR",
                             OrderItems = new[]
                             {
                                 new OrderItemDTO()
@@ -361,7 +361,6 @@ namespace DoePaAdmin.ViewModel.Services
                                     ItemBillingUnitCode = "h",
                                     OrderItemDescription = "Spieleentwicklung",
                                     OrderVolumeAmount = 1600,
-                                    ItemCurrencyISO = "EUR",
                                     NetUnitPrice = 100
                                 }
                             }
@@ -375,6 +374,7 @@ namespace DoePaAdmin.ViewModel.Services
                             ContractNumber = 6,
                             BusinessYear = "1992",
                             CodeOfEmployeeInCharge = "JOCA",
+                            CurrencyISO = "EUR",
                             OrderItems = new[]
                             {
                                 new OrderItemDTO()
@@ -383,7 +383,6 @@ namespace DoePaAdmin.ViewModel.Services
                                     ItemBillingUnitCode = "h",
                                     OrderItemDescription = "Spieleentwicklung",
                                     OrderVolumeAmount = 480,
-                                    ItemCurrencyISO = "EUR",
                                     NetUnitPrice = 100
                                 }
                             }
@@ -416,6 +415,7 @@ namespace DoePaAdmin.ViewModel.Services
                     PostalCode = "80807",
                     StreetNumber = "17",
                     Street = "Walter-Gropius-Straße",
+                    CurrencyISO = "EUR",
                     InvoiceItems = new[]
                     {
                         new InvoiceItemDTO()
@@ -423,7 +423,6 @@ namespace DoePaAdmin.ViewModel.Services
                             ItemNumber = 1,
                             DateServiceFrom = new(1991, 2, 1),
                             DateServiceUntil = new(1991, 2, 28),
-                            ItemCurrencyISO = "EUR",
                             ItemDescription = "Entwicklung der Engine für Commander Keen",
                             TaxRateDecimal = 0.16M,
                             NetUnitPrice = 50M,
@@ -438,7 +437,6 @@ namespace DoePaAdmin.ViewModel.Services
                             ItemNumber = 2,
                             DateServiceFrom = new(1991, 2, 1),
                             DateServiceUntil = new(1991, 2, 28),
-                            ItemCurrencyISO = "EUR",
                             ItemDescription = "Design der Sprites für Commander Keen",
                             TaxRateDecimal = 0.16M,
                             NetUnitPrice = 50M,
@@ -460,6 +458,7 @@ namespace DoePaAdmin.ViewModel.Services
                     PostalCode = "80807",
                     StreetNumber = "17",
                     Street = "Walter-Gropius-Straße",
+                    CurrencyISO = "EUR",
                     InvoiceItems = new[]
                     {
                         new InvoiceItemDTO()
@@ -467,7 +466,6 @@ namespace DoePaAdmin.ViewModel.Services
                             ItemNumber = 1,
                             DateServiceFrom = new(1991, 2, 1),
                             DateServiceUntil = new(1991, 2, 28),
-                            ItemCurrencyISO = "EUR",
                             ItemDescription = "Gutschrift für nicht akkzeptierte Entwicklungsstunden an der Engine für Commander Keen",
                             TaxRateDecimal = 0.16M,
                             NetUnitPrice = 50M,
@@ -489,6 +487,7 @@ namespace DoePaAdmin.ViewModel.Services
                     PostalCode = "80807",
                     StreetNumber = "5",
                     Street = "Walter-Gropius-Straße",
+                    CurrencyISO = "EUR",
                     InvoiceItems = new[]
                     {
                         new InvoiceItemDTO()
@@ -496,7 +495,6 @@ namespace DoePaAdmin.ViewModel.Services
                             ItemNumber = 1,
                             DateServiceFrom = new(1991, 1, 1),
                             DateServiceUntil = new(1991, 1, 31),
-                            ItemCurrencyISO = "EUR",
                             ItemDescription = "Pizza Money January",
                             TaxRateDecimal = 0.16M,
                             NetUnitPrice = 100M,
@@ -511,7 +509,6 @@ namespace DoePaAdmin.ViewModel.Services
                             ItemNumber = 2,
                             DateServiceFrom = new(1991, 2, 1),
                             DateServiceUntil = new(1991, 2, 28),
-                            ItemCurrencyISO = "EUR",
                             ItemDescription = "Pizza Money February",
                             TaxRateDecimal = 0.16M,
                             NetUnitPrice = 100M,
@@ -533,6 +530,7 @@ namespace DoePaAdmin.ViewModel.Services
                     PostalCode = "80807",
                     StreetNumber = "5",
                     Street = "Walter-Gropius-Straße",
+                    CurrencyISO = "EUR",
                     InvoiceItems = new[]
                     {
                         new InvoiceItemDTO()
@@ -540,7 +538,6 @@ namespace DoePaAdmin.ViewModel.Services
                             ItemNumber = 1,
                             DateServiceFrom = new(1991, 3, 1),
                             DateServiceUntil = new(1991, 3, 31),
-                            ItemCurrencyISO = "EUR",
                             ItemDescription = "Pizza Money March",
                             TaxRateDecimal = 0.16M,
                             NetUnitPrice = 100M,
@@ -562,6 +559,7 @@ namespace DoePaAdmin.ViewModel.Services
                     PostalCode = "80807",
                     StreetNumber = "17",
                     Street = "Walter-Gropius-Straße",
+                    CurrencyISO = "EUR",
                     InvoiceItems = new[]
                     {
                         new InvoiceItemDTO()
@@ -569,7 +567,6 @@ namespace DoePaAdmin.ViewModel.Services
                             ItemNumber = 1,
                             DateServiceFrom = new(1991, 3, 1),
                             DateServiceUntil = new(1991, 3, 31),
-                            ItemCurrencyISO = "EUR",
                             ItemDescription = "Dokumentation der Engine",
                             TaxRateDecimal = 0.16M,
                             NetUnitPrice = 45M,
