@@ -101,15 +101,42 @@ namespace DoePaAdmin.ViewModel
             return aeStunden;
         }
 
+        private static Debitor MapRechnungsempfaenger(IEnumerable<Debitor> listDebitoren, Department relatedDepartment)
+        {
+            foreach (Debitor currentDebitor in listDebitoren)
+            {
+                if (currentDebitor.Additions != null && currentDebitor.Additions.TryGetValue("DPAppKey", out string debDPAppValue))
+                {
+                    if (debDPAppValue.Equals(relatedDepartment))
+                    {
+                        return currentDebitor;
+                    }
+                }
+            }
+
+            return null;
+        }
+
         private async Task MapDPAppMasterdataAsync(IEnumerable<OutgoingInvoiceMigration> outgoingInvoiceMigrations, CancellationToken cancellationToken = default)
         {
             IEnumerable<Kostenstelle> listCostCenters = await DoePaAdminService.GetKostenstellenAsync(cancellationToken);
             IEnumerable<Waehrung> listWaehrungen = await DoePaAdminService.GetWaehrungenAsync(cancellationToken);
             IEnumerable<Abrechnungseinheit> listAbrechnungseinheiten = await DoePaAdminService.GetAbrechnungseinheitenAsync(cancellationToken);
             IEnumerable<Auftrag> listAuftraege = await DoePaAdminService.GetAuftraegeAsync(cancellationToken);
+            IEnumerable<Geschaeftsjahr> listGeschaeftsjahre = await DoePaAdminService.GetGeschaeftsjahreAsync(cancellationToken);
+            IEnumerable<Debitor> listDebitoren = await DoePaAdminService.GetGeschaeftspartnerAsync<Debitor>(cancellationToken);
                         
             foreach (OutgoingInvoiceMigration currentInvoice in outgoingInvoiceMigrations)
             {
+
+                //Map business year:
+                currentInvoice.RelatedGeschaeftsjahr = listGeschaeftsjahre.FirstOrDefault(gj =>
+                    gj.DatumVon.Equals(currentInvoice.OutgoingInvoiceForImport.RelatedBusinessYear.DateFrom) &&
+                    gj.DatumBis.Equals(currentInvoice.OutgoingInvoiceForImport.RelatedBusinessYear.DateUntil)
+                    );
+
+                //Map invoice recipient:
+                currentInvoice.RelatedRechnungsempfaenger = MapRechnungsempfaenger(listDebitoren, currentInvoice.OutgoingInvoiceForImport.RelatedDepartment);
 
                 //Map currency:
                 currentInvoice.RelatedWaehrung = MapWaehrung(listWaehrungen, currentInvoice.OutgoingInvoiceForImport.Currency.Trim());
@@ -133,11 +160,7 @@ namespace DoePaAdmin.ViewModel
                     Auftrag auftrag = listAuftraege.FirstOrDefault(a => a.Vertragsnummer.Equals(currentPosition.OutgoingInvoicePositionForImport.Raid));
 
                 };
-
-
-
                 
-
             }
 
         }

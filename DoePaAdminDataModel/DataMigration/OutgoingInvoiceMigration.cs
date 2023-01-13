@@ -16,6 +16,12 @@ namespace DoePaAdminDataModel.DataMigration
 
         public Waehrung RelatedWaehrung { get; set; }
 
+        public Debitor RelatedRechnungsempfaenger { get; set; }
+
+        public Geschaeftsjahr RelatedGeschaeftsjahr { get; set; }
+
+        public Ausgangsrechnung RelatedKorrekturrechnung { get; set; }
+
         public IEnumerable<OutgoingInvoicePositionMigration> OutgoingInvoicePositions { get; set; }
 
         public Ausgangsrechnung CreateAusgangsrechnung()
@@ -23,11 +29,25 @@ namespace DoePaAdminDataModel.DataMigration
             Ausgangsrechnung newAR = new()
             {
 
-
-
-                ZugehoerigeWaehrung = RelatedWaehrung,
-
+                BezahltDatum = OutgoingInvoiceForImport.DatePaid,
+                KorrekturRechnung = RelatedKorrekturrechnung,
+                //RabattPct = ,
+                RechnungsDatum = OutgoingInvoiceForImport.DateDocument ?? DateTime.MinValue,
+                Rechnungsempfaenger = RelatedRechnungsempfaenger,
+                RechnungsNummer = OutgoingInvoiceForImport.InvoiceNo,
+                ZugehoerigesGeschaeftsjahr = RelatedGeschaeftsjahr,
+                ZugehoerigeWaehrung = RelatedWaehrung
+                
             };
+
+            IList<Ausgangsrechnungsposition> newRechnungspositionen = new List<Ausgangsrechnungsposition>(OutgoingInvoicePositions.Count());
+
+            foreach (OutgoingInvoicePositionMigration invoicePosition in OutgoingInvoicePositions)
+            {
+                newRechnungspositionen.Add(invoicePosition.CreateAusgangsrechnungsposition(newAR));
+            }
+
+            newAR.Rechnungspositionen = newRechnungspositionen;
 
             return newAR;
 

@@ -40,9 +40,10 @@
                 <DataGridTextColumn Header="Rechnungsnummer" Binding="{Binding OutgoingInvoiceForImport.InvoiceNo}" />
                 <DataGridTextColumn Header="Rechnungsdatum" Binding="{Binding OutgoingInvoiceForImport.DateDocument}" />
                 <DataGridTextColumn Header="Rechnungssumme Netto" Binding="{Binding OutgoingInvoiceForImport.NettoSum}" />
-                <DataGridTextColumn Header="Geschäftsjahr" Binding="{Binding OutgoingInvoiceForImport.RelatedBusinessYear.Name}" />
                 <DataGridTextColumn Header="Kunde" Binding="{Binding OutgoingInvoiceForImport.RelatedCompany.Name1}" />
                 <DataGridComboBoxColumn Header="Währung" ItemsSource="{Binding Source={StaticResource Locator}, Path=ManageWaehrungViewModel.Waehrungen}" SelectedItemBinding="{Binding RelatedWaehrung}" DisplayMemberPath="WaehrungISO" />
+                <DataGridComboBoxColumn Header="Rechnungsempfänger" ItemsSource="{Binding Source={StaticResource Locator}, Path=ManageDebitorenViewModel.Geschaeftspartner}" SelectedItemBinding="{Binding RelatedRechnungsempfaenger}" />
+                <DataGridComboBoxColumn Header="Geschäftsjahr" ItemsSource="{Binding Source={StaticResource Locator}, Path=ManageGeschaeftsjahreViewModel.Geschaeftsjahre}" SelectedItemBinding="{Binding RelatedGeschaeftsjahr}" DisplayMemberPath="Name" />
             </DataGrid.Columns>
             <DataGrid.GroupStyle>
                 <GroupStyle>
