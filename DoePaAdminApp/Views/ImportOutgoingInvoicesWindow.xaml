@@ -35,8 +35,13 @@
         </CollectionViewSource>
     </Window.Resources>
     <Grid>
-        <DataGrid ItemsSource="{Binding Source={StaticResource cvsInvoices}}" AutoGenerateColumns="False" CanUserAddRows="False">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <DataGrid Grid.Row="0" ItemsSource="{Binding Source={StaticResource cvsInvoices}}" AutoGenerateColumns="False" CanUserAddRows="False">
             <DataGrid.Columns>
+                <DataGridCheckBoxColumn Header="Migrationsbereit" Binding="{Binding IsReadyForMigration}" />
                 <DataGridTextColumn Header="Rechnungsnummer" Binding="{Binding OutgoingInvoiceForImport.InvoiceNo}" />
                 <DataGridTextColumn Header="Rechnungsdatum" Binding="{Binding OutgoingInvoiceForImport.DateDocument}" />
                 <DataGridTextColumn Header="Rechnungssumme Netto" Binding="{Binding OutgoingInvoiceForImport.NettoSum}" />
@@ -105,5 +110,8 @@
                 </DataTemplate>
             </DataGrid.RowDetailsTemplate>
         </DataGrid>
+        <Button Grid.Row="1" Command="{Binding MigrateInvoicesCommand}">
+            Migration starten
+        </Button>
     </Grid>
 </Window>

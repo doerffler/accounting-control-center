@@ -24,8 +24,11 @@ namespace DoePaAdminDataModel.DataMigration
 
         public IEnumerable<OutgoingInvoicePositionMigration> OutgoingInvoicePositions { get; set; }
 
+        public bool IsReadyForMigration { get; set; }
+
         public Ausgangsrechnung CreateAusgangsrechnung()
         {
+
             Ausgangsrechnung newAR = new()
             {
 

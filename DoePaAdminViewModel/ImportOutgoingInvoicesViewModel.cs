@@ -1,4 +1,5 @@
-﻿using DoePaAdmin.ViewModel.Model;
+﻿using CommunityToolkit.Mvvm.Input;
+using DoePaAdmin.ViewModel.Model;
 using DoePaAdmin.ViewModel.Services;
 using DoePaAdminDataModel.DataMigration;
 using DoePaAdminDataModel.DPApp;
@@ -40,9 +41,13 @@ namespace DoePaAdmin.ViewModel
             set => SetProperty(ref _outgoingInvoices, value, true);
         }
 
+        public IRelayCommand MigrateInvoicesCommand { get; }
+
         public ImportOutgoingInvoicesViewModel(IDoePaAdminService doePaAdminService, IDPAppService dpAppService, IUserInteractionService userInteractionService) : base(doePaAdminService, userInteractionService)
         {
             DPAppService = dpAppService;
+
+            MigrateInvoicesCommand = new AsyncRelayCommand(DoMigrateInvoicesCommandAsync);
 
             IEnumerable<OutgoingInvoiceMigration> outgoingInvoiceMigrations = Task.Run(async () => await DPAppService.GetOutgoingInvoicesAsync()).Result;
 
@@ -51,6 +56,18 @@ namespace DoePaAdmin.ViewModel
             Auftragspositionen = Task.Run(async () => await DoePaAdminService.GetAuftragspositionenAsync()).Result;
             OutgoingInvoices = new(outgoingInvoiceMigrations);
 
+        }
+
+        private async Task DoMigrateInvoicesCommandAsync(CancellationToken cancellationToken = default)
+        {
+            foreach (OutgoingInvoiceMigration currentInvoice in OutgoingInvoices)
+            {
+                if (currentInvoice.IsReadyForMigration)
+                {
+                    //TODO: Attach this to DoePaAdminService:
+                    currentInvoice.CreateAusgangsrechnung();
+                }
+            }
         }
 
         private static Waehrung MapWaehrung(IEnumerable<Waehrung> listWaehrungen, string waehrungDPApp)
