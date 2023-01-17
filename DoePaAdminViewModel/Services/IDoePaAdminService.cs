@@ -78,6 +78,8 @@ namespace DoePaAdmin.ViewModel.Services
 
         public Task<Ausgangsrechnung> CreateAusgangsrechnungAsync(CancellationToken cancellationToken = default);
 
+        public Task AddAusgangsrechnungAsync(Ausgangsrechnung ausgangsrechnungToAdd, CancellationToken cancellationToken = default);
+
         public void RemoveAusgangsrechnung(Ausgangsrechnung ausgangsrechnungToRemove);
 
         public Task<Ausgangsrechnungsposition> CreateAusgangsrechnungspositionAsync(CancellationToken cancellationToken = default);
@@ -135,9 +137,9 @@ namespace DoePaAdmin.ViewModel.Services
         public Task<bool> CheckForChangesAsync(CancellationToken cancellationToken = default);
 
         public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
-
+        
         #endregion
 
-        
+
     }
 }

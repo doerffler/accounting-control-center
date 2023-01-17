@@ -3,6 +3,7 @@ using DoePaAdmin.ViewModel.Model;
 using DoePaAdmin.ViewModel.Services;
 using DoePaAdminDataModel.DataMigration;
 using DoePaAdminDataModel.DPApp;
+using DoePaAdminDataModel.Kostenrechnung;
 using DoePaAdminDataModel.Stammdaten;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using System;
@@ -60,12 +61,16 @@ namespace DoePaAdmin.ViewModel
 
         private async Task DoMigrateInvoicesCommandAsync(CancellationToken cancellationToken = default)
         {
+            Ausgangsrechnung newRechnung;
+
             foreach (OutgoingInvoiceMigration currentInvoice in OutgoingInvoices)
             {
                 if (currentInvoice.IsReadyForMigration)
                 {
                     //TODO: Attach this to DoePaAdminService:
-                    currentInvoice.CreateAusgangsrechnung();
+                    newRechnung = currentInvoice.CreateAusgangsrechnung();
+
+                    await DoePaAdminService.AddAusgangsrechnungAsync(newRechnung, cancellationToken);
                 }
             }
         }

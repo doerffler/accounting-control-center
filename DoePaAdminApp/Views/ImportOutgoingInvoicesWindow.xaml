@@ -38,6 +38,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <DataGrid Grid.Row="0" ItemsSource="{Binding Source={StaticResource cvsInvoices}}" AutoGenerateColumns="False" CanUserAddRows="False">
             <DataGrid.Columns>
@@ -111,7 +112,13 @@
             </DataGrid.RowDetailsTemplate>
         </DataGrid>
         <Button Grid.Row="1" Command="{Binding MigrateInvoicesCommand}">
-            Migration starten
+            <StackPanel Orientation="Horizontal">
+                <Image Height="16" Width="16" Source="{svg:SvgImage /Resources/CopyInvoice.svg}" />
+                <TextBlock Text="{x:Static p:Resources.strStartMigrationOfInvoices}"/>
+            </StackPanel>
+        </Button>
+        <Button Grid.Row="2" Command="{Binding SaveChangesCommand}">
+            <Control Template="{StaticResource tmpSaveDbDataButton}" />
         </Button>
     </Grid>
 </Window>

@@ -37,7 +37,7 @@
                                 </Rectangle.Fill>
                             </Rectangle>
                         </Viewbox>
-                    <Label Content="{x:Static p:Resources.strSaveData}" />
+                    <TextBlock Text="{x:Static p:Resources.strSaveData}" />
                     </StackPanel>
             </ControlTemplate>
 
@@ -60,7 +60,7 @@
                                 </Rectangle.Fill>
                             </Rectangle>
                         </Viewbox>
-                    <Label Content="{x:Static p:Resources.strAddItem}" />
+                    <TextBlock Text="{x:Static p:Resources.strAddItem}" />
                     </StackPanel>
             </ControlTemplate>
 
@@ -83,7 +83,7 @@
                                 </Rectangle.Fill>
                             </Rectangle>
                         </Viewbox>
-                    <Label Content="{x:Static p:Resources.strRemoveItem}" />
+                    <TextBlock Text="{x:Static p:Resources.strRemoveItem}" />
                     </StackPanel>
             </ControlTemplate>
 
@@ -108,7 +108,7 @@
                             </Rectangle.Fill>
                         </Rectangle>
                     </Viewbox>
-                    <Label Content="{x:Static p:Resources.strManageSkillMenue}" />
+                    <TextBlock Text="{x:Static p:Resources.strManageSkillMenue}" />
                 </StackPanel>
             </ControlTemplate>
 
