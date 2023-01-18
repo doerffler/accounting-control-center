@@ -20,8 +20,6 @@ namespace DoePaAdminDataModel.DataMigration
 
         public Abrechnungseinheit RelatedAbrechnungseinheit { get; set; }
 
-        public Waehrung RelatedWaehrung { get; set; }
-
         public Ausgangsrechnungsposition CreateAusgangsrechnungsposition(Ausgangsrechnung relatedAusgangsrechnung)
         {
             Ausgangsrechnungsposition newARP = new()
@@ -33,8 +31,7 @@ namespace DoePaAdminDataModel.DataMigration
                 Steuersatz = OutgoingInvoicePositionForImport.TaxPercent/100+1 ?? 0,
                 StueckpreisNetto = OutgoingInvoicePositionForImport.HourlyRate ?? 0,
                 Stueckzahl = OutgoingInvoicePositionForImport.Hours ?? 0,
-                NettobetragWaehrung = RelatedWaehrung,
-                
+                                
                 ZugehoerigeAbrechnungseinheit = RelatedAbrechnungseinheit,
                 ZugehoerigeAuftragsposition = RelatedAuftragsposition,
                 ZugehoerigeKostenstelle = RelatedKostenstelle,

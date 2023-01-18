@@ -13,6 +13,7 @@
     <None Remove="appsettings.json" />
     <None Remove="Resources\AbsolutePosition.svg" />
     <None Remove="Resources\Copy.svg" />
+    <None Remove="Resources\CopyInvoice.svg" />
     <None Remove="Resources\costcenter_icon_16x16.png" />
     <None Remove="Resources\costcenter_icon_32x32.png" />
     <None Remove="Resources\Customer.svg" />
@@ -45,6 +46,9 @@
     <Content Include="appsettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Resources\CopyInvoice.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\reshot-icon-business-man-JSQ35TMBH8.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>

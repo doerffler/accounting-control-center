@@ -200,7 +200,7 @@ namespace DoePaAdmin.ViewModel.Services
             return await AddDataToDbSetAsync(DBContext.Auftraege, cancellationToken);
         }
 
-        public async Task<IEnumerable<Auftragsposition>> GetAuftragspositionAsync(CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<Auftragsposition>> GetAuftragspositionenAsync(CancellationToken cancellationToken = default)
         {
             return await GetDataFromDbSetAsync(DBContext.Auftragspositionen, cancellationToken);
         }
@@ -264,7 +264,14 @@ namespace DoePaAdmin.ViewModel.Services
 
         public async Task<IEnumerable<Ausgangsrechnung>> GetAusgangsrechnungenAsync(CancellationToken cancellationToken = default)
         {
-            return await GetDataFromDbSetAsync(DBContext.Ausgangsrechnungen.Include(ar => ar.Rechnungspositionen), cancellationToken);
+            return await GetDataFromDbSetAsync(
+                DBContext.Ausgangsrechnungen
+                .Include(ar => ar.ZugehoerigeWaehrung)
+                .Include(ar => ar.Rechnungspositionen).ThenInclude(rp => rp.ZugehoerigeAbrechnungseinheit)
+                .Include(ar => ar.Rechnungspositionen).ThenInclude(rp => rp.ZugehoerigeKostenstelle)
+                .Include(ar => ar.Rechnungspositionen).ThenInclude(rp => rp.ZugehoerigeAuftragsposition)
+                .Include(ar => ar.Rechnungspositionen).ThenInclude(rp => rp.ZugehoerigeFremdleistungen)
+                , cancellationToken);
         }
 
         public async Task<Ausgangsrechnung> CreateAusgangsrechnungAsync(CancellationToken cancellationToken = default)
@@ -275,6 +282,11 @@ namespace DoePaAdmin.ViewModel.Services
 
             return newAusgangsrechnung;
 
+        }
+
+        public async Task AddAusgangsrechnungAsync(Ausgangsrechnung ausgangsrechnungToAdd, CancellationToken cancellationToken = default)
+        {
+            _ = await DBContext.Ausgangsrechnungen.AddAsync(ausgangsrechnungToAdd, cancellationToken);
         }
 
         public void RemoveAusgangsrechnung(Ausgangsrechnung ausgangsrechnungToRemove)
@@ -371,12 +383,13 @@ namespace DoePaAdmin.ViewModel.Services
             return await AddDataToDbSetAsync(DBContext.Waehrungen, cancellationToken);
         }
 
-        public async Task<Waehrung> CreateWaehrungAsync(String waehrungName, string waehrungZeichen, string waehrungISO, CancellationToken cancellationToken = default)
+        public async Task<Waehrung> CreateWaehrungAsync(String waehrungName, string waehrungZeichen, string waehrungISO, Dictionary<string, string> waehrungAdditions = null, CancellationToken cancellationToken = default)
         { 
             Waehrung newWaehrung = await CreateWaehrungAsync(cancellationToken);
             newWaehrung.WaehrungName = waehrungName;
             newWaehrung.WaehrungZeichen = waehrungZeichen;
             newWaehrung.WaehrungISO = waehrungISO;
+            newWaehrung.WaehrungAdditions = waehrungAdditions;
 
             return newWaehrung;
         }
@@ -391,11 +404,12 @@ namespace DoePaAdmin.ViewModel.Services
             return await AddDataToDbSetAsync(DBContext.Abrechnungseinheiten, cancellationToken);
         }
 
-        public async Task<Abrechnungseinheit> CreateAbrechnungseinheitAsync(string name, string abkuerzung, CancellationToken cancellationToken = default)
+        public async Task<Abrechnungseinheit> CreateAbrechnungseinheitAsync(string name, string abkuerzung, Dictionary<string, string> additions = null, CancellationToken cancellationToken = default)
         {
             Abrechnungseinheit newAbrechnungseinheit = await CreateAbrechnungseinheitAsync(cancellationToken);
             newAbrechnungseinheit.Name = name;
             newAbrechnungseinheit.Abkuerzung = abkuerzung;
+            newAbrechnungseinheit.Additions = additions;
 
             return newAbrechnungseinheit;
         }

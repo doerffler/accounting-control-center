@@ -16,6 +16,8 @@ namespace DoePaAdminDataModel.Kostenrechnung
 
         public DateTime? BezahltDatum { get; set; }
 
+        public Waehrung ZugehoerigeWaehrung { get; set; }
+
         public Geschaeftsjahr ZugehoerigesGeschaeftsjahr { get; set; }
 
         public Rechnungsdokument ZugehoerigesDokument { get; set; }

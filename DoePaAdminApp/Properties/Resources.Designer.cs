@@ -266,5 +266,14 @@ namespace DoePaAdminApp.Properties {
                 return ResourceManager.GetString("strSaveData", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die strStartMigrationOfInvoices ähnelt.
+        /// </summary>
+        public static string strStartMigrationOfInvoices {
+            get {
+                return ResourceManager.GetString("strStartMigrationOfInvoices", resourceCulture);
+            }
+        }
     }
 }

@@ -23,15 +23,33 @@
                 <scm:SortDescription PropertyName="OutgoingInvoiceForImport.RelatedBusinessYear.DateFrom"/>
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
+        <CollectionViewSource x:Key="cvsOrderPositions" Source="{Binding Auftragspositionen}">
+            <CollectionViewSource.GroupDescriptions>
+                <PropertyGroupDescription PropertyName="Auftrag.ZugehoerigesGeschaeftsjahr.Name"/>
+                <PropertyGroupDescription PropertyName="Auftrag.Auftragsname"/>
+            </CollectionViewSource.GroupDescriptions>
+            <CollectionViewSource.SortDescriptions>
+                <scm:SortDescription PropertyName="Auftrag.ZugehoerigesGeschaeftsjahr.Name"/>
+                <scm:SortDescription PropertyName="Auftrag.Auftragsname"/>
+            </CollectionViewSource.SortDescriptions>
+        </CollectionViewSource>
     </Window.Resources>
     <Grid>
-        <DataGrid ItemsSource="{Binding Source={StaticResource cvsInvoices}}" AutoGenerateColumns="False" CanUserAddRows="False">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <DataGrid Grid.Row="0" ItemsSource="{Binding Source={StaticResource cvsInvoices}}" AutoGenerateColumns="False" CanUserAddRows="False">
             <DataGrid.Columns>
+                <DataGridCheckBoxColumn Header="Migrationsbereit" Binding="{Binding IsReadyForMigration}" />
                 <DataGridTextColumn Header="Rechnungsnummer" Binding="{Binding OutgoingInvoiceForImport.InvoiceNo}" />
                 <DataGridTextColumn Header="Rechnungsdatum" Binding="{Binding OutgoingInvoiceForImport.DateDocument}" />
                 <DataGridTextColumn Header="Rechnungssumme Netto" Binding="{Binding OutgoingInvoiceForImport.NettoSum}" />
-                <DataGridTextColumn Header="Geschäftsjahr" Binding="{Binding OutgoingInvoiceForImport.RelatedBusinessYear.Name}" />
                 <DataGridTextColumn Header="Kunde" Binding="{Binding OutgoingInvoiceForImport.RelatedCompany.Name1}" />
+                <DataGridComboBoxColumn Header="Währung" ItemsSource="{Binding Source={StaticResource Locator}, Path=ManageWaehrungViewModel.Waehrungen}" SelectedItemBinding="{Binding RelatedWaehrung}" DisplayMemberPath="WaehrungISO" />
+                <DataGridComboBoxColumn Header="Rechnungsempfänger" ItemsSource="{Binding Source={StaticResource Locator}, Path=ManageDebitorenViewModel.Geschaeftspartner}" SelectedItemBinding="{Binding RelatedRechnungsempfaenger}" />
+                <DataGridComboBoxColumn Header="Geschäftsjahr" ItemsSource="{Binding Source={StaticResource Locator}, Path=ManageGeschaeftsjahreViewModel.Geschaeftsjahre}" SelectedItemBinding="{Binding RelatedGeschaeftsjahr}" DisplayMemberPath="Name" />
             </DataGrid.Columns>
             <DataGrid.GroupStyle>
                 <GroupStyle>
@@ -83,13 +101,24 @@
                             <DataGridTextColumn Header="Mehrwertsteuer" Binding="{Binding OutgoingInvoicePositionForImport.Tax}" />
                             <DataGridTextColumn Header="Mehrwertsteuersatz" Binding="{Binding OutgoingInvoicePositionForImport.TaxPercent}" />
                             <DataGridTextColumn Header="Bruttowert" Binding="{Binding OutgoingInvoicePositionForImport.Gross}" />
-                            <DataGridComboBoxColumn Header="Kostenstelle" ItemsSource="{Binding Source={StaticResource Locator}, Path=ManageKostenstellenViewModel.Kostenstellen}" SelectedItemBinding="{Binding RelatedKostenstelle}" DisplayMemberPath="Kostenstellenbezeichnung" />
                             <DataGridTextColumn Header="Projekt" Binding="{Binding OutgoingInvoicePositionForImport.RelatedProject.Name}" />
-                            <DataGridTextColumn Header="Kostenart" Binding="{Binding OutgoingInvoicePositionForImport.RelatedCostType.Name}" />                            
+                            <DataGridTextColumn Header="Kostenart" Binding="{Binding OutgoingInvoicePositionForImport.RelatedCostType.Name}" />
+                            <DataGridComboBoxColumn Header="Kostenstelle" ItemsSource="{Binding Source={StaticResource Locator}, Path=ManageKostenstellenViewModel.Kostenstellen}" SelectedItemBinding="{Binding RelatedKostenstelle}" DisplayMemberPath="Kostenstellenbezeichnung" />
+                            <DataGridComboBoxColumn Header="Abrechnungseinheit" ItemsSource="{Binding Source={StaticResource Locator}, Path=ManageAbrechnungseinheitViewModel.Abrechnungseinheiten}" SelectedItemBinding="{Binding RelatedAbrechnungseinheit}" DisplayMemberPath="Name" />
+                            <DataGridComboBoxColumn Header="Auftragsposition" ItemsSource="{Binding Source={StaticResource cvsOrderPositions}}" SelectedItemBinding="{Binding RelatedAuftragsposition}" />
                         </DataGrid.Columns>
                     </DataGrid>
                 </DataTemplate>
             </DataGrid.RowDetailsTemplate>
         </DataGrid>
+        <Button Grid.Row="1" Command="{Binding MigrateInvoicesCommand}">
+            <StackPanel Orientation="Horizontal">
+                <Image Height="16" Width="16" Source="{svg:SvgImage /Resources/CopyInvoice.svg}" />
+                <TextBlock Text="{x:Static p:Resources.strStartMigrationOfInvoices}"/>
+            </StackPanel>
+        </Button>
+        <Button Grid.Row="2" Command="{Binding SaveChangesCommand}">
+            <Control Template="{StaticResource tmpSaveDbDataButton}" />
+        </Button>
     </Grid>
 </Window>

@@ -1,4 +1,4 @@
-# DoePaAdmin
+# Accounting Control Center (ACC)
 This is a tool to manage all kinds of business data a small consulting business is facing on a daily base.
 It is written by [Dörffler &amp; Partner GmbH](https://www.doerffler.com), which is a small consulting company based in Hanover, Germany.
 

@@ -17,6 +17,7 @@ namespace DoePaAdminDataModel.DTO
         public int ContractNumber { get; set; }
         public string CodeOfEmployeeInCharge { get; set; }
         public IList<OrderItemDTO> OrderItems { get; set; }
+        public string CurrencyISO { get; set; }
 
         public OrderDTO()
         {

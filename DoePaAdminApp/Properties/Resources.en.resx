@@ -186,4 +186,7 @@
   <data name="strSaveData" xml:space="preserve">
     <value>Save</value>
   </data>
+  <data name="strStartMigrationOfInvoices" xml:space="preserve">
+    <value>Start migration</value>
+  </data>
 </root>

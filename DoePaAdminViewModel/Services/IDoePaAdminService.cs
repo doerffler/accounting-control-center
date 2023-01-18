@@ -64,7 +64,7 @@ namespace DoePaAdmin.ViewModel.Services
 
         public Task<Auftrag> CreateAuftragAsync(CancellationToken cancellationToken = default);
 
-        public Task<IEnumerable<Auftragsposition>> GetAuftragspositionAsync(CancellationToken cancellationToken = default);
+        public Task<IEnumerable<Auftragsposition>> GetAuftragspositionenAsync(CancellationToken cancellationToken = default);
         
         public Task<Auftragsposition> CreateAuftragspositionAsync(CancellationToken cancellationToken = default);
 
@@ -78,6 +78,8 @@ namespace DoePaAdmin.ViewModel.Services
 
         public Task<Ausgangsrechnung> CreateAusgangsrechnungAsync(CancellationToken cancellationToken = default);
 
+        public Task AddAusgangsrechnungAsync(Ausgangsrechnung ausgangsrechnungToAdd, CancellationToken cancellationToken = default);
+
         public void RemoveAusgangsrechnung(Ausgangsrechnung ausgangsrechnungToRemove);
 
         public Task<Ausgangsrechnungsposition> CreateAusgangsrechnungspositionAsync(CancellationToken cancellationToken = default);
@@ -88,12 +90,12 @@ namespace DoePaAdmin.ViewModel.Services
 
         public Task<IEnumerable<Waehrung>> GetWaehrungenAsync(CancellationToken cancellationToken = default);
         public Task<Waehrung> CreateWaehrungAsync(CancellationToken cancellationToken = default);
-        public Task<Waehrung> CreateWaehrungAsync(String waehrungName, string waehrungZeichen, string waehrungISO, CancellationToken cancellationToken = default);
+        public Task<Waehrung> CreateWaehrungAsync(String waehrungName, string waehrungZeichen, string waehrungISO, Dictionary<string, string> waehrungAdditions = null, CancellationToken cancellationToken = default);
         void RemoveWaehrung(Waehrung selectedWaehrung);
 
         public Task<IEnumerable<Abrechnungseinheit>> GetAbrechnungseinheitenAsync(CancellationToken cancellationToken = default);
         public Task<Abrechnungseinheit> CreateAbrechnungseinheitAsync(CancellationToken cancellationToken = default);
-        public Task<Abrechnungseinheit> CreateAbrechnungseinheitAsync(string name, string abkuerzung, CancellationToken cancellationToken = default);
+        public Task<Abrechnungseinheit> CreateAbrechnungseinheitAsync(string name, string abkuerzung, Dictionary<string, string> additions = null, CancellationToken cancellationToken = default);
         void RemoveAbrechnungseinheit(Abrechnungseinheit selectedAbrechnungseinheit);
 
         public Task<IEnumerable<T>> GetGeschaeftspartnerAsync<T>(CancellationToken cancellationToken = default) where T : Geschaeftspartner;
@@ -135,9 +137,9 @@ namespace DoePaAdmin.ViewModel.Services
         public Task<bool> CheckForChangesAsync(CancellationToken cancellationToken = default);
 
         public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
-
+        
         #endregion
 
-        
+
     }
 }
