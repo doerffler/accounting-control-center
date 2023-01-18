@@ -2,7 +2,7 @@
 
 namespace DoePaAdmin.ViewModel.Services
 {
-    public interface IApiReciever
+    public interface IApiReceiver
     {
 
     }

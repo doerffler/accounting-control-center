@@ -15,7 +15,7 @@
         Title="{x:Static p:Resources.strManageOutgoingInvoices}"
         DataContext="{Binding Source={StaticResource Locator}, Path=ManageAusgangsrechnungenViewModel}">
     <Window.Resources>
-        <CollectionViewSource x:Key="cvsGeschaeftsjahre" Source="{Binding Geschaeftsjahre}">
+        <CollectionViewSource x:Key="cvsGeschaeftsjahre" Source="{Binding Source={StaticResource Locator}, Path=ManageGeschaeftsjahreViewModel.Geschaeftsjahre}">
             <CollectionViewSource.SortDescriptions>
                 <scm:SortDescription PropertyName="DatumVon"/>
             </CollectionViewSource.SortDescriptions>
@@ -116,23 +116,34 @@
                 </Button>
             </WrapPanel>
 
+            <Label Grid.Row="1" Grid.Column="2">Währung:</Label>
+            <ComboBox
+                Grid.Row="1"
+                Grid.Column="3"
+                ItemsSource="{Binding Source={StaticResource Locator}, Path=ManageWaehrungViewModel.Waehrungen}"
+                SelectedItem="{Binding SelectedRechnung.ZugehoerigeWaehrung}"
+                DisplayMemberPath="WaehrungISO" />
+
         </Grid>
 
         <DataGrid
             Grid.Column="2"
             Grid.Row="1"
-            DataContext="{Binding SelectedRechnung.Rechnungspositionen}">
+            DataContext="{Binding SelectedRechnung.Rechnungspositionen}"
+            ItemsSource="{Binding}"
+            AutoGenerateColumns="False">
 
             <DataGrid.Columns>
 
                 <DataGridTextColumn Header="Position" Binding="{Binding Path=PositionsNummer}" />
-                <DataGridTextColumn Header="Stückzahl" Binding="{Binding Path=Stueckzahl}" />
-                <DataGridComboBoxColumn Header="Abrechnungseinheit" ItemsSource="{Binding Source={StaticResource Locator}, Path=ManageAusgangsrechnungenViewModel.Abrechnungseinheiten}" SelectedItemBinding="{Binding Path=ZugehoerigeAbrechnungseinheit}" DisplayMemberPath="AbrechnungseinheitName" />
-                <DataGridTextColumn Header="Stückpreis Netto" Binding="{Binding Path=StueckpreisNetto}" />
                 <DataGridTextColumn Header="Positionsbeschreibung" Binding="{Binding Path=Positionsbeschreibung}" />
+                <DataGridTextColumn Header="Stückzahl" Binding="{Binding Path=Stueckzahl}" />
+                <DataGridComboBoxColumn Header="Abrechnungseinheit" ItemsSource="{Binding Source={StaticResource Locator}, Path=ManageAbrechnungseinheitViewModel.Abrechnungseinheiten}" SelectedItemBinding="{Binding Path=ZugehoerigeAbrechnungseinheit}" DisplayMemberPath="Name" />
+                <DataGridTextColumn Header="Stückpreis Netto" Binding="{Binding Path=StueckpreisNetto}" />
                 <DataGridTextColumn Header="Mehrwertsteuersatz" Binding="{Binding Path=Steuersatz}" />
                 <DataGridTextColumn Header="Nettobetrag" Binding="{Binding Path=Nettobetrag}" />
-                <DataGridComboBoxColumn Header="Währung" SelectedItemBinding="{Binding Path=NettobetragWaehrung}" DisplayMemberPath="WaehrungISO" />
+                <DataGridComboBoxColumn Header="Kostenstelle" ItemsSource="{Binding Source={StaticResource Locator}, Path=ManageKostenstellenViewModel.Kostenstellen}" SelectedItemBinding="{Binding Path=ZugehoerigeKostenstelle}" DisplayMemberPath="Kostenstellenbezeichnung" />
+                <DataGridTextColumn Header="Auftragsposition" Binding="{Binding Path=ZugehoerigeAuftragsposition.Positionsbezeichnung}"/>
             </DataGrid.Columns>
 
         </DataGrid>

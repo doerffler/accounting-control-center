@@ -27,7 +27,7 @@ namespace DoePaAdminApp
 
         public App()
         {
-            config = ConfigurationManager.AppSettings;
+            config = System.Configuration.ConfigurationManager.AppSettings;
             Thread.CurrentThread.CurrentUICulture = new(config["Language"]);
 
             host = Host.CreateDefaultBuilder()  // Use default settings
@@ -57,7 +57,6 @@ namespace DoePaAdminApp
             services.Configure<DPAppConnectionSettings>(configuration.GetSection(nameof(DPAppConnectionSettings)));
             services.Configure<DoePaAdminConnectionSettings>(configuration.GetSection(nameof(DoePaAdminConnectionSettings)));
 
-            services.AddScoped<ISampleService, SampleService>();
             services.AddScoped<IDPAppService, DPAppService>();
             services.AddScoped<IDoePaAdminService, DoePaAdminService>();
             services.AddScoped<IUserInteractionService, UserInteractionService>();
@@ -78,8 +77,8 @@ namespace DoePaAdminApp
             services.AddSingleton<ManageKostenstellenartViewModel>();
             services.AddSingleton<ManageTaetigkeitViewModel>();
             services.AddSingleton<ManageWaehrungViewModel>();
-
             services.AddSingleton<ManageSkillsViewModel>();
+            services.AddSingleton<DisplayAuftragsstatusViewModel>();
 
             services.AddTransient<MainWindow>();
             services.AddTransient<ManageKostenstellenWindow>();

@@ -15,5 +15,7 @@ namespace DoePaAdminDataModel.Stammdaten
 
         public string Abkuerzung { get; set; }
 
+        public Dictionary<string, string> Additions { get; set; }
+
     }
 }

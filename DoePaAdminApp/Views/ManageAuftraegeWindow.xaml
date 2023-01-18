@@ -104,6 +104,7 @@
                     </DataGridTemplateColumn.CellEditingTemplate>
                 </DataGridTemplateColumn>
                 <DataGridComboBoxColumn Header="Geschäftsjahr" ItemsSource="{Binding Source={StaticResource Locator}, Path=ManageGeschaeftsjahreViewModel.Geschaeftsjahre, Mode=TwoWay}" SelectedItemBinding="{Binding Path=ZugehoerigesGeschaeftsjahr}" DisplayMemberPath="Name"/>
+                <DataGridComboBoxColumn Header="Währung" ItemsSource="{Binding Source={StaticResource Locator}, Path=ManageWaehrungViewModel.Waehrungen}" SelectedItemBinding="{Binding Path=ZugehoerigeWaehrung}" DisplayMemberPath="WaehrungISO"/>
             </DataGrid.Columns>
         </DataGrid>
 
@@ -119,6 +120,7 @@
                 <DataGridTextColumn Header="Nr." Binding="{Binding Path=AuftragspositionNummer}" />
                 <DataGridTextColumn Header="Positionsbezeichnung" Binding="{Binding Path=Positionsbezeichnung}" />
                 <DataGridTextColumn Header="Volumen" Binding="{Binding Path=Auftragsvolumen}" />
+                <DataGridTextColumn Header="Nettopreis" Binding="{Binding Path=StueckpreisNetto}" />
                 <DataGridComboBoxColumn Header="Einheiten" ItemsSource="{Binding Source={StaticResource Locator}, Path=ManageAuftraegeViewModel.Abrechnungseinheiten}" SelectedItemBinding="{Binding Path=Abrechnungseinheit}" DisplayMemberPath="Name"/>
             </DataGrid.Columns>
         </DataGrid>

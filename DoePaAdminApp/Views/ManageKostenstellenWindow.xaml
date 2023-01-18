@@ -30,7 +30,7 @@
 
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn DisplayMemberBinding= "{Binding Path=KostenstelleID}" Header="Nr"/>
+                        <GridViewColumn DisplayMemberBinding= "{Binding Path=KostenstellenNummer}" Header="Nr"/>
                         <GridViewColumn DisplayMemberBinding= "{Binding Path=Kostenstellenbezeichnung}" Header="Kostenstellenname" />
                     </GridView>
                 </ListView.View>
@@ -66,7 +66,7 @@
             </Grid.RowDefinitions>
 
             <Label Grid.Row="0" Grid.Column="0">Kostenstellennummer:</Label>
-            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding SelectedKostenstelle.KostenstelleID}" />
+            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding SelectedKostenstelle.KostenstellenNummer}" />
 
             <Label Grid.Row="1" Grid.Column="0">Kostenstellenbezeichnung:</Label>
             <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding SelectedKostenstelle.Kostenstellenbezeichnung}" />

@@ -3,16 +3,13 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:oxy="clr-namespace:OxyPlot.Wpf;assembly=OxyPlot.Wpf"
-        xmlns:local="clr-namespace:DoePaAdminApp.Views"
-        xmlns:properties="clr-namespace:DoePaAdminApp.Properties"
         xmlns:svg="http://sharpvectors.codeplex.com/svgc/"
         mc:Ignorable="d"
+        xmlns:oxy="http://oxyplot.org/wpf"
         xmlns:p="clr-namespace:DoePaAdminApp.Properties"
         Title="Dörffler &amp; Partner GmbH - DoePaAdmin"
         Icon="/Resources/doerffler_icon_496x496.png"
-        Height="450"
-        Width="1200"
+        Width="1356"
         DataContext="{Binding Source={StaticResource Locator}, Path=MainViewModel}">
     <Grid>
         <Grid.RowDefinitions>
@@ -155,8 +152,8 @@
                     <RibbonButton
                         x:Name="RBOpenGeschaeftsjahrManagement"
                         Click="RBOpenGeschaeftsjahrManagement_Click"
-                        SmallImageSource="{svg:SvgImage /Resources/undraw_schedule_re_2vro.svg}"
-                        LargeImageSource="{svg:SvgImage /Resources/undraw_schedule_re_2vro.svg}"
+                        SmallImageSource="{svg:SvgImage /Resources/reshot_calendar.svg}"
+                        LargeImageSource="{svg:SvgImage /Resources/reshot_calendar.svg}"
                         Label="{x:Static p:Resources.strManageGeschaeftsjahre}" />
                 </RibbonGroup>
                 <RibbonGroup Header="Anderes">
@@ -218,10 +215,48 @@
         </Ribbon>
         <TabControl Grid.Row="1">
             <TabItem Header="Geschäftsjahresübersicht">
-                <oxy:PlotView Model="{Binding Model}"/>
-            </TabItem>
-            <TabItem Header="Auftragsstatus">
 
+            </TabItem>
+            <TabItem Header="Auftragsstatus" DataContext="{Binding Source={StaticResource Locator}, Path=DisplayAuftragsstatusViewModel}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="25*"/>
+                        <RowDefinition Height="199*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="99*"/>
+                        <ColumnDefinition Width="100*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="99*"/>
+                            <ColumnDefinition Width="100*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Row="1" Grid.Column="0">Geschäftsjahr:</Label>
+                        <ComboBox Grid.Row="1" Grid.Column="1" SelectedItem="{Binding SelectedGeschaeftsjahr}" ItemsSource="{Binding Source={StaticResource Locator}, Path=ManageGeschaeftsjahreViewModel.Geschaeftsjahre}" DisplayMemberPath="Name" />
+                    </Grid>
+                    <ScrollViewer Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                        <ItemsControl ItemsSource="{Binding Charts}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <oxy:PlotView
+                                        Controller="{Binding Source={StaticResource Locator}, Path=DisplayAuftragsstatusViewModel.Controller}" 
+                                        Model="{Binding}" 
+                                        Width="500" 
+                                        Height="250"/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </Grid>
             </TabItem>
             <TabItem Header="Mitarbeiterperformance">
 

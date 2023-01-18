@@ -1,10 +1,12 @@
 ﻿using DoePaAdminDataModel.Kostenrechnung;
 using DoePaAdminDataModel.Stammdaten;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -23,6 +25,13 @@ namespace DoePaAdminDataAdapter.DoePaAdmin
         public async Task<int> InitializeMasterdataTablesAsync(CancellationToken cancellationToken = default)
         {
             return await Database.ExecuteSqlRawAsync(Properties.Resources.InitializeMasterdataTables, cancellationToken);
+        }
+
+        protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+        {
+            configurationBuilder
+                .Properties<Dictionary<string, string>>()
+                .HaveConversion<AdditionConverter>();
         }
 
         #region Stammdaten

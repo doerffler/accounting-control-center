@@ -1,4 +1,4 @@
-# DoePaAdmin
+# Accounting Control Center (ACC)
 This is a tool to manage all kinds of business data a small consulting business is facing on a daily base.
 It is written by [Dörffler &amp; Partner GmbH](https://www.doerffler.com), which is a small consulting company based in Hanover, Germany.
 
@@ -29,3 +29,4 @@ To spice up our app visually we use some graphics we found on the internet and w
 - [The Visual Studio image library](https://learn.microsoft.com/en-us/visualstudio/designers/the-visual-studio-image-library?view=vs-2022)
 - [Free onlinewebfonts.com](https://www.onlinewebfonts.com/icon/)
 - [Undraw](https://undraw.co/)
+- [Reshot](https://www.reshot.com/)

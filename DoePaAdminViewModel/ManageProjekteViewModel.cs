@@ -1,7 +1,7 @@
 ﻿using DoePaAdmin.ViewModel.Services;
 using DoePaAdminDataModel.Stammdaten;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -140,6 +140,10 @@ namespace DoePaAdmin.ViewModel
                     AssignedAuftraege = new ObservableCollection<Auftrag>(SelectedProjekt.ZugehoerigeAuftraege);
                     AssignedAuftraege.CollectionChanged += HandleAssignedAuftraegeCollectionChanged;
                     break;
+                case nameof(SelectedNichtZugeordneterAuftrag):
+                    break;
+                case nameof(SelectedZugeordneterAuftrag):
+                    break;
             }
         }
 
@@ -147,7 +151,7 @@ namespace DoePaAdmin.ViewModel
         {
 
             Projekt newProjekt = await DoePaAdminService.CreateProjektAsync(cancellationToken);
-            newProjekt.Projektname = "NeuesProjekt";
+            newProjekt.Projektname = "Neues Projekt";
             Projekte.Add(newProjekt);
         }
         private void DoRemoveProjekt()
@@ -162,11 +166,8 @@ namespace DoePaAdmin.ViewModel
         {
             if (AssignedAuftraege != null && SelectedNichtZugeordneterAuftrag != null)
             {
-                AssignedAuftraege.Add(SelectedNichtZugeordneterAuftrag);                
-            }
-            if (AllAuftraege != null)
-            {
-
+                AssignedAuftraege.Add(SelectedNichtZugeordneterAuftrag);
+                AllAuftraege.Remove(SelectedNichtZugeordneterAuftrag);
             }
         }
 
@@ -174,6 +175,7 @@ namespace DoePaAdmin.ViewModel
         {
             if (AssignedAuftraege != null && SelectedZugeordneterAuftrag != null)
             {
+                AllAuftraege.Add(SelectedZugeordneterAuftrag);
                 AssignedAuftraege.Remove(SelectedZugeordneterAuftrag);
             }
         }

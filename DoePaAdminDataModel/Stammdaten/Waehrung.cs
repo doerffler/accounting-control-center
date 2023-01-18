@@ -17,5 +17,7 @@ namespace DoePaAdminDataModel.Stammdaten
 
         public string WaehrungZeichen { get; set; }
 
+        public Dictionary<string, string> WaehrungAdditions { get; set; }
+
     }
 }

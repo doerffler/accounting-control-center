@@ -18,5 +18,29 @@ namespace DoePaAdminDataModel.DataMigration
 
         public Kostenstelle RelatedKostenstelle { get; set; }
 
+        public Abrechnungseinheit RelatedAbrechnungseinheit { get; set; }
+
+        public Ausgangsrechnungsposition CreateAusgangsrechnungsposition(Ausgangsrechnung relatedAusgangsrechnung)
+        {
+            Ausgangsrechnungsposition newARP = new()
+            {
+                LeistungszeitraumBis = OutgoingInvoicePositionForImport.DateServiceUntil,
+                LeistungszeitraumVon = OutgoingInvoicePositionForImport.DateServiceFrom,
+                Positionsbeschreibung = OutgoingInvoicePositionForImport.PositionText,
+                PositionsNummer = OutgoingInvoicePositionForImport.Sequence,
+                Steuersatz = OutgoingInvoicePositionForImport.TaxPercent/100+1 ?? 0,
+                StueckpreisNetto = OutgoingInvoicePositionForImport.HourlyRate ?? 0,
+                Stueckzahl = OutgoingInvoicePositionForImport.Hours ?? 0,
+                                
+                ZugehoerigeAbrechnungseinheit = RelatedAbrechnungseinheit,
+                ZugehoerigeAuftragsposition = RelatedAuftragsposition,
+                ZugehoerigeKostenstelle = RelatedKostenstelle,
+                ZugehoerigeRechnung = relatedAusgangsrechnung
+            };
+
+            return newARP;
+
+        }
+
     }
 }

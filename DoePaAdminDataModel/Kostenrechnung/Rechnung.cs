@@ -14,7 +14,9 @@ namespace DoePaAdminDataModel.Kostenrechnung
 
         public decimal? RabattPct { get; set; }
 
-        public DateTime BezahltDatum { get; set; }
+        public DateTime? BezahltDatum { get; set; }
+
+        public Waehrung ZugehoerigeWaehrung { get; set; }
 
         public Geschaeftsjahr ZugehoerigesGeschaeftsjahr { get; set; }
 

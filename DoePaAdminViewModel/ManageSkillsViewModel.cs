@@ -1,6 +1,6 @@
 ﻿using DoePaAdmin.ViewModel.Services;
 using DoePaAdminDataModel.Stammdaten;
-using Microsoft.Toolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -18,8 +18,6 @@ namespace DoePaAdmin.ViewModel
         public IRelayCommand AddSkillCommand { get; }
         public IRelayCommand RemoveSkillCommand { get; }
         public IRelayCommand DragDropCommand { get; }
-
-        private IUserInteractionService UserInteractionService { get; set; }
 
         #region Skill
         private ObservableCollection<Skill> _skills = new();
@@ -39,9 +37,7 @@ namespace DoePaAdmin.ViewModel
 
         public ManageSkillsViewModel(IDoePaAdminService doePaAdminService, IUserInteractionService userInteractionService) : base(doePaAdminService, userInteractionService)
         {
-            Skills = new(Task.Run(async () => await DoePaAdminService.GetSkillsAsync()).Result);
-
-            UserInteractionService = userInteractionService;
+            Skills = new(Task.Run(async () => await DoePaAdminService.GetSkillTreeAsync()).Result);
 
             AddSkillCommand = new AsyncRelayCommand(DoAddSkillAsync);
 

@@ -1,7 +1,7 @@
 ﻿using DoePaAdmin.ViewModel.Services;
 using DoePaAdminDataModel.Kostenrechnung;
 using DoePaAdminDataModel.Stammdaten;
-using Microsoft.Toolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -23,14 +23,6 @@ namespace DoePaAdmin.ViewModel
             set => SetProperty(ref _selectedGeschaeftsjahr, value, true);
         }
 
-        private ObservableCollection<Geschaeftsjahr> _geschaeftsjahre;
-
-        public ObservableCollection<Geschaeftsjahr> Geschaeftsjahre
-        {
-            get => _geschaeftsjahre;
-            set => SetProperty(ref _geschaeftsjahre, value, true);
-        }
-
         private Ausgangsrechnung _selectedRechnung;
 
         public Ausgangsrechnung SelectedRechnung
@@ -47,14 +39,6 @@ namespace DoePaAdmin.ViewModel
             set => SetProperty(ref _rechnungen, value, true);
         }
 
-        private ObservableCollection<Abrechnungseinheit> _abrechnungseinheiten;
-
-        public ObservableCollection<Abrechnungseinheit> Abrechnungseinheiten
-        {
-            get => _abrechnungseinheiten;
-            set => SetProperty(ref _abrechnungseinheiten, value, true);
-        }
-                
         public static Uri InvoiceDocumentUrl
         {
             //TODO: This is supposed to return something like SelectedRechnung.ZugehoerigesDokument.DokumentUrl
@@ -73,12 +57,9 @@ namespace DoePaAdmin.ViewModel
             AddRechnungCommand = new AsyncRelayCommand(DoAddRechnungAsync);
             RemoveRechnungCommand = new RelayCommand(DoRemoveRechnung);
 
-            Abrechnungseinheiten = new(Task.Run(async () => await DoePaAdminService.GetAbrechnungseinheitenAsync()).Result);
-            Geschaeftsjahre = new(Task.Run(async () => await DoePaAdminService.GetGeschaeftsjahreAsync()).Result);
             Rechnungen = new(Task.Run(async () => await DoePaAdminService.GetAusgangsrechnungenAsync()).Result);
 
-            SelectedGeschaeftsjahr = CalculateCurrentGeschaeftsjahr();
-
+            SelectedGeschaeftsjahr = Task.Run(async () => await CalculateCurrentGeschaeftsjahrAsync()).Result;
         }
 
         private void DoRemoveRechnung()
@@ -113,9 +94,11 @@ namespace DoePaAdmin.ViewModel
             return SelectedGeschaeftsjahr?.Rechnungsprefix ?? string.Empty + nextNumber;
         }
 
-        private Geschaeftsjahr CalculateCurrentGeschaeftsjahr()
+        private async Task<Geschaeftsjahr> CalculateCurrentGeschaeftsjahrAsync(CancellationToken cancellationToken = default)
         {
-            Geschaeftsjahr geschaeftsjahrToReturn = Geschaeftsjahre.Where(gj => gj.DatumVon <= DateTime.Now && gj.DatumBis >= DateTime.Now).FirstOrDefault();
+            IEnumerable<Geschaeftsjahr> listGeschaeftsjahre = await DoePaAdminService.GetGeschaeftsjahreAsync(cancellationToken);
+
+            Geschaeftsjahr geschaeftsjahrToReturn = listGeschaeftsjahre.FirstOrDefault(gj => gj.DatumVon <= DateTime.Now && gj.DatumBis >= DateTime.Now);
 
             return geschaeftsjahrToReturn;
         }

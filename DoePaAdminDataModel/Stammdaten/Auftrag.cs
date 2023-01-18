@@ -28,6 +28,13 @@ namespace DoePaAdminDataModel.Stammdaten
 
         public int Vertragsnummer { get; set; }
 
+        public Waehrung ZugehoerigeWaehrung { get; set; }
+
+        public override string ToString()
+        {
+            return $"{ZugehoerigesGeschaeftsjahr?.Name}|{Auftragsname}";
+        }
+
         public Auftrag()
         {
             Auftragspositionen = new List<Auftragsposition>();

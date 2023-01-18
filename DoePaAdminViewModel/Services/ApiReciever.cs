@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DoePaAdmin.ViewModel.Services
 {
-    public class ApiReciever : IApiReciever
+    public class ApiReceiver : IApiReceiver
     {
 
         private static HttpClient _client = new();

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DoePaAdminDataModel.DPApp;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,10 +18,15 @@ namespace DoePaAdminDataModel.Stammdaten
 
         public decimal Auftragsvolumen { get; set; }
 
+        public decimal StueckpreisNetto { get; set; }
+
         public Auftrag Auftrag { get; set; }   
         
         public string Positionsbezeichnung { get; set; }   
         
-        public Waehrung Waehrung { get; set; }   
+        public override string ToString()
+        {
+            return $"{Auftrag?.ToString()}|{Positionsbezeichnung}";
+        }
     }
 }

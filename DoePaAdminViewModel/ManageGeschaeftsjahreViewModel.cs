@@ -1,7 +1,7 @@
 ﻿using DoePaAdmin.ViewModel.Services;
 using DoePaAdminDataModel.APIFeiertage;
 using DoePaAdminDataModel.Stammdaten;
-using Microsoft.Toolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -128,7 +128,7 @@ namespace DoePaAdmin.ViewModel
 
             string endpoint = string.Format("https://get.api-feiertage.de?years={0}", string.Join(",", Jahre));
 
-            ApiFeiertage apiFeiertage = await ApiReciever.ReadData<ApiFeiertage>(endpoint);
+            ApiFeiertage apiFeiertage = await ApiReceiver.ReadData<ApiFeiertage>(endpoint);
 
             if (apiFeiertage.Status == "success")
             {
