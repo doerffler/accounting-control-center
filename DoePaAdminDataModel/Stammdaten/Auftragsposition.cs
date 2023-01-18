@@ -17,6 +17,8 @@ namespace DoePaAdminDataModel.Stammdaten
 
         public decimal Auftragsvolumen { get; set; }
 
+        public decimal StueckpreisNetto { get; set; }
+
         public Auftrag Auftrag { get; set; }   
         
         public string Positionsbezeichnung { get; set; }   

@@ -49,6 +49,16 @@ namespace DoePaAdmin.ViewModel.Services
             return await AddDataToDbSetAsync(DBContext.Kostenstellen, cancellationToken);
         }
 
+        public async Task<Kostenstelle> CreateKostenstelleAsync(string kostenstellenBezeichnung, int kostenstellenNummer, Kostenstellenart kostenstellenArt, CancellationToken cancellationToken = default)
+        {
+            Kostenstelle newKostenstelle = await CreateKostenstelleAsync(cancellationToken);
+            newKostenstelle.Kostenstellenbezeichnung = kostenstellenBezeichnung;
+            newKostenstelle.KostenstellenNummer = kostenstellenNummer;
+            newKostenstelle.ZugehoerigeKostenstellenart = kostenstellenArt;
+
+            return newKostenstelle;
+        }
+
         public void RemoveKostenstelle(Kostenstelle kostenstelleToRemove)
         {
             _ = DBContext.Kostenstellen.Remove(kostenstelleToRemove);
@@ -63,7 +73,15 @@ namespace DoePaAdmin.ViewModel.Services
         {
             return await AddDataToDbSetAsync(DBContext.Kostenstellenarten, cancellationToken);
         }
-        
+
+        public async Task<Kostenstellenart> CreateKostenstellenartAsync(string bezeichnung, CancellationToken cancellationToken = default)
+        {
+            Kostenstellenart newKostenstellenart = await CreateKostenstellenartAsync(cancellationToken);
+            newKostenstellenart.Kostenstellenartbezeichnung = bezeichnung;
+
+            return newKostenstellenart;
+        }
+
         #endregion
 
         #region Mitarbeiter
@@ -102,6 +120,14 @@ namespace DoePaAdmin.ViewModel.Services
             return await AddDataToDbSetAsync(DBContext.Taetigkeiten, cancellationToken);
         }
 
+        public async Task<Taetigkeit> CreateTaetigkeitAsync(string beschreibung, CancellationToken cancellationToken = default)
+        {
+            Taetigkeit newTaetigkeit = await CreateTaetigkeitAsync(cancellationToken);
+            newTaetigkeit.Taetigkeitsbeschreibung = beschreibung;
+
+            return newTaetigkeit;
+        }
+
         public async Task<Anstellungsdetail> CreateAnstellungsdetailAsync(CancellationToken cancellationToken = default)
         {
             return await AddDataToDbSetAsync(DBContext.Anstellungsdetails, cancellationToken);
@@ -112,7 +138,7 @@ namespace DoePaAdmin.ViewModel.Services
 
             Kostenstelle maKostenstelle = DBContext.Mitarbeiter.Where(ma => ma.Email == email).Select(ma => ma.ZugehoerigeKostenstelle).First();
 
-            var query = DBContext.Ausgangsrechnungspositionen
+            IQueryable<Ausgangsrechnungsposition> query = DBContext.Ausgangsrechnungspositionen
                             .Include(arp => arp.ZugehoerigeAuftragsposition)
                                 .ThenInclude(zap => zap.Auftrag)
                                     .ThenInclude(a => a.ZugehoerigesProjekt)
@@ -126,7 +152,7 @@ namespace DoePaAdmin.ViewModel.Services
             IEnumerable<EmployeeAccountingDTO> dtoObject = queryData
                             .GroupBy(arp => new { arp.ZugehoerigeAuftragsposition.Auftrag.ZugehoerigesProjekt, arp.ZugehoerigeAbrechnungseinheit, arp.LeistungszeitraumBis.Year, arp.LeistungszeitraumBis.Month })
                             .Select(project => new EmployeeAccountingDTO {
-                                Month = string.Format("{0}-{1}", project.Key.Year, project.Key.Month),
+                                Month = $"{project.Key.Year}-{project.Key.Month}",
                                 Project = project.Key.ZugehoerigesProjekt.Projektname,
                                 Customer = project.Key.ZugehoerigesProjekt.Rechnungsempfaenger.ZugehoerigerKunde.Kundenname,
                                 AccountingCount = project.Sum(p => p.Stueckzahl),
@@ -150,7 +176,16 @@ namespace DoePaAdmin.ViewModel.Services
         {
             return await AddDataToDbSetAsync(DBContext.Kunden, cancellationToken);
         }
-        
+
+        public async Task<Kunde> CreateKundeAsync(string kundenname, string kundennameLang = null, CancellationToken cancellationToken = default)
+        {
+            Kunde newKunde = await CreateKundeAsync(cancellationToken);
+            newKunde.Kundenname = kundenname;
+            newKunde.Langname = !string.IsNullOrEmpty(kundennameLang) ? kundennameLang : kundenname;
+
+            return newKunde;
+        }
+
         #endregion
 
         #region Auftrag
@@ -198,9 +233,22 @@ namespace DoePaAdmin.ViewModel.Services
             return await AddDataToDbSetAsync(DBContext.Skills, cancellationToken);
         }
 
+        public async Task<Skill> CreateSkillAsync(string skillName, CancellationToken cancellationToken = default)
+        {
+            Skill newSkill = await CreateSkillAsync(cancellationToken);
+            newSkill.SkillName = skillName;
+
+            return newSkill;
+        }
+
         public async Task<IEnumerable<Skill>> GetSkillsAsync(CancellationToken cancellationToken = default)
         {
-            var result = await GetDataFromDbSetAsync(DBContext.Skills, cancellationToken);
+            return await GetDataFromDbSetAsync(DBContext.Skills, cancellationToken);
+        }
+
+        public async Task<IEnumerable<Skill>> GetSkillTreeAsync(CancellationToken cancellationToken = default)
+        {
+            IEnumerable<Skill> result = await GetDataFromDbSetAsync(DBContext.Skills, cancellationToken);
             return result.Where(s => s.ParentSkill == null);
         }
 
@@ -245,7 +293,9 @@ namespace DoePaAdmin.ViewModel.Services
 
         public async Task<IEnumerable<RemainingBudgetOnOrdersDTO>> GetRemainingBudgetOnOrdersAsync(int AuftragspositionID, CancellationToken cancellationToken = default)
         {
-            var query = DBContext.Ausgangsrechnungen
+
+            //TODO: I tend to move this to our DTOFactory introduced today.
+            IQueryable<Ausgangsrechnungsposition> query = DBContext.Ausgangsrechnungen
                 .Include(ar => ar.Rechnungspositionen)
                 .SelectMany(rechnung => rechnung.Rechnungspositionen)
                 .Where(arp => arp.ZugehoerigeAuftragsposition.AuftragspositionID == AuftragspositionID);
@@ -321,6 +371,16 @@ namespace DoePaAdmin.ViewModel.Services
             return await AddDataToDbSetAsync(DBContext.Waehrungen, cancellationToken);
         }
 
+        public async Task<Waehrung> CreateWaehrungAsync(String waehrungName, string waehrungZeichen, string waehrungISO, CancellationToken cancellationToken = default)
+        { 
+            Waehrung newWaehrung = await CreateWaehrungAsync(cancellationToken);
+            newWaehrung.WaehrungName = waehrungName;
+            newWaehrung.WaehrungZeichen = waehrungZeichen;
+            newWaehrung.WaehrungISO = waehrungISO;
+
+            return newWaehrung;
+        }
+
         public async Task<IEnumerable<Abrechnungseinheit>> GetAbrechnungseinheitenAsync(CancellationToken cancellationToken = default)
         {
             return await GetDataFromDbSetAsync(DBContext.Abrechnungseinheiten, cancellationToken);
@@ -329,6 +389,15 @@ namespace DoePaAdmin.ViewModel.Services
         public async Task<Abrechnungseinheit> CreateAbrechnungseinheitAsync(CancellationToken cancellationToken = default)
         {
             return await AddDataToDbSetAsync(DBContext.Abrechnungseinheiten, cancellationToken);
+        }
+
+        public async Task<Abrechnungseinheit> CreateAbrechnungseinheitAsync(string name, string abkuerzung, CancellationToken cancellationToken = default)
+        {
+            Abrechnungseinheit newAbrechnungseinheit = await CreateAbrechnungseinheitAsync(cancellationToken);
+            newAbrechnungseinheit.Name = name;
+            newAbrechnungseinheit.Abkuerzung = abkuerzung;
+
+            return newAbrechnungseinheit;
         }
 
         public void RemoveAbrechnungseinheit(Abrechnungseinheit selectedAbrechnungseinheit)
@@ -346,6 +415,17 @@ namespace DoePaAdmin.ViewModel.Services
             return await AddDataToDbSetAsync(DBContext.Geschaeftsjahre, cancellationToken);
         }
 
+        public async Task<Geschaeftsjahr> CreateGeschaeftsjahrAsync(DateTime datumBis, DateTime datumVon, string geschaeftsjahrName, string rechnungsprefix, CancellationToken cancellationToken = default)
+        {
+            Geschaeftsjahr newGeschaeftsjahr = await CreateGeschaeftsjahrAsync(cancellationToken);
+            newGeschaeftsjahr.DatumBis = datumBis;
+            newGeschaeftsjahr.DatumVon = datumVon;
+            newGeschaeftsjahr.Name = geschaeftsjahrName;
+            newGeschaeftsjahr.Rechnungsprefix = rechnungsprefix;
+
+            return newGeschaeftsjahr;
+        }
+
         public void RemoveGeschaeftsjahr(Geschaeftsjahr geschaeftsjahrToRemove)
         {
             _ = DBContext.Geschaeftsjahre.Remove(geschaeftsjahrToRemove);
@@ -359,6 +439,17 @@ namespace DoePaAdmin.ViewModel.Services
         public async Task<Postleitzahl> CreatePostleitzahlAsync(CancellationToken cancellationToken = default)
         {
             return await AddDataToDbSetAsync(DBContext.Postleitzahlen, cancellationToken);
+        }
+
+        public async Task<Postleitzahl> CreatePostleitzahlAsync(string bundesland, string land, string ortsname, string plz, CancellationToken cancellationToken = default)
+        {
+            Postleitzahl newPostleitzahl = await CreatePostleitzahlAsync(cancellationToken);
+            newPostleitzahl.Bundesland = bundesland;
+            newPostleitzahl.Land = land;
+            newPostleitzahl.Ortsname = ortsname;
+            newPostleitzahl.PLZ = plz;
+
+            return newPostleitzahl;
         }
 
         public async Task<Adresse> CreateAdresseAsync(CancellationToken cancellationToken = default)
