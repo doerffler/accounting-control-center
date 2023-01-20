@@ -41,5 +41,7 @@ namespace DoePaAdminApp.ViewModels
         public ManageSkillsViewModel ManageSkillsViewModel => App.ServiceProvider.GetRequiredService<ManageSkillsViewModel>();
 
         public DisplayAuftragsstatusViewModel DisplayAuftragsstatusViewModel => App.ServiceProvider.GetRequiredService<DisplayAuftragsstatusViewModel>();
+        
+        public ExportChartDataViewModel ExportChartDataViewModel => App.ServiceProvider.GetRequiredService<ExportChartDataViewModel>();
     }
 }

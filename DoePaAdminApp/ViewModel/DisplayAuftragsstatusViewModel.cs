@@ -10,15 +10,17 @@ using OxyPlot.Axes;
 using OxyPlot.Series;
 using OxyPlot.Legends;
 using System.Collections.Generic;
-using Microsoft.VisualBasic;
-using DoePaAdminDataModel.Kostenrechnung;
 using DoePaAdminDataModel.DTO;
 using System.Threading;
+using CommunityToolkit.Mvvm.Input;
+using DoePaAdmin.ViewModel.Messages;
 
 namespace DoePaAdmin.ViewModel
 {
     public class DisplayAuftragsstatusViewModel : DoePaAdminViewModelBase
     {
+        public IRelayCommand ExportCommand { get; }
+        
         private Geschaeftsjahr _selectedGeschaeftsjahr;
         public Geschaeftsjahr SelectedGeschaeftsjahr
         {
@@ -47,6 +49,13 @@ namespace DoePaAdmin.ViewModel
             Auftraege = new();
 
             PropertyChanged += HandlePropertyChanged;
+            
+            ExportCommand = new RelayCommand<ElementCollection<Series>>(Export);
+        }
+
+        private void Export(ElementCollection<Series> data)
+        {
+            Messenger.Send(new ExportMessage{Data = data}, "ExportChartData");
         }
 
         private void HandlePropertyChanged(object sender, PropertyChangedEventArgs e)
