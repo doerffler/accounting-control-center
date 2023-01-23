@@ -319,7 +319,9 @@ namespace DoePaAdmin.ViewModel.Services
                                 .Select(arp => new RemainingBudgetOnOrdersDTO
                                 {
                                     Date = arp.Key.Date,
-                                    Remaining = arp.Sum(rb => rb.Stueckzahl)
+                                    OrderName = arp.First().ZugehoerigeAuftragsposition.Auftrag.Auftragsname,
+                                    OrderPosition = arp.First().ZugehoerigeAuftragsposition.Positionsbezeichnung,
+                                    ActualRemaining = arp.Sum(rb => rb.Stueckzahl)
                                 }).ToList();
 
             return dtoObject;

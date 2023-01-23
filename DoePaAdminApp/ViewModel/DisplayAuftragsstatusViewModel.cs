@@ -10,6 +10,7 @@ using OxyPlot.Axes;
 using OxyPlot.Series;
 using OxyPlot.Legends;
 using System.Collections.Generic;
+using System.Data;
 using DoePaAdminDataModel.DTO;
 using System.Threading;
 using CommunityToolkit.Mvvm.Input;
@@ -50,12 +51,12 @@ namespace DoePaAdmin.ViewModel
 
             PropertyChanged += HandlePropertyChanged;
             
-            ExportCommand = new RelayCommand<ElementCollection<Series>>(Export);
+            ExportCommand = new RelayCommand<IEnumerable<RemainingBudgetOnOrdersDTO>>(Export);
         }
 
-        private void Export(ElementCollection<Series> data)
+        private void Export(IEnumerable<RemainingBudgetOnOrdersDTO> data)
         {
-            Messenger.Send(new ExportMessage{Data = data}, "ExportChartData");
+            Messenger.Send(new ExportMessage(data), "ExportChartData");
         }
 
         private void HandlePropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -79,6 +80,8 @@ namespace DoePaAdmin.ViewModel
             foreach (Auftrag auftrag in Auftraege)
             {
                 PlotModel Chart = new() { Title = auftrag.Auftragsname };
+                IEnumerable<RemainingBudgetOnOrdersDTO> Table = new List<RemainingBudgetOnOrdersDTO>();
+
                 Chart.Legends.Add(new Legend()
                 {
                     LegendTitle = "Legende",
@@ -143,24 +146,27 @@ namespace DoePaAdmin.ViewModel
                     // Ausgangsrechnungspositionen abfragen
                     IEnumerable<RemainingBudgetOnOrdersDTO> chartPositions = await DoePaAdminService.GetRemainingBudgetOnOrdersAsync(auftragsposition.AuftragspositionID, cancellationToken);
                     
+
                     chartPositions.ToList().ForEach(pos =>
                     {
                         DataPoint last = ist.Points.Last();
 
                         double day = Axis.ToDouble(pos.Date);
-                        double remaining = last.Y - (double)pos.Remaining;
+                        double remaining = last.Y - (double)pos.ActualRemaining;
 
                         ist.Points.Add(new(day, remaining));
                     });
 
                     Chart.Series.Add(ist);
+                    Table = chartPositions;
+
                 }
 
-                Charts.Add(Chart);
+                Charts.Add(new ExportChartDTO(){Chart = Chart, Table = Table });
             }
         }
 
-        public ObservableCollection<PlotModel> Charts { get; private set; }
+        public ObservableCollection<ExportChartDTO> Charts { get; private set; }
         public PlotController Controller { get; private set; }
 
         private static OxyColor GetRandomOxyColor()

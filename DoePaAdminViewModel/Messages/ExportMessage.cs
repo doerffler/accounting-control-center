@@ -2,5 +2,10 @@
 
 public class ExportMessage
 {
-    public object Data { get; set; }
+    public ExportMessage(dynamic data)
+    {
+        Data = data;
+    }
+
+    public dynamic Data { get; }
 }

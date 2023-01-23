@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:DoePaAdminApp.Views"
         mc:Ignorable="d"
         xmlns:svg="http://sharpvectors.codeplex.com/svgc/" 
         Icon="{svg:SvgImage /Resources/reshot-icon-business-man-JSQ35TMBH8.svg}"
@@ -11,6 +10,20 @@
         Title="{x:Static p:Resources.strExportChartData}"
         DataContext="{Binding Source={StaticResource Locator}, Path=ExportChartDataViewModel}">
     <Grid>
-        <DataGrid ItemsSource="{Binding Data}" />
+        <StackPanel Orientation="Vertical">
+            <StackPanel Orientation="Horizontal">
+                <Button Content="Export CSV" Command="{Binding Source={StaticResource Locator}, Path=ExportChartDataViewModel.ExportCsvCommand}" />
+                <Button Content="Export XLSX" Command="{Binding Source={StaticResource Locator}, Path=ExportChartDataViewModel.ExportXlsxCommand}" />
+            </StackPanel>
+            <DataGrid ItemsSource="{Binding Data, Mode=TwoWay, IsAsync=True}" AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Datum" Binding="{Binding Date}" />
+                    <DataGridTextColumn Header="Auftragsname" Binding="{Binding OrderName}" />
+                    <DataGridTextColumn Header="Auftragsposition" Binding="{Binding OrderPosition}" />
+                    <DataGridTextColumn Header="Restbudget Ist" Binding="{Binding ActualRemaining}" />
+                    <DataGridTextColumn Header="Restbudget Soll" Binding="{Binding PlannedRemaining}" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </StackPanel>
     </Grid>
 </Window>
