@@ -305,10 +305,10 @@ namespace DoePaAdmin.ViewModel.Services
 
         public async Task<IEnumerable<RemainingBudgetOnOrdersDTO>> GetRemainingBudgetOnOrdersAsync(int AuftragspositionID, CancellationToken cancellationToken = default)
         {
-
             //TODO: I tend to move this to our DTOFactory introduced today.
             IQueryable<Ausgangsrechnungsposition> query = DBContext.Ausgangsrechnungen
                 .Include(ar => ar.Rechnungspositionen)
+                .ThenInclude(arp => arp.ZugehoerigeKostenstelle)
                 .SelectMany(rechnung => rechnung.Rechnungspositionen)
                 .Where(arp => arp.ZugehoerigeAuftragsposition.AuftragspositionID == AuftragspositionID);
 
@@ -318,13 +318,63 @@ namespace DoePaAdmin.ViewModel.Services
                                 .GroupBy(arp => arp.LeistungszeitraumBis)
                                 .Select(arp => new RemainingBudgetOnOrdersDTO
                                 {
+                                    OrderStart = arp.First().ZugehoerigeAuftragsposition.Auftrag.Auftragsbeginn,
+                                    OrderEnd = arp.First().ZugehoerigeAuftragsposition.Auftrag.Auftragsende,
                                     Date = arp.Key.Date,
+                                    KostenstellenNummer = arp.First().ZugehoerigeKostenstelle.KostenstellenNummer,
                                     OrderName = arp.First().ZugehoerigeAuftragsposition.Auftrag.Auftragsname,
                                     OrderPosition = arp.First().ZugehoerigeAuftragsposition.Positionsbezeichnung,
-                                    ActualRemaining = arp.Sum(rb => rb.Stueckzahl)
+                                    ResidualBudgetActualBefore = arp.First().ZugehoerigeAuftragsposition.Auftragsvolumen,
+                                    ActualConsumption = arp.Sum(rb => rb.Stueckzahl),
+                                    ResidualBudgetTargetBefore = arp.First().ZugehoerigeAuftragsposition.Auftragsvolumen
                                 }).ToList();
 
-            return dtoObject;
+            var items = dtoObject.ToList();
+
+            if (items.Count > 0)
+            {
+                var firstItem = dtoObject.First();
+                items.Insert(0, new RemainingBudgetOnOrdersDTO
+                {
+                    OrderStart = firstItem.OrderStart,
+                    OrderEnd = firstItem.OrderEnd,
+                    Date = (DateTime)firstItem.OrderStart,
+                    KostenstellenNummer = firstItem.KostenstellenNummer,
+                    OrderName = firstItem.OrderName,
+                    OrderPosition = firstItem.OrderPosition,
+                    ResidualBudgetActualAfter = firstItem.ResidualBudgetActualBefore,
+                    ResidualBudgetTargetAfter = firstItem.ResidualBudgetActualBefore,
+                });
+
+                RemainingBudgetOnOrdersDTO previousObject = null;
+                items.ForEach(obj =>
+                {
+                    if (previousObject != null)
+                    {
+                        obj.ResidualBudgetActualBefore = previousObject.ResidualBudgetActualAfter;
+                        obj.ResidualBudgetActualAfter = obj.ResidualBudgetActualBefore - obj.ActualConsumption;
+                    }
+                    previousObject = obj;
+                });
+
+                var start = (DateTime)items.First().OrderStart;
+                var difference = ((DateTime)items.First().OrderEnd).Subtract(start).Days;
+
+                previousObject = null;
+                items.ForEach(item =>
+                {
+                    if (previousObject != null)
+                    {
+                        var current = item.Date.Subtract(start).Days;
+                        item.TargetConsumption = Math.Round(previousObject.ResidualBudgetTargetAfter / difference * current);
+                        item.ResidualBudgetTargetBefore = previousObject.ResidualBudgetTargetAfter;
+                        item.ResidualBudgetTargetAfter = item.ResidualBudgetTargetBefore - item.TargetConsumption;
+                    }
+                    previousObject = item;
+                });
+            }
+
+            return items;
         }
 
         #endregion

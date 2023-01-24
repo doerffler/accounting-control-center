@@ -11,17 +11,14 @@
         DataContext="{Binding Source={StaticResource Locator}, Path=ExportChartDataViewModel}">
     <Grid>
         <StackPanel Orientation="Vertical">
-            <StackPanel Orientation="Horizontal">
-                <Button Content="Export CSV" Command="{Binding Source={StaticResource Locator}, Path=ExportChartDataViewModel.ExportCsvCommand}" />
-                <Button Content="Export XLSX" Command="{Binding Source={StaticResource Locator}, Path=ExportChartDataViewModel.ExportXlsxCommand}" />
-            </StackPanel>
-            <DataGrid ItemsSource="{Binding Data, Mode=TwoWay, IsAsync=True}" AutoGenerateColumns="False">
+                <Button Content="Copy to clipboard" Command="{Binding Source={StaticResource Locator}, Path=ExportChartDataViewModel.CopyToClipboardCommand}" />
+                <DataGrid ItemsSource="{Binding Data, Mode=TwoWay, IsAsync=True, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" AutoGenerateColumns="False" ClipboardCopyMode="IncludeHeader" >
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Datum" Binding="{Binding Date}" />
+                    <DataGridTextColumn Header="Datum" Binding="{Binding Date, StringFormat='{}{0:dd.MM.yyyy}'}" />
                     <DataGridTextColumn Header="Auftragsname" Binding="{Binding OrderName}" />
                     <DataGridTextColumn Header="Auftragsposition" Binding="{Binding OrderPosition}" />
-                    <DataGridTextColumn Header="Restbudget Ist" Binding="{Binding ActualRemaining}" />
-                    <DataGridTextColumn Header="Restbudget Soll" Binding="{Binding PlannedRemaining}" />
+                    <DataGridTextColumn Header="Restbudget Ist" Binding="{Binding ResidualBudgetActualAfter}" />
+                    <DataGridTextColumn Header="Restbudget Soll" Binding="{Binding ResidualBudgetTargetAfter}" />
                 </DataGrid.Columns>
             </DataGrid>
         </StackPanel>

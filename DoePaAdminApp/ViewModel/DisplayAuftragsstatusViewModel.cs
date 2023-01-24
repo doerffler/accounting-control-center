@@ -80,7 +80,7 @@ namespace DoePaAdmin.ViewModel
             foreach (Auftrag auftrag in Auftraege)
             {
                 PlotModel Chart = new() { Title = auftrag.Auftragsname };
-                IEnumerable<RemainingBudgetOnOrdersDTO> Table = new List<RemainingBudgetOnOrdersDTO>();
+                var Table = new List<RemainingBudgetOnOrdersDTO>();
 
                 Chart.Legends.Add(new Legend()
                 {
@@ -92,7 +92,7 @@ namespace DoePaAdmin.ViewModel
                 double beginnDouble = Axis.ToDouble(auftrag.Auftragsbeginn);
                 double endeDouble = Axis.ToDouble(auftrag.Auftragsende);
 
-                Chart.Axes.Add(new DateTimeAxis()
+                Chart.Axes.Add(new DateTimeAxis
                 {
                     Position = AxisPosition.Bottom,
                     Title = "Zeitraum",
@@ -107,7 +107,7 @@ namespace DoePaAdmin.ViewModel
                     Maximum = endeDouble
                 });
 
-                Chart.Axes.Add(new LinearAxis()
+                Chart.Axes.Add(new LinearAxis
                 {
                     Position = AxisPosition.Left,
                     Title = "Volumen",
@@ -132,6 +132,7 @@ namespace DoePaAdmin.ViewModel
                     };
                     soll.Points.Add(new(beginnDouble, (double)auftragsposition.Auftragsvolumen));
                     soll.Points.Add(new(endeDouble, 0));
+                    
                     Chart.Series.Add(soll);
 
                     // Ist Verlauf
@@ -141,33 +142,28 @@ namespace DoePaAdmin.ViewModel
                         Color = color,
                         Title = string.Format("{0} (Ist)", auftragsposition.Positionsbezeichnung)
                     };
-                    ist.Points.Add(new(beginnDouble, (double)auftragsposition.Auftragsvolumen));
-
-                    // Ausgangsrechnungspositionen abfragen
+                    
                     IEnumerable<RemainingBudgetOnOrdersDTO> chartPositions = await DoePaAdminService.GetRemainingBudgetOnOrdersAsync(auftragsposition.AuftragspositionID, cancellationToken);
                     
-
                     chartPositions.ToList().ForEach(pos =>
                     {
-                        DataPoint last = ist.Points.Last();
-
                         double day = Axis.ToDouble(pos.Date);
-                        double remaining = last.Y - (double)pos.ActualRemaining;
+                        double remaining = (double)pos.ResidualBudgetActualAfter;
 
                         ist.Points.Add(new(day, remaining));
                     });
 
                     Chart.Series.Add(ist);
-                    Table = chartPositions;
-
+                    Table.AddRange(chartPositions);
+                    Table = Table.OrderBy(pos => pos.Date).ToList();
                 }
 
-                Charts.Add(new ExportChartDTO(){Chart = Chart, Table = Table });
+                Charts.Add(new ExportChartDTO{Chart = Chart, Table = Table});
             }
         }
 
-        public ObservableCollection<ExportChartDTO> Charts { get; private set; }
-        public PlotController Controller { get; private set; }
+        public ObservableCollection<ExportChartDTO> Charts { get; }
+        public PlotController Controller { get; }
 
         private static OxyColor GetRandomOxyColor()
         {
