@@ -248,7 +248,7 @@
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Vertical">
-                                        <Button Content="Export" x:Name="BTNExport"  Command="{Binding Source={StaticResource Locator}, Path=DisplayAuftragsstatusViewModel.ExportCommand}" CommandParameter="{Binding Table}" Click="BTNExport_Click" />
+                                        <Button Margin="3" Content="Export" x:Name="BTNExport"  Command="{Binding Source={StaticResource Locator}, Path=DisplayAuftragsstatusViewModel.ExportCommand}" CommandParameter="{Binding Table}" Click="BTNExport_Click" />
                                         <oxy:PlotView
                                             Controller="{Binding Source={StaticResource Locator}, Path=DisplayAuftragsstatusViewModel.Controller}" 
                                             Model="{Binding Chart}" 
