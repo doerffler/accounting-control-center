@@ -11,8 +11,8 @@
         DataContext="{Binding Source={StaticResource Locator}, Path=ExportChartDataViewModel}">
     <Grid>
         <StackPanel Orientation="Vertical">
-                <Button Content="Copy to clipboard" Command="{Binding Source={StaticResource Locator}, Path=ExportChartDataViewModel.CopyToClipboardCommand}" />
-                <DataGrid ItemsSource="{Binding Data, Mode=TwoWay, IsAsync=True, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" AutoGenerateColumns="False" ClipboardCopyMode="IncludeHeader" >
+                <Button Content="Copy to clipboard" Click="BtnExport_Click" />
+                <DataGrid Name="Export" ItemsSource="{Binding Data, Mode=TwoWay, IsAsync=True, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" AutoGenerateColumns="False" ClipboardCopyMode="IncludeHeader" >
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Datum" Binding="{Binding Date, StringFormat='{}{0:dd.MM.yyyy}'}" />
                     <DataGridTextColumn Header="Auftragsname" Binding="{Binding OrderName}" />

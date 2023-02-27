@@ -21,19 +21,11 @@ namespace DoePaAdmin.ViewModel
         public ExportChartDataViewModel(IDoePaAdminService doePaAdminService, IUserInteractionService userInteractionService) : base(doePaAdminService, userInteractionService)
         {
             Messenger.Register<ExportChartDataViewModel, ExportMessage, string>(this, "ExportChartData", (r, m) => r.OnExportMessageReceive(m));
- 
-            CopyToClipboardCommand = new RelayCommand(CopyToClipboard);
         }
 
         void OnExportMessageReceive(ExportMessage message)
         {
             Data = new ObservableCollection<RemainingBudgetOnOrdersDTO>(message.Data);
-        }
-        
-        private void CopyToClipboard()
-        {
-            Clipboard.Clear();
-            
         }
     }
 }
