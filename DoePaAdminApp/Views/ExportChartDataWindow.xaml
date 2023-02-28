@@ -1,0 +1,26 @@
+﻿<Window x:Class="DoePaAdminApp.Views.ExportChartDataWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        xmlns:svg="http://sharpvectors.codeplex.com/svgc/" 
+        Icon="{svg:SvgImage /Resources/reshot-icon-business-man-JSQ35TMBH8.svg}"
+        xmlns:p="clr-namespace:DoePaAdminApp.Properties"
+        Title="{x:Static p:Resources.strExportChartData}"
+        DataContext="{Binding Source={StaticResource Locator}, Path=ExportChartDataViewModel}">
+    <Grid>
+        <StackPanel Orientation="Vertical">
+                <Button Content="Copy to clipboard" Click="BtnExport_Click" />
+                <DataGrid Name="Export" ItemsSource="{Binding Data, Mode=TwoWay, IsAsync=True, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" AutoGenerateColumns="False" ClipboardCopyMode="IncludeHeader" >
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Datum" Binding="{Binding Date, StringFormat='{}{0:dd.MM.yyyy}'}" />
+                    <DataGridTextColumn Header="Auftragsname" Binding="{Binding OrderName}" />
+                    <DataGridTextColumn Header="Auftragsposition" Binding="{Binding OrderPosition}" />
+                    <DataGridTextColumn Header="Restbudget Ist" Binding="{Binding ResidualBudgetActualAfter}" />
+                    <DataGridTextColumn Header="Restbudget Soll" Binding="{Binding ResidualBudgetTargetAfter}" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </StackPanel>
+    </Grid>
+</Window>

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Controls.Ribbon;
 
 namespace DoePaAdminApp.Views
@@ -102,6 +103,12 @@ namespace DoePaAdminApp.Views
         {
             ManageKundenWindow manageKunden = App.ServiceProvider.GetRequiredService<ManageKundenWindow>();
             manageKunden.Show();
+        }
+
+        private void BTNExport_Click(object sender, RoutedEventArgs e)
+        {
+            ExportChartDataWindow exportChartData = App.ServiceProvider.GetRequiredService<ExportChartDataWindow>();
+            exportChartData.Show();
         }
     }
 }

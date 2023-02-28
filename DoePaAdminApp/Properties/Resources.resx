@@ -189,4 +189,7 @@
   <data name="strStartMigrationOfInvoices" xml:space="preserve">
     <value>strStartMigrationOfInvoices</value>
   </data>
+  <data name="strExportChartData" xml:space="preserve">
+    <value>strExportChartData</value>
+  </data>
 </root>

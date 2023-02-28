@@ -8,9 +8,7 @@ using DoePaAdmin.ViewModel.Services;
 using DoePaAdmin.ViewModel;
 using DoePaAdminApp.Views;
 using DoePaAdminApp.Services;
-using System.Configuration;
 using System.Threading;
-using System.Globalization;
 
 namespace DoePaAdminApp
 {
@@ -79,6 +77,7 @@ namespace DoePaAdminApp
             services.AddSingleton<ManageWaehrungViewModel>();
             services.AddSingleton<ManageSkillsViewModel>();
             services.AddSingleton<DisplayAuftragsstatusViewModel>();
+            services.AddSingleton<ExportChartDataViewModel>();
 
             services.AddTransient<MainWindow>();
             services.AddTransient<ManageKostenstellenWindow>();
@@ -98,12 +97,19 @@ namespace DoePaAdminApp
             services.AddTransient<ManageTaetigkeitWindow>();
             services.AddTransient<ManageWaehrungWindow>();
             services.AddTransient<ManageSkillsWindow>();
-
+            services.AddTransient<ExportChartDataWindow>();
         }
 
+        private static void ConfigureMessengers()
+        {
+
+        }
+        
         protected override async void OnStartup(StartupEventArgs e)
         {
             await host.StartAsync();
+
+            ConfigureMessengers();
 
             var window = ServiceProvider.GetRequiredService<MainWindow>();
             window.Show();
