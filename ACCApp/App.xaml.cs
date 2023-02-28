@@ -78,6 +78,7 @@ namespace ACCApp
             services.AddSingleton<ManageSkillsViewModel>();
             services.AddSingleton<DisplayAuftragsstatusViewModel>();
             services.AddSingleton<ExportChartDataViewModel>();
+            services.AddSingleton<SelectSkillsViewModel>();
 
             services.AddTransient<MainWindow>();
             services.AddTransient<ManageKostenstellenWindow>();
@@ -98,6 +99,7 @@ namespace ACCApp
             services.AddTransient<ManageWaehrungWindow>();
             services.AddTransient<ManageSkillsWindow>();
             services.AddTransient<ExportChartDataWindow>();
+            services.AddTransient<SelectSkillsWindow>();
         }
 
         private static void ConfigureMessengers()

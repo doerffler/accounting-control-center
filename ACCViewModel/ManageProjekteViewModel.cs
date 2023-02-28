@@ -11,8 +11,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Collections.Specialized;
-
 using System.Windows;
+using System.ComponentModel;
+using ACC.ViewModel.Messages;
+using ACCDataModel.DTO;
+
+// TODO: Timo fragen wie man es hinbekommt, dass die beiden Listen automatisch gespeichert werden beim wechseln der Projekte. Aktuell muss beim wechseln der Projekte immer erst gespeichert werden.
+// Sowohl bei den Skills als auch bei den Aufträgen
 
 namespace ACC.ViewModel
 {
@@ -31,7 +36,11 @@ namespace ACC.ViewModel
         public Projekt SelectedProjekt
         {
             get => _selectedProjekt;
-            set => SetProperty(ref _selectedProjekt, value);
+            set 
+            {
+                SetProperty(ref _selectedProjekt, value);
+                Skills = new(SelectedProjekt.Skills);
+            }
         }
 
         public IRelayCommand AddProjektCommand { get; }
@@ -42,14 +51,20 @@ namespace ACC.ViewModel
 
 
         #region Skills
+        private ObservableCollection<Skill> _skills = new();
+
+        public ObservableCollection<Skill> Skills
+        {
+            get => _skills;
+            set => SetProperty(ref _skills, value, true);
+        }
+
         private Skill _selectedSkill;
         public Skill SelectedSkill
         {
             get => _selectedSkill;
             set => SetProperty(ref _selectedSkill, value);
         }
-
-        public IRelayCommand AddSkillCommand { get; }
 
         public IRelayCommand RemoveSkillCommand { get; }
         #endregion
@@ -98,7 +113,6 @@ namespace ACC.ViewModel
         public ManageProjekteViewModel(IACCService accService, IUserInteractionService userInteractionService) : base(accService, userInteractionService)
         {
             AddProjektCommand = new AsyncRelayCommand(DoAddProjektAsync);
-            AddSkillCommand = new AsyncRelayCommand(DoAddSkillAsync);
 
             //TODO: Implement CanExecute-Functionality
             RemoveProjektCommand = new RelayCommand(DoRemoveProjekt);
@@ -107,8 +121,26 @@ namespace ACC.ViewModel
             Projekte = new (Task.Run(async () => await ACCService.GetProjekteAsync()).Result);
             AllAuftraege = new (Task.Run(async () => await ACCService.GetAuftraegeAsync()).Result);
 
+            Saving += HandleSaving;
             PropertyChanged += HandlePropertyChanged;
+            PropertyChanging += HandlePropertyChanging;
+
             AssignedAuftraege.CollectionChanged += HandleAssignedAuftraegeCollectionChanged;
+
+            Messenger.Register<ManageProjekteViewModel, SelectedSkillsMessage, string>(this, "SelectedSkills", (r, m) => r.OnSelectedSkillsMessageReceive(m));
+        }
+
+        void OnSelectedSkillsMessageReceive(SelectedSkillsMessage message)
+        {
+            
+        }
+
+        private void HandleSaving()
+        {
+            if (SelectedProjekt != null)
+            {
+                SelectedProjekt.Skills = Skills.ToList();
+            }
         }
 
         private void HandleAssignedAuftraegeCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -133,6 +165,19 @@ namespace ACC.ViewModel
             }
         }
 
+        private void HandlePropertyChanging(object sender, PropertyChangingEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(SelectedProjekt):
+                    if (SelectedProjekt != null)
+                    {
+                        SelectedProjekt.Skills = Skills.ToList();
+                    }
+                    break;
+            }
+        }
+
         private void HandlePropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
@@ -144,10 +189,9 @@ namespace ACC.ViewModel
 
                     // TODO: Fix Update bug with the collections
                     AllAuftraege = new ObservableCollection<Auftrag>(RemoveAssignedAuftraege(AssignedAuftraege));
-                    break;
-                case nameof(SelectedNichtZugeordneterAuftrag):
-                    break;
-                case nameof(SelectedZugeordneterAuftrag):
+
+                    Skills = new ObservableCollection<Skill>(SelectedProjekt.Skills);
+
                     break;
             }
         }
@@ -178,17 +222,11 @@ namespace ACC.ViewModel
             }
         }
 
-        private async Task DoAddSkillAsync(CancellationToken cancellationToken = default)
-        {
-
-            // _ = SelectedProjekt.Skills.Add();
-        }
-
         private void DoRemoveSkill()
         {
             if (SelectedSkill != null)
             {
-                _ = SelectedProjekt.Skills.Remove(SelectedSkill);
+                _ = Skills.Remove(SelectedSkill);
             }
         }
     }
