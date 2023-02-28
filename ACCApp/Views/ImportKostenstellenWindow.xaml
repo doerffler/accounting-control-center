@@ -1,0 +1,51 @@
+﻿<Window x:Class="ACCApp.Views.ImportKostenstellenWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ACCApp.Views"
+        mc:Ignorable="d"
+        xmlns:p="clr-namespace:ACCApp.Properties"
+        Title="Kostenstellen aus DP-App importieren" Height="450" Width="800"
+        DataContext="{Binding Source={StaticResource Locator}, Path=ImportKostenstellenViewModel}">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <GridSplitter Grid.Column="1"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Stretch"
+                      Width="5"
+                      />
+        <ListView Grid.Column="0" ItemsSource="{Binding CostCenterData}">
+            <ListView.View>
+
+                <GridView>
+
+                    <GridViewColumn DisplayMemberBinding= "{Binding Path=number}" Header="Kostenstellennummer"/>
+
+                    <GridViewColumn DisplayMemberBinding= "{Binding Path=name}" Header="Kostenstellenname" />
+
+                </GridView>
+
+            </ListView.View>
+        </ListView>
+
+        <ListView Grid.Column="2" ItemsSource="{Binding Kostenstellen}">
+            <ListView.View>
+
+                <GridView>
+
+                    <GridViewColumn DisplayMemberBinding= "{Binding Path=KostenstelleID}" Header="Kostenstellennummer"/>
+
+                    <GridViewColumn DisplayMemberBinding= "{Binding Path=Kostenstellenbezeichnung}" Header="Kostenstellenname" />
+
+                </GridView>
+
+            </ListView.View>
+        </ListView>
+
+    </Grid>
+</Window>
