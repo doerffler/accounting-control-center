@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ACCApp.Views"
+        xmlns:dd="urn:gong-wpf-dragdrop"
         xmlns:svg="http://sharpvectors.codeplex.com/svgc/"
         mc:Ignorable="d"
         xmlns:p="clr-namespace:ACCApp.Properties"
@@ -98,7 +99,6 @@
         <Grid 
             Grid.Column="3"
             Grid.Row="0"
-            DataContext="{Binding SelectedProjekt}"
             >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*" />
@@ -106,13 +106,15 @@
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <ListBox
                 Name="lvProjektSkill"
                 Grid.Column="0"
                 Grid.Row="0"
                 Height="150"
-                ItemsSource="{Binding Skills}">
+                SelectedItem="{Binding SelectedSkill}"
+                ItemsSource="{Binding SelectedProjekt.Skills}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding SkillName}" />
@@ -126,6 +128,15 @@
                 <Control Template="{StaticResource tmpManageSkillMenueButton}" />
             </Button>
 
+            <StackPanel Grid.Row="2" Orientation="Horizontal">
+                <Button Command="{Binding AddSkillCommand}">
+                    <Control Template="{StaticResource tmpAddItemButton}" />
+                </Button>
+                <Button Command="{Binding RemoveSkillCommand}">
+                    <Control Template="{StaticResource tmpRemoveItemButton}" />
+                </Button>
+            </StackPanel>
+            
             <!-- hp: tree View Alt, kann raus >> evtl. noch für Skill Maske
             <TreeView 
                 FontSize="18" Grid.Column="0" Margin="6" ItemsSource="{Binding SelectedProjekt.Skills}">
@@ -162,21 +173,29 @@
                 <TextBox FontSize="20" TextAlignment="Center" DockPanel.Dock="Top" Text="Zugeordnete Aufträge" />
                 <ListBox 
                     x:Name="zugeordnet" 
-                    ItemsSource="{Binding AssignedAuftraege}" 
+                    ItemsSource="{Binding AssignedAuftraege, Mode=TwoWay}" 
                     DisplayMemberPath="Auftragsname" 
-                    SelectedItem="{Binding Path=SelectedZugeordneterAuftrag}"/>
+                    SelectedItem="{Binding SelectedZugeordneterAuftrag}"
+                    dd:DragDrop.DropHandler="{Binding}"
+                    dd:DragDrop.IsDragSource="True"
+                    dd:DragDrop.IsDropTarget="True"
+                    dd:DragDrop.SelectDroppedItems="True"
+                    dd:DragDrop.UseDefaultDragAdorner="True"
+                    dd:DragDrop.UseDefaultEffectDataTemplate="True"/>
             </DockPanel>
-
-            <Button Content="&gt;&gt;" Grid.Column="1" Command="{Binding RemoveAuftragCommand}"  HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="45  "  Width="48" Margin="0,0,0,15"/>
-            <Button Content="&lt;&lt;" Grid.Column="1" Grid.Row="1" Command="{Binding MoveAuftragCommand}" HorizontalAlignment="Center" VerticalAlignment="Top" Height="45"  Width="48" Margin="0,15,0,0"/>
-
             <DockPanel Grid.Column="2" Grid.RowSpan="2">
                 <TextBox FontSize="20" TextAlignment="Center" DockPanel.Dock="Top" Text="Nicht zugeordnete Aufträge" />
                 <ListBox 
                     x:Name="nichtZugeordnet" 
-                    ItemsSource="{Binding AllAuftraege}" 
+                    ItemsSource="{Binding AllAuftraege, Mode=TwoWay}" 
                     DisplayMemberPath="Auftragsname"
-                    SelectedItem="{Binding SelectedNichtZugeordneterAuftrag}"/>
+                    SelectedItem="{Binding SelectedNichtZugeordneterAuftrag}"
+                    dd:DragDrop.DropHandler="{Binding}"
+                    dd:DragDrop.IsDragSource="True"
+                    dd:DragDrop.IsDropTarget="True"
+                    dd:DragDrop.SelectDroppedItems="True"
+                    dd:DragDrop.UseDefaultDragAdorner="True"
+                    dd:DragDrop.UseDefaultEffectDataTemplate="True"/>
             </DockPanel>
 
         </Grid>

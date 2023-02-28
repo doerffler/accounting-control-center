@@ -42,13 +42,16 @@ namespace ACC.ViewModel
 
 
         #region Skills
-        private ObservableCollection<Skill> _skills = new();
-
-        public ObservableCollection<Skill> Skills
+        private Skill _selectedSkill;
+        public Skill SelectedSkill
         {
-            get => _skills;
-            set => SetProperty(ref _skills, value, true);
+            get => _selectedSkill;
+            set => SetProperty(ref _selectedSkill, value);
         }
+
+        public IRelayCommand AddSkillCommand { get; }
+
+        public IRelayCommand RemoveSkillCommand { get; }
         #endregion
 
 
@@ -95,13 +98,11 @@ namespace ACC.ViewModel
         public ManageProjekteViewModel(IACCService accService, IUserInteractionService userInteractionService) : base(accService, userInteractionService)
         {
             AddProjektCommand = new AsyncRelayCommand(DoAddProjektAsync);
+            AddSkillCommand = new AsyncRelayCommand(DoAddSkillAsync);
 
             //TODO: Implement CanExecute-Functionality
             RemoveProjektCommand = new RelayCommand(DoRemoveProjekt);
-
-            // Auftraege (nicht )Zuordnen
-            MoveAuftragCommand = new RelayCommand(DoMoveAuftrag);
-            RemoveAuftragCommand = new RelayCommand(DoRemoveAuftrag);
+            RemoveSkillCommand = new RelayCommand(DoRemoveSkill);
 
             Projekte = new (Task.Run(async () => await ACCService.GetProjekteAsync()).Result);
             AllAuftraege = new (Task.Run(async () => await ACCService.GetAuftraegeAsync()).Result);
@@ -117,7 +118,8 @@ namespace ACC.ViewModel
                 switch (e.Action)
                 {
                     case NotifyCollectionChangedAction.Add:
-                        foreach (var item in e.NewItems) {
+                        foreach (var item in e.NewItems) 
+                        {
                             SelectedProjekt.ZugehoerigeAuftraege.Add((Auftrag)item);
                         }
                         break;
@@ -139,6 +141,9 @@ namespace ACC.ViewModel
                     AssignedAuftraege.CollectionChanged -= HandleAssignedAuftraegeCollectionChanged;
                     AssignedAuftraege = new ObservableCollection<Auftrag>(SelectedProjekt.ZugehoerigeAuftraege);
                     AssignedAuftraege.CollectionChanged += HandleAssignedAuftraegeCollectionChanged;
+
+                    // TODO: Fix Update bug with the collections
+                    AllAuftraege = new ObservableCollection<Auftrag>(RemoveAssignedAuftraege(AssignedAuftraege));
                     break;
                 case nameof(SelectedNichtZugeordneterAuftrag):
                     break;
@@ -147,13 +152,24 @@ namespace ACC.ViewModel
             }
         }
 
+        private IEnumerable<Auftrag> RemoveAssignedAuftraege(IEnumerable<Auftrag> assignedAuftraege)
+        {
+            foreach (Auftrag auftrag in AllAuftraege)
+            {
+                if (auftrag.ZugehoerigesProjekt == null)
+                {
+                    yield return auftrag;
+                }
+            }
+        }
+
         private async Task DoAddProjektAsync(CancellationToken cancellationToken = default)
         {
-
             Projekt newProjekt = await ACCService.CreateProjektAsync(cancellationToken);
             newProjekt.Projektname = "Neues Projekt";
             Projekte.Add(newProjekt);
         }
+
         private void DoRemoveProjekt()
         {
             if (SelectedProjekt != null)
@@ -162,21 +178,17 @@ namespace ACC.ViewModel
             }
         }
 
-        private void DoMoveAuftrag()
+        private async Task DoAddSkillAsync(CancellationToken cancellationToken = default)
         {
-            if (AssignedAuftraege != null && SelectedNichtZugeordneterAuftrag != null)
-            {
-                AssignedAuftraege.Add(SelectedNichtZugeordneterAuftrag);
-                AllAuftraege.Remove(SelectedNichtZugeordneterAuftrag);
-            }
+
+            // _ = SelectedProjekt.Skills.Add();
         }
 
-        private void DoRemoveAuftrag()
+        private void DoRemoveSkill()
         {
-            if (AssignedAuftraege != null && SelectedZugeordneterAuftrag != null)
+            if (SelectedSkill != null)
             {
-                AllAuftraege.Add(SelectedZugeordneterAuftrag);
-                AssignedAuftraege.Remove(SelectedZugeordneterAuftrag);
+                _ = SelectedProjekt.Skills.Remove(SelectedSkill);
             }
         }
     }
