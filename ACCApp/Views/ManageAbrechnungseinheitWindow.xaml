@@ -1,0 +1,39 @@
+﻿<Window x:Class="ACCApp.Views.ManageAbrechnungseinheitWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ACCApp.Views"
+        mc:Ignorable="d"
+        xmlns:svg="http://sharpvectors.codeplex.com/svgc/" 
+        Icon="{svg:SvgImage /Resources/reshot-icon-business-man-JSQ35TMBH8.svg}"
+        xmlns:p="clr-namespace:ACCApp.Properties"
+        Title="{x:Static p:Resources.strManageAbrechnungseinheiten}"
+        DataContext="{Binding Source={StaticResource Locator}, Path=ManageAbrechnungseinheitViewModel}">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <DataGrid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"  ItemsSource="{Binding Abrechnungseinheiten}" SelectedItem="{Binding SelectedAbrechnungseinheit}" AutoGenerateColumns="False" CanUserAddRows="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
+                <DataGridTextColumn Header="Abkürzung" Binding="{Binding Abkuerzung}" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button Grid.Row="1" Grid.Column="0" Command="{Binding AddCommand}">
+            <Control Template="{StaticResource tmpAddItemButton}" />
+        </Button>
+        <Button Grid.Row="1" Grid.Column="1" Command="{Binding RemoveCommand}">
+            <Control Template="{StaticResource tmpRemoveItemButton}" />
+        </Button>
+        <Button Grid.Row="1" Grid.Column="2" Command="{Binding SaveChangesCommand}">
+            <Control Template="{StaticResource tmpSaveDbDataButton}" />
+        </Button>
+    </Grid>
+</Window>
