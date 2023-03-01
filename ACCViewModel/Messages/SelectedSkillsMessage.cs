@@ -5,10 +5,10 @@ namespace ACC.ViewModel.Messages;
 
 public class SelectedSkillsMessage
 {
-    public SelectedSkillsMessage(IEnumerable<Skill> data)
+    public SelectedSkillsMessage(Skill data)
     {
         Data = data;
     }
 
-    public IEnumerable<Skill> Data { get; }
+    public Skill Data { get; }
 }

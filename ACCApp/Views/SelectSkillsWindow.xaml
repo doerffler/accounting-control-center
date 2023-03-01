@@ -8,7 +8,7 @@
         xmlns:svg="http://sharpvectors.codeplex.com/svgc/" 
         xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase" xmlns:clr="clr-namespace:System;assembly=System.Runtime"
         xmlns:p="clr-namespace:ACCApp.Properties" xmlns:i="http://schemas.microsoft.com/xaml/behaviors" xmlns:behaviors="clr-namespace:ACCApp.Behaviors"
-        Title="{x:Static p:Resources.strManageSkillMenue}"
+        Title="{x:Static p:Resources.strSelectSkillMenue}"
         DataContext="{Binding Source={StaticResource Locator}, Path=SelectSkillsViewModel}" d:Width="Auto" d:DesignWidth="638.933">
     <Grid>
         <Grid.RowDefinitions>
@@ -17,8 +17,23 @@
         </Grid.RowDefinitions>
 
         <!-- TODO: TreeView -->
-        
-        <Button Command="{Binding AddSelectedSkillsCommand}">
+        <TreeView ItemsSource="{Binding Skills, Mode=TwoWay}" Grid.Row="0">
+            <i:Interaction.Behaviors>
+                <behaviors:BindableSelectedItemBehavior SelectedItem="{Binding SelectedSkill, Mode=TwoWay}" />
+            </i:Interaction.Behaviors>
+            <TreeView.ItemContainerStyle>
+                <Style TargetType="{x:Type TreeViewItem}">
+                    <Setter Property="IsExpanded" Value="True"/>
+                </Style>
+            </TreeView.ItemContainerStyle>
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding ChildSkills}">
+                    <TextBlock Text="{Binding SkillName}" />
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
+        </TreeView>
+
+        <Button Click="ButtonSave_Click" Command="{Binding AddSelectedSkillsCommand}" Grid.Row="1">
             <Control Template="{StaticResource tmpSaveDbDataButton}" />
         </Button>
     </Grid>

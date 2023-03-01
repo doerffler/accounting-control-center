@@ -23,5 +23,10 @@ namespace ACCApp.Views
         {
             InitializeComponent();
         }
+
+        private void ButtonSave_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
     }
 }

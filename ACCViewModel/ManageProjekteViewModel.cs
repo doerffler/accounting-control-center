@@ -72,7 +72,6 @@ namespace ACC.ViewModel
 
 
         #region (nicht)zugeordnete Auftraege
-        // ggf. später Filtern bei Anzeige nur nicht zugeordnete
         private ObservableCollection<Auftrag> _assignedAuftraege = new();
         public ObservableCollection<Auftrag> AssignedAuftraege
         {
@@ -86,10 +85,6 @@ namespace ACC.ViewModel
             get => _allAuftraege;
             set => SetProperty(ref _allAuftraege, value, true);
         }
-        
-        // hp: hierCollectionView für Filter auf AllAuftraege erstellen
-
-
 
         private Auftrag _selectedZugeordneterAuftrag;
         public Auftrag SelectedZugeordneterAuftrag
@@ -132,7 +127,7 @@ namespace ACC.ViewModel
 
         void OnSelectedSkillsMessageReceive(SelectedSkillsMessage message)
         {
-            
+            Skills.Add(message.Data);
         }
 
         private void HandleSaving()
@@ -159,6 +154,7 @@ namespace ACC.ViewModel
                         foreach (var item in e.OldItems)
                         {
                             SelectedProjekt.ZugehoerigeAuftraege.Remove((Auftrag)item);
+                            ((Auftrag)item).ZugehoerigesProjekt = null;
                         }
                         break;
                 }

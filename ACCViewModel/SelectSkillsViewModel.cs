@@ -22,11 +22,11 @@ namespace ACC.ViewModel
             set => SetProperty(ref _skills, value, true);
         }
 
-        private ObservableCollection<Skill> _selectedSkills;
-        public ObservableCollection<Skill> SelectedSkills
+        private Skill _selectedSkill;
+        public Skill SelectedSkill
         {
-            get => _selectedSkills;
-            set => SetProperty(ref _selectedSkills, value);
+            get => _selectedSkill;
+            set => SetProperty(ref _selectedSkill, value);
         }
 
         public IRelayCommand AddSelectedSkillsCommand { get; }
@@ -34,12 +34,12 @@ namespace ACC.ViewModel
         public SelectSkillsViewModel(IACCService accService, IUserInteractionService userInteractionService) : base(accService, userInteractionService)
         {
             AddSelectedSkillsCommand = new RelayCommand(DoAddSelectedSkills);
-            Skills = new(Task.Run(async () => await ACCService.GetSkillsAsync()).Result);
+            Skills = new(Task.Run(async () => await ACCService.GetSkillTreeAsync()).Result);
         }
 
         private void DoAddSelectedSkills()
         {
-            Messenger.Send(new SelectedSkillsMessage(SelectedSkills), "SelectedSkills");
+            Messenger.Send(new SelectedSkillsMessage(SelectedSkill), "SelectedSkills");
         }
     }
 

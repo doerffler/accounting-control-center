@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:ACCApp.Views"
         xmlns:dd="urn:gong-wpf-dragdrop"
         xmlns:svg="http://sharpvectors.codeplex.com/svgc/"
         mc:Ignorable="d"
@@ -25,10 +24,6 @@
             <RowDefinition Height="2*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-
-
-        <!-- ||||||||||||||||||||||||| -->
-        <!--Projekte links vollständing-->
         <ListView 
                   Name="lvProjekt"
                   Grid.Column="0"
@@ -54,10 +49,6 @@
                 <Control Template="{StaticResource tmpRemoveItemButton}" />
             </Button>
         </StackPanel>
-
-
-        <!-- ||||||||||||||||||||||||||||||| -->
-        <!-- Details zum Projekt (Mitte oben)-->
         <Grid Grid.Column="2"
               Grid.Row="0"
               DataContext="{Binding SelectedProjekt}">
@@ -90,12 +81,6 @@
                 SelectedDate="{Binding Projektende}"               
             />
         </Grid>
-        <!-- ||||||||||||||||||||||||||||||| -->
-        <!--              ENDE               -->
-
-
-        <!-- ||||||||||||||||||||||||||||||| -->
-        <!-- Skill zum Projekt (Rechts oben)-->
         <Grid 
             Grid.Column="3"
             Grid.Row="0"
@@ -121,8 +106,6 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-
-            <!-- Skill Menü Button -->
             <Button Grid.Column="1"
             Grid.Row="0" Name="ManageSkills" Click="ManageSkills_Click">
                 <Control Template="{StaticResource tmpManageSkillMenueButton}" />
@@ -136,25 +119,7 @@
                     <Control Template="{StaticResource tmpRemoveItemButton}" />
                 </Button>
             </StackPanel>
-            
-            <!-- hp: tree View Alt, kann raus >> evtl. noch für Skill Maske
-            <TreeView 
-                FontSize="18" Grid.Column="0" Margin="6" ItemsSource="{Binding SelectedProjekt.Skills}">
-                <TreeViewItem Header="Hier" IsExpanded="True">
-                    <TreeViewItem Header="könnten"/>
-                    <TreeViewItem Header="Ihre Skills" IsExpanded="True">
-                        <TreeViewItem Header="stehen"/>
-                    </TreeViewItem>
-                </TreeViewItem>
-            </TreeView>-->
         </Grid>
-        <!-- ||||||||||||||||||||||||||||||| -->
-        <!--              ENDE               -->
-
-
-
-        <!-- ||||||||||||||||||||||||||||||||||||||| -->
-        <!--Auftraege Zuweisen (unten mitte & rechts)-->
         <Grid 
             Grid.Column="2"
             Grid.ColumnSpan="2"
@@ -168,7 +133,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="1*"/>
-            </Grid.RowDefinitions>            
+            </Grid.RowDefinitions>
             <DockPanel Grid.RowSpan="2" >
                 <TextBox FontSize="20" TextAlignment="Center" DockPanel.Dock="Top" Text="Zugeordnete Aufträge" />
                 <ListBox 
@@ -197,15 +162,7 @@
                     dd:DragDrop.UseDefaultDragAdorner="True"
                     dd:DragDrop.UseDefaultEffectDataTemplate="True"/>
             </DockPanel>
-
         </Grid>
-        <!-- ||||||||||||||||||||||||||||||||||||||| -->
-        <!--                  ENDE                   -->
-
-
-
-        <!-- |||||||||||||| -->
-        <!--Speichern Button-->
         <StackPanel
             Grid.Column="2"
             Grid.ColumnSpan="2"
@@ -214,7 +171,5 @@
                 <Control Template="{StaticResource tmpSaveDbDataButton}" />
             </Button>
         </StackPanel>
-
-
     </Grid>
 </Window>
