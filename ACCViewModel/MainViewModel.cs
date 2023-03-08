@@ -8,6 +8,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using System;
 using ACC.ViewModel.Messages;
+using ACCDataModel.Stammdaten;
+using System.Linq;
+using ACCDataModel.Kostenrechnung;
 
 namespace ACC.ViewModel
 {
@@ -20,6 +23,20 @@ namespace ACC.ViewModel
         {
             get => _input;
             set => SetProperty(ref _input, value, true);
+        }
+
+        private Geschaeftsjahr _selectedGeschaeftsjahr;
+        public Geschaeftsjahr SelectedGeschaeftsjahr
+        {
+            get 
+            {
+                return _selectedGeschaeftsjahr;
+            }
+            set
+            {
+                SetProperty(ref _selectedGeschaeftsjahr, value);
+                Messenger.Send(new BusinessYearChangedMessage(SelectedGeschaeftsjahr), "Business year changed");
+            }
         }
 
         private readonly IACCService doePaAdminService;
@@ -39,6 +56,21 @@ namespace ACC.ViewModel
             RefreshCommand = new AsyncRelayCommand(RefreshAsync);
             ExecuteCommand = new RelayCommand(async () => await ExecuteAsync());
             GenerateTestdataCommand = new AsyncRelayCommand(DoGenerateTestdataAsync);
+            
+            GetData();
+
+            Messenger.Register<MainViewModel, RefreshMessage, string>(this, "Refresh", (r, m) => r.OnRefreshReceive(m));
+        }
+
+        private void OnRefreshReceive(RefreshMessage message)
+        {
+            GetData();
+        }
+
+        private void GetData()
+        {
+            SelectedGeschaeftsjahr = Task.Run(async () => await doePaAdminService.GetGeschaeftsjahreAsync())
+                .Result.ToList().FirstOrDefault(g => g.DatumVon <= DateTime.Now && g.DatumBis >= DateTime.Now);
         }
 
         private async Task RefreshAsync()

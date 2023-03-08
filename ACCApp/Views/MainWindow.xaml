@@ -150,12 +150,17 @@
                         Label="{x:Static p:Resources.strManageKreditors}" />
                 </RibbonGroup>
                 <RibbonGroup Header="Geschäftsjahr">
-                    <RibbonButton
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Geschäftsjahr:" />
+                            <ComboBox Width="85" SelectedItem="{Binding SelectedGeschaeftsjahr}" ItemsSource="{Binding Source={StaticResource Locator}, Path=ManageGeschaeftsjahreViewModel.Geschaeftsjahre}" DisplayMemberPath="Name" />
+                        </StackPanel>
+                        <RibbonButton
                         x:Name="RBOpenGeschaeftsjahrManagement"
                         Click="RBOpenGeschaeftsjahrManagement_Click"
                         SmallImageSource="{svg:SvgImage /Resources/reshot_calendar.svg}"
-                        LargeImageSource="{svg:SvgImage /Resources/reshot_calendar.svg}"
                         Label="{x:Static p:Resources.strManageGeschaeftsjahre}" />
+                    </StackPanel>
                 </RibbonGroup>
                 <RibbonGroup Header="Anderes">
                     <RibbonButton
@@ -236,8 +241,6 @@
                             <ColumnDefinition Width="99*"/>
                             <ColumnDefinition Width="100*"/>
                         </Grid.ColumnDefinitions>
-                        <Label Grid.Row="1" Grid.Column="0">Geschäftsjahr:</Label>
-                        <ComboBox Grid.Row="1" Grid.Column="1" SelectedItem="{Binding SelectedGeschaeftsjahr}" ItemsSource="{Binding Source={StaticResource Locator}, Path=ManageGeschaeftsjahreViewModel.Geschaeftsjahre}" DisplayMemberPath="Name" />
                     </Grid>
                     <ScrollViewer Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                         <ItemsControl ItemsSource="{Binding Charts}">

@@ -38,8 +38,6 @@ namespace ACC.ViewModel
 
         public DisplayAuftragsstatusViewModel(IACCService doePaAdminService) : base(doePaAdminService)
         {
-            SelectedGeschaeftsjahr = Task.Run(async () => await ACCService.GetGeschaeftsjahreAsync()).Result
-                .FirstOrDefault(g => g.DatumVon <= DateTime.Now && g.DatumBis >= DateTime.Now);
 
             Controller = new PlotController();
             Controller.UnbindMouseDown(OxyMouseButton.Left);
@@ -52,6 +50,13 @@ namespace ACC.ViewModel
             PropertyChanged += HandlePropertyChanged;
             
             ExportCommand = new RelayCommand<IEnumerable<RemainingBudgetOnOrdersDTO>>(Export);
+
+            Messenger.Register<DisplayAuftragsstatusViewModel, BusinessYearChangedMessage, string>(this, "Business year changed", (r, m) => r.OnRefreshReceive(m));
+        }
+
+        private void OnRefreshReceive(BusinessYearChangedMessage message)
+        {
+            SelectedGeschaeftsjahr = message.Year;
         }
 
         private void Export(IEnumerable<RemainingBudgetOnOrdersDTO> data)
