@@ -1,4 +1,5 @@
-﻿using ACC.ViewModel.Services;
+﻿using ACC.ViewModel.Messages;
+using ACC.ViewModel.Services;
 using ACCDataModel.Stammdaten;
 using CommunityToolkit.Mvvm.Input;
 using System;
@@ -47,9 +48,20 @@ namespace ACC.ViewModel
 
         public ManageAuftraegeViewModel(IACCService accService, IUserInteractionService userInteractionService) : base(accService, userInteractionService)
         {
-            Abrechnungseinheiten = new (Task.Run(async () => await ACCService.GetAbrechnungseinheitenAsync()).Result);
-            Mitarbeiter = new (Task.Run(async () => await ACCService.GetMitarbeiterAsync()).Result);
-            
+            GetData();
+
+            Messenger.Register<ManageAuftraegeViewModel, RefreshMessage, string>(this, "Refresh", (r, m) => r.OnRefreshReceive(m));
+        }
+
+        private void GetData()
+        {
+            Abrechnungseinheiten = new(Task.Run(async () => await ACCService.GetAbrechnungseinheitenAsync()).Result);
+            Mitarbeiter = new(Task.Run(async () => await ACCService.GetMitarbeiterAsync()).Result);
+        }
+
+        private void OnRefreshReceive(RefreshMessage message)
+        {
+            GetData();
         }
 
     }

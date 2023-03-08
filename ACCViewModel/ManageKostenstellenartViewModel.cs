@@ -1,4 +1,5 @@
-﻿using ACC.ViewModel.Services;
+﻿using ACC.ViewModel.Messages;
+using ACC.ViewModel.Services;
 using ACCDataModel.Stammdaten;
 using CommunityToolkit.Mvvm.Input;
 using System;
@@ -34,12 +35,25 @@ namespace ACC.ViewModel
 
         public ManageKostenstellenartViewModel(IACCService accService) : base(accService)
         {
-            Kostenstellenarten = new(Task.Run(async () => await ACCService.GetKostenstellenartenAsync()).Result);
 
             AddCommand = new AsyncRelayCommand(DoAddAsync);
 
             //TODO: Implement CanExecute-Functionality
             RemoveCommand = new RelayCommand(DoRemove);
+
+            GetData();
+
+            Messenger.Register<ManageKostenstellenartViewModel, RefreshMessage, string>(this, "Refresh", (r, m) => r.OnRefreshReceive(m));
+        }
+
+        private void GetData()
+        {
+            Kostenstellenarten = new(Task.Run(async () => await ACCService.GetKostenstellenartenAsync()).Result);
+        }
+
+        private void OnRefreshReceive(RefreshMessage message)
+        {
+            GetData();
         }
 
         private void DoRemove()

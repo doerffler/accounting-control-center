@@ -23,7 +23,7 @@ namespace ACC.ViewModel
             Messenger.Register<ExportChartDataViewModel, ExportMessage, string>(this, "ExportChartData", (r, m) => r.OnExportMessageReceive(m));
         }
 
-        void OnExportMessageReceive(ExportMessage message)
+        private void OnExportMessageReceive(ExportMessage message)
         {
             Data = new ObservableCollection<RemainingBudgetOnOrdersDTO>(message.Data);
         }

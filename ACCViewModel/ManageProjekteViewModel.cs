@@ -13,6 +13,7 @@ using System.Windows.Input;
 using System.Collections.Specialized;
 
 using System.Windows;
+using ACC.ViewModel.Messages;
 
 namespace ACC.ViewModel
 {
@@ -103,11 +104,23 @@ namespace ACC.ViewModel
             MoveAuftragCommand = new RelayCommand(DoMoveAuftrag);
             RemoveAuftragCommand = new RelayCommand(DoRemoveAuftrag);
 
-            Projekte = new (Task.Run(async () => await ACCService.GetProjekteAsync()).Result);
-            AllAuftraege = new (Task.Run(async () => await ACCService.GetAuftraegeAsync()).Result);
-
             PropertyChanged += HandlePropertyChanged;
             AssignedAuftraege.CollectionChanged += HandleAssignedAuftraegeCollectionChanged;
+
+            GetData();
+
+            Messenger.Register<ManageProjekteViewModel, RefreshMessage, string>(this, "Refresh", (r, m) => r.OnRefreshReceive(m));
+        }
+
+        private void GetData()
+        {
+            Projekte = new(Task.Run(async () => await ACCService.GetProjekteAsync()).Result);
+            AllAuftraege = new(Task.Run(async () => await ACCService.GetAuftraegeAsync()).Result);
+        }
+
+        private void OnRefreshReceive(RefreshMessage message)
+        {
+            GetData();
         }
 
         private void HandleAssignedAuftraegeCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)

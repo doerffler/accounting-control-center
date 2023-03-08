@@ -1,4 +1,5 @@
-﻿using ACC.ViewModel.Services;
+﻿using ACC.ViewModel.Messages;
+using ACC.ViewModel.Services;
 using ACCDataModel.Stammdaten;
 using CommunityToolkit.Mvvm.Input;
 using System;
@@ -37,14 +38,26 @@ namespace ACC.ViewModel
 
         public ManageSkillsViewModel(IACCService accService, IUserInteractionService userInteractionService) : base(accService, userInteractionService)
         {
-            Skills = new(Task.Run(async () => await ACCService.GetSkillTreeAsync()).Result);
-
             AddSkillCommand = new AsyncRelayCommand(DoAddSkillAsync);
 
             //TODO: Implement CanExecute-Functionality
             RemoveSkillCommand = new RelayCommand(DoRemoveSkill);
 
             DragDropCommand = new RelayCommand(DoDragDrap);
+
+            GetData();
+
+            Messenger.Register<ManageSkillsViewModel, RefreshMessage, string>(this, "Refresh", (r, m) => r.OnRefreshReceive(m));
+        }
+
+        private void GetData()
+        {
+            Skills = new(Task.Run(async () => await ACCService.GetSkillTreeAsync()).Result);
+        }
+
+        private void OnRefreshReceive(RefreshMessage message)
+        {
+            GetData();
         }
 
         private void DoDragDrap()

@@ -1,4 +1,5 @@
-﻿using ACC.ViewModel.Services;
+﻿using ACC.ViewModel.Messages;
+using ACC.ViewModel.Services;
 using ACCDataModel.Stammdaten;
 using CommunityToolkit.Mvvm.Input;
 using System;
@@ -34,12 +35,24 @@ namespace ACC.ViewModel
 
         public ManageTaetigkeitViewModel(IACCService accService) : base(accService)
         {
-            Taetigkeiten = new(Task.Run(async () => await ACCService.GetTaetigkeitenAsync()).Result);
-
             AddCommand = new AsyncRelayCommand(DoAddAsync);
 
             //TODO: Implement CanExecute-Functionality
             RemoveCommand = new RelayCommand(DoRemove);
+
+            GetData();
+
+            Messenger.Register<ManageTaetigkeitViewModel, RefreshMessage, string>(this, "Refresh", (r, m) => r.OnRefreshReceive(m));
+        }
+
+        private void GetData()
+        {
+            Taetigkeiten = new(Task.Run(async () => await ACCService.GetTaetigkeitenAsync()).Result);
+        }
+
+        private void OnRefreshReceive(RefreshMessage message)
+        {
+            GetData();
         }
 
         private void DoRemove()

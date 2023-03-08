@@ -60,7 +60,8 @@ namespace ACCApp.Views
 
         private void RBOpenKreditorManagement_Click(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            ManageKreditorenWindow manageKreditoren = App.ServiceProvider.GetRequiredService<ManageKreditorenWindow>();
+            manageKreditoren.Show();
         }
 
         private void RBOpenPostleitzahlManagement_Click(object sender, RoutedEventArgs e)

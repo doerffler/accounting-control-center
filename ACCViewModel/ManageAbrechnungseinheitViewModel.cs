@@ -1,4 +1,5 @@
-﻿using ACC.ViewModel.Services;
+﻿using ACC.ViewModel.Messages;
+using ACC.ViewModel.Services;
 using ACCDataModel.Stammdaten;
 using CommunityToolkit.Mvvm.Input;
 using System;
@@ -40,6 +41,13 @@ namespace ACC.ViewModel
 
             //TODO: Implement CanExecute-Functionality
             RemoveCommand = new RelayCommand(DoRemove);
+
+            Messenger.Register<ManageAbrechnungseinheitViewModel, RefreshMessage, string>(this, "Refresh", (r, m) => r.OnRefreshReceive(m));
+        }
+
+        private void OnRefreshReceive(RefreshMessage message)
+        {
+            Abrechnungseinheiten = new(Task.Run(async () => await ACCService.GetAbrechnungseinheitenAsync()).Result);
         }
 
         private void DoRemove()

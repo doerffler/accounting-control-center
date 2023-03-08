@@ -1,4 +1,5 @@
-﻿using ACC.ViewModel.Services;
+﻿using ACC.ViewModel.Messages;
+using ACC.ViewModel.Services;
 using ACCDataModel.Stammdaten;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -53,9 +54,20 @@ namespace ACC.ViewModel
             //TODO: Implement CanExecute-Functionality
             RemoveMitarbeiterCommand = new RelayCommand(DoRemoveMitarbeiter);
 
+            GetData();
+
+            Messenger.Register<ManageMitarbeiterViewModel, RefreshMessage, string>(this, "Refresh", (r, m) => r.OnRefreshReceive(m));
+        }
+
+        private void GetData()
+        {
             Mitarbeiter = new(Task.Run(async () => await ACCService.GetMitarbeiterAsync()).Result);
             Taetigkeiten = new(Task.Run(async () => await ACCService.GetTaetigkeitenAsync()).Result);
-            
+        }
+
+        private void OnRefreshReceive(RefreshMessage message)
+        {
+            GetData();
         }
 
         private void DoRemoveMitarbeiter()

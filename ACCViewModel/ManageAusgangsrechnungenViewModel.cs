@@ -1,4 +1,5 @@
-﻿using ACC.ViewModel.Services;
+﻿using ACC.ViewModel.Messages;
+using ACC.ViewModel.Services;
 using ACCDataModel.Kostenrechnung;
 using ACCDataModel.Stammdaten;
 using CommunityToolkit.Mvvm.Input;
@@ -57,9 +58,20 @@ namespace ACC.ViewModel
             AddRechnungCommand = new AsyncRelayCommand(DoAddRechnungAsync);
             RemoveRechnungCommand = new RelayCommand(DoRemoveRechnung);
 
-            Rechnungen = new(Task.Run(async () => await ACCService.GetAusgangsrechnungenAsync()).Result);
+            GetData();
 
+            Messenger.Register<ManageAusgangsrechnungenViewModel, RefreshMessage, string>(this, "Refresh", (r, m) => r.OnRefreshReceive(m));
+        }
+
+        private void GetData()
+        {
+            Rechnungen = new(Task.Run(async () => await ACCService.GetAusgangsrechnungenAsync()).Result);
             SelectedGeschaeftsjahr = Task.Run(async () => await CalculateCurrentGeschaeftsjahrAsync()).Result;
+        }
+
+        private void OnRefreshReceive(RefreshMessage message)
+        {
+            GetData();
         }
 
         private void DoRemoveRechnung()

@@ -12,6 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using ACC.ViewModel.Messages;
 
 namespace ACC.ViewModel
 {
@@ -50,13 +51,24 @@ namespace ACC.ViewModel
 
             MigrateInvoicesCommand = new AsyncRelayCommand(DoMigrateInvoicesCommandAsync);
 
+            GetData();
+
+            Messenger.Register<ImportOutgoingInvoicesViewModel, RefreshMessage, string>(this, "Refresh", (r, m) => r.OnRefreshReceive(m));
+        }
+
+        private void GetData()
+        {
             IEnumerable<OutgoingInvoiceMigration> outgoingInvoiceMigrations = Task.Run(async () => await DPAppService.GetOutgoingInvoicesAsync()).Result;
 
             Task.Run(async () => await MapDPAppMasterdataAsync(outgoingInvoiceMigrations)).Wait();
 
             Auftragspositionen = Task.Run(async () => await ACCService.GetAuftragspositionenAsync()).Result;
             OutgoingInvoices = new(outgoingInvoiceMigrations);
+        }
 
+        private void OnRefreshReceive(RefreshMessage message)
+        {
+            GetData();
         }
 
         private async Task DoMigrateInvoicesCommandAsync(CancellationToken cancellationToken = default)

@@ -1,4 +1,5 @@
-﻿using ACC.ViewModel.Services;
+﻿using ACC.ViewModel.Messages;
+using ACC.ViewModel.Services;
 using ACCDataModel.Stammdaten;
 using CommunityToolkit.Mvvm.Input;
 using System;
@@ -38,12 +39,25 @@ namespace ACC.ViewModel
 
         public ManageKundenViewModel(IACCService accServiceService, IUserInteractionService userInteractionService) : base(accServiceService)
         {
-            Kunden = new(Task.Run(async () => await ACCService.GetKundenAsync()).Result);
             
             AddCommand = new AsyncRelayCommand(DoAddAsync);
 
             //TODO: Implement CanExecute-Functionality
             RemoveCommand = new RelayCommand(DoRemove);
+
+            GetData();
+
+            Messenger.Register<ManageKundenViewModel, RefreshMessage, string>(this, "Refresh", (r, m) => r.OnRefreshReceive(m));
+        }
+
+        private void GetData()
+        {
+            Kunden = new(Task.Run(async () => await ACCService.GetKundenAsync()).Result);
+        }
+
+        private void OnRefreshReceive(RefreshMessage message)
+        {
+            GetData();
         }
 
         private async Task DoAddAsync(CancellationToken cancellationToken = default)
