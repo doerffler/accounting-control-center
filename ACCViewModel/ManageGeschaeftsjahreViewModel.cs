@@ -144,7 +144,7 @@ namespace ACC.ViewModel
 
             ApiFeiertage apiFeiertage = await ApiReceiver.ReadData<ApiFeiertage>(endpoint);
 
-            if (apiFeiertage.Status == "success")
+            if (apiFeiertage.Status == "success" && apiFeiertage.FeiertagListe != null)
             {
                 foreach (ApiFeiertag apiFeiertag in apiFeiertage.FeiertagListe)
                 {

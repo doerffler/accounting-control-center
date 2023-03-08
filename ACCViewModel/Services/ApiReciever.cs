@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -18,11 +19,15 @@ namespace ACC.ViewModel.Services
         {
             T Response = default;
 
-            _client.BaseAddress = new Uri(Endpoint);
-            _client.DefaultRequestHeaders.Accept.Clear();
-            _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            
-            HttpResponseMessage response = await _client.GetAsync(Endpoint);
+            HttpRequestMessage message = new HttpRequestMessage
+            {
+                Method = HttpMethod.Get,
+                RequestUri = new Uri(Endpoint)
+            };
+    
+            message.Headers.Add("Accept", "application/json");
+
+            HttpResponseMessage response = await _client.SendAsync(message);
             if (response.IsSuccessStatusCode)
             {
                 string data = await response.Content.ReadAsStringAsync();
