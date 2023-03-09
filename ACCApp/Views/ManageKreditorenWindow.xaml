@@ -10,7 +10,7 @@
         mc:Ignorable="d"
         xmlns:p="clr-namespace:ACCApp.Properties"
         Title="{x:Static p:Resources.strManageKreditors}"
-        Icon="{svg:SvgImage /Resources/Customer.svg}"
+        Icon="{svg:SvgImage /Resources/Supplier.svg}"
         Height="300"
         Width="800"
         DataContext="{Binding Source={StaticResource Locator}, Path=ManageKreditorenViewModel}">
