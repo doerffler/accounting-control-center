@@ -81,6 +81,7 @@ namespace ACCApp
             services.AddSingleton<ManageSkillsViewModel>();
             services.AddSingleton<DisplayAuftragsstatusViewModel>();
             services.AddSingleton<ExportChartDataViewModel>();
+            services.AddSingleton<SelectSkillsViewModel>();
             services.AddSingleton<ManageKreditorenViewModel>();
 
             services.AddTransient<MainWindow>();
@@ -102,6 +103,7 @@ namespace ACCApp
             services.AddTransient<ManageWaehrungWindow>();
             services.AddTransient<ManageSkillsWindow>();
             services.AddTransient<ExportChartDataWindow>();
+            services.AddTransient<SelectSkillsWindow>();
             services.AddTransient<ManageKreditorenWindow>();
         }
 
