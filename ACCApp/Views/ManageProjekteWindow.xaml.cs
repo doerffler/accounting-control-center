@@ -30,5 +30,11 @@ namespace ACCApp.Views
             ManageSkillsWindow manageSkills = App.ServiceProvider.GetRequiredService<ManageSkillsWindow>();
             manageSkills.Show();
         }
+
+        private void AddSkills_Click(object sender, RoutedEventArgs e)
+        {
+            SelectSkillsWindow selectSkills = App.ServiceProvider.GetRequiredService<SelectSkillsWindow>();
+            selectSkills.Show();
+        }
     }
 }
