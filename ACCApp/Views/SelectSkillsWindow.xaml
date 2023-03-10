@@ -1,0 +1,40 @@
+﻿<Window x:Class="ACCApp.Views.SelectSkillsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ACCApp.Views"
+        mc:Ignorable="d"
+        xmlns:svg="http://sharpvectors.codeplex.com/svgc/" 
+        xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase" xmlns:clr="clr-namespace:System;assembly=System.Runtime"
+        xmlns:p="clr-namespace:ACCApp.Properties" xmlns:i="http://schemas.microsoft.com/xaml/behaviors" xmlns:behaviors="clr-namespace:ACCApp.Behaviors"
+        Title="{x:Static p:Resources.strSelectSkillMenue}"
+        DataContext="{Binding Source={StaticResource Locator}, Path=SelectSkillsViewModel}" d:Width="Auto" d:DesignWidth="638.933">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- TODO: TreeView -->
+        <TreeView ItemsSource="{Binding Skills, Mode=TwoWay}" Grid.Row="0">
+            <i:Interaction.Behaviors>
+                <behaviors:BindableSelectedItemBehavior SelectedItem="{Binding SelectedSkill, Mode=TwoWay}" />
+            </i:Interaction.Behaviors>
+            <TreeView.ItemContainerStyle>
+                <Style TargetType="{x:Type TreeViewItem}">
+                    <Setter Property="IsExpanded" Value="True"/>
+                </Style>
+            </TreeView.ItemContainerStyle>
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding ChildSkills}">
+                    <TextBlock Text="{Binding SkillName}" />
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
+        </TreeView>
+
+        <Button Click="ButtonSave_Click" Command="{Binding AddSelectedSkillsCommand}" Grid.Row="1">
+            <Control Template="{StaticResource tmpSaveDbDataButton}" />
+        </Button>
+    </Grid>
+</Window>

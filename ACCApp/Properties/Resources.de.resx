@@ -192,4 +192,7 @@
   <data name="strExportChartData" xml:space="preserve">
     <value>Daten exportieren</value>
   </data>
+  <data name="strSelectSkillMenue" xml:space="preserve">
+    <value>Skills auswählen</value>
+  </data>
 </root>
