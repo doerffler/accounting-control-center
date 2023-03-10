@@ -41,7 +41,9 @@ namespace ACCApp.ViewModels
         public ManageSkillsViewModel ManageSkillsViewModel => App.ServiceProvider.GetRequiredService<ManageSkillsViewModel>();
 
         public DisplayAuftragsstatusViewModel DisplayAuftragsstatusViewModel => App.ServiceProvider.GetRequiredService<DisplayAuftragsstatusViewModel>();
-        
+
         public ExportChartDataViewModel ExportChartDataViewModel => App.ServiceProvider.GetRequiredService<ExportChartDataViewModel>();
+
+        public SelectSkillsViewModel SelectSkillsViewModel => App.ServiceProvider.GetRequiredService<SelectSkillsViewModel>();
     }
 }
