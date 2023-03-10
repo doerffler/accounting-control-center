@@ -16,9 +16,6 @@ using System.ComponentModel;
 using ACC.ViewModel.Messages;
 using ACCDataModel.DTO;
 
-// TODO: Timo fragen wie man es hinbekommt, dass die beiden Listen automatisch gespeichert werden beim wechseln der Projekte. Aktuell muss beim wechseln der Projekte immer erst gespeichert werden.
-// Sowohl bei den Skills als auch bei den Aufträgen
-
 namespace ACC.ViewModel
 {
     public class ManageProjekteViewModel : ACCViewModelBase
@@ -117,12 +114,28 @@ namespace ACC.ViewModel
             AllAuftraege = new (Task.Run(async () => await ACCService.GetAuftraegeAsync()).Result);
 
             Saving += HandleSaving;
+            
             PropertyChanged += HandlePropertyChanged;
+
+            Messenger.Register<ManageProjekteViewModel, SelectedSkillsMessage, string>(this, "SelectedSkills", (r, m) => r.OnSelectedSkillsMessageReceive(m));
             PropertyChanging += HandlePropertyChanging;
 
             AssignedAuftraege.CollectionChanged += HandleAssignedAuftraegeCollectionChanged;
 
-            Messenger.Register<ManageProjekteViewModel, SelectedSkillsMessage, string>(this, "SelectedSkills", (r, m) => r.OnSelectedSkillsMessageReceive(m));
+            GetData();
+
+            Messenger.Register<ManageProjekteViewModel, RefreshMessage, string>(this, "Refresh", (r, m) => r.OnRefreshReceive(m));
+        }
+
+        private void GetData()
+        {
+            Projekte = new(Task.Run(async () => await ACCService.GetProjekteAsync()).Result);
+            AllAuftraege = new(Task.Run(async () => await ACCService.GetAuftraegeAsync()).Result);
+        }
+
+        private void OnRefreshReceive(RefreshMessage message)
+        {
+            GetData();
         }
 
         void OnSelectedSkillsMessageReceive(SelectedSkillsMessage message)

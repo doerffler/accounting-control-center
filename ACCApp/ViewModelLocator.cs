@@ -45,5 +45,7 @@ namespace ACCApp.ViewModels
         public ExportChartDataViewModel ExportChartDataViewModel => App.ServiceProvider.GetRequiredService<ExportChartDataViewModel>();
 
         public SelectSkillsViewModel SelectSkillsViewModel => App.ServiceProvider.GetRequiredService<SelectSkillsViewModel>();
+        
+        public ManageKreditorenViewModel ManageKreditorenViewModel => App.ServiceProvider.GetRequiredService<ManageKreditorenViewModel>();
     }
 }

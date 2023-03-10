@@ -1,4 +1,5 @@
-﻿using ACC.ViewModel.Services;
+﻿using ACC.ViewModel.Messages;
+using ACC.ViewModel.Services;
 using ACCDataModel.Stammdaten;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -60,14 +61,25 @@ namespace ACC.ViewModel
             AddKostenstelleCommand = new AsyncRelayCommand(DoAddKostenstelleAsync);
             RemoveKostenstelleCommand = new RelayCommand(DoRemoveKostenstelle);
             AddKostenstellenartCommand = new AsyncRelayCommand(DoAddKostenstellenartAsync);
-                       
-            Kostenstellen = new(Task.Run(async () => await ACCService.GetKostenstellenAsync()).Result);
-            Kostenstellenarten = new(Task.Run(async () => await ACCService.GetKostenstellenartenAsync()).Result);
 
             Saving += HandleSaving;
             PropertyChanged += HandlePropertyChanged;
             PropertyChanging += HandlePropertyChanging;
 
+            GetData();
+
+            Messenger.Register<ManageKostenstellenViewModel, RefreshMessage, string>(this, "Refresh", (r, m) => r.OnRefreshReceive(m));
+        }
+
+        private void GetData()
+        {
+            Kostenstellen = new(Task.Run(async () => await ACCService.GetKostenstellenAsync()).Result);
+            Kostenstellenarten = new(Task.Run(async () => await ACCService.GetKostenstellenartenAsync()).Result);
+        }
+
+        private void OnRefreshReceive(RefreshMessage message)
+        {
+            GetData();
         }
 
         private void HandleSaving()

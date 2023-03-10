@@ -1,4 +1,5 @@
-﻿using ACC.ViewModel.Services;
+﻿using ACC.ViewModel.Messages;
+using ACC.ViewModel.Services;
 using ACCDataModel.Stammdaten;
 using CommunityToolkit.Mvvm.ComponentModel;
 using System.Collections.Generic;
@@ -36,6 +37,18 @@ namespace ACC.ViewModel
             DPAppService = dpAppService;
             DoePaAdminService = accService;
 
+            GetData();
+
+            Messenger.Register<ImportKostenstellenViewModel, RefreshMessage, string>(this, "Refresh", (r, m) => r.OnRefreshReceive(m));
+        }
+
+        private void OnRefreshReceive(RefreshMessage message)
+        {
+            GetData();
+        }
+
+        private void GetData()
+        {
             CancellationTokenSource source = new();
             CancellationToken token = source.Token;
 
@@ -50,9 +63,7 @@ namespace ACC.ViewModel
             DataTable dtCostCenter = getCostCentersDPApp.Result;
             CostCenterData = dtCostCenter.DefaultView;
 
-            Kostenstellen = new (getKostenstellenDoePaAdmin.Result);
-
+            Kostenstellen = new(getKostenstellenDoePaAdmin.Result);
         }
-
     }
 }

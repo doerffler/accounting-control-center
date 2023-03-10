@@ -75,6 +75,7 @@
                 <RibbonGroup Header="Allgemein">
                     <RibbonButton
                         x:Name="RBRefreshView"
+                        Command="{Binding RefreshCommand}"
                         SmallImageSource="{svg:SvgImage /Resources/Refresh.svg}"
                         LargeImageSource="{svg:SvgImage /Resources/Refresh.svg}"
                         Label="{x:Static p:Resources.strRefreshView}" />

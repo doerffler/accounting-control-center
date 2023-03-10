@@ -1,4 +1,5 @@
-﻿using ACC.ViewModel.Services;
+﻿using ACC.ViewModel.Messages;
+using ACC.ViewModel.Services;
 using ACCDataModel.Stammdaten;
 using CommunityToolkit.Mvvm.Input;
 using System;
@@ -42,9 +43,21 @@ namespace ACC.ViewModel
             //TODO: Implement CanExecute-Functionality
             RemoveGeschaeftspartnerCommand = new RelayCommand(DoRemoveGeschaeftspartner);
 
-            Geschaeftspartner = new(Task.Run(async () => await ACCService.GetGeschaeftspartnerAsync<T>()).Result);
+            GetData();
 
+            Messenger.Register<ManageGeschaeftspartnerViewModel<T>, RefreshMessage, string>(this, "Refresh", (r, m) => r.OnRefreshReceive(m));
         }
+
+        private void GetData()
+        {
+            Geschaeftspartner = new(Task.Run(async () => await ACCService.GetGeschaeftspartnerAsync<T>()).Result);
+        }
+
+        private void OnRefreshReceive(RefreshMessage message)
+        {
+            GetData();
+        }
+
 
         public async Task DoAddGeschaeftspartnerAsync(CancellationToken cancellationToken = default)
         {

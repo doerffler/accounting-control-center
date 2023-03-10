@@ -1,5 +1,7 @@
-﻿using ACC.ViewModel.Services;
+﻿using ACC.ViewModel.Messages;
+using ACC.ViewModel.Services;
 using ACCDataModel.APIFeiertage;
+using ACCDataModel.Kostenrechnung;
 using ACCDataModel.Stammdaten;
 using CommunityToolkit.Mvvm.Input;
 using System;
@@ -55,9 +57,6 @@ namespace ACC.ViewModel
 
         public ManageGeschaeftsjahreViewModel(IACCService accService, IUserInteractionService userInteractionService) : base(accService, userInteractionService)
         {
-            Feiertage = new(Task.Run(async () => await ACCService.GetFeiertageAsync()).Result); 
-            Geschaeftsjahre = new(Task.Run(async () => await ACCService.GetGeschaeftsjahreAsync()).Result);
-
             ImportDataCommand = new AsyncRelayCommand(ImportDataAsync);
 
             AddFeiertagCommand = new AsyncRelayCommand(DoAddFeiertagAsync);
@@ -68,6 +67,21 @@ namespace ACC.ViewModel
             RemoveFeiertagCommand = new RelayCommand(DoRemoveFeiertag);
         
             PropertyChanged += HandlePropertyChanged;
+
+            GetData();
+
+            Messenger.Register<ManageGeschaeftsjahreViewModel, RefreshMessage, string>(this, "Refresh", (r, m) => r.OnRefreshReceive(m));
+        }
+
+        private void GetData()
+        {
+            Feiertage = new(Task.Run(async () => await ACCService.GetFeiertageAsync()).Result);
+            Geschaeftsjahre = new(Task.Run(async () => await ACCService.GetGeschaeftsjahreAsync()).Result);
+        }
+
+        private void OnRefreshReceive(RefreshMessage message)
+        {
+            GetData();
         }
 
         private void HandlePropertyChanged(object sender, PropertyChangedEventArgs e)

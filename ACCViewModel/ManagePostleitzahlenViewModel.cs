@@ -1,4 +1,6 @@
-﻿using ACC.ViewModel.Services;
+﻿using ACC.ViewModel.Messages;
+using ACC.ViewModel.Services;
+using ACCDataModel.DPApp;
 using ACCDataModel.Stammdaten;
 using CommunityToolkit.Mvvm.Input;
 using System;
@@ -42,7 +44,19 @@ namespace ACC.ViewModel
             //TODO: Implement CanExecute-Functionality
             RemoveCommand = new RelayCommand(DoRemove);
 
+            GetData();
+
+            Messenger.Register<ManagePostleitzahlenViewModel, RefreshMessage, string>(this, "Refresh", (r, m) => r.OnRefreshReceive(m));
+        }
+
+        private void GetData()
+        {
             Postleitzahlen = new(Task.Run(async () => await ACCService.GetPostleitzahlenAsync()).Result);
+        }
+
+        private void OnRefreshReceive(RefreshMessage message)
+        {
+            GetData();
         }
 
         private async Task DoAddAsync(CancellationToken cancellationToken = default)

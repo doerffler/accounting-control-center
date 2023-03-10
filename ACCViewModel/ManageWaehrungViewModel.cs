@@ -1,4 +1,5 @@
-﻿using ACC.ViewModel.Services;
+﻿using ACC.ViewModel.Messages;
+using ACC.ViewModel.Services;
 using ACCDataModel.Stammdaten;
 using CommunityToolkit.Mvvm.Input;
 using System;
@@ -34,12 +35,24 @@ namespace ACC.ViewModel
 
         public ManageWaehrungViewModel(IACCService accService) : base(accService)
         {
-            Waehrungen = new(Task.Run(async () => await ACCService.GetWaehrungenAsync()).Result);
-
             AddCommand = new AsyncRelayCommand(DoAddAsync);
 
             //TODO: Implement CanExecute-Functionality
             RemoveCommand = new RelayCommand(DoRemove);
+
+            GetData();
+
+            Messenger.Register<ManageWaehrungViewModel, RefreshMessage, string>(this, "Refresh", (r, m) => r.OnRefreshReceive(m));
+        }
+
+        private void GetData()
+        {
+            Waehrungen = new(Task.Run(async () => await ACCService.GetWaehrungenAsync()).Result);
+        }
+
+        private void OnRefreshReceive(RefreshMessage message)
+        {
+            GetData();
         }
 
         private void DoRemove()

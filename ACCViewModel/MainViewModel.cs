@@ -6,6 +6,8 @@ using CommunityToolkit.Mvvm.Input;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
+using System;
+using ACC.ViewModel.Messages;
 
 namespace ACC.ViewModel
 {
@@ -23,6 +25,8 @@ namespace ACC.ViewModel
         private readonly IACCService doePaAdminService;
         private readonly AppSettings settings;
 
+        public IAsyncRelayCommand RefreshCommand { get; }
+        
         public IRelayCommand ExecuteCommand { get; }
 
         public IRelayCommand GenerateTestdataCommand { get; }
@@ -32,8 +36,14 @@ namespace ACC.ViewModel
             this.doePaAdminService = accService;
             settings = options.Value;
 
+            RefreshCommand = new AsyncRelayCommand(RefreshAsync);
             ExecuteCommand = new RelayCommand(async () => await ExecuteAsync());
             GenerateTestdataCommand = new AsyncRelayCommand(DoGenerateTestdataAsync);
+        }
+
+        private async Task RefreshAsync()
+        {
+            Messenger.Send(new RefreshMessage("all"), "Refresh");
         }
 
         private async Task DoGenerateTestdataAsync(CancellationToken cancellationToken = default)

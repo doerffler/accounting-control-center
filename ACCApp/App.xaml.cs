@@ -9,6 +9,8 @@ using ACC.ViewModel;
 using ACCApp.Views;
 using ACCApp.Services;
 using System.Threading;
+using Microsoft.EntityFrameworkCore;
+using ACCDataAdapter.ACC;
 
 namespace ACCApp
 {
@@ -50,6 +52,7 @@ namespace ACCApp
 
         private static void ConfigureServices(IConfiguration configuration, IServiceCollection services)
         {
+            services.AddDbContext<ACCDataContext>(ServiceLifetime.Transient);
 
             services.Configure<AppSettings>(configuration.GetSection(nameof(AppSettings)));
             services.Configure<DPAppConnectionSettings>(configuration.GetSection(nameof(DPAppConnectionSettings)));
@@ -79,6 +82,7 @@ namespace ACCApp
             services.AddSingleton<DisplayAuftragsstatusViewModel>();
             services.AddSingleton<ExportChartDataViewModel>();
             services.AddSingleton<SelectSkillsViewModel>();
+            services.AddSingleton<ManageKreditorenViewModel>();
 
             services.AddTransient<MainWindow>();
             services.AddTransient<ManageKostenstellenWindow>();
@@ -100,6 +104,7 @@ namespace ACCApp
             services.AddTransient<ManageSkillsWindow>();
             services.AddTransient<ExportChartDataWindow>();
             services.AddTransient<SelectSkillsWindow>();
+            services.AddTransient<ManageKreditorenWindow>();
         }
 
         private static void ConfigureMessengers()
