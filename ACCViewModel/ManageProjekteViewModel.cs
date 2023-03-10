@@ -114,15 +114,28 @@ namespace ACC.ViewModel
             AllAuftraege = new (Task.Run(async () => await ACCService.GetAuftraegeAsync()).Result);
 
             Saving += HandleSaving;
-            Projekte = new (Task.Run(async () => await ACCService.GetProjekteAsync()).Result);
-            AllAuftraege = new (Task.Run(async () => await ACCService.GetAuftraegeAsync()).Result);
-
+            
             PropertyChanged += HandlePropertyChanged;
 
             Messenger.Register<ManageProjekteViewModel, SelectedSkillsMessage, string>(this, "SelectedSkills", (r, m) => r.OnSelectedSkillsMessageReceive(m));
             PropertyChanging += HandlePropertyChanging;
 
             AssignedAuftraege.CollectionChanged += HandleAssignedAuftraegeCollectionChanged;
+
+            GetData();
+
+            Messenger.Register<ManageProjekteViewModel, RefreshMessage, string>(this, "Refresh", (r, m) => r.OnRefreshReceive(m));
+        }
+
+        private void GetData()
+        {
+            Projekte = new(Task.Run(async () => await ACCService.GetProjekteAsync()).Result);
+            AllAuftraege = new(Task.Run(async () => await ACCService.GetAuftraegeAsync()).Result);
+        }
+
+        private void OnRefreshReceive(RefreshMessage message)
+        {
+            GetData();
         }
 
         void OnSelectedSkillsMessageReceive(SelectedSkillsMessage message)
