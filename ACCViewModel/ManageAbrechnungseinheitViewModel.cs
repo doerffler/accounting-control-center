@@ -35,7 +35,7 @@ namespace ACC.ViewModel
 
         public ManageAbrechnungseinheitViewModel(IACCService accService, IUserInteractionService userInteractionService) : base(accService, userInteractionService)
         {
-            Abrechnungseinheiten = new(Task.Run(async () => await ACCService.GetAbrechnungseinheitenAsync()).Result);
+            GetData();
 
             AddCommand = new AsyncRelayCommand(DoAddAsync);
 
@@ -46,6 +46,11 @@ namespace ACC.ViewModel
         }
 
         private void OnRefreshReceive(RefreshMessage message)
+        {
+            GetData();
+        }
+
+        private void GetData()
         {
             Abrechnungseinheiten = new(Task.Run(async () => await ACCService.GetAbrechnungseinheitenAsync()).Result);
         }
