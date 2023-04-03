@@ -51,6 +51,8 @@ namespace ACC.ViewModel
         private void GetData()
         {
             Geschaeftspartner = new(Task.Run(async () => await ACCService.GetGeschaeftspartnerAsync<T>()).Result);
+
+            Messenger.Send(new StatusbarMessage("ManageGeschaeftspartnerViewModel loaded"), "Statusbar");
         }
 
         private void OnRefreshReceive(RefreshMessage message)

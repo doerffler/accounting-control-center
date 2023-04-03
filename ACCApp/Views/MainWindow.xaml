@@ -6,12 +6,17 @@
         xmlns:svg="http://sharpvectors.codeplex.com/svgc/"
         mc:Ignorable="d"
         xmlns:oxy="http://oxyplot.org/wpf"
-        xmlns:p="clr-namespace:ACCApp.Properties"
-        Title="Dörffler &amp; Partner GmbH - ACC"
+        xmlns:p="clr-namespace:ACCApp.Properties" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+              Title="Dörffler &amp; Partner GmbH - ACC"
         Icon="/Resources/doerffler_icon_496x496.png"
         Width="1356"
         DataContext="{Binding Source={StaticResource Locator}, Path=MainViewModel}">
     <Grid>
+        <i:Interaction.Triggers>
+            <i:EventTrigger EventName="Loaded">
+                <i:InvokeCommandAction Command="{Binding MainViewLoadedCommand}" />
+            </i:EventTrigger>
+        </i:Interaction.Triggers>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -222,7 +227,7 @@
         <DockPanel Grid.Row="1">
             <StatusBar DockPanel.Dock="Bottom">
                 <StatusBarItem>
-                    <TextBlock Text="Ich bin eine Statusbar" />
+                    <TextBlock Text="{Binding StatusbarMessage}" />
                 </StatusBarItem>
             </StatusBar>
             <TabControl>

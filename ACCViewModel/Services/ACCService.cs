@@ -1,8 +1,10 @@
-﻿using ACC.ViewModel.Model;
+﻿using ACC.ViewModel.Messages;
+using ACC.ViewModel.Model;
 using ACCDataAdapter.ACC;
 using ACCDataModel.DTO;
 using ACCDataModel.Kostenrechnung;
 using ACCDataModel.Stammdaten;
+using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using System;
@@ -17,12 +19,14 @@ namespace ACC.ViewModel.Services
     {
 
         private string ACCConnectionString { get; set; }
+        private string ACCFileShare { get; set; }
 
         private ACCDataContext DBContext { get; set; }
 
         public ACCService(IOptions<ACCConnectionSettings> accConnectionSettings)
         {
             ACCConnectionString = accConnectionSettings.Value.ConnectionString;
+            ACCFileShare = accConnectionSettings.Value.FileShare;
 
             ACCDataContext dbContext = new()
             {
@@ -31,10 +35,25 @@ namespace ACC.ViewModel.Services
 
             if (dbContext.Database.EnsureCreated())
             {
-                //_ = Task.Run(async () => await dbContext.InitializeMasterdataTablesAsync());
+
             }
 
             DBContext = dbContext;
+        }
+
+        public string GetConnectionInformations()
+        {
+            return DBContext.Database.GetDbConnection().ConnectionString;
+        }
+
+        public string GetFileShare()
+        {
+            return ACCFileShare;
+        }
+
+        public ACCDataContext GetDbContext()
+        {
+            return DBContext;
         }
 
         #region Kostenstellen

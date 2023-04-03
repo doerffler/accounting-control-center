@@ -53,6 +53,8 @@ namespace ACC.ViewModel
         private void GetData()
         {
             Skills = new(Task.Run(async () => await ACCService.GetSkillTreeAsync()).Result);
+
+            Messenger.Send(new StatusbarMessage("ManageSkillsViewModel loaded"), "Statusbar");
         }
 
         private void OnRefreshReceive(RefreshMessage message)

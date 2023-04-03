@@ -64,6 +64,8 @@ namespace ACC.ViewModel
             CostCenterData = dtCostCenter.DefaultView;
 
             Kostenstellen = new(getKostenstellenDoePaAdmin.Result);
+
+            Messenger.Send(new StatusbarMessage("ImportKostenstellenViewModel loaded"), "Statusbar");
         }
     }
 }

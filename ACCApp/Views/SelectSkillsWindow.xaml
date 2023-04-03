@@ -34,7 +34,7 @@
         </TreeView>
 
         <Button Click="ButtonSave_Click" Command="{Binding AddSelectedSkillsCommand}" Grid.Row="1">
-            <Control Template="{StaticResource tmpSaveDbDataButton}" />
+            <Control Template="{StaticResource tmpSelectItemButton}" />
         </Button>
     </Grid>
 </Window>

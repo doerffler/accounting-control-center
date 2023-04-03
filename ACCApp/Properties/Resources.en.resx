@@ -195,4 +195,7 @@
   <data name="strSelectSkillMenue" xml:space="preserve">
     <value>Select skills</value>
   </data>
+  <data name="strSelectItem" xml:space="preserve">
+    <value>Select item</value>
+  </data>
 </root>

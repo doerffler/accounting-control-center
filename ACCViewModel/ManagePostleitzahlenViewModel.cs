@@ -52,6 +52,8 @@ namespace ACC.ViewModel
         private void GetData()
         {
             Postleitzahlen = new(Task.Run(async () => await ACCService.GetPostleitzahlenAsync()).Result);
+
+            Messenger.Send(new StatusbarMessage("ManagePostleitzahlenViewModel loaded"), "Statusbar");
         }
 
         private void OnRefreshReceive(RefreshMessage message)

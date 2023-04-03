@@ -277,6 +277,15 @@ namespace ACCApp.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die strSelectItem ähnelt.
+        /// </summary>
+        public static string strSelectItem {
+            get {
+                return ResourceManager.GetString("strSelectItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die strSelectSkillMenue ähnelt.
         /// </summary>
         public static string strSelectSkillMenue {
