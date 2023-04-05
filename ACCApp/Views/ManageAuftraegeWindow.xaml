@@ -110,6 +110,7 @@
 
         <DataGrid
             Grid.Column="2"
+            Grid.RowSpan="2"
             Grid.Row="1"
             ItemsSource="{Binding Path=SelectedAuftrag.Auftragspositionen}"
             AutoGenerateColumns="False"
@@ -124,14 +125,6 @@
                 <DataGridComboBoxColumn Header="Einheiten" ItemsSource="{Binding Source={StaticResource Locator}, Path=ManageAuftraegeViewModel.Abrechnungseinheiten}" SelectedItemBinding="{Binding Path=Abrechnungseinheit}" DisplayMemberPath="Name"/>
             </DataGrid.Columns>
         </DataGrid>
-
-        <StackPanel
-            Grid.Column="2"
-            Grid.Row="3">
-            <Button Command="{Binding SaveChangesCommand}">
-                <Control Template="{StaticResource tmpSaveDbDataButton}" />
-            </Button>
-        </StackPanel>
 
     </Grid>
 </Window>

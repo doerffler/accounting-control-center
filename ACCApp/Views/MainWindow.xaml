@@ -79,10 +79,14 @@
             <RibbonTab Header="Start">
                 <RibbonGroup Header="Allgemein">
                     <RibbonButton
+                        x:Name="RBSave"
+                        Command="{Binding SaveChangesCommand}"
+                        SmallImageSource="{svg:SvgImage /Resources/SaveAs.svg}"
+                        Label="{x:Static p:Resources.strSaveData}" />
+                    <RibbonButton
                         x:Name="RBRefreshView"
                         Command="{Binding RefreshCommand}"
                         SmallImageSource="{svg:SvgImage /Resources/Refresh.svg}"
-                        LargeImageSource="{svg:SvgImage /Resources/Refresh.svg}"
                         Label="{x:Static p:Resources.strRefreshView}" />
                 </RibbonGroup>
                 <RibbonGroup Header="Zwischenablage">
@@ -158,7 +162,7 @@
                     <StackPanel Orientation="Vertical">
                         <StackPanel Orientation="Horizontal">
                             <Label Content="Geschäftsjahr:" />
-                            <ComboBox Width="85" SelectedItem="{Binding SelectedGeschaeftsjahr}" ItemsSource="{Binding Source={StaticResource Locator}, Path=ManageGeschaeftsjahreViewModel.Geschaeftsjahre}" DisplayMemberPath="Name" />
+                            <ComboBox Width="85" SelectedItem="{Binding SelectedGeschaeftsjahr}" ItemsSource="{Binding Source={StaticResource Locator}, Path=ManageGeschaeftsjahreViewModel.Geschaeftsjahre, Mode=TwoWay}" DisplayMemberPath="Name" />
                         </StackPanel>
                         <RibbonButton
                         x:Name="RBOpenGeschaeftsjahrManagement"

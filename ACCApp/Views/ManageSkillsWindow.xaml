@@ -50,9 +50,6 @@
             <Button Command="{Binding RemoveSkillCommand}">
                 <Control Template="{StaticResource tmpRemoveItemButton}" />
             </Button>
-            <Button Command="{Binding SaveChangesCommand}">
-                <Control Template="{StaticResource tmpSaveDbDataButton}" />
-            </Button>
         </StackPanel>
     </Grid>
 </Window>
