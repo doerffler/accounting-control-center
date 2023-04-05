@@ -602,6 +602,11 @@ namespace ACC.ViewModel.Services
             return await Task.Run(() => DBContext.ChangeTracker.HasChanges(), cancellationToken);
         }
 
+        public bool CheckForChanges()
+        {
+            return DBContext.ChangeTracker.HasChanges();
+        }
+
         public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             return await DBContext.SaveChangesAsync(cancellationToken);

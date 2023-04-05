@@ -1,12 +1,11 @@
 ﻿using ACC.ViewModel.Messages;
 using ACC.ViewModel.Services;
-using ACCDataModel.Stammdaten;
+using ACCDataAdapter.ACC;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -14,7 +13,6 @@ namespace ACC.ViewModel
 {
     public abstract class ACCViewModelBase : ObservableRecipient
     {
-
         protected IACCService ACCService { get; set; }
         protected IUserInteractionService UserInteractionService { get; set; }
 
@@ -22,16 +20,20 @@ namespace ACC.ViewModel
 
         public ACCViewModelBase(IACCService accService, IUserInteractionService userInteractionService = null)
         {
-            //TODO: Implement CanExecute-Functionality
-            SaveChangesCommand = new AsyncRelayCommand(SaveChangesAsync);
+            SaveChangesCommand = new AsyncRelayCommand(SaveChangesAsync, CheckIfSaveChangesCanExecute);
 
             ACCService = accService;
             UserInteractionService = userInteractionService;
         }
 
-        protected async Task<bool> CheckIfSaveChangesCanExecuteAsync(CancellationToken cancellationToken = default)
+        private async Task<bool> CheckIfSaveChangesCanExecuteAsync(CancellationToken cancellationToken = default)
         {
             return await ACCService.CheckForChangesAsync(cancellationToken);
+        }
+
+        private bool CheckIfSaveChangesCanExecute()
+        {
+            return ACCService.CheckForChanges();
         }
 
         protected event Action Saving;
@@ -43,14 +45,21 @@ namespace ACC.ViewModel
 
         protected async Task SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-            RaiseSavingEvent();
-
-            int countAenderungen = await ACCService.SaveChangesAsync(cancellationToken);
-
-            if (countAenderungen > 0)
+            try
             {
-                string message = string.Format("{0} Änderung(en) wurden gespeichert", countAenderungen);
-                UserInteractionService.ShowMessageBox(message, "Dörffler und Partner GmbH");
+                RaiseSavingEvent();
+
+                int countAenderungen = await ACCService.SaveChangesAsync(cancellationToken);
+
+                if (countAenderungen > 0)
+                {
+                    string message = string.Format("{0} Änderung(en) wurden gespeichert", countAenderungen);
+                    UserInteractionService.ShowMessageBox(message, "Dörffler und Partner GmbH");
+                }
+            }
+            catch (Exception ex) 
+            {
+                Messenger.Send(new StatusbarMessage(ex.Message), "Statusbar");
             }
         }
 

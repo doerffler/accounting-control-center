@@ -1,16 +1,13 @@
 ﻿using ACC.ViewModel.Model;
 using ACC.ViewModel.Services;
 using Microsoft.Extensions.Options;
-using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using System;
 using ACC.ViewModel.Messages;
 using ACCDataModel.Stammdaten;
 using System.Linq;
-using System.Windows.Input;
 using Microsoft.IdentityModel.Tokens;
 
 namespace ACC.ViewModel
@@ -66,7 +63,6 @@ namespace ACC.ViewModel
             this.accService = accService;
 
             RefreshCommand = new RelayCommand(RefreshAsync);
-            ExecuteCommand = new RelayCommand(async () => await ExecuteAsync());
             GenerateTestdataCommand = new AsyncRelayCommand(DoGenerateTestdataAsync);
             MainViewLoadedCommand = new AsyncRelayCommand(MainViewLoaded);
 
@@ -146,10 +142,6 @@ namespace ACC.ViewModel
             Messenger.Send(new RefreshMessage("all"), "Refresh");
         }
 
-        private Task ExecuteAsync()
-        {
-            Debug.WriteLine($"Current value: {_input}");
-            return Task.CompletedTask;
-        }
+
     }
 }

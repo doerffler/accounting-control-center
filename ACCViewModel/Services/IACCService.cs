@@ -141,6 +141,7 @@ namespace ACC.ViewModel.Services
         #region Utility functions
 
         public Task<bool> CheckForChangesAsync(CancellationToken cancellationToken = default);
+        public bool CheckForChanges();
 
         public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
         
