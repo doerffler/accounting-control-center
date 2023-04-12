@@ -1,11 +1,8 @@
 ﻿using ACC.ViewModel.Messages;
 using ACC.ViewModel.Services;
-using ACCDataAdapter.ACC;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.EntityFrameworkCore;
 using System;
-using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -24,11 +21,6 @@ namespace ACC.ViewModel
 
             ACCService = accService;
             UserInteractionService = userInteractionService;
-        }
-
-        private async Task<bool> CheckIfSaveChangesCanExecuteAsync(CancellationToken cancellationToken = default)
-        {
-            return await ACCService.CheckForChangesAsync(cancellationToken);
         }
 
         private bool CheckIfSaveChangesCanExecute()
