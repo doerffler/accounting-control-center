@@ -99,10 +99,6 @@
                 </ListBox.ItemTemplate>
             </ListBox>
 
-            <Button Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Command="{Binding SaveChangesCommand}">
-                <Control Template="{StaticResource tmpSaveDbDataButton}" />
-            </Button>
-
         </Grid>
 
     </Grid>

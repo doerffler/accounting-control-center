@@ -125,11 +125,5 @@
                 </DataGrid>
             </StackPanel>
         </Grid>
-        
-        <StackPanel Grid.Row="4" Grid.Column="1">
-            <Button Command="{Binding SaveChangesCommand}">
-                <Control Template="{StaticResource tmpSaveDbDataButton}" />
-            </Button>
-        </StackPanel>
     </Grid>
 </Window>

@@ -233,9 +233,6 @@
         <StackPanel
             Grid.Column="2"
             Grid.Row="3">
-            <Button Command="{Binding SaveChangesCommand}">
-                <Control Template="{StaticResource tmpSaveDbDataButton}" />
-            </Button>
 
         </StackPanel>
 

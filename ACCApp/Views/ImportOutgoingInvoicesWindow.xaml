@@ -117,8 +117,5 @@
                 <TextBlock Text="{x:Static p:Resources.strStartMigrationOfInvoices}"/>
             </StackPanel>
         </Button>
-        <Button Grid.Row="2" Command="{Binding SaveChangesCommand}">
-            <Control Template="{StaticResource tmpSaveDbDataButton}" />
-        </Button>
     </Grid>
 </Window>

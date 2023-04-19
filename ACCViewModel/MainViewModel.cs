@@ -15,7 +15,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace ACC.ViewModel
 {
-    public class MainViewModel : ObservableRecipient
+    public class MainViewModel : ACCViewModelBase 
     {
 
         private string _input;
@@ -58,7 +58,7 @@ namespace ACC.ViewModel
             set => SetProperty(ref _statusbarMessage, value, true);
         }
 
-        public MainViewModel(IACCService accService, IOptions<AppSettings> options, IUserInteractionService userInteractionService)
+        public MainViewModel(IACCService accService, IOptions<AppSettings> options, IUserInteractionService userInteractionService) : base(accService, userInteractionService)
         {
             Messenger.Register<MainViewModel, RefreshMessage, string>(this, "Refresh", (r, m) => r.OnRefreshReceive(m));
             Messenger.Register<MainViewModel, StatusbarMessage, string>(this, "Statusbar", (r, m) => r.OnStatusbarReceive(m));

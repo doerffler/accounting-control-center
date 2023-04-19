@@ -14,7 +14,6 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*" />
             <ColumnDefinition Width="1*" />
-            <ColumnDefinition Width="1*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
@@ -33,9 +32,6 @@
         </Button>
         <Button Grid.Row="1" Grid.Column="1" Command="{Binding RemoveCommand}">
             <Control Template="{StaticResource tmpRemoveItemButton}" />
-        </Button>
-        <Button Grid.Row="1" Grid.Column="2" Command="{Binding SaveChangesCommand}">
-            <Control Template="{StaticResource tmpSaveDbDataButton}" />
         </Button>
     </Grid>
 </Window>

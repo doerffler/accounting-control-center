@@ -129,6 +129,7 @@
         <DataGrid
             Grid.Column="2"
             Grid.Row="1"
+            Grid.RowSpan="2"
             DataContext="{Binding SelectedRechnung.Rechnungspositionen}"
             ItemsSource="{Binding}"
             AutoGenerateColumns="False">
@@ -166,17 +167,5 @@
             <WebBrowser bhv:WebBrowserHelper.Body="{Binding InvoiceDocumentUrl}" />
 
         </Border>
-        
-        
-
-        <StackPanel
-            Grid.Column="2"
-            Grid.ColumnSpan="3"
-            Grid.Row="2">
-            <Button Command="{Binding SaveChangesCommand}">
-                <Control Template="{StaticResource tmpSaveDbDataButton}" />
-            </Button>
-
-        </StackPanel>
     </Grid>
 </Window>
