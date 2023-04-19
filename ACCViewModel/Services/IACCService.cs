@@ -1,4 +1,5 @@
-﻿using ACCDataModel.DTO;
+﻿using ACCDataAdapter.ACC;
+using ACCDataModel.DTO;
 using ACCDataModel.Kostenrechnung;
 using ACCDataModel.Stammdaten;
 using System;
@@ -13,6 +14,11 @@ namespace ACC.ViewModel.Services
 {
     public interface IACCService
     {
+        public string GetConnectionInformations();
+        
+        public string GetFileShare();
+        
+        public ACCDataContext GetDbContext();
 
         #region Kostenstelle
 

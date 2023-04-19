@@ -57,6 +57,8 @@ namespace ACC.ViewModel
         {
             Abrechnungseinheiten = new(Task.Run(async () => await ACCService.GetAbrechnungseinheitenAsync()).Result);
             Mitarbeiter = new(Task.Run(async () => await ACCService.GetMitarbeiterAsync()).Result);
+
+            Messenger.Send(new StatusbarMessage("ManageAuftraegeViewModel loaded"), "Statusbar");
         }
 
         private void OnRefreshReceive(RefreshMessage message)

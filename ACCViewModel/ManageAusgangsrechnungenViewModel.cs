@@ -67,6 +67,8 @@ namespace ACC.ViewModel
         {
             Rechnungen = new(Task.Run(async () => await ACCService.GetAusgangsrechnungenAsync()).Result);
             SelectedGeschaeftsjahr = Task.Run(async () => await CalculateCurrentGeschaeftsjahrAsync()).Result;
+
+            Messenger.Send(new StatusbarMessage("ManageAusgangsrechnungenViewModel loaded"), "Statusbar");
         }
 
         private void OnRefreshReceive(RefreshMessage message)

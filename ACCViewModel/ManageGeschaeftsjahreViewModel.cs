@@ -77,6 +77,8 @@ namespace ACC.ViewModel
         {
             Feiertage = new(Task.Run(async () => await ACCService.GetFeiertageAsync()).Result);
             Geschaeftsjahre = new(Task.Run(async () => await ACCService.GetGeschaeftsjahreAsync()).Result);
+
+            Messenger.Send(new StatusbarMessage("ManageGeschaeftsjahreViewModel loaded"), "Statusbar");
         }
 
         private void OnRefreshReceive(RefreshMessage message)

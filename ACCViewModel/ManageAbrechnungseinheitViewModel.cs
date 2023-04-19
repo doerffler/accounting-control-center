@@ -53,6 +53,8 @@ namespace ACC.ViewModel
         private void GetData()
         {
             Abrechnungseinheiten = new(Task.Run(async () => await ACCService.GetAbrechnungseinheitenAsync()).Result);
+
+            Messenger.Send(new StatusbarMessage("ManageAbrechnungseinheitViewModel loaded"), "Statusbar");
         }
 
         private void DoRemove()

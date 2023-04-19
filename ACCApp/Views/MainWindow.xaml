@@ -6,12 +6,17 @@
         xmlns:svg="http://sharpvectors.codeplex.com/svgc/"
         mc:Ignorable="d"
         xmlns:oxy="http://oxyplot.org/wpf"
-        xmlns:p="clr-namespace:ACCApp.Properties"
-        Title="Dörffler &amp; Partner GmbH - ACC"
+        xmlns:p="clr-namespace:ACCApp.Properties" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+              Title="Dörffler &amp; Partner GmbH - ACC"
         Icon="/Resources/doerffler_icon_496x496.png"
         Width="1356"
         DataContext="{Binding Source={StaticResource Locator}, Path=MainViewModel}">
     <Grid>
+        <i:Interaction.Triggers>
+            <i:EventTrigger EventName="Loaded">
+                <i:InvokeCommandAction Command="{Binding MainViewLoadedCommand}" />
+            </i:EventTrigger>
+        </i:Interaction.Triggers>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -219,55 +224,62 @@
                 </RibbonGroup>
             </RibbonTab>
         </Ribbon>
-        <TabControl Grid.Row="1">
-            <TabItem Header="Geschäftsjahresübersicht">
+        <DockPanel Grid.Row="1">
+            <StatusBar DockPanel.Dock="Bottom">
+                <StatusBarItem>
+                    <TextBlock Text="{Binding StatusbarMessage}" />
+                </StatusBarItem>
+            </StatusBar>
+            <TabControl>
+                <TabItem Header="Geschäftsjahresübersicht">
 
-            </TabItem>
-            <TabItem Header="Auftragsstatus" DataContext="{Binding Source={StaticResource Locator}, Path=DisplayAuftragsstatusViewModel}">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="25*"/>
-                        <RowDefinition Height="199*"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="99*"/>
-                        <ColumnDefinition Width="100*"/>
-                    </Grid.ColumnDefinitions>
+                </TabItem>
+                <TabItem Header="Auftragsstatus" DataContext="{Binding Source={StaticResource Locator}, Path=DisplayAuftragsstatusViewModel}">
                     <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="25*"/>
+                            <RowDefinition Height="199*"/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="99*"/>
                             <ColumnDefinition Width="100*"/>
                         </Grid.ColumnDefinitions>
-                    </Grid>
-                    <ScrollViewer Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-                        <ItemsControl ItemsSource="{Binding Charts}">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <WrapPanel />
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Vertical">
-                                        <Button Margin="3" Content="Export" x:Name="BTNExport"  Command="{Binding Source={StaticResource Locator}, Path=DisplayAuftragsstatusViewModel.ExportCommand}" CommandParameter="{Binding Table}" Click="BTNExport_Click" />
-                                        <oxy:PlotView
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="99*"/>
+                                <ColumnDefinition Width="100*"/>
+                            </Grid.ColumnDefinitions>
+                        </Grid>
+                        <ScrollViewer Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                            <ItemsControl ItemsSource="{Binding Charts}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Vertical">
+                                            <Button Margin="3" Content="Export" x:Name="BTNExport"  Command="{Binding Source={StaticResource Locator}, Path=DisplayAuftragsstatusViewModel.ExportCommand}" CommandParameter="{Binding Table}" Click="BTNExport_Click" />
+                                            <oxy:PlotView
                                             Controller="{Binding Source={StaticResource Locator}, Path=DisplayAuftragsstatusViewModel.Controller}" 
                                             Model="{Binding Chart}" 
                                             Width="500" 
                                             Height="250"/>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                    </ScrollViewer>
-                </Grid>
-            </TabItem>
-            <TabItem Header="Mitarbeiterperformance">
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Mitarbeiterperformance">
 
-            </TabItem>
-        </TabControl>
+                </TabItem>
+            </TabControl>
+        </DockPanel>
     </Grid>
 </RibbonWindow>

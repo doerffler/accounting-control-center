@@ -63,6 +63,8 @@ namespace ACC.ViewModel
         {
             Mitarbeiter = new(Task.Run(async () => await ACCService.GetMitarbeiterAsync()).Result);
             Taetigkeiten = new(Task.Run(async () => await ACCService.GetTaetigkeitenAsync()).Result);
+
+            Messenger.Send(new StatusbarMessage("ManageMitarbeiterViewModel loaded"), "Statusbar");
         }
 
         private void OnRefreshReceive(RefreshMessage message)

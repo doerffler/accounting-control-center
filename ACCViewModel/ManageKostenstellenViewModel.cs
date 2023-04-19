@@ -75,6 +75,8 @@ namespace ACC.ViewModel
         {
             Kostenstellen = new(Task.Run(async () => await ACCService.GetKostenstellenAsync()).Result);
             Kostenstellenarten = new(Task.Run(async () => await ACCService.GetKostenstellenartenAsync()).Result);
+
+            Messenger.Send(new StatusbarMessage("ManageKostenstellenViewModel loaded"), "Statusbar");
         }
 
         private void OnRefreshReceive(RefreshMessage message)

@@ -131,6 +131,8 @@ namespace ACC.ViewModel
         {
             Projekte = new(Task.Run(async () => await ACCService.GetProjekteAsync()).Result);
             AllAuftraege = new(Task.Run(async () => await ACCService.GetAuftraegeAsync()).Result);
+
+            Messenger.Send(new StatusbarMessage("ManageProjekteViewModel loaded"), "Statusbar");
         }
 
         private void OnRefreshReceive(RefreshMessage message)

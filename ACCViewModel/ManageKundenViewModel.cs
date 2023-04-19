@@ -53,6 +53,8 @@ namespace ACC.ViewModel
         private void GetData()
         {
             Kunden = new(Task.Run(async () => await ACCService.GetKundenAsync()).Result);
+        
+            Messenger.Send(new StatusbarMessage("ManageKundenViewModel loaded"), "Statusbar");
         }
 
         private void OnRefreshReceive(RefreshMessage message)

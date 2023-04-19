@@ -48,6 +48,8 @@ namespace ACC.ViewModel
         private void GetData()
         {
             Taetigkeiten = new(Task.Run(async () => await ACCService.GetTaetigkeitenAsync()).Result);
+
+            Messenger.Send(new StatusbarMessage("ManageTaetigkeitViewModel loaded"), "Statusbar");
         }
 
         private void OnRefreshReceive(RefreshMessage message)

@@ -48,6 +48,8 @@ namespace ACC.ViewModel
         private void GetData()
         {
             Waehrungen = new(Task.Run(async () => await ACCService.GetWaehrungenAsync()).Result);
+
+            Messenger.Send(new StatusbarMessage("ManageWaehrungViewModel loaded"), "Statusbar");
         }
 
         private void OnRefreshReceive(RefreshMessage message)

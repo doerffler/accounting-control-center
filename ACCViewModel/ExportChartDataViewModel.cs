@@ -25,7 +25,13 @@ namespace ACC.ViewModel
 
         private void OnExportMessageReceive(ExportMessage message)
         {
+            GetData(message);
+        }
+
+        private void GetData(ExportMessage message)
+        {
             Data = new ObservableCollection<RemainingBudgetOnOrdersDTO>(message.Data);
+            Messenger.Send(new StatusbarMessage("ExportChartDataViewModel loaded"), "Statusbar");
         }
     }
 }

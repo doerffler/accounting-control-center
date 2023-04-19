@@ -64,6 +64,8 @@ namespace ACC.ViewModel
 
             Auftragspositionen = Task.Run(async () => await ACCService.GetAuftragspositionenAsync()).Result;
             OutgoingInvoices = new(outgoingInvoiceMigrations);
+
+            Messenger.Send(new StatusbarMessage("ImportOutgoingInvoiceViewModel loaded"), "Statusbar");
         }
 
         private void OnRefreshReceive(RefreshMessage message)

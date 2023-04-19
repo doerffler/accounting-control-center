@@ -10,6 +10,7 @@ namespace ACC.ViewModel.Model
     {
 
         public string ConnectionString { get; set; }
+        public string FileShare { get; set; }
 
     }
 }
