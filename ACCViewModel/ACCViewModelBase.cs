@@ -21,6 +21,13 @@ namespace ACC.ViewModel
 
             ACCService = accService;
             UserInteractionService = userInteractionService;
+
+            ACCService.Changed += HandleChangedEvent;
+        }
+
+        private void HandleChangedEvent(object sender, EventArgs e)
+        {
+            SaveChangesCommand.NotifyCanExecuteChanged();
         }
 
         private bool CheckIfSaveChangesCanExecute()

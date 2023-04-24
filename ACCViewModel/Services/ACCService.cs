@@ -15,6 +15,17 @@ namespace ACC.ViewModel.Services
 {
     public class ACCService : IACCService
     {
+        public bool HasChanges
+        {
+            get { return DBContext.ChangeTracker.HasChanges(); }
+        }
+
+        public event EventHandler Changed;
+
+        protected virtual void RaiseChangedEvent()
+        {
+            Changed?.Invoke(this, new EventArgs());
+        }
 
         private string ACCConnectionString { get; set; }
         private string ACCFileShare { get; set; }
@@ -79,6 +90,7 @@ namespace ACC.ViewModel.Services
         public void RemoveKostenstelle(Kostenstelle kostenstelleToRemove)
         {
             _ = DBContext.Kostenstellen.Remove(kostenstelleToRemove);
+            RaiseChangedEvent();
         }
 
         public async Task<IEnumerable<Kostenstellenart>> GetKostenstellenartenAsync(CancellationToken cancellationToken = default)
@@ -125,6 +137,7 @@ namespace ACC.ViewModel.Services
         public void RemoveMitarbeiter(Mitarbeiter mitarbeiterToRemove)
         {
             _ = DBContext.Mitarbeiter.Remove(mitarbeiterToRemove);
+            RaiseChangedEvent();
         }
 
         public async Task<IEnumerable<Taetigkeit>> GetTaetigkeitenAsync(CancellationToken cancellationToken = default)
@@ -304,11 +317,13 @@ namespace ACC.ViewModel.Services
         public async Task AddAusgangsrechnungAsync(Ausgangsrechnung ausgangsrechnungToAdd, CancellationToken cancellationToken = default)
         {
             _ = await DBContext.Ausgangsrechnungen.AddAsync(ausgangsrechnungToAdd, cancellationToken);
+            RaiseChangedEvent();
         }
 
         public void RemoveAusgangsrechnung(Ausgangsrechnung ausgangsrechnungToRemove)
         {
             _ = DBContext.Ausgangsrechnungen.Remove(ausgangsrechnungToRemove);
+            RaiseChangedEvent();
         }
 
         public async Task<Ausgangsrechnungsposition> CreateAusgangsrechnungspositionAsync(CancellationToken cancellationToken = default)
@@ -436,6 +451,7 @@ namespace ACC.ViewModel.Services
         public void RemoveGeschaeftspartner<T>(T geschaeftspartnerToRemove) where T : Geschaeftspartner
         {
             _ = DBContext.Remove<T>(geschaeftspartnerToRemove);
+            RaiseChangedEvent();
         }
 
         #endregion
@@ -486,6 +502,7 @@ namespace ACC.ViewModel.Services
         public void RemoveAbrechnungseinheit(Abrechnungseinheit selectedAbrechnungseinheit)
         {
             _ = DBContext.Abrechnungseinheiten.Remove(selectedAbrechnungseinheit);
+            RaiseChangedEvent();
         }
 
         public async Task<IEnumerable<Geschaeftsjahr>> GetGeschaeftsjahreAsync(CancellationToken cancellationToken = default)
@@ -512,6 +529,7 @@ namespace ACC.ViewModel.Services
         public void RemoveGeschaeftsjahr(Geschaeftsjahr geschaeftsjahrToRemove)
         {
             _ = DBContext.Geschaeftsjahre.Remove(geschaeftsjahrToRemove);
+            RaiseChangedEvent();
         }
 
         public async Task<IEnumerable<Postleitzahl>> GetPostleitzahlenAsync(CancellationToken cancellationToken = default)
@@ -553,52 +571,53 @@ namespace ACC.ViewModel.Services
         public void RemoveFeiertag(Feiertag feiertagToRemove)
         {
             _ = DBContext.Feiertage.Remove(feiertagToRemove);
+            RaiseChangedEvent();
         }
 
         public void RemoveKunde(Kunde selectedKunde)
         {
             _ = DBContext.Kunden.Remove(selectedKunde);
+            RaiseChangedEvent();
         }
 
         public void RemoveWaehrung(Waehrung selectedWaehrung)
         {
             _ = DBContext.Waehrungen.Remove(selectedWaehrung);
+            RaiseChangedEvent();
         }
 
         public void RemovePostleitzahl(Postleitzahl selectedPostleitzahl)
         {
             _ = DBContext.Postleitzahlen.Remove(selectedPostleitzahl);
+            RaiseChangedEvent();
         }
 
         public async Task<IEnumerable<Adresse>> GetAdressenAsync(CancellationToken cancellationToken = default)
         {
-            return await GetDataFromDbSetAsync(DBContext.Adressen, cancellationToken);
-        }
+            return await GetDataFromDbSetAsync(DBContext.Adressen, cancellationToken);        }
 
         public void RemoveAdresse(Adresse selectedAdresse)
         {
             _ = DBContext.Adressen.Remove(selectedAdresse);
+            RaiseChangedEvent();
         }
 
         public void RemoveKostenstellenart(Kostenstellenart selectedKostenstellenart)
         {
             _ = DBContext.Kostenstellenarten.Remove(selectedKostenstellenart);
+            RaiseChangedEvent();
         }
 
         public void RemoveTaetigkeit(Taetigkeit selectedTaetigkeit)
         {
             _ = DBContext.Taetigkeiten.Remove(selectedTaetigkeit);
+            RaiseChangedEvent();
         }
 
 
         #endregion
 
         #region Utility functions
-
-        public async Task<bool> CheckForChangesAsync(CancellationToken cancellationToken = default)
-        {
-            return await Task.Run(() => DBContext.ChangeTracker.HasChanges(), cancellationToken);
-        }
 
         public bool CheckForChanges()
         {
@@ -607,6 +626,7 @@ namespace ACC.ViewModel.Services
 
         public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
+            RaiseChangedEvent();
             return await DBContext.SaveChangesAsync(cancellationToken);
         }
 
@@ -622,6 +642,9 @@ namespace ACC.ViewModel.Services
         {
             T newItem = new();
             _ = await dbSet.AddAsync(newItem, cancellationToken);
+            
+            RaiseChangedEvent();
+
             return newItem;
         }
 

@@ -14,15 +14,6 @@ namespace ACC.ViewModel
 {
     public class MainViewModel : ACCViewModelBase 
     {
-
-        private string _input;
-
-        public string Input
-        {
-            get => _input;
-            set => SetProperty(ref _input, value, true);
-        }
-
         private Geschaeftsjahr _selectedGeschaeftsjahr;
         public Geschaeftsjahr SelectedGeschaeftsjahr
         {

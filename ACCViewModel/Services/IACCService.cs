@@ -14,6 +14,10 @@ namespace ACC.ViewModel.Services
 {
     public interface IACCService
     {
+        public bool HasChanges { get; }
+
+        public event EventHandler Changed;
+
         public string GetConnectionInformations();
         
         public string GetFileShare();
@@ -140,7 +144,6 @@ namespace ACC.ViewModel.Services
 
         #region Utility functions
 
-        public Task<bool> CheckForChangesAsync(CancellationToken cancellationToken = default);
         public bool CheckForChanges();
 
         public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
