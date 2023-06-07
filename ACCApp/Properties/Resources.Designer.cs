@@ -124,6 +124,15 @@ namespace ACCApp.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die strImportIncomingInvoices ähnelt.
+        /// </summary>
+        public static string strImportIncomingInvoices {
+            get {
+                return ResourceManager.GetString("strImportIncomingInvoices", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die strImportOutgoingInvoices ähnelt.
         /// </summary>
         public static string strImportOutgoingInvoices {

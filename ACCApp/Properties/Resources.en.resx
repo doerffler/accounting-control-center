@@ -198,4 +198,7 @@
   <data name="strSelectItem" xml:space="preserve">
     <value>Select item</value>
   </data>
+  <data name="strImportIncomingInvoices" xml:space="preserve">
+    <value>Import incoming invoices</value>
+  </data>
 </root>
