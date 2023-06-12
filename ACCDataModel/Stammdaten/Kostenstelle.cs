@@ -13,7 +13,7 @@ namespace ACCDataModel.Stammdaten
 
         public string Kostenstellenbezeichnung { get; set; }
                 
-        public int ZugehoerigeKostenstellenartId { get; set; }
+        public int? ZugehoerigeKostenstellenartId { get; set; }
 
         public Kostenstellenart ZugehoerigeKostenstellenart { get; set; }
 
