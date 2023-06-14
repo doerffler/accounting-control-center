@@ -178,6 +178,15 @@ namespace ACCApp.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die strManageIncomingInvoices ähnelt.
+        /// </summary>
+        public static string strManageIncomingInvoices {
+            get {
+                return ResourceManager.GetString("strManageIncomingInvoices", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die strManageKostenstellenarten ähnelt.
         /// </summary>
         public static string strManageKostenstellenarten {

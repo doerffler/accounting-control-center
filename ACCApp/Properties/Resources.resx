@@ -201,4 +201,7 @@
   <data name="strImportIncomingInvoices" xml:space="preserve">
     <value>strImportIncomingInvoices</value>
   </data>
+  <data name="strManageIncomingInvoices" xml:space="preserve">
+    <value>strManageIncomingInvoices</value>
+  </data>
 </root>

@@ -83,7 +83,7 @@ namespace ACC.ViewModel.Services
         #region Ausgangsrechnungen
 
         public Task<IEnumerable<Ausgangsrechnung>> GetAusgangsrechnungenAsync(CancellationToken cancellationToken = default);
-        
+
         public Task<IEnumerable<RemainingBudgetOnOrdersDTO>> GetRemainingBudgetOnOrdersAsync(int AuftragspositionID, CancellationToken cancellationToken = default);
 
         public Task<Ausgangsrechnung> CreateAusgangsrechnungAsync(CancellationToken cancellationToken = default);
@@ -93,7 +93,21 @@ namespace ACC.ViewModel.Services
         public void RemoveAusgangsrechnung(Ausgangsrechnung ausgangsrechnungToRemove);
 
         public Task<Ausgangsrechnungsposition> CreateAusgangsrechnungspositionAsync(CancellationToken cancellationToken = default);
-            
+
+        #endregion
+
+        #region Eingangsrechnungen
+
+        public Task<IEnumerable<Eingangsrechnung>> GetEingangsrechnungenAsync(CancellationToken cancellationToken = default);
+
+        public Task<Eingangsrechnung> CreateEingangsrechnungAsync(CancellationToken cancellationToken = default);
+
+        public Task AddEingangsrechnungAsync(Eingangsrechnung eingangsrechnungToAdd, CancellationToken cancellationToken = default);
+
+        public void RemoveEingangsrechnung(Eingangsrechnung eingangsrechnungToRemove);
+
+        public Task<Eingangsrechnungsposition> CreateEingangsrechnungspositionAsync(CancellationToken cancellationToken = default);
+
         #endregion
 
         #region Masterdata

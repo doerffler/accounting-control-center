@@ -1,0 +1,159 @@
+﻿<Window x:Class="ACCApp.Views.ManageEingangsrechnungenWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+        xmlns:local="clr-namespace:ACCApp.Views"
+        xmlns:svg="http://sharpvectors.codeplex.com/svgc/"
+        xmlns:bhv="clr-namespace:ACCApp.Behaviors"
+        mc:Ignorable="d"
+        Height="450"
+        Width="800"
+        Icon="{svg:SvgImage /Resources/invoice_icon.svg}"
+        xmlns:p="clr-namespace:ACCApp.Properties"
+        Title="{x:Static p:Resources.strManageIncomingInvoices}"
+        DataContext="{Binding Source={StaticResource Locator}, Path=ManageEingangsrechnungenViewModel}">
+    <Window.Resources>
+        <CollectionViewSource x:Key="cvsGeschaeftsjahre" Source="{Binding Source={StaticResource Locator}, Path=ManageGeschaeftsjahreViewModel.Geschaeftsjahre}">
+            <CollectionViewSource.SortDescriptions>
+                <scm:SortDescription PropertyName="DatumVon"/>
+            </CollectionViewSource.SortDescriptions>
+        </CollectionViewSource>
+
+        <CollectionViewSource x:Key="cvsRechnungen" Source="{Binding Rechnungen}">
+            <CollectionViewSource.SortDescriptions>
+                <scm:SortDescription PropertyName="RechnungsNummer"/>
+            </CollectionViewSource.SortDescriptions>
+        </CollectionViewSource>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="3*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="2*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Column="0" Grid.Row="0" Grid.RowSpan="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <ComboBox Grid.Row="0" ItemsSource="{Binding Source={StaticResource cvsGeschaeftsjahre}}" SelectedItem="{Binding SelectedGeschaeftsjahr}" DisplayMemberPath="Name" />
+
+            <ListView Grid.Row="1" ItemsSource="{Binding Source={StaticResource cvsRechnungen}}" SelectedItem="{Binding SelectedRechnung}">
+
+                <ListView.View>
+
+                    <GridView>
+
+                        <GridViewColumn DisplayMemberBinding= "{Binding Path=RechnungsNummer}" Header="Rechnungsnummer"/>
+                        <GridViewColumn DisplayMemberBinding= "{Binding Path=RechnungsDatum}" Header="Rechnungsdatum" />
+
+                    </GridView>
+
+                </ListView.View>
+
+            </ListView>
+        </Grid>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal">
+            <Button Command="{Binding AddRechnungCommand}">
+                <Control Template="{StaticResource tmpAddItemButton}" />
+            </Button>
+            <Button Command="{Binding RemoveRechnungCommand}">
+                <Control Template="{StaticResource tmpRemoveItemButton}" />
+            </Button>
+        </StackPanel>
+
+        <GridSplitter Grid.Column="1"
+                      Grid.Row="0"
+                      Grid.RowSpan="3"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Stretch"
+                      Width="5"
+                      />
+
+        <Grid Grid.Column="2"
+              Grid.Row="0">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Label Grid.Row="0" Grid.Column="0">Rechnungsnummer:</Label>
+            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding SelectedRechnung.RechnungsNummer}" />
+
+            <Label Grid.Row="0" Grid.Column="2">Rechnungsdatum:</Label>
+            <DatePicker Grid.Row="0" Grid.Column="3" SelectedDate="{Binding SelectedRechnung.RechnungsDatum}" />
+
+            <Label Grid.Row="1" Grid.Column="2">Währung:</Label>
+            <ComboBox
+                Grid.Row="1"
+                Grid.Column="3"
+                ItemsSource="{Binding Source={StaticResource Locator}, Path=ManageWaehrungViewModel.Waehrungen}"
+                SelectedItem="{Binding SelectedRechnung.ZugehoerigeWaehrung}"
+                DisplayMemberPath="WaehrungISO" />
+
+        </Grid>
+
+        <DataGrid
+            Grid.Column="2"
+            Grid.Row="1"
+            Grid.RowSpan="2"
+            DataContext="{Binding SelectedRechnung.Rechnungspositionen}"
+            ItemsSource="{Binding}"
+            AutoGenerateColumns="False">
+
+            <DataGrid.Columns>
+
+                <DataGridTextColumn Header="Position" Binding="{Binding Path=PositionsNummer}" />
+                <DataGridTextColumn Header="Positionsbeschreibung" Binding="{Binding Path=Positionsbeschreibung}" />
+                <DataGridTextColumn Header="Stückzahl" Binding="{Binding Path=Stueckzahl}" />
+                <DataGridComboBoxColumn Header="Abrechnungseinheit" ItemsSource="{Binding Source={StaticResource Locator}, Path=ManageAbrechnungseinheitViewModel.Abrechnungseinheiten}" SelectedItemBinding="{Binding Path=ZugehoerigeAbrechnungseinheit}" DisplayMemberPath="Name" />
+                <DataGridTextColumn Header="Stückpreis Netto" Binding="{Binding Path=StueckpreisNetto}" />
+                <DataGridTextColumn Header="Mehrwertsteuersatz" Binding="{Binding Path=Steuersatz}" />
+                <DataGridTextColumn Header="Nettobetrag" Binding="{Binding Path=Nettobetrag}" />
+                <DataGridComboBoxColumn Header="Kostenstelle" ItemsSource="{Binding Source={StaticResource Locator}, Path=ManageKostenstellenViewModel.Kostenstellen}" SelectedItemBinding="{Binding Path=ZugehoerigeKostenstelle}" DisplayMemberPath="Kostenstellenbezeichnung" />
+                <DataGridTextColumn Header="Auftragsposition" Binding="{Binding Path=ZugehoerigeAuftragsposition.Positionsbezeichnung}"/>
+            </DataGrid.Columns>
+
+        </DataGrid>
+
+        <GridSplitter Grid.Column="3"
+                      Grid.Row="0"
+                      Grid.RowSpan="2"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Stretch"
+                      Width="5"
+                      />
+
+        <Border
+            Grid.Column="4"
+            Grid.Row="0"
+            Grid.RowSpan="2"
+            BorderThickness="1"
+            >
+
+            <WebBrowser bhv:WebBrowserHelper.Body="{Binding InvoiceDocumentUrl}" />
+
+        </Border>
+    </Grid>
+</Window>

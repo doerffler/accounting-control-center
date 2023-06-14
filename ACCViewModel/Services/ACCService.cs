@@ -290,6 +290,50 @@ namespace ACC.ViewModel.Services
 
         #endregion
 
+        #region Eingangsrechnungen
+
+        public async Task<IEnumerable<Eingangsrechnung>> GetEingangsrechnungenAsync(CancellationToken cancellationToken = default)
+        {
+            return await GetDataFromDbSetAsync(
+                DBContext.Eingangsrechnungen
+                .Include(ar => ar.ZugehoerigeWaehrung)
+                .Include(ar => ar.Rechnungspositionen).ThenInclude(rp => rp.ZugehoerigeAbrechnungseinheit)
+                .Include(ar => ar.Rechnungspositionen).ThenInclude(rp => rp.ZugehoerigeKostenstelle)
+                , cancellationToken);
+        }
+
+        public async Task<Eingangsrechnung> CreateEingangsrechnungAsync(CancellationToken cancellationToken = default)
+        {
+
+            Eingangsrechnung newEingangsrechnung = await AddDataToDbSetAsync(DBContext.Eingangsrechnungen, cancellationToken);
+            newEingangsrechnung.RechnungsDatum = DateTime.Now;
+
+            return newEingangsrechnung;
+
+        }
+
+        public async Task AddEingangsrechnungAsync(Eingangsrechnung eingangsrechnungToAdd, CancellationToken cancellationToken = default)
+        {
+            _ = await DBContext.Eingangsrechnungen.AddAsync(eingangsrechnungToAdd, cancellationToken);
+            RaiseChangedEvent();
+        }
+
+        public void RemoveEingangsrechnung(Eingangsrechnung eingangsrechnungToRemove)
+        {
+            _ = DBContext.Eingangsrechnungen.Remove(eingangsrechnungToRemove);
+            RaiseChangedEvent();
+        }
+
+        public async Task<Eingangsrechnungsposition> CreateEingangsrechnungspositionAsync(CancellationToken cancellationToken = default)
+        {
+
+            Eingangsrechnungsposition newEingangsrechnungsposition = await AddDataToDbSetAsync(DBContext.Eingangsrechnungspositionen, cancellationToken);
+
+            return newEingangsrechnungsposition;
+
+        }
+        #endregion
+
         #region Ausgangsrechnungen
 
         public async Task<IEnumerable<Ausgangsrechnung>> GetAusgangsrechnungenAsync(CancellationToken cancellationToken = default)

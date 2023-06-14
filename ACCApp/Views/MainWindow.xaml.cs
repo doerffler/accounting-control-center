@@ -52,6 +52,18 @@ namespace ACCApp.Views
             importOutgoingInvoices.Show();
         }
 
+        private void RBOpenIncomingInvoices_Click(object sender, RoutedEventArgs e)
+        {
+            ManageEingangsrechnungenWindow manageIncomingInvoices = App.ServiceProvider.GetRequiredService<ManageEingangsrechnungenWindow>();
+            manageIncomingInvoices.Show();
+        }
+
+        private void RBOpenIncomingInvoicesImport_Click(object sender, RoutedEventArgs e)
+        {
+            ImportIncomingInvoicesWindow importIncomingInvoices = App.ServiceProvider.GetRequiredService<ImportIncomingInvoicesWindow>();
+            importIncomingInvoices.Show();
+        }
+
         private void RBOpenDebitorManagement_Click(object sender, RoutedEventArgs e)
         {
             ManageDebitorenWindow manageDebitoren = App.ServiceProvider.GetRequiredService<ManageDebitorenWindow>();

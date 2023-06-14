@@ -24,6 +24,8 @@ namespace ACCApp.ViewModels
 
         public ManageAusgangsrechnungenViewModel ManageAusgangsrechnungenViewModel => App.ServiceProvider.GetRequiredService<ManageAusgangsrechnungenViewModel>();
 
+        public ManageEingangsrechnungenViewModel ManageEingangsrechnungenViewModel => App.ServiceProvider.GetRequiredService<ManageEingangsrechnungenViewModel>();
+
         public ManageDebitorenViewModel ManageDebitorenViewModel => App.ServiceProvider.GetRequiredService<ManageDebitorenViewModel>();
 
         public ManagePostleitzahlenViewModel ManagePostleitzahlenViewModel => App.ServiceProvider.GetRequiredService<ManagePostleitzahlenViewModel>();

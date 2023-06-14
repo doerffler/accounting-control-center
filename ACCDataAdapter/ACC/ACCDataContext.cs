@@ -74,6 +74,10 @@ namespace ACCDataAdapter.ACC
 
         public DbSet<Ausgangsrechnungsposition> Ausgangsrechnungspositionen { get; set; }
 
+        public DbSet<Eingangsrechnung> Eingangsrechnungen { get; set; }
+
+        public DbSet<Eingangsrechnungsposition> Eingangsrechnungspositionen { get; set; }
+
         #endregion
 
     }

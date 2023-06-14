@@ -212,7 +212,16 @@
             </RibbonTab>
             <RibbonTab Header="Kostenrechnung">
                 <RibbonGroup Header="Eingehende Rechnungen">
-
+                    <RibbonButton x:Name="RBOpenManageIncomingInvoices"
+                        Click="RBOpenIncomingInvoices_Click"
+                        SmallImageSource="{svg:SvgImage /Resources/invoice_icon.svg}"
+                        LargeImageSource="{svg:SvgImage /Resources/invoice_icon.svg}"
+                        Label="{x:Static p:Resources.strManageIncomingInvoices}" />
+                    <RibbonButton x:Name="RBOpenImportIncomingInvoices"
+                        Click="RBOpenIncomingInvoicesImport_Click"
+                        SmallImageSource="{svg:SvgImage /Resources/invoice_icon.svg}"
+                        LargeImageSource="{svg:SvgImage /Resources/invoice_icon.svg}"
+                        Label="{x:Static p:Resources.strImportIncomingInvoices}" />
                 </RibbonGroup>
                 <RibbonGroup Header="Ausgehende Rechnungen">
                     <RibbonButton x:Name="RBOpenManageOutgoingInvoices"

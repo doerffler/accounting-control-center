@@ -71,6 +71,7 @@ namespace ACCApp
             services.AddSingleton<ImportIncomingInvoicesViewModel>();
             services.AddSingleton<ImportKostenstellenViewModel>();
             services.AddSingleton<ManageAusgangsrechnungenViewModel>();
+            services.AddSingleton<ManageEingangsrechnungenViewModel>();
             services.AddSingleton<ManageDebitorenViewModel>();
             services.AddSingleton<ManagePostleitzahlenViewModel>();
             services.AddSingleton<ManageKundenViewModel>();
@@ -95,6 +96,7 @@ namespace ACCApp
             services.AddTransient<ManageAuftraegeWindow>();
             services.AddTransient<AskForUserInputWindow>();
             services.AddTransient<ManageAusgangsrechnungenWindow>();
+            services.AddTransient<ManageEingangsrechnungenWindow>();
             services.AddTransient<ManageDebitorenWindow>();
             services.AddTransient<ManagePostleitzahlenWindow>();
             services.AddTransient<ManageKundenWindow>();

@@ -175,7 +175,7 @@ namespace ACC.ViewModel
                 currentInvoice.RelatedRechnungsempfaenger = MapRechnungsempfaenger(listDebitoren, currentInvoice.IncomingInvoiceForImport.RelatedDepartment);
 
                 //Map currency:
-                currentInvoice.RelatedWaehrung = MapWaehrung(listWaehrungen, currentInvoice.IncomingInvoiceForImport.Currency.Trim());
+                currentInvoice.RelatedWaehrung = MapWaehrung(listWaehrungen, "€");
 
                 foreach (IncomingInvoicePositionMigration currentPosition in currentInvoice.IncomingInvoicePositions)
                 {
@@ -190,11 +190,6 @@ namespace ACC.ViewModel
 
                     //Map Abrechnungseinheit:
                     currentPosition.RelatedAbrechnungseinheit = MapAbrechnungseinheit(listAbrechnungseinheiten, currentPosition.IncomingInvoicePositionForImport.TypeOfSettlement);
-
-                    //Order position next (maybe use the RAID?)
-                    //We could also think about creating a list of orders, that could match the invoice item
-                    Auftrag auftrag = listAuftraege.FirstOrDefault(a => a.Vertragsnummer.Equals(currentPosition.IncomingInvoicePositionForImport.Raid));
-
                 };
                 
             }
