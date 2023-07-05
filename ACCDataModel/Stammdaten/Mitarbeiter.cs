@@ -17,7 +17,7 @@ namespace ACCDataModel.Stammdaten
 
         public Kostenstelle ZugehoerigeKostenstelle { get; set; }
 
-        public DateTime Geburtsdatum { get; set; }
+        public DateTime? Geburtsdatum { get; set; }
 
         public string IBAN { get; set; }
 

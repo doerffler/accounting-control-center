@@ -51,18 +51,18 @@ namespace ACC.ViewModel
 
             MigrateInvoicesCommand = new AsyncRelayCommand(DoMigrateInvoicesCommandAsync);
 
-            GetData();
+            Task.Run(GetDataAsync).Wait();
 
             Messenger.Register<ImportOutgoingInvoicesViewModel, RefreshMessage, string>(this, "Refresh", (r, m) => r.OnRefreshReceive(m));
         }
 
-        private void GetData()
+        private async Task GetDataAsync()
         {
             IEnumerable<OutgoingInvoiceMigration> outgoingInvoiceMigrations = Task.Run(async () => await DPAppService.GetOutgoingInvoicesAsync()).Result;
 
-            Task.Run(async () => await MapDPAppMasterdataAsync(outgoingInvoiceMigrations)).Wait();
+            await MapDPAppMasterdataAsync(outgoingInvoiceMigrations);
 
-            Auftragspositionen = Task.Run(async () => await ACCService.GetAuftragspositionenAsync()).Result;
+            Auftragspositionen = await ACCService.GetAuftragspositionenAsync();
             OutgoingInvoices = new(outgoingInvoiceMigrations);
 
             Messenger.Send(new StatusbarMessage("ImportOutgoingInvoiceViewModel loaded"), "Statusbar");
@@ -70,7 +70,7 @@ namespace ACC.ViewModel
 
         private void OnRefreshReceive(RefreshMessage message)
         {
-            GetData();
+            Task.Run(GetDataAsync).Wait();
         }
 
         private async Task DoMigrateInvoicesCommandAsync(CancellationToken cancellationToken = default)

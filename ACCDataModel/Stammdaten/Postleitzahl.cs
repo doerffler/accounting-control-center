@@ -17,5 +17,10 @@ namespace ACCDataModel.Stammdaten
 
         public string Land { get; set; }
 
+        public override string ToString()
+        {
+            return string.Format("{0}: {1} {2}", Land, PLZ, Ortsname);
+        }
+
     }
 }
