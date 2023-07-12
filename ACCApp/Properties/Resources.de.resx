@@ -198,4 +198,10 @@
   <data name="strSelectItem" xml:space="preserve">
     <value>Auswählen</value>
   </data>
+  <data name="strImportIncomingInvoices" xml:space="preserve">
+    <value>Eingangssrechnungen importieren</value>
+  </data>
+  <data name="strManageIncomingInvoices" xml:space="preserve">
+    <value>Eingangsrechnungen bearbeiten</value>
+  </data>
 </root>

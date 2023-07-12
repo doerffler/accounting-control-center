@@ -14,6 +14,10 @@ namespace ACC.ViewModel.Services
 {
     public interface IACCService
     {
+        public bool HasChanges { get; }
+
+        public event EventHandler Changed;
+
         public string GetConnectionInformations();
         
         public string GetFileShare();
@@ -79,7 +83,7 @@ namespace ACC.ViewModel.Services
         #region Ausgangsrechnungen
 
         public Task<IEnumerable<Ausgangsrechnung>> GetAusgangsrechnungenAsync(CancellationToken cancellationToken = default);
-        
+
         public Task<IEnumerable<RemainingBudgetOnOrdersDTO>> GetRemainingBudgetOnOrdersAsync(int AuftragspositionID, CancellationToken cancellationToken = default);
 
         public Task<Ausgangsrechnung> CreateAusgangsrechnungAsync(CancellationToken cancellationToken = default);
@@ -89,7 +93,21 @@ namespace ACC.ViewModel.Services
         public void RemoveAusgangsrechnung(Ausgangsrechnung ausgangsrechnungToRemove);
 
         public Task<Ausgangsrechnungsposition> CreateAusgangsrechnungspositionAsync(CancellationToken cancellationToken = default);
-            
+
+        #endregion
+
+        #region Eingangsrechnungen
+
+        public Task<IEnumerable<Eingangsrechnung>> GetEingangsrechnungenAsync(CancellationToken cancellationToken = default);
+
+        public Task<Eingangsrechnung> CreateEingangsrechnungAsync(CancellationToken cancellationToken = default);
+
+        public Task AddEingangsrechnungAsync(Eingangsrechnung eingangsrechnungToAdd, CancellationToken cancellationToken = default);
+
+        public void RemoveEingangsrechnung(Eingangsrechnung eingangsrechnungToRemove);
+
+        public Task<Eingangsrechnungsposition> CreateEingangsrechnungspositionAsync(CancellationToken cancellationToken = default);
+
         #endregion
 
         #region Masterdata
@@ -140,7 +158,7 @@ namespace ACC.ViewModel.Services
 
         #region Utility functions
 
-        public Task<bool> CheckForChangesAsync(CancellationToken cancellationToken = default);
+        public bool CheckForChanges();
 
         public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
         

@@ -124,6 +124,15 @@ namespace ACCApp.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die strImportIncomingInvoices ähnelt.
+        /// </summary>
+        public static string strImportIncomingInvoices {
+            get {
+                return ResourceManager.GetString("strImportIncomingInvoices", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die strImportOutgoingInvoices ähnelt.
         /// </summary>
         public static string strImportOutgoingInvoices {
@@ -165,6 +174,15 @@ namespace ACCApp.Properties {
         public static string strManageGeschaeftsjahre {
             get {
                 return ResourceManager.GetString("strManageGeschaeftsjahre", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die strManageIncomingInvoices ähnelt.
+        /// </summary>
+        public static string strManageIncomingInvoices {
+            get {
+                return ResourceManager.GetString("strManageIncomingInvoices", resourceCulture);
             }
         }
         

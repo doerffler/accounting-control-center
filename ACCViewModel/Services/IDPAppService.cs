@@ -11,6 +11,8 @@ namespace ACC.ViewModel.Services
 
         Task <IEnumerable<OutgoingInvoiceMigration>> GetOutgoingInvoicesAsync(CancellationToken cancellationToken = default);
 
+        Task<IEnumerable<IncomingInvoiceMigration>> GetIncomingInvoicesAsync(CancellationToken cancellationToken = default);
+
         Task<DataTable> GetCostCentersAsync(CancellationToken cancellationToken = default);
 
     }

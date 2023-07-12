@@ -1,12 +1,7 @@
 ﻿using ACCDataModel.Kostenrechnung;
 using ACCDataModel.Stammdaten;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -14,7 +9,6 @@ namespace ACCDataAdapter.ACC
 {
     public class ACCDataContext : DbContext
     {
-
         public string ConnectionString { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder builder)
@@ -79,6 +73,10 @@ namespace ACCDataAdapter.ACC
         public DbSet<Ausgangsrechnung> Ausgangsrechnungen { get; set; }
 
         public DbSet<Ausgangsrechnungsposition> Ausgangsrechnungspositionen { get; set; }
+
+        public DbSet<Eingangsrechnung> Eingangsrechnungen { get; set; }
+
+        public DbSet<Eingangsrechnungsposition> Eingangsrechnungspositionen { get; set; }
 
         #endregion
 

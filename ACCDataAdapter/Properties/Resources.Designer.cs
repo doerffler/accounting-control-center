@@ -312,6 +312,24 @@ namespace ACCDataAdapter.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        internal static string ReadIncomingInvoicePositions {
+            get {
+                return ResourceManager.GetString("ReadIncomingInvoicePositions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        internal static string ReadIncomingInvoices {
+            get {
+                return ResourceManager.GetString("ReadIncomingInvoices", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die WITH cte_validinvoices AS
         ///(
         ///	SELECT oi.[id] AS [outgoing_invoice_id] FROM [dbo].[outgoing_invoices] oi WHERE oi.[date_transferred] &lt; &apos;9999-12-31&apos;

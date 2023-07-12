@@ -19,8 +19,12 @@ namespace ACCApp.ViewModels
         public ManageProjekteViewModel ManageProjekteViewModel => App.ServiceProvider.GetRequiredService<ManageProjekteViewModel>();
 
         public ImportOutgoingInvoicesViewModel ImportOutgoingInvoicesViewModel => App.ServiceProvider.GetRequiredService<ImportOutgoingInvoicesViewModel>();
+        
+        public ImportIncomingInvoicesViewModel ImportIncomingInvoicesViewModel => App.ServiceProvider.GetRequiredService<ImportIncomingInvoicesViewModel>();
 
         public ManageAusgangsrechnungenViewModel ManageAusgangsrechnungenViewModel => App.ServiceProvider.GetRequiredService<ManageAusgangsrechnungenViewModel>();
+
+        public ManageEingangsrechnungenViewModel ManageEingangsrechnungenViewModel => App.ServiceProvider.GetRequiredService<ManageEingangsrechnungenViewModel>();
 
         public ManageDebitorenViewModel ManageDebitorenViewModel => App.ServiceProvider.GetRequiredService<ManageDebitorenViewModel>();
 
