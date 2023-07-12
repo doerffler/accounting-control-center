@@ -35,8 +35,7 @@
 
             <ComboBox
                     ItemsSource="{Binding Postleitzahlen}"
-                    SelectedItem="{Binding ElementName=adressControl, Path=SelectedItem.ZugehoerigePostleitzahl}"
-                    DisplayMemberPath="PLZ" />
+                    SelectedItem="{Binding ElementName=adressControl, Path=SelectedItem.ZugehoerigePostleitzahl}" />
             <Button Command="{Binding AddCommand}">
                 <Control Template="{StaticResource tmpAddItemButton}" />
             </Button>

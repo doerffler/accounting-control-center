@@ -6,9 +6,7 @@ namespace ACCDataModel.Stammdaten
 {
     public abstract class Geschaeftspartner
     {
-
-        public int GeschaeftspartnerID { get; set; }
-
+        
         public string Anschrift { get; set; }
 
         public Adresse ZugehoerigeAdresse { get; set; }

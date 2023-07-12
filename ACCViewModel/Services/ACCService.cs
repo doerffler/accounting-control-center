@@ -407,7 +407,9 @@ namespace ACC.ViewModel.Services
 
             if (typeof(T) == typeof(Debitor))
             {
-                result = DBContext.Debitoren.Include(d => d.ZugehoerigerKunde);
+                result = DBContext.Debitoren
+                    .Include(d => d.ZugehoerigerKunde)
+                    .Include(d => d.ZugehoerigeAdresse).ThenInclude(a => a.ZugehoerigePostleitzahl);
             }
             else if (typeof(T) == typeof(Kreditor))
             {
