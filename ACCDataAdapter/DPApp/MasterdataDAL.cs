@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
 using ACCDataModel.DPApp;
+using Npgsql;
 
 namespace ACCDataAdapter.DPApp
 {
@@ -19,12 +20,12 @@ namespace ACCDataAdapter.DPApp
         public async Task<DataTable> ReadCostCenterAsync(CancellationToken cancellationToken = default)
         {
 
-            SqlCommand cmd = new(Properties.Resources.ReadCostCenters, await GetSqlConnectionAsync(cancellationToken))
+            NpgsqlCommand cmd = new(Properties.Resources.ReadCostCenters, await GetSqlConnectionAsync(cancellationToken))
             {
                 CommandType = CommandType.Text
             };
 
-            SqlDataAdapter da = new(cmd);
+            NpgsqlDataAdapter da = new(cmd);
             DataSet ds = new();
 
             da.Fill(ds);
