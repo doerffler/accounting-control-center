@@ -312,7 +312,27 @@ namespace ACCDataAdapter.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die WITH cte_validinvoices AS
+        ///(
+        ///	SELECT oi.[id] AS [incoming_invoice_id] FROM [dbo].[incoming_invoices] oi WHERE oi.[date_transferred] &lt; &apos;9999-12-31&apos;
+        ///)
+        ///SELECT [id]
+        ///      ,[created_at]
+        ///      ,[updated_at]
+        ///      ,[incoming_invoice_id]
+        ///      ,[sequence]
+        ///      ,[position_text]
+        ///      ,[date_service_from]
+        ///      ,[date_service_until]
+        ///      ,[type_of_settlement]
+        ///      ,[hours]
+        ///      ,[hourly_rate]
+        ///      ,[netto]
+        ///      ,[tax]
+        ///      ,[tax_percent]
+        ///      ,[gross]
+        ///      ,[remark]
+        ///      ,[hourly_rate_ext [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
         /// </summary>
         internal static string ReadIncomingInvoicePositions {
             get {
@@ -321,7 +341,28 @@ namespace ACCDataAdapter.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die SELECT [id]
+        ///      ,[created_at]
+        ///      ,[updated_at]
+        ///      ,[invoice_no]
+        ///      ,[date_document]
+        ///      ,[created_by]
+        ///      ,[invoice_text]
+        ///      ,[introduction]
+        ///      ,[date_send]
+        ///      ,[date_service_from_default]
+        ///      ,[date_service_until_default]
+        ///      ,[business_year_id]
+        ///      ,[transferred_free]
+        ///      ,[date_transferred]
+        ///      ,[date_paid]
+        ///      ,[paid]
+        ///      ,[remark]
+        ///      ,[outgoing_invoice_id_replaced_by]
+        ///      ,[contact_id]
+        ///      ,[address_id]
+        ///      ,[department_id]
+        ///      ,[cli [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
         /// </summary>
         internal static string ReadIncomingInvoices {
             get {

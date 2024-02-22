@@ -1,0 +1,17 @@
+﻿@page "/outgoing_invoices/{OutgoingInvoiceId:int}"
+
+<PageTitle>Ausgangsrechnung anzeigen | ACC Web UI</PageTitle>
+
+<div style="display: flex; justify-content: space-between; align-items: center;">
+    <h1>Ausgangsrechnung anzeigen</h1>
+    <Button Type="ButtonType.Link" To="/outgoing_invoices" Color="ButtonColor.Primary"><Icon Name="IconName.BackspaceFill" /> Zurück</Button>
+</div>
+
+<div>
+    <p>Rechnungsnummer: #@OutgoingInvoiceId </p>
+</div>
+
+@code {
+    [Parameter]
+    public int OutgoingInvoiceId { get; set; }
+}

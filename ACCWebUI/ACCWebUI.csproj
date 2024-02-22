@@ -4,23 +4,28 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>aspnet-DoePaAdminWebAPI-E41266E5-E96D-4D31-A52D-DEC596B2CC5B</UserSecretsId>
+    <UserSecretsId>aspnet-ACCWebUI-2750b790-535c-4b3f-b3bd-e1138c6a0909</UserSecretsId>
+    <WebProject_DirectoryAccessLevelKey>0</WebProject_DirectoryAccessLevelKey>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="8.0.2" />
+    <PackageReference Include="Blazor.Bootstrap" Version="1.11.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.2" NoWarn="NU1605" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="8.0.2" NoWarn="NU1605" />
     <PackageReference Include="Microsoft.Identity.Web" Version="2.17.0" />
     <PackageReference Include="Microsoft.Identity.Web.MicrosoftGraph" Version="2.17.0" />
     <PackageReference Include="Microsoft.Identity.Web.UI" Version="2.17.0" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.6" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Data\" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\ACCDataModel\ACCDataModel.csproj" />
-    <ProjectReference Include="..\ACCViewModel\ACCViewModel.csproj" />
   </ItemGroup>
 
 </Project>

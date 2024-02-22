@@ -220,9 +220,30 @@ namespace ACC.ViewModel.Services
 
         #region Auftrag
 
-        public async Task<IEnumerable<Auftrag>> GetAuftraegeAsync(CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<Auftrag>> GetAuftraegeAsync(CancellationToken cancellationToken = default, int ? currentPage = null, int? pageSize = null)
         {
-            return await GetDataFromDbSetAsync(DBContext.Auftraege, cancellationToken);
+            IQueryable<Auftrag> query = DBContext.Auftraege;
+
+            if ((currentPage.Value != 0) || (pageSize.Value != 0))
+            {
+                int skipCount = (currentPage.Value - 1) * pageSize.Value;
+                query = query.Skip(skipCount).Take(pageSize.Value);
+            }
+
+            var auftraege = await GetDataFromDbSetAsync(query, cancellationToken);
+
+            return auftraege;
+        }
+
+        public async Task<int> GetAuftraegeCountAsync(CancellationToken cancellationToken = default)
+        {
+            var auftraege = await DBContext.Auftraege.CountAsync();
+            return auftraege;
+        }
+
+        public async Task<IEnumerable<Auftrag>> GetAuftragAsync(int AuftragID, CancellationToken cancellationToken = default)
+        {
+            return await GetDataFromDbSetAsync(DBContext.Auftraege.Where(a => a.AuftragID == AuftragID), cancellationToken);
         }
 
         public async Task<Auftrag> CreateAuftragAsync(CancellationToken cancellationToken = default)
@@ -239,7 +260,13 @@ namespace ACC.ViewModel.Services
         {
             return await AddDataToDbSetAsync(DBContext.Auftragspositionen, cancellationToken);
         }
-        
+
+        public void RemoveAuftrag(Auftrag auftragToRemove)
+        {
+            _ = DBContext.Auftraege.Remove(auftragToRemove);
+            RaiseChangedEvent();
+        }
+
         #endregion
 
         #region Projekt
@@ -302,6 +329,17 @@ namespace ACC.ViewModel.Services
                 , cancellationToken);
         }
 
+        public async Task<IEnumerable<Eingangsrechnung>> GetEingangsrechnungAsync(int EingangsrechnungID, CancellationToken cancellationToken = default)
+        {
+            return await GetDataFromDbSetAsync(
+                DBContext.Eingangsrechnungen
+                .Where(ar => ar.EingangsrechnungID == EingangsrechnungID)
+                .Include(ar => ar.ZugehoerigeWaehrung)
+                .Include(ar => ar.Rechnungspositionen).ThenInclude(rp => rp.ZugehoerigeAbrechnungseinheit)
+                .Include(ar => ar.Rechnungspositionen).ThenInclude(rp => rp.ZugehoerigeKostenstelle)
+                , cancellationToken);
+        }
+
         public async Task<Eingangsrechnung> CreateEingangsrechnungAsync(CancellationToken cancellationToken = default)
         {
 
@@ -340,6 +378,19 @@ namespace ACC.ViewModel.Services
         {
             return await GetDataFromDbSetAsync(
                 DBContext.Ausgangsrechnungen
+                .Include(ar => ar.ZugehoerigeWaehrung)
+                .Include(ar => ar.Rechnungspositionen).ThenInclude(rp => rp.ZugehoerigeAbrechnungseinheit)
+                .Include(ar => ar.Rechnungspositionen).ThenInclude(rp => rp.ZugehoerigeKostenstelle)
+                .Include(ar => ar.Rechnungspositionen).ThenInclude(rp => rp.ZugehoerigeAuftragsposition)
+                .Include(ar => ar.Rechnungspositionen).ThenInclude(rp => rp.ZugehoerigeFremdleistungen)
+                , cancellationToken);
+        }
+
+        public async Task<IEnumerable<Ausgangsrechnung>> GetAusgangsrechnungAsync(int AusgangsrechnungID, CancellationToken cancellationToken = default)
+        {
+            return await GetDataFromDbSetAsync(
+                DBContext.Ausgangsrechnungen
+                .Where(ar => ar.AusgangsrechnungID == AusgangsrechnungID)
                 .Include(ar => ar.ZugehoerigeWaehrung)
                 .Include(ar => ar.Rechnungspositionen).ThenInclude(rp => rp.ZugehoerigeAbrechnungseinheit)
                 .Include(ar => ar.Rechnungspositionen).ThenInclude(rp => rp.ZugehoerigeKostenstelle)
@@ -689,6 +740,31 @@ namespace ACC.ViewModel.Services
             T newItem = new();
             _ = await dbSet.AddAsync(newItem, cancellationToken);
             
+            RaiseChangedEvent();
+
+            return newItem;
+        }
+
+        public async Task<T> AddDataToDbSetFromApiAsync<T>(DbSet<T> dbSet, T newItem, CancellationToken cancellationToken = default) where T : class, new()
+        {
+            _ = await dbSet.AddAsync(newItem, cancellationToken);
+
+            RaiseChangedEvent();
+
+            return newItem;
+        }
+
+        public async Task<T> UpdateDataToDbSetFromApiAsync<T>(DbSet<T> dbSet, int setId,  T newItem, CancellationToken cancellationToken = default) where T : class, new()
+        {
+            T existingDbSet = await dbSet.FindAsync(setId);
+            
+            if (existingDbSet == null) 
+            {
+                return null;
+            }
+
+            DBContext.Entry(existingDbSet).CurrentValues.SetValues(newItem);
+
             RaiseChangedEvent();
 
             return newItem;

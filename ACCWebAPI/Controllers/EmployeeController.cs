@@ -2,8 +2,6 @@
 using ACC.ViewModel.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Identity.Web.Resource;
-using ACC.ViewModel;
 using System.Security.Claims;
 
 namespace ACCWebAPI.Controllers
@@ -14,12 +12,12 @@ namespace ACCWebAPI.Controllers
     public class EmployeeController : ControllerBase
     {
         private readonly ILogger<EmployeeController> _logger;
-        private readonly ReceiveMitarbeiterPerformanceViewModel _viewModel;
+        private readonly IACCService _accService;
 
-        public EmployeeController(ILogger<EmployeeController> logger, ReceiveMitarbeiterPerformanceViewModel viewModel)
+        public EmployeeController(ILogger<EmployeeController> logger, IACCService accService)
         {
             _logger = logger;
-            _viewModel = viewModel;
+            _accService = accService;
         }
 
         [HttpGet("current/accounted")]
@@ -40,7 +38,7 @@ namespace ACCWebAPI.Controllers
 
                 if (!string.IsNullOrEmpty(email) && datesParsed)
                 {
-                    IEnumerable<EmployeeAccountingDTO> result = await _viewModel.GetEmployeeAccountingAsync(email, fromDate, toDate);
+                    IEnumerable<EmployeeAccountingDTO> result = await _accService.GetEmployeeAccountingAsync(email, fromDate, toDate);
 
                     return Ok(result);
                 }

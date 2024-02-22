@@ -1,0 +1,19 @@
+﻿@page "/outgoing_invoices/{OutgoingInvoiceId:int}/edit"
+
+<PageTitle>Ausgangsrechnung bearbeiten | ACC Web UI</PageTitle>
+
+<div style="display: flex; justify-content: space-between; align-items: center;">
+    <h1>Ausgangsrechnung bearbeiten</h1>
+    <div class="btn-group" role="group" aria-label="Aktionen">
+        <Button Type="ButtonType.Link" To="/outgoing_invoices" Color="ButtonColor.Primary"><Icon Name="IconName.BackspaceFill" /> Zurück</Button>
+        <Button Type="ButtonType.Link" To="#" Color="ButtonColor.Primary"><Icon Name="IconName.Floppy" /> Speichern</Button>
+    </div>
+</div>
+<div>
+    <p>Rechnungsnummer: #@OutgoingInvoiceId </p>
+</div>
+
+@code {
+    [Parameter]
+    public int OutgoingInvoiceId { get; set; }
+}
