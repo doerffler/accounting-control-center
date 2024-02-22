@@ -1,0 +1,78 @@
+﻿@page "/orders/{OrderId:int}"
+
+@inject ApiService ApiService
+@inject NavigationManager Navigation
+
+@attribute [Authorize]
+
+<PageTitle>Auftrag anzeigen | ACC Web UI</PageTitle>
+
+<div style="display: flex; justify-content: space-between; align-items: center;">
+    <h1>Auftrag anzeigen</h1>
+    <Button Type="ButtonType.Link" To="/orders" Color="ButtonColor.Primary"><Icon Name="IconName.BackspaceFill" /> Zurück</Button>
+</div>
+
+<hr />
+
+@if (IsLoading)
+{
+    <div class="spinner-border ms-auto" aria-hidden="true"></div>
+}
+else
+{
+    @if (Order != null)
+    {
+        <Card Class="shadow-sm">
+            <CardBody>
+                <h3 class="mb-4">Auftragszeitraum</h3>
+                <div class="row">
+                    <div class="col">
+                        <div class="timeline-steps aos-init aos-animate" data-aos="fade-up">
+                            <div class="timeline-step">
+                                <div class="timeline-content" data-toggle="popover" data-trigger="hover" data-placement="top" title="" data-content="Auftragsdatum" data-original-title="@Order.Auftragsdatum.ToShortDateString()">
+                                    <div class="inner-circle"></div>
+                                    <p class="h6 mt-3 mb-1">@Order.Auftragsdatum.ToShortDateString()</p>
+                                    <p class="h6 text-muted mb-0 mb-lg-0">Auftragsdatum</p>
+                                </div>
+                            </div>
+                            <div class="timeline-step">
+                                <div class="timeline-content" data-toggle="popover" data-trigger="hover" data-placement="top" title="" data-content="Auftragsbeginn" data-original-title="@Order.Auftragsbeginn.GetValueOrDefault().ToShortDateString()">
+                                    <div class="inner-circle"></div>
+                                    <p class="h6 mt-3 mb-1">@Order.Auftragsbeginn.GetValueOrDefault().ToShortDateString()</p>
+                                    <p class="h6 text-muted mb-0 mb-lg-0">Auftragsbeginn</p>
+                                </div>
+                            </div>
+                            <div class="timeline-step mb-0">
+                                <div class="timeline-content" data-toggle="popover" data-trigger="hover" data-placement="top" title="" data-content="Auftragsende" data-original-title="@Order.Auftragsende.GetValueOrDefault().ToShortDateString()">
+                                    <div class="inner-circle"></div>
+                                    <p class="h6 mt-3 mb-1">@Order.Auftragsende.GetValueOrDefault().ToShortDateString()</p>
+                                    <p class="h6 text-muted mb-0 mb-lg-0">Auftragsende</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </CardBody>
+        </Card>
+    }
+    else
+    {
+        <Alert Color="AlertColor.Danger" Class="shadow-sm"><Icon Name="IconName.ExclamationTriangleFill" /> Kein Auftrag vorhanden</Alert>
+    }
+}
+
+@code {
+    [Parameter]
+    public int OrderId { get; set; }
+
+    private Auftrag Order;
+    private bool IsLoading = true;
+
+    // Initialize method
+    protected override async Task OnInitializedAsync()
+    {
+        ApiService.InitializeEndpoint("http://localhost:32771/", ResourceEndpoint.orders);
+        Order = await ApiService.GetByIdAsync<Auftrag>(OrderId);
+        IsLoading = false;
+    }
+}

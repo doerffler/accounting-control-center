@@ -28,9 +28,9 @@ namespace ACCWebAPI.Controllers
                 IEnumerable<Auftrag> auftraege = await _accService.GetAuftraegeAsync(default, currentPage, pageSize);
                 int totalCount = await _accService.GetAuftraegeCountAsync();
 
-                var response = new OrderResponseDTO
+                var response = new ApiResponseDTO<Auftrag>
                 {
-                    Auftraege = auftraege,
+                    Items = auftraege,
                     TotalCount = totalCount
                 };
 
@@ -66,7 +66,7 @@ namespace ACCWebAPI.Controllers
         {
             try
             {
-                IEnumerable<Auftrag> auftrag = await _accService.GetAuftragAsync(OrderID);
+                Auftrag auftrag = (await _accService.GetAuftragAsync(OrderID)).FirstOrDefault();
                 return Ok(auftrag);
             }
             catch (Exception ex)

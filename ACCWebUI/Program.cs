@@ -38,9 +38,8 @@ builder.Services.AddBlazorBootstrap();
 
 builder.Services.AddHttpClient();
 
-builder.Services.AddScoped<OrderService>();
-builder.Services.AddScoped<IncomingInvoiceService>();
-builder.Services.AddScoped<OutgoingInvoiceService>();
+builder.Services.AddScoped<ApiService>();
+builder.Services.AddScoped(typeof(PaginationService<>));
 
 builder.Services.Configure<OpenIdConnectOptions>(OpenIdConnectDefaults.AuthenticationScheme, options =>
 {

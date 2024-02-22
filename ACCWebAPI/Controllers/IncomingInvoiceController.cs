@@ -59,7 +59,7 @@ namespace ACCWebAPI.Controllers
         {
             try
             {
-                IEnumerable<Eingangsrechnung> eingangsrechnung = await _accService.GetEingangsrechnungAsync(IncomingInvoiceID);
+                Eingangsrechnung eingangsrechnung = (await _accService.GetEingangsrechnungAsync(IncomingInvoiceID)).FirstOrDefault();
                 return Ok(eingangsrechnung);
             }
             catch (Exception ex)

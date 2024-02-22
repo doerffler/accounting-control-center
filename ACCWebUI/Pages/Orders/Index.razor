@@ -1,7 +1,8 @@
 ﻿@page "/orders"
 
-@inject OrderService service
+@inject ApiService ApiService
 @inject NavigationManager Navigation
+@inject PaginationService<Auftrag> PaginationService
 
 @attribute [Authorize]
 
@@ -12,43 +13,85 @@
     <Button Type="ButtonType.Link" @onclick="Create" Color="ButtonColor.Primary"><Icon Name="IconName.Plus" /> Neuer Auftrag</Button>
 </div>
 
-<table class="table table-hover">
+<hr />
+
+<table class="table table-hover shadow-sm border">
     <thead>
         <tr>
             <th scope="col">#</th>
             <th scope="col">Auftragsname</th>
             <th scope="col">Auftragsbeginn</th>
             <th scope="col">Auftragsende</th>
+            <th scope="col">Restbudget</th>
             <th scope="col"></th>
         </tr>
     </thead>
     <tbody>
-        @if (Orders != null)
+        @if (IsLoading)
         {
-            @foreach (Auftrag order in Orders)
-            {
-                <tr>
-                    <td>@order.AuftragID</td>
-                    <td>@order.Auftragsname</td>
-                    <td>@order.Auftragsbeginn</td>
-                    <td>@order.Auftragsende</td>
-                    <td>
-                        <div class="btn-group" role="group" aria-label="Aktionen">
-                            <Button Type="ButtonType.Link" @onclick="() => Edit(order.AuftragID)" Color="ButtonColor.Primary"><Icon Name="IconName.PencilSquare" /></Button>
-                            <Button Type="ButtonType.Link" @onclick="() => Show(order.AuftragID)" Color="ButtonColor.Primary"><Icon Name="IconName.Eye" /></Button>
-                            <Button Type="ButtonType.Link" @onclick="() => Delete(order.AuftragID)" Color="ButtonColor.Danger"><Icon Name="IconName.Trash" /></Button>
-                        </div>
-                    </td>
-                </tr>
-            }
+            <tr>
+                <td>
+                    <div class="spinner-border spinner-border-sm" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </td>
+                <td>
+                    <div class="spinner-border spinner-border-sm" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </td>
+                <td>
+                    <div class="spinner-border spinner-border-sm" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </td>
+                <td>
+                    <div class="spinner-border spinner-border-sm" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </td>
+                <td>
+                    <div class="spinner-border spinner-border-sm" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </td>
+                <td>
+                    <div class="spinner-border spinner-border-sm" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </td>
+            </tr>
         }
         else
         {
-            <tr>
-                <td colspan="5">
-                    Keine Aufträge vorhanden
-                </td>
-            </tr>
+            @if (Orders != null)
+            {
+                @foreach (Auftrag order in Orders)
+                {
+                    <tr>
+                        <td>@order.AuftragID</td>
+                        <td>@order.Auftragsname</td>
+                        <td>@order.Auftragsbeginn.GetValueOrDefault().ToShortDateString()</td>
+                        <td>@order.Auftragsende.GetValueOrDefault().ToShortDateString()</td>
+                        <td></td>
+                        <td>
+                            <div class="btn-group" role="group" aria-label="Actions">
+                                <Button Type="ButtonType.Link" @onclick="() => Edit(order.AuftragID)" Color="ButtonColor.Primary"><Icon Name="IconName.PencilSquare" /></Button>
+                                <Button Type="ButtonType.Link" @onclick="() => Show(order.AuftragID)" Color="ButtonColor.Primary"><Icon Name="IconName.Eye" /></Button>
+                                <Button Type="ButtonType.Link" @onclick="() => Delete(order.AuftragID)" Color="ButtonColor.Danger"><Icon Name="IconName.Trash" /></Button>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="5">
+                        <Alert Color="AlertColor.Danger"><Icon Name="IconName.ExclamationTriangleFill" /> Keine Aufträge vorhanden</Alert>
+                    </td>
+                </tr>
+            }
         }
     </tbody>
 </table>
@@ -56,91 +99,57 @@
 @if (Orders != null)
 {
     <div class="btn-group" role="group" aria-label="Pagination">
-        <Button Type="ButtonType.Link" Size="Size.Small" Outline="true" Color="ButtonColor.Secondary" @onclick="FirstPage" Disabled="currentPage == 1"><Icon Name="IconName.SkipBackward" /></Button>
-        <Button Type="ButtonType.Link" Size="Size.Small" Outline="true" Color="ButtonColor.Secondary" @onclick="PreviousPage" Disabled="currentPage == 1"><Icon Name="IconName.CaretLeft" /></Button>
-        <Button Type="ButtonType.Link" Size="Size.Small" Color="ButtonColor.Secondary"><b>@currentPage</b></Button>
-        <Button Type="ButtonType.Link" Size="Size.Small" Outline="true" Color="ButtonColor.Secondary" @onclick="NextPage" Disabled="!HasNextPage"><Icon Name="IconName.CaretRight" /></Button>
-        <Button Type="ButtonType.Link" Size="Size.Small" Outline="true" Color="ButtonColor.Secondary" @onclick="LastPage" Disabled="currentPage == totalPages"><Icon Name="IconName.SkipForward" /></Button>
+        <Button Type="ButtonType.Link" Size="Size.Small" Color="ButtonColor.Secondary" @onclick="GoToFirstPage" Disabled="PaginationService.CurrentPage == 1"><Icon Name="IconName.SkipBackward" /></Button>
+        <Button Type="ButtonType.Link" Size="Size.Small" Color="ButtonColor.Secondary" @onclick="GoToPreviousPage" Disabled="PaginationService.CurrentPage == 1"><Icon Name="IconName.CaretLeft" /></Button>
+        <Button Type="ButtonType.Link" Size="Size.Small" Color="ButtonColor.Secondary"><b>@PaginationService.CurrentPage</b></Button>
+        <Button Type="ButtonType.Link" Size="Size.Small" Color="ButtonColor.Secondary" @onclick="GoToNextPage" Disabled="!PaginationService.HasNextPage"><Icon Name="IconName.CaretRight" /></Button>
+        <Button Type="ButtonType.Link" Size="Size.Small" Color="ButtonColor.Secondary" @onclick="GoToLastPage" Disabled="PaginationService.CurrentPage == PaginationService.TotalPages"><Icon Name="IconName.SkipForward" /></Button>
     </div>
     <span>
-        @($"{(currentPage - 1) * pageSize + 1} - {Math.Min(currentPage * pageSize, totalItems)} von {totalItems} Ergebnisse(n) auf insgesamt {totalPages} Seite(n)")
+        @($"{(PaginationService.CurrentPage - 1) * PaginationService.PageSize + 1} - {Math.Min(PaginationService.CurrentPage * PaginationService.PageSize, PaginationService.TotalItems)} von {PaginationService.TotalItems} Ergebnisse(n) auf insgesamt {PaginationService.TotalPages} Seite(n)")
     </span>
 }
 
 @code {
-    // Default methods
+    // Initialize method
+    private bool IsLoading = true;
+
     protected override async Task OnInitializedAsync()
     {
-        await LoadData();
+        ApiService.InitializeEndpoint("http://localhost:32771/", ResourceEndpoint.orders);
+        PaginationService.InitializePagination();
+
+        Orders = await PaginationService.LoadPaginatetedData();
+        IsLoading = false;
     }
 
     // Entity actions
-    protected void Create()
-    {
-        Navigation.NavigateTo("orders/create");
-    }
-
-    protected void Edit(int AuftragID)
-    {
-        Navigation.NavigateTo($"orders/{AuftragID}/edit");
-    }
-
-    protected void Show(int AuftragID)
-    {
-        Navigation.NavigateTo($"orders/{AuftragID}");
-    }
-
-    protected async Task Delete(int AuftragID)
-    {
-        _ = await service.DeleteOrderAsync(AuftragID);
-    }
+    protected void Create() => Navigation.NavigateTo("orders/create");
+    protected void Edit(int AuftragID) => Navigation.NavigateTo($"orders/{AuftragID}/edit");
+    protected void Show(int AuftragID) => Navigation.NavigateTo($"orders/{AuftragID}");
+    protected async Task Delete(int AuftragID) => await ApiService.DeleteAsync<Auftrag>(AuftragID);
 
     // Entity
     public IEnumerable<Auftrag> Orders;
 
-    private async Task LoadData()
-    {
-        OrderResponseDTO dto = await service.GetOrdersAsync(currentPage, pageSize);
-        Orders = dto.Auftraege;
-        totalItems = dto.TotalCount;
-        totalPages = (int)Math.Ceiling((double)totalItems / pageSize);
-    }
-
     // Entity pagination
-    private int currentPage = 1;
-    private int pageSize = 10;
-    private int totalItems = 0;
-    private int totalPages = 0;
-
-    private bool HasNextPage => currentPage != totalPages;
-
-    private async Task FirstPage()
+    private async Task GoToFirstPage()
     {
-        currentPage = 1;
-        await LoadData();
+        Orders = await PaginationService.GoToPage(1);
     }
 
-    private async Task NextPage()
+    private async Task GoToNextPage()
     {
-        if (HasNextPage)
-        {
-            currentPage++;
-            await LoadData();
-        }
-    }
-    
-    private async Task PreviousPage()
-    {
-        if (currentPage > 1)
-        {
-            currentPage--;
-            await LoadData();
-        }
+        Orders = await PaginationService.GoToPage(PaginationService.CurrentPage + 1);
     }
 
-    private async Task LastPage()
+    private async Task GoToPreviousPage()
     {
-        currentPage = totalPages;
-        await LoadData();
+        Orders = await PaginationService.GoToPage(PaginationService.CurrentPage - 1);
+    }
+
+    private async Task GoToLastPage()
+    {
+        Orders = await PaginationService.GoToPage(PaginationService.TotalPages);
     }
 }

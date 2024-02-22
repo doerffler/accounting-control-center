@@ -220,9 +220,22 @@ namespace ACC.ViewModel.Services
 
         #region Auftrag
 
-        public async Task<IEnumerable<Auftrag>> GetAuftraegeAsync(CancellationToken cancellationToken = default, int ? currentPage = null, int? pageSize = null)
+        public async Task<IEnumerable<Auftrag>> GetAuftraegeAsync(CancellationToken cancellationToken = default, int? currentPage = null, int? pageSize = null)
         {
-            IQueryable<Auftrag> query = DBContext.Auftraege;
+            IQueryable<Auftrag> query = DBContext.Auftraege
+                .Include(a => a.VerantwortlicherMitarbeiter)
+                .Include(m => m.VerantwortlicherMitarbeiter.ZugehoerigeAdresse)
+                .Include(m => m.VerantwortlicherMitarbeiter.ZugehoerigeAdresse.ZugehoerigePostleitzahl)
+                .Include(m => m.VerantwortlicherMitarbeiter.ZugehoerigeKostenstelle)
+                .Include(m => m.VerantwortlicherMitarbeiter.ZugehoerigeKostenstelle.ZugehoerigeKostenstellenart)
+                .Include(m => m.VerantwortlicherMitarbeiter.ZugehoerigeKostenstelle.UebergeordneteKostenstellen)
+                .Include(m => m.VerantwortlicherMitarbeiter.ZugehoerigeKostenstelle.UntergeordneteKostenstellen)
+                .Include(a => a.ZugehoerigesGeschaeftsjahr)
+                .Include(a => a.ZugehoerigesProjekt)
+                .Include(a => a.ZugehoerigesProjekt.Rechnungsempfaenger)
+                .Include(a => a.ZugehoerigeWaehrung)
+                .Include(a => a.Auftragspositionen)
+                .ThenInclude(ap => ap.Abrechnungseinheit);
 
             if ((currentPage.Value != 0) || (pageSize.Value != 0))
             {
@@ -243,7 +256,21 @@ namespace ACC.ViewModel.Services
 
         public async Task<IEnumerable<Auftrag>> GetAuftragAsync(int AuftragID, CancellationToken cancellationToken = default)
         {
-            return await GetDataFromDbSetAsync(DBContext.Auftraege.Where(a => a.AuftragID == AuftragID), cancellationToken);
+            return await GetDataFromDbSetAsync(DBContext.Auftraege
+                .Include(a => a.VerantwortlicherMitarbeiter)
+                .Include(m => m.VerantwortlicherMitarbeiter.ZugehoerigeAdresse)
+                .Include(m => m.VerantwortlicherMitarbeiter.ZugehoerigeAdresse.ZugehoerigePostleitzahl)
+                .Include(m => m.VerantwortlicherMitarbeiter.ZugehoerigeKostenstelle)
+                .Include(m => m.VerantwortlicherMitarbeiter.ZugehoerigeKostenstelle.ZugehoerigeKostenstellenart)
+                .Include(m => m.VerantwortlicherMitarbeiter.ZugehoerigeKostenstelle.UebergeordneteKostenstellen)
+                .Include(m => m.VerantwortlicherMitarbeiter.ZugehoerigeKostenstelle.UntergeordneteKostenstellen)
+                .Include(a => a.ZugehoerigesGeschaeftsjahr)
+                .Include(a => a.ZugehoerigesProjekt)
+                .Include(a => a.ZugehoerigesProjekt.Rechnungsempfaenger)
+                .Include(a => a.ZugehoerigeWaehrung)
+                .Include(a => a.Auftragspositionen)
+                .ThenInclude(ap => ap.Abrechnungseinheit)
+                .Where(a => a.AuftragID == AuftragID), cancellationToken);
         }
 
         public async Task<Auftrag> CreateAuftragAsync(CancellationToken cancellationToken = default)
