@@ -122,51 +122,51 @@
     <value>..\DPApp\SQLCommands\InitializeMasterdataTables.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="ReadAddresses" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\DPApp\SQLCommands\ReadAddresses.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+    <value>..\DPApp\SQLCommands\ReadAddresses.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="ReadAusgangsrechnung" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\DPApp\SQLCommands\ReadAusgangsrechnung.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+    <value>..\DPApp\SQLCommands\ReadAusgangsrechnung.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="ReadAusgangsrechnungen" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\DPApp\SQLCommands\ReadAusgangsrechnungen.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+    <value>..\DPApp\SQLCommands\ReadAusgangsrechnungen.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="ReadAusgangsrechnungspositionen" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\DPApp\SQLCommands\ReadAusgangsrechnungspositionen.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+    <value>..\DPApp\SQLCommands\ReadAusgangsrechnungspositionen.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="ReadBusinessYears" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\DPApp\SQLCommands\ReadBusinessYears.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+    <value>..\DPApp\SQLCommands\ReadBusinessYears.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="ReadCompanies" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\DPApp\SQLCommands\ReadCompanies.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+    <value>..\DPApp\SQLCommands\ReadCompanies.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="ReadContacts" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\DPApp\SQLCommands\ReadContacts.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+    <value>..\DPApp\SQLCommands\ReadContacts.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="ReadCostCenters" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\DPApp\SQLCommands\ReadCostCenters.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+    <value>..\DPApp\SQLCommands\ReadCostCenters.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="ReadCostTypes" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\DPApp\SQLCommands\ReadCostTypes.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+    <value>..\DPApp\SQLCommands\ReadCostTypes.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="ReadDepartments" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\DPApp\SQLCommands\ReadDepartments.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+    <value>..\DPApp\SQLCommands\ReadDepartments.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="ReadIncomingInvoicePositions" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\DPApp\SQLCommands\ReadIncomingInvoicePositions.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+    <value>..\DPApp\SQLCommands\ReadIncomingInvoicePositions.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="ReadIncomingInvoices" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\DPApp\SQLCommands\ReadIncomingInvoices.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+    <value>..\DPApp\SQLCommands\ReadIncomingInvoices.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="ReadOutgoingInvoicePositions" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\DPApp\SQLCommands\ReadOutgoingInvoicePositions.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+    <value>..\DPApp\SQLCommands\ReadOutgoingInvoicePositions.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="ReadOutgoingInvoices" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\DPApp\SQLCommands\ReadOutgoingInvoices.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+    <value>..\DPApp\SQLCommands\ReadOutgoingInvoices.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="ReadProjects" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\DPApp\SQLCommands\ReadProjects.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+    <value>..\DPApp\SQLCommands\ReadProjects.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="ReadStaff" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\DPApp\SQLCommands\ReadStaff.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+    <value>..\DPApp\SQLCommands\ReadStaff.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
 </root>
