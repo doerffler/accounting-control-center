@@ -102,7 +102,7 @@ namespace ACCWebAPI.Controllers
 
                 await _accService.SaveChangesAsync();
 
-                return Ok(auftrag);
+                return Ok(auftrag.FirstOrDefault());
             }
             catch (Exception ex)
             {

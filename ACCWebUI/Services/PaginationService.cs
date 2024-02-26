@@ -81,9 +81,16 @@ namespace ACCWebUI.Services
         public async Task<IEnumerable<T>> LoadPaginatetedData()
         {
             ApiResponseDTO<T> dto = await _apiService.GetAsync<ApiResponseDTO<T>>(CurrentPage, PageSize);
-            PaginatedItems = dto.Items;
-            TotalItems = dto.TotalCount;
-            return PaginatedItems;
+            if (dto != null)
+            {
+                PaginatedItems = dto.Items;
+                TotalItems = dto.TotalCount;
+                return PaginatedItems;
+            }
+            else
+            {
+                return default;
+            }
         }
     }
 }

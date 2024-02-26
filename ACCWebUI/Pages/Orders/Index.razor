@@ -8,95 +8,96 @@
 
 <PageTitle>Aufträge | ACC Web UI</PageTitle>
 
-<div style="display: flex; justify-content: space-between; align-items: center;">
+<div class="mb-3 d-flex justify-content-between align-items-center">
     <h1>Aufträge</h1>
     <Button Type="ButtonType.Link" @onclick="Create" Color="ButtonColor.Primary"><Icon Name="IconName.Plus" /> Neuer Auftrag</Button>
 </div>
 
-<hr />
-
-<table class="table table-hover shadow-sm border">
-    <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Auftragsname</th>
-            <th scope="col">Auftragsbeginn</th>
-            <th scope="col">Auftragsende</th>
-            <th scope="col">Restbudget</th>
-            <th scope="col"></th>
-        </tr>
-    </thead>
-    <tbody>
-        @if (IsLoading)
-        {
+<div class="table-responsive">
+    <table class="table table-hover shadow-sm border">
+        <thead>
             <tr>
-                <td>
-                    <div class="spinner-border spinner-border-sm" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                    </div>
-                </td>
-                <td>
-                    <div class="spinner-border spinner-border-sm" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                    </div>
-                </td>
-                <td>
-                    <div class="spinner-border spinner-border-sm" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                    </div>
-                </td>
-                <td>
-                    <div class="spinner-border spinner-border-sm" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                    </div>
-                </td>
-                <td>
-                    <div class="spinner-border spinner-border-sm" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                    </div>
-                </td>
-                <td>
-                    <div class="spinner-border spinner-border-sm" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                    </div>
-                </td>
+                <th scope="col">#</th>
+                <th scope="col">Auftragsname</th>
+                <th scope="col">Auftragsbeginn</th>
+                <th scope="col">Auftragsende</th>
+                <th scope="col">Restbudget</th>
+                <th scope="col"></th>
             </tr>
-        }
-        else
-        {
-            @if (Orders != null)
-            {
-                @foreach (Auftrag order in Orders)
-                {
-                    <tr>
-                        <td>@order.AuftragID</td>
-                        <td>@order.Auftragsname</td>
-                        <td>@order.Auftragsbeginn.GetValueOrDefault().ToShortDateString()</td>
-                        <td>@order.Auftragsende.GetValueOrDefault().ToShortDateString()</td>
-                        <td></td>
-                        <td>
-                            <div class="btn-group" role="group" aria-label="Actions">
-                                <Button Type="ButtonType.Link" @onclick="() => Edit(order.AuftragID)" Color="ButtonColor.Primary"><Icon Name="IconName.PencilSquare" /></Button>
-                                <Button Type="ButtonType.Link" @onclick="() => Show(order.AuftragID)" Color="ButtonColor.Primary"><Icon Name="IconName.Eye" /></Button>
-                                <Button Type="ButtonType.Link" @onclick="() => Delete(order.AuftragID)" Color="ButtonColor.Danger"><Icon Name="IconName.Trash" /></Button>
-                            </div>
-                        </td>
-                    </tr>
-                }
-            }
-            else
+        </thead>
+        <tbody>
+            @if (IsLoading)
             {
                 <tr>
-                    <td colspan="5">
-                        <Alert Color="AlertColor.Danger"><Icon Name="IconName.ExclamationTriangleFill" /> Keine Aufträge vorhanden</Alert>
+                    <td>
+                        <div class="spinner-border spinner-border-sm" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="spinner-border spinner-border-sm" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="spinner-border spinner-border-sm" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="spinner-border spinner-border-sm" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="spinner-border spinner-border-sm" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="spinner-border spinner-border-sm" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
                     </td>
                 </tr>
             }
-        }
-    </tbody>
-</table>
+            else
+            {
+                if (PaginationService.TotalItems == 0)
+                {
+                    <tr>
+                        <td colspan="6">
+                            <Icon Color="IconColor.Danger" Name="IconName.ExclamationTriangleFill" />
+                            Keine Aufträge gefunden
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    @foreach (Auftrag order in Orders)
+                    {
+                        <tr>
+                            <td>@order.AuftragID</td>
+                            <td>@order.Auftragsname</td>
+                            <td>@order.Auftragsbeginn.GetValueOrDefault().ToShortDateString()</td>
+                            <td>@order.Auftragsende.GetValueOrDefault().ToShortDateString()</td>
+                            <td></td>
+                            <td>
+                                <div class="btn-group" role="group" aria-label="Actions">
+                                    <Button Type="ButtonType.Link" @onclick="() => Edit(order.AuftragID)" Color="ButtonColor.Primary"><Icon Name="IconName.PencilSquare" /></Button>
+                                    <Button Type="ButtonType.Link" @onclick="() => Show(order.AuftragID)" Color="ButtonColor.Primary"><Icon Name="IconName.Eye" /></Button>
+                                    <Button Type="ButtonType.Link" @onclick="() => Delete(order.AuftragID)" Color="ButtonColor.Danger"><Icon Name="IconName.Trash" /></Button>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+            }
+        </tbody>
+    </table>
+</div>
 
-@if (Orders != null)
+@if (Orders != null && PaginationService.TotalItems > 0)
 {
     <div class="btn-group" role="group" aria-label="Pagination">
         <Button Type="ButtonType.Link" Size="Size.Small" Color="ButtonColor.Secondary" @onclick="GoToFirstPage" Disabled="PaginationService.CurrentPage == 1"><Icon Name="IconName.SkipBackward" /></Button>

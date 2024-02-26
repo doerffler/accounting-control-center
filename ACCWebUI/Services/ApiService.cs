@@ -36,20 +36,26 @@ namespace ACCWebUI.Services
 
         private async Task<T> SendRequestAsync<T>(string relativeUrl)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", await AcquireToken());
-            HttpResponseMessage response = await _httpClient.GetAsync(_apiBaseUrl + relativeUrl);
-            if (response.IsSuccessStatusCode)
+            try
             {
-                string responseBody = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<T>(responseBody);
-            }
-            else
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", await AcquireToken());
+                HttpResponseMessage response = await _httpClient.GetAsync(_apiBaseUrl + relativeUrl);
+                if (response.IsSuccessStatusCode)
+                {
+                    string responseBody = await response.Content.ReadAsStringAsync();
+                    return JsonConvert.DeserializeObject<T>(responseBody);
+                }
+                else
+                {
+                    return default;
+                }
+            } catch (JsonSerializationException)
             {
                 return default;
             }
         }
 
-        public async Task<T> GetAsync<T>(int currentPage, int pageSize)
+        public async Task<T> GetAsync<T>(int? currentPage = 0, int? pageSize = 0)
         {
             return await SendRequestAsync<T>($"{_endpoint}?currentPage={currentPage}&pageSize={pageSize}");
         }

@@ -67,9 +67,32 @@ namespace ACC.ViewModel.Services
 
         #region Kostenstellen
 
-        public async Task<IEnumerable<Kostenstelle>> GetKostenstellenAsync(CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<Kostenstelle>> GetKostenstellenAsync(CancellationToken cancellationToken = default, int? currentPage = null, int? pageSize = null)
         {
-            return await GetDataFromDbSetAsync(DBContext.Kostenstellen.Include(k => k.UebergeordneteKostenstellen), cancellationToken);
+            IQueryable<Kostenstelle> query = DBContext.Kostenstellen.Include(k => k.UebergeordneteKostenstellen);
+
+            if ((currentPage.Value != 0) || (pageSize.Value != 0))
+            {
+                int skipCount = (currentPage.Value - 1) * pageSize.Value;
+                query = query.Skip(skipCount).Take(pageSize.Value);
+            }
+
+            return await GetDataFromDbSetAsync(query, cancellationToken);
+        }
+
+        public async Task<int> GetKostenstellenCountAsync(CancellationToken cancellationToken = default)
+        {
+            var kostenstellen = await DBContext.Kostenstellen.CountAsync();
+            return kostenstellen;
+        }
+
+        public async Task<IEnumerable<Kostenstelle>> GetKostenstelleAsync(int KostenstelleID, CancellationToken cancellationToken = default)
+        {
+            return await GetDataFromDbSetAsync(
+                DBContext.Kostenstellen
+                    .Where(k => k.KostenstelleID == KostenstelleID)
+                    .Include(k => k.UebergeordneteKostenstellen)
+                , cancellationToken);
         }
 
         public async Task<Kostenstelle> CreateKostenstelleAsync(CancellationToken cancellationToken = default)
@@ -232,7 +255,7 @@ namespace ACC.ViewModel.Services
                 .Include(m => m.VerantwortlicherMitarbeiter.ZugehoerigeKostenstelle.UntergeordneteKostenstellen)
                 .Include(a => a.ZugehoerigesGeschaeftsjahr)
                 .Include(a => a.ZugehoerigesProjekt)
-                .Include(a => a.ZugehoerigesProjekt.Rechnungsempfaenger)
+                .Include(a => a.ZugehoerigesProjekt.Rechnungsempfaenger.ZugehoerigerKunde)
                 .Include(a => a.ZugehoerigeWaehrung)
                 .Include(a => a.Auftragspositionen)
                 .ThenInclude(ap => ap.Abrechnungseinheit);
@@ -266,7 +289,7 @@ namespace ACC.ViewModel.Services
                 .Include(m => m.VerantwortlicherMitarbeiter.ZugehoerigeKostenstelle.UntergeordneteKostenstellen)
                 .Include(a => a.ZugehoerigesGeschaeftsjahr)
                 .Include(a => a.ZugehoerigesProjekt)
-                .Include(a => a.ZugehoerigesProjekt.Rechnungsempfaenger)
+                .Include(a => a.ZugehoerigesProjekt.Rechnungsempfaenger.ZugehoerigerKunde)
                 .Include(a => a.ZugehoerigeWaehrung)
                 .Include(a => a.Auftragspositionen)
                 .ThenInclude(ap => ap.Abrechnungseinheit)
@@ -346,14 +369,35 @@ namespace ACC.ViewModel.Services
 
         #region Eingangsrechnungen
 
-        public async Task<IEnumerable<Eingangsrechnung>> GetEingangsrechnungenAsync(CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<Eingangsrechnung>> GetEingangsrechnungenAsync(CancellationToken cancellationToken = default, int? currentPage = null, int? pageSize = null)
         {
-            return await GetDataFromDbSetAsync(
-                DBContext.Eingangsrechnungen
+            IQueryable<Eingangsrechnung> query = DBContext.Eingangsrechnungen
                 .Include(ar => ar.ZugehoerigeWaehrung)
-                .Include(ar => ar.Rechnungspositionen).ThenInclude(rp => rp.ZugehoerigeAbrechnungseinheit)
-                .Include(ar => ar.Rechnungspositionen).ThenInclude(rp => rp.ZugehoerigeKostenstelle)
-                , cancellationToken);
+                .Include(ar => ar.ZugehoerigesDokument)
+                .Include(ar => ar.ZugehoerigesGeschaeftsjahr)
+                .Include(ar => ar.KorrekturRechnung)
+                .Include(ar => ar.ZugehoerigerKreditor)
+                .Include(ar => ar.ZugehoerigerKreditor.ZugehoerigeAdresse)
+                .Include(ar => ar.ZugehoerigerKreditor.ZugehoerigeAdresse.ZugehoerigePostleitzahl)
+                .Include(ar => ar.ZugehoerigerVertrag)
+                .Include(er => er.Rechnungspositionen).ThenInclude(rp => rp.ZugehoerigeAbrechnungseinheit)
+                .Include(er => er.Rechnungspositionen).ThenInclude(rp => rp.ZugehoerigeKostenstelle);
+
+            if ((currentPage.Value != 0) || (pageSize.Value != 0))
+            {
+                int skipCount = (currentPage.Value - 1) * pageSize.Value;
+                query = query.Skip(skipCount).Take(pageSize.Value);
+            }
+
+            var eingangsrechnungen = await GetDataFromDbSetAsync(query, cancellationToken);
+
+            return eingangsrechnungen;
+        }
+
+        public async Task<int> GetEingangsrechnungenCountAsync(CancellationToken cancellationToken = default)
+        {
+            var eingangsrechnungen = await DBContext.Eingangsrechnungen.CountAsync();
+            return eingangsrechnungen;
         }
 
         public async Task<IEnumerable<Eingangsrechnung>> GetEingangsrechnungAsync(int EingangsrechnungID, CancellationToken cancellationToken = default)
@@ -362,6 +406,13 @@ namespace ACC.ViewModel.Services
                 DBContext.Eingangsrechnungen
                 .Where(ar => ar.EingangsrechnungID == EingangsrechnungID)
                 .Include(ar => ar.ZugehoerigeWaehrung)
+                .Include(ar => ar.ZugehoerigesDokument)
+                .Include(ar => ar.ZugehoerigesGeschaeftsjahr)
+                .Include(ar => ar.KorrekturRechnung)
+                .Include(ar => ar.ZugehoerigerKreditor)
+                .Include(ar => ar.ZugehoerigerKreditor.ZugehoerigeAdresse)
+                .Include(ar => ar.ZugehoerigerKreditor.ZugehoerigeAdresse.ZugehoerigePostleitzahl)
+                .Include(ar => ar.ZugehoerigerVertrag)
                 .Include(ar => ar.Rechnungspositionen).ThenInclude(rp => rp.ZugehoerigeAbrechnungseinheit)
                 .Include(ar => ar.Rechnungspositionen).ThenInclude(rp => rp.ZugehoerigeKostenstelle)
                 , cancellationToken);
@@ -401,16 +452,35 @@ namespace ACC.ViewModel.Services
 
         #region Ausgangsrechnungen
 
-        public async Task<IEnumerable<Ausgangsrechnung>> GetAusgangsrechnungenAsync(CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<Ausgangsrechnung>> GetAusgangsrechnungenAsync(CancellationToken cancellationToken = default, int? currentPage = null, int? pageSize = null)
         {
-            return await GetDataFromDbSetAsync(
-                DBContext.Ausgangsrechnungen
+            IQueryable<Ausgangsrechnung> query = DBContext.Ausgangsrechnungen
                 .Include(ar => ar.ZugehoerigeWaehrung)
+                .Include(ar => ar.Rechnungsempfaenger.ZugehoerigerKunde)
+                .Include(ar => ar.Rechnungsempfaenger.ZugehoerigeAdresse.ZugehoerigePostleitzahl)
+                .Include(ar => ar.ZugehoerigesDokument)
+                .Include(ar => ar.ZugehoerigesGeschaeftsjahr)
+                .Include(ar => ar.KorrekturRechnung)
                 .Include(ar => ar.Rechnungspositionen).ThenInclude(rp => rp.ZugehoerigeAbrechnungseinheit)
                 .Include(ar => ar.Rechnungspositionen).ThenInclude(rp => rp.ZugehoerigeKostenstelle)
                 .Include(ar => ar.Rechnungspositionen).ThenInclude(rp => rp.ZugehoerigeAuftragsposition)
-                .Include(ar => ar.Rechnungspositionen).ThenInclude(rp => rp.ZugehoerigeFremdleistungen)
-                , cancellationToken);
+                .Include(ar => ar.Rechnungspositionen).ThenInclude(rp => rp.ZugehoerigeFremdleistungen);
+
+            if ((currentPage.Value != 0) || (pageSize.Value != 0))
+            {
+                int skipCount = (currentPage.Value - 1) * pageSize.Value;
+                query = query.Skip(skipCount).Take(pageSize.Value);
+            }
+
+            var ausgangsrechnungen = await GetDataFromDbSetAsync(query, cancellationToken);
+
+            return ausgangsrechnungen;
+        }
+
+        public async Task<int> GetAusgangsrechnungenCountAsync(CancellationToken cancellationToken = default)
+        {
+            var ausgangsrechnungen = await DBContext.Ausgangsrechnungen.CountAsync();
+            return ausgangsrechnungen;
         }
 
         public async Task<IEnumerable<Ausgangsrechnung>> GetAusgangsrechnungAsync(int AusgangsrechnungID, CancellationToken cancellationToken = default)
@@ -419,6 +489,11 @@ namespace ACC.ViewModel.Services
                 DBContext.Ausgangsrechnungen
                 .Where(ar => ar.AusgangsrechnungID == AusgangsrechnungID)
                 .Include(ar => ar.ZugehoerigeWaehrung)
+                .Include(ar => ar.Rechnungsempfaenger.ZugehoerigerKunde)
+                .Include(ar => ar.Rechnungsempfaenger.ZugehoerigeAdresse.ZugehoerigePostleitzahl)
+                .Include(ar => ar.ZugehoerigesDokument)
+                .Include(ar => ar.ZugehoerigesGeschaeftsjahr)
+                .Include(ar => ar.KorrekturRechnung)
                 .Include(ar => ar.Rechnungspositionen).ThenInclude(rp => rp.ZugehoerigeAbrechnungseinheit)
                 .Include(ar => ar.Rechnungspositionen).ThenInclude(rp => rp.ZugehoerigeKostenstelle)
                 .Include(ar => ar.Rechnungspositionen).ThenInclude(rp => rp.ZugehoerigeAuftragsposition)
@@ -582,9 +657,31 @@ namespace ACC.ViewModel.Services
 
         #region Masterdata
 
-        public async Task<IEnumerable<Waehrung>> GetWaehrungenAsync(CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<Waehrung>> GetWaehrungenAsync(CancellationToken cancellationToken = default, int? currentPage = null, int? pageSize = null)
         {
-            return await GetDataFromDbSetAsync(DBContext.Waehrungen, cancellationToken);
+            IQueryable<Waehrung> query = DBContext.Waehrungen;
+
+            if ((currentPage.Value != 0) || (pageSize.Value != 0))
+            {
+                int skipCount = (currentPage.Value - 1) * pageSize.Value;
+                query = query.Skip(skipCount).Take(pageSize.Value);
+            }
+
+            return await GetDataFromDbSetAsync(query, cancellationToken);
+        }
+
+
+        public async Task<int> GetWaehrungenCountAsync(CancellationToken cancellationToken = default)
+        {
+            var waehrungen = await DBContext.Waehrungen.CountAsync();
+            return waehrungen;
+        }
+
+        public async Task<IEnumerable<Waehrung>> GetWaehrungAsync(int WaehrungID, CancellationToken cancellationToken = default)
+        {
+            return await GetDataFromDbSetAsync(
+                DBContext.Waehrungen.Where(w => w.WaehrungID == WaehrungID)
+                , cancellationToken);
         }
 
         public async Task<Waehrung> CreateWaehrungAsync(CancellationToken cancellationToken = default)
@@ -603,9 +700,30 @@ namespace ACC.ViewModel.Services
             return newWaehrung;
         }
 
-        public async Task<IEnumerable<Abrechnungseinheit>> GetAbrechnungseinheitenAsync(CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<Abrechnungseinheit>> GetAbrechnungseinheitenAsync(CancellationToken cancellationToken = default, int? currentPage = null, int? pageSize = null)
         {
-            return await GetDataFromDbSetAsync(DBContext.Abrechnungseinheiten, cancellationToken);
+            IQueryable<Abrechnungseinheit> query = DBContext.Abrechnungseinheiten;
+
+            if ((currentPage.Value != 0) || (pageSize.Value != 0))
+            {
+                int skipCount = (currentPage.Value - 1) * pageSize.Value;
+                query = query.Skip(skipCount).Take(pageSize.Value);
+            }
+
+            return await GetDataFromDbSetAsync(query, cancellationToken);
+        }
+
+        public async Task<int> GetAbrechnungseinheitenCountAsync(CancellationToken cancellationToken = default)
+        {
+            var abrechnungseinheiten = await DBContext.Abrechnungseinheiten.CountAsync();
+            return abrechnungseinheiten;
+        }
+
+        public async Task<IEnumerable<Abrechnungseinheit>> GetAbrechnungseinheitAsync(int AbrechnungseinheitID, CancellationToken cancellationToken = default)
+        {
+            return await GetDataFromDbSetAsync(
+                DBContext.Abrechnungseinheiten.Where(w => w.AbrechnungseinheitID == AbrechnungseinheitID)
+                , cancellationToken);
         }
 
         public async Task<Abrechnungseinheit> CreateAbrechnungseinheitAsync(CancellationToken cancellationToken = default)

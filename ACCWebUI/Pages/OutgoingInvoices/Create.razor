@@ -1,5 +1,10 @@
 ﻿@page "/outgoing_invoices/create"
 
+@inject ApiService ApiService
+@inject NavigationManager Navigation
+
+@attribute [Authorize]
+
 <PageTitle>Neue Ausgangsrechnung | ACC Web UI</PageTitle>
 
 <div style="display: flex; justify-content: space-between; align-items: center;">
@@ -10,9 +15,107 @@
     </div>
 </div>
 
+<div class="mb-3">
+    <label class="form-label">Rechnungsnummer:</label>
+    <InputText class="form-control" @bind-Value="OutgoingInvoice.RechnungsNummer" />
+</div>
+
+<div class="mb-3">
+    <label class="form-label">Rechnungsdatum:</label>
+    <DateInput class="form-control" @bind-Value="OutgoingInvoice.RechnungsDatum" />
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Positionsbeschreibung</th>
+            <th>Stueckpreis (Netto)</th>
+            <th>Stückzahl & Einheit</th>
+            <th>Positionspreis (Netto)</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var position in OutgoingInvoice.Rechnungspositionen)
+        {
+            <tr>
+                <td width="40%"><InputText class="form-control" @bind-Value="position.Positionsbeschreibung" /></td>
+                <td width="10%">
+                    <CurrencyInput Placeholder="Stückpreis (Netto)" TextAlignment="Alignment.End" @bind-Value="position.StueckpreisNetto" />
+                </td>
+                <td width="15%">
+                    <div class="input-group">
+                        <NumberInput Placeholder="Stückzahl" TValue="decimal" TextAlignment="Alignment.End" @bind-Value="position.Stueckzahl" />
+                        <InputSelect class="form-select" @bind-Value="position.ZugehoerigeAbrechnungseinheit.AbrechnungseinheitID">
+                            @foreach (Abrechnungseinheit abrechnungseinheit in AccountingUnits)
+                            {
+                                <option value="@abrechnungseinheit.AbrechnungseinheitID">@abrechnungseinheit.Name (@abrechnungseinheit.Abkuerzung)</option>
+                            }
+                        </InputSelect>
+                    </div>
+                </td>
+                <td width="10%">@position.Nettobetrag.ToString("N2", CultureInfo.GetCultureInfo("de-DE"))</td>
+                <td width="10%"><Button class="btn btn-danger" @onclick="() => RemovePosition(position)"><Icon Name="IconName.Trash" /> Löschen</Button></td>
+            </tr>
+        }
+    </tbody>
+</table>
+<Button class="btn btn-primary" @onclick="AddPosition"><Icon Name="IconName.BagPlus" /> Position hinzufügen</Button>
+
+
 @code {
+    private Ausgangsrechnung OutgoingInvoice;
+
+    private IEnumerable<Kostenstelle> CostCentres;
+    private IEnumerable<Abrechnungseinheit> AccountingUnits;
+    private IEnumerable<Waehrung> Currencies;
+
+    private bool IsLoading = true;
+
+    // Initialize method
+    protected override async Task OnInitializedAsync()
+    {        
+        OutgoingInvoice = new Ausgangsrechnung()
+        {
+            RechnungsDatum = DateTime.Now,
+            ZugehoerigesDokument = new(),
+            ZugehoerigesGeschaeftsjahr = new(),
+            ZugehoerigeWaehrung = new()
+        };
+
+        ApiService.InitializeEndpoint("http://localhost:32771/", ResourceEndpoint.cost_centres);
+        ApiResponseDTO<Kostenstelle> cost_centres = await ApiService.GetAsync<ApiResponseDTO<Kostenstelle>>();
+        CostCentres = cost_centres.Items;
+
+        ApiService.InitializeEndpoint("http://localhost:32771/", ResourceEndpoint.accounting_units);
+        ApiResponseDTO<Abrechnungseinheit> accounting_units = await ApiService.GetAsync<ApiResponseDTO<Abrechnungseinheit>>();
+        AccountingUnits = accounting_units.Items;
+
+        ApiService.InitializeEndpoint("http://localhost:32771/", ResourceEndpoint.currencies);
+        ApiResponseDTO<Waehrung> currencies = await ApiService.GetAsync<ApiResponseDTO<Waehrung>>();
+        Currencies = currencies.Items;
+
+        IsLoading = false;
+    }
+
     private void Save()
     {
-        
+        ApiService.InitializeEndpoint("http://localhost:32771/", ResourceEndpoint.outgoing_invoices);
+
+    }
+
+    private void AddPosition()
+    {
+
+        OutgoingInvoice.Rechnungspositionen.Add(new Ausgangsrechnungsposition()
+        {
+            ZugehoerigeAbrechnungseinheit = new(),
+            ZugehoerigeKostenstelle = new()
+        });
+    }
+
+    private void RemovePosition(Ausgangsrechnungsposition position)
+    {
+        OutgoingInvoice.Rechnungspositionen.Remove(position);
     }
 }

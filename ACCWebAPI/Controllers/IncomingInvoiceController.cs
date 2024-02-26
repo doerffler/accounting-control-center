@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ACCDataModel.Kostenrechnung;
+using ACCDataModel.DTO;
 
 namespace ACCWebAPI.Controllers
 {
@@ -20,13 +21,20 @@ namespace ACCWebAPI.Controllers
         }
 
         [HttpGet("")]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? currentPage, int? pageSize)
         {
             try
             {
-                IEnumerable<Eingangsrechnung> result = await _accService.GetEingangsrechnungenAsync();
+                IEnumerable<Eingangsrechnung> eingangsrechnungen = await _accService.GetEingangsrechnungenAsync(default, currentPage, pageSize);
+                int totalCount = await _accService.GetEingangsrechnungenCountAsync();
 
-                return Ok(result);
+                var response = new ApiResponseDTO<Eingangsrechnung>
+                {
+                    Items = eingangsrechnungen,
+                    TotalCount = totalCount
+                };
+
+                return Ok(response);
 
             }
             catch (Exception ex)
@@ -95,7 +103,7 @@ namespace ACCWebAPI.Controllers
 
                 await _accService.SaveChangesAsync();
 
-                return Ok(eingangsrechnung);
+                return Ok(eingangsrechnung.FirstOrDefault());
             }
             catch (Exception ex)
             {

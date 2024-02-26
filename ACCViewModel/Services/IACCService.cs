@@ -27,9 +27,16 @@ namespace ACC.ViewModel.Services
 
         #region Kostenstelle
 
-        public Task<IEnumerable<Kostenstelle>> GetKostenstellenAsync(CancellationToken cancellationToken = default);
+        public Task<IEnumerable<Kostenstelle>> GetKostenstellenAsync(CancellationToken cancellationToken = default, int? currentPage = null, int? pageSize = null);
+
+        public Task<int> GetKostenstellenCountAsync(CancellationToken cancellationToken = default);
+
+        public Task<IEnumerable<Kostenstelle>> GetKostenstelleAsync(int KostenstelleID, CancellationToken cancellationToken = default);
+
         public Task<Kostenstelle> CreateKostenstelleAsync(CancellationToken cancellationToken = default);
+        
         public Task<Kostenstelle> CreateKostenstelleAsync(string kostenstellenBezeichnung, int kostenstellenNummer, Kostenstellenart kostenstellenArt, CancellationToken cancellationToken = default);
+        
         public void RemoveKostenstelle(Kostenstelle kostenstelleToRemove);
 
         #endregion 
@@ -89,7 +96,9 @@ namespace ACC.ViewModel.Services
 
         #region Ausgangsrechnungen
 
-        public Task<IEnumerable<Ausgangsrechnung>> GetAusgangsrechnungenAsync(CancellationToken cancellationToken = default);
+        public Task<IEnumerable<Ausgangsrechnung>> GetAusgangsrechnungenAsync(CancellationToken cancellationToken = default, int? currentPage = null, int? pageSize = null);
+
+        public Task<int> GetAusgangsrechnungenCountAsync(CancellationToken cancellationToken = default);
 
         public Task<IEnumerable<Ausgangsrechnung>> GetAusgangsrechnungAsync(int AusgangsrechnungID, CancellationToken cancellationToken = default);
 
@@ -107,7 +116,9 @@ namespace ACC.ViewModel.Services
 
         #region Eingangsrechnungen
 
-        public Task<IEnumerable<Eingangsrechnung>> GetEingangsrechnungenAsync(CancellationToken cancellationToken = default);
+        public Task<IEnumerable<Eingangsrechnung>> GetEingangsrechnungenAsync(CancellationToken cancellationToken = default, int? currentPage = null, int? pageSize = null);
+
+        public Task<int> GetEingangsrechnungenCountAsync(CancellationToken cancellationToken = default);
 
         public Task<IEnumerable<Eingangsrechnung>> GetEingangsrechnungAsync(int EingangsrechnungID, CancellationToken cancellationToken = default);
 
@@ -123,12 +134,16 @@ namespace ACC.ViewModel.Services
 
         #region Masterdata
 
-        public Task<IEnumerable<Waehrung>> GetWaehrungenAsync(CancellationToken cancellationToken = default);
+        public Task<IEnumerable<Waehrung>> GetWaehrungenAsync(CancellationToken cancellationToken = default, int? currentPage = null, int? pageSize = null);
+        public Task<int> GetWaehrungenCountAsync(CancellationToken cancellationToken = default);
+        public Task<IEnumerable<Waehrung>> GetWaehrungAsync(int WaehrungID, CancellationToken cancellationToken = default);
         public Task<Waehrung> CreateWaehrungAsync(CancellationToken cancellationToken = default);
         public Task<Waehrung> CreateWaehrungAsync(String waehrungName, string waehrungZeichen, string waehrungISO, Dictionary<string, string> waehrungAdditions = null, CancellationToken cancellationToken = default);
         void RemoveWaehrung(Waehrung selectedWaehrung);
 
-        public Task<IEnumerable<Abrechnungseinheit>> GetAbrechnungseinheitenAsync(CancellationToken cancellationToken = default);
+        public Task<IEnumerable<Abrechnungseinheit>> GetAbrechnungseinheitenAsync(CancellationToken cancellationToken = default, int? currentPage = null, int? pageSize = null);
+        public Task<int> GetAbrechnungseinheitenCountAsync(CancellationToken cancellationToken = default);
+        public Task<IEnumerable<Abrechnungseinheit>> GetAbrechnungseinheitAsync(int WaehrungID, CancellationToken cancellationToken = default); 
         public Task<Abrechnungseinheit> CreateAbrechnungseinheitAsync(CancellationToken cancellationToken = default);
         public Task<Abrechnungseinheit> CreateAbrechnungseinheitAsync(string name, string abkuerzung, Dictionary<string, string> additions = null, CancellationToken cancellationToken = default);
         void RemoveAbrechnungseinheit(Abrechnungseinheit selectedAbrechnungseinheit);
