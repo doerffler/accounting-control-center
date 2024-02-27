@@ -1,0 +1,150 @@
+﻿@page "/orders/{OrderId:int}"
+
+@inject ApiService ApiService
+@inject NavigationManager Navigation
+
+@attribute [Authorize]
+
+<PageTitle>Auftrag anzeigen | ACC Web UI</PageTitle>
+
+<div class="mb-3 d-flex justify-content-between align-items-center">
+    <h1>Auftrag anzeigen</h1>
+    <Button Type="ButtonType.Link" To="/orders" Color="ButtonColor.Primary"><Icon Name="IconName.BackspaceFill" /> Zurück</Button>
+</div>
+
+@if (IsLoading)
+{
+    <div class="spinner-border ms-auto" aria-hidden="true"></div>
+}
+else
+{
+    @if (Order != null)
+    {
+        <Card Class="shadow-sm mb-3">
+            <CardBody>
+                <div class="row">
+                    <h3>Auftragszeitraum</h3>
+                    <div class="row">
+                        <div class="col">
+                            <div class="timeline-steps aos-init aos-animate" data-aos="fade-up">
+                                <div class="timeline-step">
+                                    <div class="timeline-content" data-toggle="popover" data-trigger="hover" data-placement="top" title="" data-content="Auftragsdatum" data-original-title="@Order.Auftragsdatum.ToShortDateString()">
+                                        <div class="inner-circle"></div>
+                                        <p class="h6 mt-3 mb-1">@Order.Auftragsdatum.ToShortDateString()</p>
+                                        <p class="h6 text-muted mb-0 mb-lg-0">Auftragsdatum</p>
+                                    </div>
+                                </div>
+                                <div class="timeline-step">
+                                    <div class="timeline-content" data-toggle="popover" data-trigger="hover" data-placement="top" title="" data-content="Auftragsbeginn" data-original-title="@Order.Auftragsbeginn.GetValueOrDefault().ToShortDateString()">
+                                        <div class="inner-circle"></div>
+                                        <p class="h6 mt-3 mb-1">@Order.Auftragsbeginn.GetValueOrDefault().ToShortDateString()</p>
+                                        <p class="h6 text-muted mb-0 mb-lg-0">Auftragsbeginn</p>
+                                    </div>
+                                </div>
+                                <div class="timeline-step mb-0">
+                                    <div class="timeline-content" data-toggle="popover" data-trigger="hover" data-placement="top" title="" data-content="Auftragsende" data-original-title="@Order.Auftragsende.GetValueOrDefault().ToShortDateString()">
+                                        <div class="inner-circle"></div>
+                                        <p class="h6 mt-3 mb-1">@Order.Auftragsende.GetValueOrDefault().ToShortDateString()</p>
+                                        <p class="h6 text-muted mb-0 mb-lg-0">Auftragsende</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <h3>Auftragsdetails</h3>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5>Auftragsname: <span>@Order.Auftragsname</span></h5>
+                        <ul></ul>
+
+                        <h5>Verantwortlicher Mitarbeiter: 
+                            <span>
+                                @Order.VerantwortlicherMitarbeiter.Anrede
+                                @Order.VerantwortlicherMitarbeiter.Titel
+                                @Order.VerantwortlicherMitarbeiter.Vorname
+                                @Order.VerantwortlicherMitarbeiter.Zuname
+                                @Order.VerantwortlicherMitarbeiter.Nachname
+                            </span>
+                        </h5>
+                        <ul>
+                            <li>Kürzel: <span id="kuerzel">@Order.VerantwortlicherMitarbeiter.Kuerzel</span></li>
+                            <li>E-Mail: <span id="email">@Order.VerantwortlicherMitarbeiter.Email</span></li>
+                            <li>DATEV Nummer: <span id="datev">@Order.VerantwortlicherMitarbeiter.PersonalnummerDatev</span></li>
+                        </ul>
+
+                        <h5>Geschäftsjahr: <span>@Order.ZugehoerigesGeschaeftsjahr.Name</span></h5>
+                        <ul>
+                            <li>Von: <span id="geschaeftsjahr-von">@Order.ZugehoerigesGeschaeftsjahr.DatumVon.ToShortDateString()</span></li>
+                            <li>Bis: <span id="geschaeftsjahr-bis">@Order.ZugehoerigesGeschaeftsjahr.DatumBis.ToShortDateString()</span></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h5>Vertragsnummer: <span>@Order.Vertragsnummer</span></h5>
+                        <ul></ul>
+
+                        <h5>Zugehöriges Projekt: <span>@Order.ZugehoerigesProjekt.Projektname</span></h5>
+                        <ul>
+                            <li>Start: <span id="projekt-start">@Order.ZugehoerigesProjekt.Projektstart.ToShortDateString()</span></li>
+                            <li>Ende: <span id="projekt-ende">@Order.ZugehoerigesProjekt.Projektende.ToShortDateString()</span></li>
+                        </ul>
+
+                        <h5>Auftragswährung: <span>@Order.ZugehoerigeWaehrung.WaehrungZeichen</span></h5>
+                        <ul>
+                            <li>ISO: <span id="waehrung-iso">@Order.ZugehoerigeWaehrung.WaehrungISO</span></li>
+                            <li>Name: <span id="waehrung-name">@Order.ZugehoerigeWaehrung.WaehrungName</span></li>
+                        </ul>
+
+                        <h5>Auftraggeber: <span>@Order.ZugehoerigesProjekt.Rechnungsempfaenger.ZugehoerigerKunde?.Langname</span> <small>@Order.ZugehoerigesProjekt.Rechnungsempfaenger.ZugehoerigerKunde?.Kundenname</small></h5>
+                    </div>
+                </div>
+                <hr />
+                <h3>Auftragspositionen</h3>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Position</th>
+                                <th>Positionsbezeichnung</th>
+                                <th>Auftragsvolumen</th>
+                                <th>Stückpreis (netto)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (Auftragsposition auftragsposition in Order.Auftragspositionen)
+                            {
+                                <tr>
+                                    <td>@auftragsposition.AuftragspositionNummer</td>
+                                    <td>@auftragsposition.Positionsbezeichnung</td>
+                                    <td>@auftragsposition.Auftragsvolumen @auftragsposition.Abrechnungseinheit.Abkuerzung (@auftragsposition.Abrechnungseinheit.Name)</td>
+                                    <td>@auftragsposition.StueckpreisNetto @Order.ZugehoerigeWaehrung.WaehrungZeichen</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </CardBody>
+        </Card>
+    }
+    else
+    {
+        <Alert Color="AlertColor.Danger" Class="shadow-sm"><Icon Name="IconName.ExclamationTriangleFill" /> Kein Auftrag vorhanden</Alert>
+    }
+}
+
+@code {
+    [Parameter]
+    public int OrderId { get; set; }
+
+    private Auftrag Order;
+    private bool IsLoading = true;
+
+    // Initialize method
+    protected override async Task OnInitializedAsync()
+    {
+        ApiService.InitializeEndpoint("http://localhost:32771/", ResourceEndpoint.orders);
+        Order = await ApiService.GetByIdAsync<Auftrag>(OrderId);
+        IsLoading = false;
+    }
+}

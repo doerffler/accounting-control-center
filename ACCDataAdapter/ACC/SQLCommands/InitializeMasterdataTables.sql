@@ -1,22 +1,22 @@
 INSERT INTO [dbo].[Kostenstellenarten] ([Kostenstellenartbezeichnung])
 VALUES
 	('Angestellte Mitarbeiter/innen'),
-	('Erlöse'),
+	('ErlÃ¶se'),
 	('Freie Mitarbeiter/innen'),
 	('Sonstige Kostenstellen');
 
 INSERT INTO [dbo].[Taetigkeiten] ([Taetigkeitsbeschreibung])
 VALUES
-	('Geschäftsführerin / -Führer'),
+	('GeschÃ¤ftsfÃ¼hrerin / -FÃ¼hrer'),
 	('Werkstudent'),
 	('Beraterin / Berater'),
-	('Bürokauffrau / -Mann');
+	('BÃ¼rokauffrau / -Mann');
 
 INSERT INTO [dbo].[Abrechnungseinheiten] ([AbrechnungseinheitName])
 VALUES
 	('Stunden'),
 	('Personentage'),
-	('Stück');
+	('StÃ¼ck');
 
 INSERT INTO [dbo].[Geschaeftsjahre] ([Name], [DatumVon], [DatumBis], [Rechnungsprefix])
 VALUES
@@ -28,7 +28,7 @@ VALUES
 
 INSERT INTO [dbo].[Waehrungen] ([WaehrungISO], [WaehrungName], [WaehrungZeichen])
 VALUES
-	('EUR', 'Euro', '€'),
+	('EUR', 'Euro', 'â‚¬'),
 	('USD', 'US Dollar', '$'),
 	('CHF', 'Schweizer Franken', 'Fr'),
-	('GBP', 'Britisches Pfund', '£')
+	('GBP', 'Britisches Pfund', 'Â£')

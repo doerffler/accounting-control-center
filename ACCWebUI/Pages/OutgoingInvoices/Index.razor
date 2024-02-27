@@ -1,0 +1,156 @@
+﻿@page "/outgoing_invoices"
+
+@inject ApiService ApiService
+@inject NavigationManager Navigation
+@inject PaginationService<Ausgangsrechnung> PaginationService
+
+@attribute [Authorize]
+
+<PageTitle>Ausgangsrechnungen | ACC Web UI</PageTitle>
+
+<div class="mb-3 d-flex justify-content-between align-items-center">
+    <h1>Ausgangsrechnungen</h1>
+    <Button Type="ButtonType.Link" To="/outgoing_invoices/create" Color="ButtonColor.Primary"><Icon Name="IconName.Plus" /> Neue Ausgangsrechnung</Button>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-hover shadow-sm border">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Rechnungsdatum</th>
+                <th scope="col">Bezahldatum</th>
+                <th scope="col">Rechnungsempfaenger</th>
+                <th scope="col">Rechnungsbetrag</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (IsLoading)
+            {
+                <tr>
+                    <td>
+                        <div class="spinner-border spinner-border-sm" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="spinner-border spinner-border-sm" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="spinner-border spinner-border-sm" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="spinner-border spinner-border-sm" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="spinner-border spinner-border-sm" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="spinner-border spinner-border-sm" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </td>
+                </tr>
+            }
+            else
+            {
+                if (PaginationService.TotalItems == 0)
+                {
+                    <tr>
+                        <td colspan="6">
+                            <Icon Color="IconColor.Danger" Name="IconName.ExclamationTriangleFill" />
+                            Keine Ausgangsrechnung gefunden
+                        </td>
+                    </tr>
+                } 
+                else
+                {
+                    @foreach (Ausgangsrechnung outgoing_invoice in OutgoingInvoices)
+                    {
+                        <tr>
+                            <td>@outgoing_invoice.RechnungsNummer</td>
+                            <td>@outgoing_invoice.RechnungsDatum.ToShortDateString()</td>
+                            <td>@outgoing_invoice.BezahltDatum.GetValueOrDefault().ToShortDateString()</td>
+                            <td>@outgoing_invoice.Rechnungsempfaenger?.ZugehoerigerKunde?.Langname</td>
+                            <td>@outgoing_invoice.Rechnungspositionen.Sum(rp => rp.Nettobetrag).ToString("N2") @outgoing_invoice.ZugehoerigeWaehrung.WaehrungZeichen</td>
+                            <td>
+                                <div class="btn-group" role="group" aria-label="Actions">
+                                    <Button Type="ButtonType.Link" @onclick="() => Edit(outgoing_invoice.AusgangsrechnungID)" Color="ButtonColor.Primary"><Icon Name="IconName.PencilSquare" /></Button>
+                                    <Button Type="ButtonType.Link" @onclick="() => Show(outgoing_invoice.AusgangsrechnungID)" Color="ButtonColor.Primary"><Icon Name="IconName.Eye" /></Button>
+                                    <Button Type="ButtonType.Link" @onclick="() => Delete(outgoing_invoice.AusgangsrechnungID)" Color="ButtonColor.Danger"><Icon Name="IconName.Trash" /></Button>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
+@if (OutgoingInvoices != null && PaginationService.TotalItems > 0)
+{
+    <div class="btn-group" role="group" aria-label="Pagination">
+        <Button Type="ButtonType.Link" Size="Size.Small" Color="ButtonColor.Secondary" @onclick="GoToFirstPage" Disabled="PaginationService.CurrentPage == 1"><Icon Name="IconName.SkipBackward" /></Button>
+        <Button Type="ButtonType.Link" Size="Size.Small" Color="ButtonColor.Secondary" @onclick="GoToPreviousPage" Disabled="PaginationService.CurrentPage == 1"><Icon Name="IconName.CaretLeft" /></Button>
+        <Button Type="ButtonType.Link" Size="Size.Small" Color="ButtonColor.Secondary"><b>@PaginationService.CurrentPage</b></Button>
+        <Button Type="ButtonType.Link" Size="Size.Small" Color="ButtonColor.Secondary" @onclick="GoToNextPage" Disabled="!PaginationService.HasNextPage"><Icon Name="IconName.CaretRight" /></Button>
+        <Button Type="ButtonType.Link" Size="Size.Small" Color="ButtonColor.Secondary" @onclick="GoToLastPage" Disabled="PaginationService.CurrentPage == PaginationService.TotalPages"><Icon Name="IconName.SkipForward" /></Button>
+    </div>
+    <span>
+        @($"{(PaginationService.CurrentPage - 1) * PaginationService.PageSize + 1} - {Math.Min(PaginationService.CurrentPage * PaginationService.PageSize, PaginationService.TotalItems)} von {PaginationService.TotalItems} Ergebnisse(n) auf insgesamt {PaginationService.TotalPages} Seite(n)")
+    </span>
+}
+
+@code {
+    // Initialize method
+    private bool IsLoading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        ApiService.InitializeEndpoint("http://localhost:32771/", ResourceEndpoint.outgoing_invoices);
+        PaginationService.InitializePagination();
+
+        OutgoingInvoices = await PaginationService.LoadPaginatetedData();
+        IsLoading = false;
+    }
+
+    // Entity actions
+    protected void Create() => Navigation.NavigateTo("outgoing_invoices/create");
+    protected void Edit(int AusgangsrechnungID) => Navigation.NavigateTo($"outgoing_invoices/{AusgangsrechnungID}/edit");
+    protected void Show(int AusgangsrechnungID) => Navigation.NavigateTo($"outgoing_invoices/{AusgangsrechnungID}");
+    protected async Task Delete(int AusgangsrechnungID) => await ApiService.DeleteAsync<Ausgangsrechnung>(AusgangsrechnungID);
+
+    // Entity
+    public IEnumerable<Ausgangsrechnung> OutgoingInvoices;
+
+    // Entity pagination
+    private async Task GoToFirstPage()
+    {
+        OutgoingInvoices = await PaginationService.GoToPage(1);
+    }
+
+    private async Task GoToNextPage()
+    {
+        OutgoingInvoices = await PaginationService.GoToPage(PaginationService.CurrentPage + 1);
+    }
+
+    private async Task GoToPreviousPage()
+    {
+        OutgoingInvoices = await PaginationService.GoToPage(PaginationService.CurrentPage - 1);
+    }
+
+    private async Task GoToLastPage()
+    {
+        OutgoingInvoices = await PaginationService.GoToPage(PaginationService.TotalPages);
+    }
+}

@@ -1,8 +1,10 @@
 {
   "dependencies": {
     "identityapp1": {
-      "type": "identityapp.default",
-      "dynamicId": null
+      "connectionInfo": "App-Registrierung: dup-web-api-dev, Mandant: b.telligent group (btelligent.com - Microsoft Entra ID)",
+      "secretStore": "LocalSecretsFile",
+      "type": "identityapp.secretStore",
+      "connectionId": "AzureAD:ClientSecret"
     }
   }
 }

@@ -1,0 +1,11 @@
+﻿<AuthorizeView>
+    <Authorized>
+        <span>
+            Angemeldet als: <b>@context.User.Claims.FirstOrDefault(c => c.Type == "name").Value</b> (@context.User.Identity?.Name)
+        </span>
+        <Button Color="ButtonColor.Danger" Type="ButtonType.Link" To="MicrosoftIdentity/Account/SignOut"><Icon Name="IconName.DoorClosed" /> Logout</Button>
+    </Authorized>
+    <NotAuthorized>
+        <Button Color="ButtonColor.Primary" Type="ButtonType.Link" To="MicrosoftIdentity/Account/SignIn"><Icon Name="IconName.Microsoft"/> Login with Entra ID</Button>
+    </NotAuthorized>
+</AuthorizeView>

@@ -1,0 +1,38 @@
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+<Sidebar @ref="sidebar"
+             ImageSrc="favicon.png"
+             Title="ACC Web UI"
+             DataProvider="SidebarDataProvider" />
+
+
+@code {
+    Sidebar sidebar = default!;
+    IEnumerable<NavItem>? navItems;
+
+    private async Task<SidebarDataProviderResult> SidebarDataProvider(SidebarDataProviderRequest request)
+    {
+        if (navItems is null)
+            navItems = await GetNavItems();
+
+        return await Task.FromResult(request.ApplyTo(navItems));
+    }
+
+    private async Task<IEnumerable<NavItem>> GetNavItems()
+    {
+        var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authenticationState.User;
+
+        var navItems = new List<NavItem>();
+
+        if (user.Identity?.IsAuthenticated ?? false)
+        {
+            navItems.Add(new NavItem { Id = "1", Href = "/dashboard", IconName = IconName.GraphUp, Text = "Dashboard" });
+            navItems.Add(new NavItem { Id = "2", Href = "/incoming_invoices", IconName = IconName.Receipt, Text = "Eingangsrechnungen" });
+            navItems.Add(new NavItem { Id = "3", Href = "/outgoing_invoices", IconName = IconName.FileEarmarkCheck, Text = "Ausgangsrechnungen" });
+            navItems.Add(new NavItem { Id = "4", Href = "/orders", IconName = IconName.BoxSeam, Text = "Aufträge" });
+        }
+
+        return navItems;
+    }
+}

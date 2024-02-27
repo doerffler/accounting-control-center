@@ -1,0 +1,206 @@
+﻿@page "/outgoing_invoices/{OutgoingInvoiceId:int}"
+
+@inject ApiService ApiService
+@inject NavigationManager Navigation
+
+@attribute [Authorize]
+
+<PageTitle>Ausgangsrechnung anzeigen | ACC Web UI</PageTitle>
+
+<div class="mb-3 d-flex justify-content-between align-items-center">
+    <h1>Ausgangsrechnung anzeigen</h1>
+    <div class="btn-group" role="group" aria-label="Actions">
+        <Button Type="ButtonType.Link" To="/outgoing_invoices" Color="ButtonColor.Primary"><Icon Name="IconName.BackspaceFill" /> Zurück</Button>
+        <Button @onclick="GeneratePdfAsync" Color="ButtonColor.Danger"><Icon Name="IconName.FileEarmarkPdf" /> PDF erstellen</Button>
+    </div>
+</div>
+
+@if (IsLoading)
+{
+    <div class="spinner-border ms-auto" aria-hidden="true"></div>
+}
+else
+{
+    @if (OutgoingInvoice != null)
+    {
+        <Card Class="shadow-sm mb-3">
+            <CardBody>
+                <div class="row">
+                    <div class="col-md-8">
+                        <h2 class="card-title">Rechnungsinformationen</h2>
+                        <p class="card-text">
+                            <b>Rechnungsnummer:</b><br />
+                            @OutgoingInvoice.RechnungsNummer
+                        </p>
+                        <p class="card-text">
+                            <b>Rechnungsempfänger:</b><br />
+                            @OutgoingInvoice.Rechnungsempfaenger.ZugehoerigerKunde?.Langname
+                        </p>
+                        <p>
+                            @if (OutgoingInvoice.Rechnungsempfaenger.ZugehoerigeAdresse != null)
+                            {
+                                <span>@OutgoingInvoice.Rechnungsempfaenger.ZugehoerigeAdresse?.Strasse @OutgoingInvoice.Rechnungsempfaenger.ZugehoerigeAdresse?.Hausnummer</span>
+                                <br />
+                                <span>@OutgoingInvoice.Rechnungsempfaenger.ZugehoerigeAdresse?.ZugehoerigePostleitzahl?.PLZ @OutgoingInvoice.Rechnungsempfaenger.ZugehoerigeAdresse?.ZugehoerigePostleitzahl?.Ortsname</span>
+                                <br />
+                                <span>@OutgoingInvoice.Rechnungsempfaenger.ZugehoerigeAdresse?.ZugehoerigePostleitzahl?.Bundesland @OutgoingInvoice.Rechnungsempfaenger.ZugehoerigeAdresse?.ZugehoerigePostleitzahl?.Land</span>     
+                            }
+                        </p>
+
+                        <div class="row mb-4">
+                            <div class="col">
+                                <p class="card-text">
+                                    <b>Rechnungsdatum:</b><br />
+                                    @OutgoingInvoice.RechnungsDatum.ToShortDateString()
+                                </p>
+                            </div>
+                            <div class="col">
+                                <p class="card-text">
+                                    <b>Bezahlt am:</b><br />
+                                    @if (OutgoingInvoice.BezahltDatum == null)
+                                    {
+                                        <Badge Color="BadgeColor.Danger">offen</Badge>
+                                    }
+                                    else
+                                    {
+                                        <Badge Color="BadgeColor.Success">@OutgoingInvoice.BezahltDatum.GetValueOrDefault().ToShortDateString()</Badge>
+                                    }
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Position</th>
+                                        <th>Positionsbezeichnung</th>
+                                        <th>Stückpreis (Netto)</th>
+                                        <th>Stückzahl</th>
+                                        <th>Steuersatz</th>
+                                        <th>Positionspreis (Netto)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (Rechnungsposition rechnungsposition in OutgoingInvoice.Rechnungspositionen)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @rechnungsposition.PositionsNummer
+                                            </td>
+                                            <td>
+                                                @rechnungsposition.Positionsbeschreibung <br />
+                                                <small>
+                                                    <b>Leistungszeitraum:</b>
+                                                    @rechnungsposition.LeistungszeitraumVon.GetValueOrDefault().ToShortDateString() 
+                                                    -
+                                                    @rechnungsposition.LeistungszeitraumBis.ToShortDateString()
+                                                </small><br />
+                                                <small>
+                                                    <b>Kostenstelle:</b>
+                                                    @rechnungsposition.ZugehoerigeKostenstelle.Kostenstellenbezeichnung
+                                                    (@rechnungsposition.ZugehoerigeKostenstelle.KostenstellenNummer)
+                                                </small>
+                                            </td>
+                                            <td>
+                                                @rechnungsposition.StueckpreisNetto.ToString("N2") @OutgoingInvoice.ZugehoerigeWaehrung.WaehrungZeichen
+                                            </td>
+                                            <td>
+                                                @rechnungsposition.Stueckzahl 
+                                                @rechnungsposition.ZugehoerigeAbrechnungseinheit.Abkuerzung
+                                            </td>
+                                            <td>
+                                                @(rechnungsposition.Steuersatz*100) %
+                                            </td>
+                                            <td style="text-align: right;">
+                                                @rechnungsposition.Nettobetrag.ToString("N2") @OutgoingInvoice.ZugehoerigeWaehrung.WaehrungZeichen
+                                            </td>
+                                        </tr>
+
+                                        zwischensumme += rechnungsposition.Nettobetrag;
+                                        rabattsumme += rechnungsposition.Nettobetrag * OutgoingInvoice.RabattPct.GetValueOrDefault();
+                                        mwstsumme += (rechnungsposition.Nettobetrag - (rechnungsposition.Nettobetrag * OutgoingInvoice.RabattPct.GetValueOrDefault())) * rechnungsposition.Steuersatz;
+                                    }
+                                    @if (@OutgoingInvoice.RabattPct != null)
+                                    {
+                                        <tr>
+                                            <td style="text-align: right;" colspan="5"><b>Zwischensumme (Netto):</b></td>
+                                            <td style="text-align: right;"><b>@zwischensumme.ToString("N2") @OutgoingInvoice.ZugehoerigeWaehrung.WaehrungZeichen</b></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align: right;" colspan="5">Rabatt (@(OutgoingInvoice.RabattPct*100) %):</td>
+                                            <td style="text-align: right;">@rabattsumme.ToString("N2") @OutgoingInvoice.ZugehoerigeWaehrung.WaehrungZeichen</td>
+                                        </tr>
+                                    }
+                                    <tr>
+                                        @{
+                                            nettosumme = zwischensumme - rabattsumme;
+                                        }
+                                        <td style="text-align: right;" colspan="5"><b>Gesamtpreis (Netto):</b></td>
+                                        <td style="text-align: right;"><b>@nettosumme.ToString("N2") @OutgoingInvoice.ZugehoerigeWaehrung.WaehrungZeichen</b></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: right;" colspan="5">Mehrwertsteuerbetrag:</td>
+                                        <td style="text-align: right;">@mwstsumme.ToString("N2") @OutgoingInvoice.ZugehoerigeWaehrung.WaehrungZeichen</td>
+                                    </tr>
+                                    <tr>
+                                        @{
+                                            bruttosumme = nettosumme + mwstsumme;
+                                        }
+                                        <td style="text-align: right;" colspan="5"><b>Gesamtpreis (Brutto):</b></td>
+                                        <td style="text-align: right;"><b>@bruttosumme.ToString("N2") @OutgoingInvoice.ZugehoerigeWaehrung.WaehrungZeichen</b></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <h2>Vorschau</h2>
+                        @if (OutgoingInvoice.ZugehoerigesDokument == null)
+                        {
+                            <Badge Color="BadgeColor.Danger">Kein Dokument vorhanden</Badge>
+                        }
+                        else
+                        {
+                            <PdfViewer Url="@OutgoingInvoice.ZugehoerigesDokument?.DokumentUrl" />
+                        }
+                    </div>
+                </div>
+            </CardBody>
+        </Card>
+    }
+    else
+    {
+        <Alert Color="AlertColor.Danger" Class="shadow-sm"><Icon Name="IconName.ExclamationTriangleFill" /> Kein Ausgangsrechnung vorhanden</Alert>
+    }
+}
+
+
+@code {
+    [Parameter]
+    public int OutgoingInvoiceId { get; set; }
+
+    private Ausgangsrechnung OutgoingInvoice;
+    private bool IsLoading = true;
+
+    private decimal zwischensumme = 0;
+    private decimal rabattsumme = 0;
+    private decimal nettosumme = 0;
+    private decimal mwstsumme = 0;
+    private decimal bruttosumme = 0;
+
+    // Initialize method
+    protected override async Task OnInitializedAsync()
+    {
+        ApiService.InitializeEndpoint("http://localhost:32771/", ResourceEndpoint.outgoing_invoices);
+        OutgoingInvoice = await ApiService.GetByIdAsync<Ausgangsrechnung>(OutgoingInvoiceId);
+        IsLoading = false;
+    }
+
+    private async Task GeneratePdfAsync()
+    {
+
+        StateHasChanged();
+    }
+}

@@ -341,3 +341,4 @@ healthchecksdb
 
 # Appsettings for dev environment
 appsettings.Development.json
+docker-compose.yml

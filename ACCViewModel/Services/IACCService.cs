@@ -2,6 +2,7 @@
 using ACCDataModel.DTO;
 using ACCDataModel.Kostenrechnung;
 using ACCDataModel.Stammdaten;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -26,9 +27,16 @@ namespace ACC.ViewModel.Services
 
         #region Kostenstelle
 
-        public Task<IEnumerable<Kostenstelle>> GetKostenstellenAsync(CancellationToken cancellationToken = default);
+        public Task<IEnumerable<Kostenstelle>> GetKostenstellenAsync(CancellationToken cancellationToken = default, int? currentPage = null, int? pageSize = null);
+
+        public Task<int> GetKostenstellenCountAsync(CancellationToken cancellationToken = default);
+
+        public Task<IEnumerable<Kostenstelle>> GetKostenstelleAsync(int KostenstelleID, CancellationToken cancellationToken = default);
+
         public Task<Kostenstelle> CreateKostenstelleAsync(CancellationToken cancellationToken = default);
+        
         public Task<Kostenstelle> CreateKostenstelleAsync(string kostenstellenBezeichnung, int kostenstellenNummer, Kostenstellenart kostenstellenArt, CancellationToken cancellationToken = default);
+        
         public void RemoveKostenstelle(Kostenstelle kostenstelleToRemove);
 
         #endregion 
@@ -65,12 +73,16 @@ namespace ACC.ViewModel.Services
         public Task<IEnumerable<Skill>> GetSkillsAsync(CancellationToken cancellationToken = default);
         public Task<IEnumerable<Skill>> GetSkillTreeAsync(CancellationToken cancellationToken = default);
         public void RemoveSkill(Skill selectedSkill);
-         
+
         #endregion
 
         #region Auftrag
 
-        public Task<IEnumerable<Auftrag>> GetAuftraegeAsync(CancellationToken cancellationToken = default);
+        public Task<IEnumerable<Auftrag>> GetAuftraegeAsync(CancellationToken cancellationToken = default, int? currentPage = null, int? pageSize = null);
+
+        public Task<int> GetAuftraegeCountAsync(CancellationToken cancellationToken = default);
+
+        public Task<IEnumerable<Auftrag>> GetAuftragAsync(int AuftragID, CancellationToken cancellationToken = default);
 
         public Task<Auftrag> CreateAuftragAsync(CancellationToken cancellationToken = default);
 
@@ -78,11 +90,17 @@ namespace ACC.ViewModel.Services
         
         public Task<Auftragsposition> CreateAuftragspositionAsync(CancellationToken cancellationToken = default);
 
+        public void RemoveAuftrag(Auftrag auftragToRemove);
+
         #endregion
 
         #region Ausgangsrechnungen
 
-        public Task<IEnumerable<Ausgangsrechnung>> GetAusgangsrechnungenAsync(CancellationToken cancellationToken = default);
+        public Task<IEnumerable<Ausgangsrechnung>> GetAusgangsrechnungenAsync(CancellationToken cancellationToken = default, int? currentPage = null, int? pageSize = null);
+
+        public Task<int> GetAusgangsrechnungenCountAsync(CancellationToken cancellationToken = default);
+
+        public Task<IEnumerable<Ausgangsrechnung>> GetAusgangsrechnungAsync(int AusgangsrechnungID, CancellationToken cancellationToken = default);
 
         public Task<IEnumerable<RemainingBudgetOnOrdersDTO>> GetRemainingBudgetOnOrdersAsync(int AuftragspositionID, CancellationToken cancellationToken = default);
 
@@ -98,7 +116,11 @@ namespace ACC.ViewModel.Services
 
         #region Eingangsrechnungen
 
-        public Task<IEnumerable<Eingangsrechnung>> GetEingangsrechnungenAsync(CancellationToken cancellationToken = default);
+        public Task<IEnumerable<Eingangsrechnung>> GetEingangsrechnungenAsync(CancellationToken cancellationToken = default, int? currentPage = null, int? pageSize = null);
+
+        public Task<int> GetEingangsrechnungenCountAsync(CancellationToken cancellationToken = default);
+
+        public Task<IEnumerable<Eingangsrechnung>> GetEingangsrechnungAsync(int EingangsrechnungID, CancellationToken cancellationToken = default);
 
         public Task<Eingangsrechnung> CreateEingangsrechnungAsync(CancellationToken cancellationToken = default);
 
@@ -112,12 +134,16 @@ namespace ACC.ViewModel.Services
 
         #region Masterdata
 
-        public Task<IEnumerable<Waehrung>> GetWaehrungenAsync(CancellationToken cancellationToken = default);
+        public Task<IEnumerable<Waehrung>> GetWaehrungenAsync(CancellationToken cancellationToken = default, int? currentPage = null, int? pageSize = null);
+        public Task<int> GetWaehrungenCountAsync(CancellationToken cancellationToken = default);
+        public Task<IEnumerable<Waehrung>> GetWaehrungAsync(int WaehrungID, CancellationToken cancellationToken = default);
         public Task<Waehrung> CreateWaehrungAsync(CancellationToken cancellationToken = default);
         public Task<Waehrung> CreateWaehrungAsync(String waehrungName, string waehrungZeichen, string waehrungISO, Dictionary<string, string> waehrungAdditions = null, CancellationToken cancellationToken = default);
         void RemoveWaehrung(Waehrung selectedWaehrung);
 
-        public Task<IEnumerable<Abrechnungseinheit>> GetAbrechnungseinheitenAsync(CancellationToken cancellationToken = default);
+        public Task<IEnumerable<Abrechnungseinheit>> GetAbrechnungseinheitenAsync(CancellationToken cancellationToken = default, int? currentPage = null, int? pageSize = null);
+        public Task<int> GetAbrechnungseinheitenCountAsync(CancellationToken cancellationToken = default);
+        public Task<IEnumerable<Abrechnungseinheit>> GetAbrechnungseinheitAsync(int WaehrungID, CancellationToken cancellationToken = default); 
         public Task<Abrechnungseinheit> CreateAbrechnungseinheitAsync(CancellationToken cancellationToken = default);
         public Task<Abrechnungseinheit> CreateAbrechnungseinheitAsync(string name, string abkuerzung, Dictionary<string, string> additions = null, CancellationToken cancellationToken = default);
         void RemoveAbrechnungseinheit(Abrechnungseinheit selectedAbrechnungseinheit);
@@ -161,7 +187,10 @@ namespace ACC.ViewModel.Services
         public bool CheckForChanges();
 
         public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
-        
+
+        public Task<T> AddDataToDbSetFromApiAsync<T>(DbSet<T> dbSet, T newItem, CancellationToken cancellationToken = default) where T : class, new();
+
+        public Task<T> UpdateDataToDbSetFromApiAsync<T>(DbSet<T> dbSet, int setId, T newItem, CancellationToken cancellationToken = default) where T : class, new();
         #endregion
 
 
