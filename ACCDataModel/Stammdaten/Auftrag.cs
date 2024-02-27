@@ -30,6 +30,8 @@ namespace ACCDataModel.Stammdaten
 
         public Waehrung ZugehoerigeWaehrung { get; set; }
 
+        public List<Leistungsnachweis> Leistungsnachweise {  get; set; }
+
         public override string ToString()
         {
             return $"{ZugehoerigesGeschaeftsjahr?.Name}|{Auftragsname}";
@@ -38,6 +40,7 @@ namespace ACCDataModel.Stammdaten
         public Auftrag()
         {
             Auftragspositionen = new List<Auftragsposition>();
+            Leistungsnachweise = new List<Leistungsnachweis>();
         }
     }
 }

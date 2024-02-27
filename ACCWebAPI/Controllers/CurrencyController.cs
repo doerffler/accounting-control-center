@@ -21,7 +21,7 @@ namespace ACCWebAPI.Controllers
         }
 
         [HttpGet("")]
-        public async Task<IActionResult> Index(int? currentPage, int? pageSize)
+        public async Task<IActionResult> GetCurrencies(int? currentPage, int? pageSize)
         {
             try
             {
@@ -44,7 +44,7 @@ namespace ACCWebAPI.Controllers
         }
 
         [HttpPost("")]
-        public async Task<IActionResult> Store(Waehrung waehrung)
+        public async Task<IActionResult> PostCurrency(Waehrung waehrung)
         {
             try
             {
@@ -63,7 +63,7 @@ namespace ACCWebAPI.Controllers
         }
 
         [HttpGet("{CurrencyID}")]
-        public async Task<IActionResult> Show(int CurrencyID)
+        public async Task<IActionResult> GetCurrency(int CurrencyID)
         {
             try
             {
@@ -77,7 +77,7 @@ namespace ACCWebAPI.Controllers
         }
 
         [HttpPut("{CurrencyID}")]
-        public async Task<IActionResult> Update(int CurrencyID, Waehrung waehrung)
+        public async Task<IActionResult> PutCurrency(int CurrencyID, Waehrung waehrung)
         {
             try
             {
@@ -94,7 +94,7 @@ namespace ACCWebAPI.Controllers
         }
 
         [HttpDelete("{CurrencyID}")]
-        public async Task<IActionResult> Destroy(int CurrencyID)
+        public async Task<IActionResult> DeleteCurrency(int CurrencyID)
         {
             try
             {

@@ -21,7 +21,7 @@ namespace ACCWebAPI.Controllers
         }
 
         [HttpGet("")]
-        public async Task<IActionResult> Index(int? currentPage, int? pageSize)
+        public async Task<IActionResult> GetOrders(int? currentPage, int? pageSize)
         {
             try
             {
@@ -43,7 +43,7 @@ namespace ACCWebAPI.Controllers
         }
 
         [HttpPost("")]
-        public async Task<IActionResult> Store(Auftrag auftrag)
+        public async Task<IActionResult> PostOrder(Auftrag auftrag)
         {
             try
             {
@@ -62,7 +62,7 @@ namespace ACCWebAPI.Controllers
         }
 
         [HttpGet("{OrderID}")]
-        public async Task<IActionResult> Show(int OrderID)
+        public async Task<IActionResult> GetOrder(int OrderID)
         {
             try
             {
@@ -76,7 +76,7 @@ namespace ACCWebAPI.Controllers
         }
 
         [HttpPut("{OrderID}")]
-        public async Task<IActionResult> Update(int OrderID, Auftrag auftrag)
+        public async Task<IActionResult> PutOrder(int OrderID, Auftrag auftrag)
         {
             try
             {
@@ -93,7 +93,7 @@ namespace ACCWebAPI.Controllers
         }
 
         [HttpDelete("{OrderID}")]
-        public async Task<IActionResult> Destroy(int OrderID)
+        public async Task<IActionResult> DeleteOrder(int OrderID)
         {
             try
             {

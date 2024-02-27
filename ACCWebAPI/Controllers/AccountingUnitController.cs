@@ -21,7 +21,7 @@ namespace ACCWebAPI.Controllers
         }
 
         [HttpGet("")]
-        public async Task<IActionResult> Index(int? currentPage, int? pageSize)
+        public async Task<IActionResult> GetAccountingUnits(int? currentPage, int? pageSize)
         {
             try
             {
@@ -44,7 +44,7 @@ namespace ACCWebAPI.Controllers
         }
 
         [HttpPost("")]
-        public async Task<IActionResult> Store(Abrechnungseinheit abrechnungseinheit)
+        public async Task<IActionResult> PostAccountingUnit(Abrechnungseinheit abrechnungseinheit)
         {
             try
             {
@@ -63,7 +63,7 @@ namespace ACCWebAPI.Controllers
         }
 
         [HttpGet("{AccountingUnitID}")]
-        public async Task<IActionResult> Show(int AccountingUnitID)
+        public async Task<IActionResult> GetAccountingUnit(int AccountingUnitID)
         {
             try
             {
@@ -77,7 +77,7 @@ namespace ACCWebAPI.Controllers
         }
 
         [HttpPut("{AccountingUnitID}")]
-        public async Task<IActionResult> Update(int AccountingUnitID, Abrechnungseinheit abrechnungseinheit)
+        public async Task<IActionResult> PutAccountingUnit(int AccountingUnitID, Abrechnungseinheit abrechnungseinheit)
         {
             try
             {
@@ -94,7 +94,7 @@ namespace ACCWebAPI.Controllers
         }
 
         [HttpDelete("{AccountingUnitID}")]
-        public async Task<IActionResult> Destroy(int AccountingUnitID)
+        public async Task<IActionResult> DeleteAccountingUnit(int AccountingUnitID)
         {
             try
             {

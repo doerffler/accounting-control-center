@@ -21,7 +21,7 @@ namespace ACCWebAPI.Controllers
         }
 
         [HttpGet("")]
-        public async Task<IActionResult> Index(int? currentPage, int? pageSize)
+        public async Task<IActionResult> GetIncomingInvoices(int? currentPage, int? pageSize)
         {
             try
             {
@@ -44,7 +44,7 @@ namespace ACCWebAPI.Controllers
         }
 
         [HttpPost("")]
-        public async Task<IActionResult> Store(Eingangsrechnung eingangsrechnung)
+        public async Task<IActionResult> PostIncomingInvoice(Eingangsrechnung eingangsrechnung)
         {
             try
             {
@@ -63,7 +63,7 @@ namespace ACCWebAPI.Controllers
         }
 
         [HttpGet("{IncomingInvoiceID}")]
-        public async Task<IActionResult> Show(int IncomingInvoiceID)
+        public async Task<IActionResult> GetIncomingInvoice(int IncomingInvoiceID)
         {
             try
             {
@@ -77,7 +77,7 @@ namespace ACCWebAPI.Controllers
         }
 
         [HttpPut("{IncomingInvoiceID}")]
-        public async Task<IActionResult> Update(int IncomingInvoiceID, Eingangsrechnung eingangsrechnung)
+        public async Task<IActionResult> PutIncomingInvoice(int IncomingInvoiceID, Eingangsrechnung eingangsrechnung)
         {
             try
             {
@@ -94,7 +94,7 @@ namespace ACCWebAPI.Controllers
         }
 
         [HttpDelete("{IncomingInvoiceID}")]
-        public async Task<IActionResult> Destroy(int IncomingInvoiceID)
+        public async Task<IActionResult> DeleteIncomingInvoice(int IncomingInvoiceID)
         {
             try
             {

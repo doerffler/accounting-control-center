@@ -21,7 +21,7 @@ namespace ACCWebAPI.Controllers
         }
 
         [HttpGet("")]
-        public async Task<IActionResult> Index(int? currentPage, int? pageSize)
+        public async Task<IActionResult> GetCostCentres(int? currentPage, int? pageSize)
         {
             try
             {
@@ -44,7 +44,7 @@ namespace ACCWebAPI.Controllers
         }
 
         [HttpPost("")]
-        public async Task<IActionResult> Store(Kostenstelle kostenstelle)
+        public async Task<IActionResult> PostCostCentre(Kostenstelle kostenstelle)
         {
             try
             {
@@ -63,7 +63,7 @@ namespace ACCWebAPI.Controllers
         }
 
         [HttpGet("{CostCentreID}")]
-        public async Task<IActionResult> Show(int CostCentreID)
+        public async Task<IActionResult> GetCostCentre(int CostCentreID)
         {
             try
             {
@@ -77,7 +77,7 @@ namespace ACCWebAPI.Controllers
         }
 
         [HttpPut("{CostCentreID}")]
-        public async Task<IActionResult> Update(int CostCentreID, Kostenstelle kostenstelle)
+        public async Task<IActionResult> PutCostCentre(int CostCentreID, Kostenstelle kostenstelle)
         {
             try
             {
@@ -94,7 +94,7 @@ namespace ACCWebAPI.Controllers
         }
 
         [HttpDelete("{CostCentreID}")]
-        public async Task<IActionResult> Destroy(int CostCentreID)
+        public async Task<IActionResult> DeleteCostCentre(int CostCentreID)
         {
             try
             {

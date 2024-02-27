@@ -81,7 +81,7 @@
                             <td>@incoming_invoice.RechnungsDatum.ToShortDateString()</td>
                             <td>@incoming_invoice.BezahltDatum.GetValueOrDefault().ToShortDateString()</td>
                             <td>@incoming_invoice.ZugehoerigerKreditor.Anschrift</td>
-                            <td>@incoming_invoice.Rechnungspositionen.Sum(rp => rp.Nettobetrag) @incoming_invoice.ZugehoerigeWaehrung.WaehrungZeichen</td>
+                            <td>@incoming_invoice.Rechnungspositionen.Sum(rp => rp.Nettobetrag).ToString("N2") @incoming_invoice.ZugehoerigeWaehrung.WaehrungZeichen</td>
                             <td>
                                 <div class="btn-group" role="group" aria-label="Actions">
                                     <Button Type="ButtonType.Link" @onclick="() => Edit(incoming_invoice.EingangsrechnungID)" Color="ButtonColor.Primary"><Icon Name="IconName.PencilSquare" /></Button>

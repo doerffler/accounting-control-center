@@ -17,6 +17,8 @@ namespace ACCDataModel.Stammdaten
 
         public Kostenstellenart ZugehoerigeKostenstellenart { get; set; }
 
+        public List<Leistungsnachweis> Leistungsnachweise { get; set; }
+
         public List<Kostenstelle> UebergeordneteKostenstellen { get; set; }
 
         public List<Kostenstelle> UntergeordneteKostenstellen { get; set; }
@@ -25,6 +27,7 @@ namespace ACCDataModel.Stammdaten
         {
             UebergeordneteKostenstellen = new List<Kostenstelle> ();
             UntergeordneteKostenstellen = new List<Kostenstelle> ();
+            Leistungsnachweise = new List<Leistungsnachweis> ();
         }
 
     }

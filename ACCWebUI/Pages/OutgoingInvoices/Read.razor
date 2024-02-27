@@ -103,7 +103,7 @@ else
                                                 </small>
                                             </td>
                                             <td>
-                                                @rechnungsposition.StueckpreisNetto.ToString("N2", CultureInfo.GetCultureInfo("de-DE")) @OutgoingInvoice.ZugehoerigeWaehrung.WaehrungZeichen
+                                                @rechnungsposition.StueckpreisNetto.ToString("N2") @OutgoingInvoice.ZugehoerigeWaehrung.WaehrungZeichen
                                             </td>
                                             <td>
                                                 @rechnungsposition.Stueckzahl 
@@ -113,7 +113,7 @@ else
                                                 @(rechnungsposition.Steuersatz*100) %
                                             </td>
                                             <td style="text-align: right;">
-                                                @rechnungsposition.Nettobetrag.ToString("N2", CultureInfo.GetCultureInfo("de-DE")) @OutgoingInvoice.ZugehoerigeWaehrung.WaehrungZeichen
+                                                @rechnungsposition.Nettobetrag.ToString("N2") @OutgoingInvoice.ZugehoerigeWaehrung.WaehrungZeichen
                                             </td>
                                         </tr>
 
@@ -125,11 +125,11 @@ else
                                     {
                                         <tr>
                                             <td style="text-align: right;" colspan="5"><b>Zwischensumme (Netto):</b></td>
-                                            <td style="text-align: right;"><b>@zwischensumme.ToString("N2", CultureInfo.GetCultureInfo("de-DE")) @OutgoingInvoice.ZugehoerigeWaehrung.WaehrungZeichen</b></td>
+                                            <td style="text-align: right;"><b>@zwischensumme.ToString("N2") @OutgoingInvoice.ZugehoerigeWaehrung.WaehrungZeichen</b></td>
                                         </tr>
                                         <tr>
                                             <td style="text-align: right;" colspan="5">Rabatt (@(OutgoingInvoice.RabattPct*100) %):</td>
-                                            <td style="text-align: right;">@rabattsumme.ToString("N2", CultureInfo.GetCultureInfo("de-DE")) @OutgoingInvoice.ZugehoerigeWaehrung.WaehrungZeichen</td>
+                                            <td style="text-align: right;">@rabattsumme.ToString("N2") @OutgoingInvoice.ZugehoerigeWaehrung.WaehrungZeichen</td>
                                         </tr>
                                     }
                                     <tr>
@@ -137,18 +137,18 @@ else
                                             nettosumme = zwischensumme - rabattsumme;
                                         }
                                         <td style="text-align: right;" colspan="5"><b>Gesamtpreis (Netto):</b></td>
-                                        <td style="text-align: right;"><b>@nettosumme.ToString("N2", CultureInfo.GetCultureInfo("de-DE")) @OutgoingInvoice.ZugehoerigeWaehrung.WaehrungZeichen</b></td>
+                                        <td style="text-align: right;"><b>@nettosumme.ToString("N2") @OutgoingInvoice.ZugehoerigeWaehrung.WaehrungZeichen</b></td>
                                     </tr>
                                     <tr>
                                         <td style="text-align: right;" colspan="5">Mehrwertsteuerbetrag:</td>
-                                        <td style="text-align: right;">@mwstsumme.ToString("N2", CultureInfo.GetCultureInfo("de-DE")) @OutgoingInvoice.ZugehoerigeWaehrung.WaehrungZeichen</td>
+                                        <td style="text-align: right;">@mwstsumme.ToString("N2") @OutgoingInvoice.ZugehoerigeWaehrung.WaehrungZeichen</td>
                                     </tr>
                                     <tr>
                                         @{
                                             bruttosumme = nettosumme + mwstsumme;
                                         }
                                         <td style="text-align: right;" colspan="5"><b>Gesamtpreis (Brutto):</b></td>
-                                        <td style="text-align: right;"><b>@bruttosumme.ToString("N2", CultureInfo.GetCultureInfo("de-DE")) @OutgoingInvoice.ZugehoerigeWaehrung.WaehrungZeichen</b></td>
+                                        <td style="text-align: right;"><b>@bruttosumme.ToString("N2") @OutgoingInvoice.ZugehoerigeWaehrung.WaehrungZeichen</b></td>
                                     </tr>
                                 </tbody>
                             </table>
