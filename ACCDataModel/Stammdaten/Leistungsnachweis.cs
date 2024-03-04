@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ACCDataModel.Dokumentenmanagement;
+using System;
 using System.Collections.Generic;
 
 namespace ACCDataModel.Stammdaten
@@ -14,6 +15,8 @@ namespace ACCDataModel.Stammdaten
         public Kostenstelle Kostenstelle { get; set; }
 
         public Auftrag ZugehoerigerAuftrag { get; set; }
+
+        public LeistungsnachweisDokument ZugehoerigesLeistungsnachweisDokument { get; set; }
 
         public List<Leistungsnachweisposition> Leistungsnachweispositionen { get; set; }
     }

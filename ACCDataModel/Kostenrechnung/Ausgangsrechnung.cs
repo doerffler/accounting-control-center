@@ -1,7 +1,5 @@
 ﻿using ACCDataModel.Stammdaten;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace ACCDataModel.Kostenrechnung
 {
@@ -12,7 +10,11 @@ namespace ACCDataModel.Kostenrechnung
 
         public Debitor Rechnungsempfaenger { get; set; }
 
-        public ICollection<Ausgangsrechnungsposition> Rechnungspositionen { get; set; } = new List<Ausgangsrechnungsposition>();
+        public string Rechnungstext {  get; set; }
+
+        public ICollection<AusgangsrechnungHistorie> AusgangsrechnungHistorie { get; set; }
+
+        public ICollection<Ausgangsrechnungsposition> Rechnungspositionen { get; set; }
 
         public Ausgangsrechnung KorrekturRechnung { get; set; }
         

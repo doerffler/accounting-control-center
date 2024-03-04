@@ -30,82 +30,84 @@ namespace ACC.ViewModel.Services
 
             await CreateAusgangsrechnungenAsync(accService, cancellationToken);
 
+            await CreateLeistungsnachweiseAsync(accService, cancellationToken);
+
         }
 
 
-        public static async Task CreateMasterdataAsync(IACCService doePaAdminService, CancellationToken cancellationToken = default)
+        public static async Task CreateMasterdataAsync(IACCService accService, CancellationToken cancellationToken = default)
         {
 
-            _ = await doePaAdminService.CreateTaetigkeitAsync("Game Designer", cancellationToken);
-            _ = await doePaAdminService.CreateTaetigkeitAsync("Technical Director", cancellationToken);
-            _ = await doePaAdminService.CreateTaetigkeitAsync("Artist", cancellationToken);
+            _ = await accService.CreateTaetigkeitAsync("Game Designer", cancellationToken);
+            _ = await accService.CreateTaetigkeitAsync("Technical Director", cancellationToken);
+            _ = await accService.CreateTaetigkeitAsync("Artist", cancellationToken);
 
-            _ = await doePaAdminService.CreateKostenstellenartAsync("Angestellte Mitarbeiter/innen", cancellationToken);
-            _ = await doePaAdminService.CreateKostenstellenartAsync("Geschäftsräume", cancellationToken);
-            _ = await doePaAdminService.CreateKostenstellenartAsync("Freie Mitarbeiter/innen", cancellationToken);
-            _ = await doePaAdminService.CreateKostenstellenartAsync("Sonstige Kostenstellen", cancellationToken);
+            _ = await accService.CreateKostenstellenartAsync("Angestellte Mitarbeiter/innen", cancellationToken);
+            _ = await accService.CreateKostenstellenartAsync("Geschäftsräume", cancellationToken);
+            _ = await accService.CreateKostenstellenartAsync("Freie Mitarbeiter/innen", cancellationToken);
+            _ = await accService.CreateKostenstellenartAsync("Sonstige Kostenstellen", cancellationToken);
 
-            _ = await doePaAdminService.CreateAbrechnungseinheitAsync("Stunden", "h", new(1) { { "DPAppKey", "Stunden" } }, cancellationToken);
-            _ = await doePaAdminService.CreateAbrechnungseinheitAsync("Personentage", "PT", new(1) { { "DPAppKey", "Tage" } }, cancellationToken);
-            _ = await doePaAdminService.CreateAbrechnungseinheitAsync("Stück", "Stk", new(1) { { "DPAppKey", "Preis" } }, cancellationToken);
+            _ = await accService.CreateAbrechnungseinheitAsync("Stunden", "h", new(1) { { "DPAppKey", "Stunden" } }, cancellationToken);
+            _ = await accService.CreateAbrechnungseinheitAsync("Personentage", "PT", new(1) { { "DPAppKey", "Tage" } }, cancellationToken);
+            _ = await accService.CreateAbrechnungseinheitAsync("Stück", "Stk", new(1) { { "DPAppKey", "Preis" } }, cancellationToken);
 
-            _ = await doePaAdminService.CreateWaehrungAsync("Euro", "€", "EUR", new(1) { { "DPAppKey", "€" } }, cancellationToken);
-            _ = await doePaAdminService.CreateWaehrungAsync("US Dollar", "$", "USD", null, cancellationToken);
-            _ = await doePaAdminService.CreateWaehrungAsync("Schweizer Franken", "Fr", "CHF", new(1) { { "DPAppKey", "CHF" } }, cancellationToken);
-            _ = await doePaAdminService.CreateWaehrungAsync("Britisches Pfund", "£", "GBP", null, cancellationToken);
+            _ = await accService.CreateWaehrungAsync("Euro", "€", "EUR", new(1) { { "DPAppKey", "€" } }, cancellationToken);
+            _ = await accService.CreateWaehrungAsync("US Dollar", "$", "USD", null, cancellationToken);
+            _ = await accService.CreateWaehrungAsync("Schweizer Franken", "Fr", "CHF", new(1) { { "DPAppKey", "CHF" } }, cancellationToken);
+            _ = await accService.CreateWaehrungAsync("Britisches Pfund", "£", "GBP", null, cancellationToken);
 
-            _ = await doePaAdminService.CreateGeschaeftsjahrAsync(new(1991, 12, 31), new(1991, 1, 1), "1991", "1991", cancellationToken);
-            _ = await doePaAdminService.CreateGeschaeftsjahrAsync(new(1992, 12, 31), new(1992, 1, 1), "1992", "1992", cancellationToken);
-            _ = await doePaAdminService.CreateGeschaeftsjahrAsync(new(1993, 6, 30), new(1993, 1, 1), "1993", "1993", cancellationToken);
-            _ = await doePaAdminService.CreateGeschaeftsjahrAsync(new(1994, 6, 30), new(1993, 7, 1), "1993/1994", "1993", cancellationToken);
-            _ = await doePaAdminService.CreateGeschaeftsjahrAsync(new(1995, 6, 30), new(1994, 7, 1), "1994/1995", "1994", cancellationToken);
-            _ = await doePaAdminService.CreateGeschaeftsjahrAsync(new(2020, 12, 31), new(2020, 1, 1), "2020", "2020", cancellationToken);
-            _ = await doePaAdminService.CreateGeschaeftsjahrAsync(new(2021, 6, 30), new(2021, 1, 1), "2021", "2021", cancellationToken);
-            _ = await doePaAdminService.CreateGeschaeftsjahrAsync(new(2022, 6, 30), new(2021, 7, 1), "2021/2022", "2021", cancellationToken);
-            _ = await doePaAdminService.CreateGeschaeftsjahrAsync(new(2023, 6, 30), new(2022, 7, 1), "2022/2023", "2022", cancellationToken);
+            _ = await accService.CreateGeschaeftsjahrAsync(new(1991, 12, 31), new(1991, 1, 1), "1991", "1991", cancellationToken);
+            _ = await accService.CreateGeschaeftsjahrAsync(new(1992, 12, 31), new(1992, 1, 1), "1992", "1992", cancellationToken);
+            _ = await accService.CreateGeschaeftsjahrAsync(new(1993, 6, 30), new(1993, 1, 1), "1993", "1993", cancellationToken);
+            _ = await accService.CreateGeschaeftsjahrAsync(new(1994, 6, 30), new(1993, 7, 1), "1993/1994", "1993", cancellationToken);
+            _ = await accService.CreateGeschaeftsjahrAsync(new(1995, 6, 30), new(1994, 7, 1), "1994/1995", "1994", cancellationToken);
+            _ = await accService.CreateGeschaeftsjahrAsync(new(2020, 12, 31), new(2020, 1, 1), "2020", "2020", cancellationToken);
+            _ = await accService.CreateGeschaeftsjahrAsync(new(2021, 6, 30), new(2021, 1, 1), "2021", "2021", cancellationToken);
+            _ = await accService.CreateGeschaeftsjahrAsync(new(2022, 6, 30), new(2021, 7, 1), "2021/2022", "2021", cancellationToken);
+            _ = await accService.CreateGeschaeftsjahrAsync(new(2023, 6, 30), new(2022, 7, 1), "2022/2023", "2022", cancellationToken);
 
-            _ = await doePaAdminService.CreatePostleitzahlAsync("Niedersachsen", "Deutschland", "Hannover", "30173", cancellationToken);
-            _ = await doePaAdminService.CreatePostleitzahlAsync("Baden-Württemberg", "Deutschland", "Mühlhausen (Kraichgau)", "69242", cancellationToken);
-            _ = await doePaAdminService.CreatePostleitzahlAsync("Bayern", "Deutschland", "München", "80807", cancellationToken);
+            _ = await accService.CreatePostleitzahlAsync("Niedersachsen", "Deutschland", "Hannover", "30173", cancellationToken);
+            _ = await accService.CreatePostleitzahlAsync("Baden-Württemberg", "Deutschland", "Mühlhausen (Kraichgau)", "69242", cancellationToken);
+            _ = await accService.CreatePostleitzahlAsync("Bayern", "Deutschland", "München", "80807", cancellationToken);
 
-            Skill techSkill = await doePaAdminService.CreateSkillAsync("Technische Skills", cancellationToken);
-            Skill progSkill = await doePaAdminService.CreateSkillAsync("Programmiersprachen", cancellationToken);
-            Skill netSkill = await doePaAdminService.CreateSkillAsync(".NET", cancellationToken);
-            Skill csSkill = await doePaAdminService.CreateSkillAsync("C#", cancellationToken);
-            Skill graphicSkill = await doePaAdminService.CreateSkillAsync("Grafische Gestaltung", cancellationToken);
+            Skill techSkill = await accService.CreateSkillAsync("Technische Skills", cancellationToken);
+            Skill progSkill = await accService.CreateSkillAsync("Programmiersprachen", cancellationToken);
+            Skill netSkill = await accService.CreateSkillAsync(".NET", cancellationToken);
+            Skill csSkill = await accService.CreateSkillAsync("C#", cancellationToken);
+            Skill graphicSkill = await accService.CreateSkillAsync("Grafische Gestaltung", cancellationToken);
 
             techSkill.ChildSkills.Add(progSkill);
             techSkill.ChildSkills.Add(graphicSkill);
             progSkill.ChildSkills.Add(netSkill);
             netSkill.ChildSkills.Add(csSkill);
 
-            await doePaAdminService.SaveChangesAsync(cancellationToken);
+            await accService.SaveChangesAsync(cancellationToken);
         }
 
-        private static async Task CreateKostenstellenAsync(IACCService doePaAdminService, CancellationToken cancellationToken = default)
+        private static async Task CreateKostenstellenAsync(IACCService accService, CancellationToken cancellationToken = default)
         {
 
-            IEnumerable<Kostenstellenart> listKostenstellenarten = await doePaAdminService.GetKostenstellenartenAsync(cancellationToken);
+            IEnumerable<Kostenstellenart> listKostenstellenarten = await accService.GetKostenstellenartenAsync(cancellationToken);
 
             //Create a cost center for a freelancer
-            _ = await doePaAdminService.CreateKostenstelleAsync("Bobby Prince", 2002, listKostenstellenarten.First(ka => ka.Kostenstellenartbezeichnung.Equals("Freie Mitarbeiter/innen")), cancellationToken);
+            _ = await accService.CreateKostenstelleAsync("Bobby Prince", 2002, listKostenstellenarten.First(ka => ka.Kostenstellenartbezeichnung.Equals("Freie Mitarbeiter/innen")), cancellationToken);
 
             //Create a cost center for the office, we'll use this later to assign it to the staff
-            Kostenstelle kstOfficeRichardson = await doePaAdminService.CreateKostenstelleAsync("Office Richardson", 5020, listKostenstellenarten.First(ka => ka.Kostenstellenartbezeichnung.Equals("Geschäftsräume")), cancellationToken);
+            Kostenstelle kstOfficeRichardson = await accService.CreateKostenstelleAsync("Office Richardson", 5020, listKostenstellenarten.First(ka => ka.Kostenstellenartbezeichnung.Equals("Geschäftsräume")), cancellationToken);
 
             //Create some staff cost center
             Kostenstelle currentKostenstelle;
             foreach (var currentEmployee in new[] { new { Name = "John Carmack", KstNummer = 1003 }, new { Name = "John Romero", KstNummer = 1006 }, new { Name = "Adrian Carmack", KstNummer = 1009 }, new { Name = "Tom Hall", KstNummer = 1012 } })
             {
-                currentKostenstelle = await doePaAdminService.CreateKostenstelleAsync(currentEmployee.Name, currentEmployee.KstNummer, listKostenstellenarten.First(ka => ka.Kostenstellenartbezeichnung.Equals("Angestellte Mitarbeiter/innen")), cancellationToken);
+                currentKostenstelle = await accService.CreateKostenstelleAsync(currentEmployee.Name, currentEmployee.KstNummer, listKostenstellenarten.First(ka => ka.Kostenstellenartbezeichnung.Equals("Angestellte Mitarbeiter/innen")), cancellationToken);
                 currentKostenstelle.UebergeordneteKostenstellen.Add(kstOfficeRichardson);
                 kstOfficeRichardson.UntergeordneteKostenstellen.Add(currentKostenstelle);
             }
 
-            await doePaAdminService.SaveChangesAsync(cancellationToken);
+            await accService.SaveChangesAsync(cancellationToken);
         }
 
-        private static async Task CreateMitarbeiterAsync(IACCService doePaAdminService, CancellationToken cancellationToken)
+        private static async Task CreateMitarbeiterAsync(IACCService accService, CancellationToken cancellationToken)
         {
 
             EmployeeDTO[] listEmployees = new[]
@@ -198,23 +200,23 @@ namespace ACC.ViewModel.Services
 
             foreach (EmployeeDTO employee in listEmployees)
             {
-                await ACCDTOFactory.CreateEmployeeFromDTOAsync(employee, doePaAdminService, cancellationToken);
+                await ACCDTOFactory.CreateEmployeeFromDTOAsync(employee, accService, cancellationToken);
             }
 
-            await doePaAdminService.SaveChangesAsync(cancellationToken);
+            await accService.SaveChangesAsync(cancellationToken);
 
         }
 
-        private static async Task CreateKundenAsync(IACCService doePaAdminService, CancellationToken cancellationToken = default)
+        private static async Task CreateKundenAsync(IACCService accService, CancellationToken cancellationToken = default)
         {
-            _ = await doePaAdminService.CreateKundeAsync("Softdisk", "Softdisk Magazette", cancellationToken);
-            _ = await doePaAdminService.CreateKundeAsync("Apogee", cancellationToken: cancellationToken);
-            _ = await doePaAdminService.CreateKundeAsync("Gamestop", cancellationToken: cancellationToken);
+            _ = await accService.CreateKundeAsync("Softdisk", "Softdisk Magazette", cancellationToken);
+            _ = await accService.CreateKundeAsync("Apogee", cancellationToken: cancellationToken);
+            _ = await accService.CreateKundeAsync("Gamestop", cancellationToken: cancellationToken);
 
-            await doePaAdminService.SaveChangesAsync(cancellationToken);
+            await accService.SaveChangesAsync(cancellationToken);
         }
 
-        private static async Task CreateAuftraegeAsync(IACCService doePaAdminService, CancellationToken cancellationToken = default)
+        private static async Task CreateAuftraegeAsync(IACCService accService, CancellationToken cancellationToken = default)
         {
 
             IEnumerable<ProjectDTO> projects = new[]
@@ -393,14 +395,14 @@ namespace ACC.ViewModel.Services
 
             foreach (ProjectDTO project in projects)
             {
-                await ACCDTOFactory.CreateProjectFromDTOAsync(project, doePaAdminService, cancellationToken);
+                await ACCDTOFactory.CreateProjectFromDTOAsync(project, accService, cancellationToken);
             }
 
-            await doePaAdminService.SaveChangesAsync(cancellationToken);
+            await accService.SaveChangesAsync(cancellationToken);
 
         }
 
-        private static async Task CreateAusgangsrechnungenAsync(IACCService doePaAdminService, CancellationToken cancellationToken)
+        private static async Task CreateAusgangsrechnungenAsync(IACCService accService, CancellationToken cancellationToken)
         {
 
             IEnumerable<InvoiceDTO> invoices = new[]
@@ -582,10 +584,15 @@ namespace ACC.ViewModel.Services
 
             foreach (InvoiceDTO invoice in invoices)
             {
-                await ACCDTOFactory.CreateOutgoingInvoiceFromDTOAsync(invoice, doePaAdminService, cancellationToken);
+                await ACCDTOFactory.CreateOutgoingInvoiceFromDTOAsync(invoice, accService, cancellationToken);
             }
 
-            await doePaAdminService.SaveChangesAsync(cancellationToken);
+            await accService.SaveChangesAsync(cancellationToken);
+        }
+
+        private static async Task CreateLeistungsnachweiseAsync(IACCService accService, CancellationToken cancellationToken)
+        {
+
         }
 
     }

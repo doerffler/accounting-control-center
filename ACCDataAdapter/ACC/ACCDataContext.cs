@@ -66,6 +66,10 @@ namespace ACCDataAdapter.ACC
 
         public DbSet<Feiertag> Feiertage { get; set; }
 
+        public DbSet<Leistungsnachweis> Leistungsnachweise { get; set; }
+
+        public DbSet<Leistungsnachweisposition> Leistungsnachweispositionen { get; set; }
+
         #endregion
 
         #region Kostenrechnung

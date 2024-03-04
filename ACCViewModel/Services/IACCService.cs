@@ -27,7 +27,7 @@ namespace ACC.ViewModel.Services
 
         #region Kostenstelle
 
-        public Task<IEnumerable<Kostenstelle>> GetKostenstellenAsync(CancellationToken cancellationToken = default, int? currentPage = null, int? pageSize = null);
+        public Task<IEnumerable<Kostenstelle>> GetKostenstellenAsync(CancellationToken cancellationToken = default, int? currentPage = 0, int? pageSize = 0);
 
         public Task<int> GetKostenstellenCountAsync(CancellationToken cancellationToken = default);
 
@@ -66,8 +66,12 @@ namespace ACC.ViewModel.Services
 
         #region Projekt
 
-        public Task<IEnumerable<Projekt>> GetProjekteAsync(CancellationToken cancellationToken = default);
+        public Task<IEnumerable<Projekt>> GetProjekteAsync(CancellationToken cancellationToken = default, int? currentPage = 0, int? pageSize = 0);
+        public Task<int> GetProjekteCountAsync(CancellationToken cancellationToken = default);
+        public Task<IEnumerable<Projekt>> GetProjektAsync(int ProjektID, CancellationToken cancellationToken = default);
         public Task<Projekt> CreateProjektAsync(CancellationToken cancellationToken = default);
+        public void RemoveProjekt(Projekt projektToRemove);
+
         public Task<Skill> CreateSkillAsync(CancellationToken cancellationToken = default);
         public Task<Skill> CreateSkillAsync(string skillName, CancellationToken cancellationToken = default);
         public Task<IEnumerable<Skill>> GetSkillsAsync(CancellationToken cancellationToken = default);
@@ -78,7 +82,7 @@ namespace ACC.ViewModel.Services
 
         #region Auftrag
 
-        public Task<IEnumerable<Auftrag>> GetAuftraegeAsync(CancellationToken cancellationToken = default, int? currentPage = null, int? pageSize = null);
+        public Task<IEnumerable<Auftrag>> GetAuftraegeAsync(CancellationToken cancellationToken = default, int? currentPage = 0, int? pageSize = 0);
 
         public Task<int> GetAuftraegeCountAsync(CancellationToken cancellationToken = default);
 
@@ -94,9 +98,27 @@ namespace ACC.ViewModel.Services
 
         #endregion
 
+        #region Leistungsnachweis
+
+        public Task<IEnumerable<Leistungsnachweis>> GetLeistungsnachweiseAsync(CancellationToken cancellationToken = default, int? currentPage = 0, int? pageSize = 0);
+
+        public Task<int> GetLeistungsnachweiseCountAsync(CancellationToken cancellationToken = default);
+
+        public Task<IEnumerable<Leistungsnachweis>> GetLeistungsnachweisAsync(int LeistungsnachweisID, CancellationToken cancellationToken = default);
+
+        public Task<Leistungsnachweis> CreateLeistungsnachweisAsync(CancellationToken cancellationToken = default);
+
+        public Task<IEnumerable<Leistungsnachweisposition>> GetLeistungsnachweispositionAsync(CancellationToken cancellationToken = default);
+
+        public Task<Leistungsnachweisposition> CreateLeistungsnachweispositionAsync(CancellationToken cancellationToken = default);
+
+        public void RemoveLeistungsnachweis(Leistungsnachweis leistungsnachweisToRemove);
+
+        #endregion
+
         #region Ausgangsrechnungen
 
-        public Task<IEnumerable<Ausgangsrechnung>> GetAusgangsrechnungenAsync(CancellationToken cancellationToken = default, int? currentPage = null, int? pageSize = null);
+        public Task<IEnumerable<Ausgangsrechnung>> GetAusgangsrechnungenAsync(CancellationToken cancellationToken = default, int? currentPage = 0, int? pageSize = 0);
 
         public Task<int> GetAusgangsrechnungenCountAsync(CancellationToken cancellationToken = default);
 
@@ -116,7 +138,7 @@ namespace ACC.ViewModel.Services
 
         #region Eingangsrechnungen
 
-        public Task<IEnumerable<Eingangsrechnung>> GetEingangsrechnungenAsync(CancellationToken cancellationToken = default, int? currentPage = null, int? pageSize = null);
+        public Task<IEnumerable<Eingangsrechnung>> GetEingangsrechnungenAsync(CancellationToken cancellationToken = default, int? currentPage = 0, int? pageSize = 0);
 
         public Task<int> GetEingangsrechnungenCountAsync(CancellationToken cancellationToken = default);
 
@@ -134,14 +156,14 @@ namespace ACC.ViewModel.Services
 
         #region Masterdata
 
-        public Task<IEnumerable<Waehrung>> GetWaehrungenAsync(CancellationToken cancellationToken = default, int? currentPage = null, int? pageSize = null);
+        public Task<IEnumerable<Waehrung>> GetWaehrungenAsync(CancellationToken cancellationToken = default, int? currentPage = 0, int? pageSize = 0);
         public Task<int> GetWaehrungenCountAsync(CancellationToken cancellationToken = default);
         public Task<IEnumerable<Waehrung>> GetWaehrungAsync(int WaehrungID, CancellationToken cancellationToken = default);
         public Task<Waehrung> CreateWaehrungAsync(CancellationToken cancellationToken = default);
         public Task<Waehrung> CreateWaehrungAsync(String waehrungName, string waehrungZeichen, string waehrungISO, Dictionary<string, string> waehrungAdditions = null, CancellationToken cancellationToken = default);
         void RemoveWaehrung(Waehrung selectedWaehrung);
 
-        public Task<IEnumerable<Abrechnungseinheit>> GetAbrechnungseinheitenAsync(CancellationToken cancellationToken = default, int? currentPage = null, int? pageSize = null);
+        public Task<IEnumerable<Abrechnungseinheit>> GetAbrechnungseinheitenAsync(CancellationToken cancellationToken = default, int? currentPage = 0, int? pageSize = 0);
         public Task<int> GetAbrechnungseinheitenCountAsync(CancellationToken cancellationToken = default);
         public Task<IEnumerable<Abrechnungseinheit>> GetAbrechnungseinheitAsync(int WaehrungID, CancellationToken cancellationToken = default); 
         public Task<Abrechnungseinheit> CreateAbrechnungseinheitAsync(CancellationToken cancellationToken = default);

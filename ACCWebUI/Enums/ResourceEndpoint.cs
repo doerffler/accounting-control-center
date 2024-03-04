@@ -2,11 +2,14 @@
 {
     public enum ResourceEndpoint
     {
-        orders,
-        incoming_invoices,
-        outgoing_invoices,
+        accounting_units,
         cost_centres,
         currencies,
-        accounting_units
+        employees,
+        incoming_invoices,
+        orders,
+        outgoing_invoices,
+        performance_records,
+        projects
     }
 }

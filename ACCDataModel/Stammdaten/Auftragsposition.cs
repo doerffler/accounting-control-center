@@ -1,11 +1,4 @@
-﻿using ACCDataModel.DPApp;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ACCDataModel.Stammdaten
+﻿namespace ACCDataModel.Stammdaten
 {
 
     public class Auftragsposition
@@ -20,7 +13,9 @@ namespace ACCDataModel.Stammdaten
 
         public decimal StueckpreisNetto { get; set; }
 
-        public Auftrag Auftrag { get; set; }   
+        public Auftrag Auftrag { get; set; }
+
+        public Leistungsnachweisposition Leistungsnachweisposition { get; set; }
         
         public string Positionsbezeichnung { get; set; }   
         

@@ -144,6 +144,7 @@ namespace ACC.ViewModel.Services
             Ausgangsrechnungsposition currentAusgangsrechnungsposition;
             
             currentAusgangsrechnung = await doePaAdminService.CreateAusgangsrechnungAsync(cancellationToken);
+            currentAusgangsrechnung.Rechnungspositionen = new List<Ausgangsrechnungsposition>();
 
             currentAusgangsrechnung.RechnungsDatum = invoice.InvoiceDate;
             currentAusgangsrechnung.BezahltDatum = invoice.DatePaid;

@@ -117,10 +117,11 @@
 
     protected override async Task OnInitializedAsync()
     {
-        ApiService.InitializeEndpoint("http://localhost:32771/", ResourceEndpoint.orders);
+        ApiService.InitializeEndpoint(ResourceEndpoint.orders);
         PaginationService.InitializePagination();
 
         Orders = await PaginationService.LoadPaginatetedData();
+
         IsLoading = false;
     }
 

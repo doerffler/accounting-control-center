@@ -117,38 +117,38 @@ else
                                             </td>
                                         </tr>
 
-                                        zwischensumme += rechnungsposition.Nettobetrag;
-                                        rabattsumme += rechnungsposition.Nettobetrag * OutgoingInvoice.RabattPct.GetValueOrDefault();
-                                        mwstsumme += (rechnungsposition.Nettobetrag - (rechnungsposition.Nettobetrag * OutgoingInvoice.RabattPct.GetValueOrDefault())) * rechnungsposition.Steuersatz;
+                                        Zwischensumme += rechnungsposition.Nettobetrag;
+                                        Rabattsumme += rechnungsposition.Nettobetrag * OutgoingInvoice.RabattPct.GetValueOrDefault();
+                                        Mwstsumme += (rechnungsposition.Nettobetrag - (rechnungsposition.Nettobetrag * OutgoingInvoice.RabattPct.GetValueOrDefault())) * rechnungsposition.Steuersatz;
                                     }
                                     @if (@OutgoingInvoice.RabattPct != null)
                                     {
                                         <tr>
                                             <td style="text-align: right;" colspan="5"><b>Zwischensumme (Netto):</b></td>
-                                            <td style="text-align: right;"><b>@zwischensumme.ToString("N2") @OutgoingInvoice.ZugehoerigeWaehrung.WaehrungZeichen</b></td>
+                                            <td style="text-align: right;"><b>@Zwischensumme.ToString("N2") @OutgoingInvoice.ZugehoerigeWaehrung.WaehrungZeichen</b></td>
                                         </tr>
                                         <tr>
                                             <td style="text-align: right;" colspan="5">Rabatt (@(OutgoingInvoice.RabattPct*100) %):</td>
-                                            <td style="text-align: right;">@rabattsumme.ToString("N2") @OutgoingInvoice.ZugehoerigeWaehrung.WaehrungZeichen</td>
+                                            <td style="text-align: right;">@Rabattsumme.ToString("N2") @OutgoingInvoice.ZugehoerigeWaehrung.WaehrungZeichen</td>
                                         </tr>
                                     }
                                     <tr>
                                         @{
-                                            nettosumme = zwischensumme - rabattsumme;
+                                            Nettosumme = Zwischensumme - Rabattsumme;
                                         }
                                         <td style="text-align: right;" colspan="5"><b>Gesamtpreis (Netto):</b></td>
-                                        <td style="text-align: right;"><b>@nettosumme.ToString("N2") @OutgoingInvoice.ZugehoerigeWaehrung.WaehrungZeichen</b></td>
+                                        <td style="text-align: right;"><b>@Nettosumme.ToString("N2") @OutgoingInvoice.ZugehoerigeWaehrung.WaehrungZeichen</b></td>
                                     </tr>
                                     <tr>
                                         <td style="text-align: right;" colspan="5">Mehrwertsteuerbetrag:</td>
-                                        <td style="text-align: right;">@mwstsumme.ToString("N2") @OutgoingInvoice.ZugehoerigeWaehrung.WaehrungZeichen</td>
+                                        <td style="text-align: right;">@Mwstsumme.ToString("N2") @OutgoingInvoice.ZugehoerigeWaehrung.WaehrungZeichen</td>
                                     </tr>
                                     <tr>
                                         @{
-                                            bruttosumme = nettosumme + mwstsumme;
+                                            Bruttosumme = Nettosumme + Mwstsumme;
                                         }
                                         <td style="text-align: right;" colspan="5"><b>Gesamtpreis (Brutto):</b></td>
-                                        <td style="text-align: right;"><b>@bruttosumme.ToString("N2") @OutgoingInvoice.ZugehoerigeWaehrung.WaehrungZeichen</b></td>
+                                        <td style="text-align: right;"><b>@Bruttosumme.ToString("N2") @OutgoingInvoice.ZugehoerigeWaehrung.WaehrungZeichen</b></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -184,22 +184,26 @@ else
     private Ausgangsrechnung OutgoingInvoice;
     private bool IsLoading = true;
 
-    private decimal zwischensumme = 0;
-    private decimal rabattsumme = 0;
-    private decimal nettosumme = 0;
-    private decimal mwstsumme = 0;
-    private decimal bruttosumme = 0;
+    private decimal Zwischensumme = 0;
+    private decimal Rabattsumme = 0;
+    private decimal Nettosumme = 0;
+    private decimal Mwstsumme = 0;
+    private decimal Bruttosumme = 0;
 
     // Initialize method
     protected override async Task OnInitializedAsync()
     {
-        ApiService.InitializeEndpoint("http://localhost:32771/", ResourceEndpoint.outgoing_invoices);
+        ApiService.InitializeEndpoint(ResourceEndpoint.outgoing_invoices);
         OutgoingInvoice = await ApiService.GetByIdAsync<Ausgangsrechnung>(OutgoingInvoiceId);
         IsLoading = false;
     }
 
     private async Task GeneratePdfAsync()
     {
+        OutgoingInvoice.ZugehoerigesDokument = new()
+        {
+                DokumentUrl = "https://localhost:7224/briefpapier.pdf"
+        };
 
         StateHasChanged();
     }

@@ -2,63 +2,120 @@
 
 @inject ApiService ApiService
 @inject NavigationManager Navigation
+@inject AuthenticationStateProvider AuthenticationStateProvider
 
 @attribute [Authorize]
 
 <PageTitle>Neue Ausgangsrechnung | ACC Web UI</PageTitle>
 
-@if (IsIntro)
-{
-    <Card Class="shadow-sm mb-3">
-        <CardBody>
-            <div>
-                <h1>Neue Ausgangsrechnung</h1>
-                <div class="row">
-                    <div class="col">
-                        <h2>
-                            Schritt @Step: @Steps[Step]
-                        </h2>
+<Card Class="shadow-sm mb-3">
+    <CardBody>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h1>Neue Ausgangsrechnung</h1>
+            <div class="btn-group" role="group" aria-label="Actions">
+                <Button Type="ButtonType.Link" To="/outgoing_invoices" Color="ButtonColor.Primary"><Icon Name="IconName.BackspaceFill" /> Zurück</Button>
+                <Button @onclick="Save" Color="ButtonColor.Primary"><Icon Name="IconName.Floppy" /> Speichern</Button>
+            </div>
+        </div>
+
+        @if (IsLoading)
+        {
+            <div class="spinner-border ms-auto" aria-hidden="true"></div>
+        }
+        else
+        {
+            <div class="row mb-3">
+                <div class="col">
+                    <label class="form-label">Auftrag:</label>
+                    <InputSelect class="form-select f"
+                                 ValueExpression="@(() => SelectedOrder.AuftragID)"
+                                 Value="@SelectedOrder.AuftragID"
+                                 ValueChanged="@((int value) => OrderChanged(value))">
+                        @foreach (Auftrag order in Orders)
+                        {
+                            <option value="@order.AuftragID">@order.Auftragsname</option>
+                        }
+                    </InputSelect>
+                </div>
+                <div class="col">
+                    <label class="form-label">Rabatt:</label>
+                    <div class="input-group">
+                        <input type="number" class="form-control" @bind-value="OutgoingInvoice.RabattPct" step="0.01" />
+                        <input class="form-control form-control-sm" value="@(OutgoingInvoice.RabattPct*100) %" style="text-align: right" disabled="disabled" />
                     </div>
-                    <div class="col d-flex justify-content-end">
-                        <div class="btn-group" role="group" aria-label="Navigation">
-                            <Button Color="ButtonColor.Secondary" @onclick="Back"><Icon Name="IconName.ArrowLeft" /></Button>
-                            <Button Color="ButtonColor.Secondary" @onclick="Next"><Icon Name="IconName.ArrowRight" /></Button>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="form-label"><b>Rechnungsempfänger:</b></label>
+                <div class="col">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <label for="street">Straße:</label>
+                                <input type="text" class="form-control" @bind-value="OutgoingInvoice.Rechnungsempfaenger.ZugehoerigeAdresse.Strasse" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="houseNumber">Hausnummer:</label>
+                                <input type="text" class="form-control" @bind-value="OutgoingInvoice.Rechnungsempfaenger.ZugehoerigeAdresse.Hausnummer" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="zip">PLZ:</label>
+                                <input type="text" class="form-control" @bind-value="OutgoingInvoice.Rechnungsempfaenger.ZugehoerigeAdresse.ZugehoerigePostleitzahl.PLZ" />
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <label for="city">Ort:</label>
+                                <input type="text" class="form-control" @bind-value="OutgoingInvoice.Rechnungsempfaenger.ZugehoerigeAdresse.ZugehoerigePostleitzahl.Ortsname" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="state">Bundesland:</label>
+                                <input type="text" class="form-control" @bind-value="OutgoingInvoice.Rechnungsempfaenger.ZugehoerigeAdresse.ZugehoerigePostleitzahl.Bundesland" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="country">Land:</label>
+                                <input type="text" class="form-control" @bind-value="OutgoingInvoice.Rechnungsempfaenger.ZugehoerigeAdresse.ZugehoerigePostleitzahl.Land" />
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div>
-
-                </div>
-            </div>
-        </CardBody>
-    </Card>
-}
-else
-{
-    <Card Class="shadow-sm mb-3">
-        <CardBody>
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <h1>Neue Ausgangsrechnung</h1>
-                <div class="btn-group" role="group" aria-label="Actions">
-                    <Button Type="ButtonType.Link" To="/outgoing_invoices" Color="ButtonColor.Primary"><Icon Name="IconName.BackspaceFill" /> Zurück</Button>
-                    <Button @onclick="Save" Color="ButtonColor.Primary"><Icon Name="IconName.Floppy" /> Speichern</Button>
+                <div class="col">
                 </div>
             </div>
 
-            <div class="mb-3">
-                <label class="form-label">Rechnungsnummer:</label>
-                <InputText class="form-control" @bind-Value="OutgoingInvoice.RechnungsNummer" />
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label">Rechnungsdatum:</label>
-                <DateInput class="form-control" @bind-Value="OutgoingInvoice.RechnungsDatum" />
+            <div class="row mb-3">
+                <div class="col">
+                    <label><b>Rechnungstext:</b></label>
+                    <InputTextArea class="form-control" @bind-Value="OutgoingInvoice.Rechnungstext" />
+                </div>
             </div>
 
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Positionsbeschreibung</th>
+                        <th>
+                            <div class="row">
+                                <div class="col d-flex justify-content-start">
+                                    Positionsbeschreibung
+                                </div>
+                                <div class="col d-flex justify-content-end">
+                                    <Button class="btn btn-primary btn-sm" @onclick="AddPosition"><Icon Name="IconName.BagPlus" /> Position hinzufügen</Button>
+                                </div>
+                            </div>
+                        </th>
                         <th>Steuersatz</th>
                         <th>Stueckpreis (Netto)</th>
                         <th>Stückzahl & Einheit</th>
@@ -67,6 +124,13 @@ else
                     </tr>
                 </thead>
                 <tbody>
+                    @{
+                        Zwischensumme = 0;
+                        Rabattsumme = 0;
+                        Nettosumme = 0;
+                        Mwstsumme = 0;
+                        Bruttosumme = 0;
+                    }
                     @foreach (var position in OutgoingInvoice.Rechnungspositionen)
                     {
                         <tr>
@@ -85,34 +149,68 @@ else
                                 </div>
                                 <div class="row mt-1">
                                     <div class="col">
-                                        Kostenstelle:
+                                        <label class="form-label">Leistungsnachweisposition:</label>
+                                        @if (SelectedOrder?.AuftragID != 0)
+                                        {
+                                            @if (position.ZugehoerigeAuftragsposition.AuftragspositionID != 0)
+                                            {
+                                                <InputSelect class="form-select form-select-sm" @bind-Value="position.ZugehoerigeAuftragsposition.Leistungsnachweisposition.LeistungsnachweispositionID">
+                                                    @foreach (Leistungsnachweisposition performance_record_position in PerformanceRecordPositions)
+                                                    {
+                                                        <option value="@performance_record_position.LeistungsnachweispositionID">@performance_record_position.Kommentar</option>
+                                                    }
+                                                </InputSelect>
+                                            }
+                                            else
+                                            {
+                                                <div>
+                                                    <Badge Color="BadgeColor.Info"><Icon Name="IconName.ExclamationTriangleFill" /> Bitte wähle zuerst eine Auftragsposition aus</Badge>
+                                                </div>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <div>
+                                                <Badge Color="BadgeColor.Info"><Icon Name="IconName.ExclamationTriangleFill" /> Bitte wähle zuerst einen Auftrag aus</Badge>
+                                            </div>
+                                        }
                                     </div>
                                     <div class="col">
-                                        <InputSelect class="form-select form-select-sm" @bind-Value="position.ZugehoerigeKostenstelle.KostenstelleID">
-                                            @foreach (Kostenstelle kostenstelle in CostCentres)
-                                            {
-                                                <option value="@kostenstelle.KostenstelleID">@kostenstelle.Kostenstellenbezeichnung (@kostenstelle.KostenstellenNummer)</option>
-                                            }
-                                        </InputSelect>
+                                        <label class="form-label">Auftragsposition:</label>
+                                        @if (SelectedOrder?.AuftragID != 0)
+                                        {
+                                            <InputSelect class="form-select form-select-sm" @bind-Value="position.ZugehoerigeAuftragsposition.AuftragspositionID">
+                                                @foreach (Auftragsposition order_position in SelectedOrder.Auftragspositionen)
+                                                {
+                                                    <option value="@order_position.AuftragspositionID">@order_position.Positionsbezeichnung</option>
+                                                }
+                                            </InputSelect>
+                                        }
+                                        else
+                                        {
+                                            <div>
+                                                <Badge Color="BadgeColor.Info"><Icon Name="IconName.ExclamationTriangleFill" /> Bitte wähle zuerst einen Auftrag aus</Badge>
+                                            </div>
+                                        }
                                     </div>
                                 </div>
                             </td>
-                            <td width="9%">
+                            <td width="7%" style="vertical-align: bottom;">
                                 <div class="input-group">
-                                    <NumberInput style="width: 60%" Placeholder="Steuersatz" TValue="decimal" TextAlignment="Alignment.End" @bind-Value="position.Steuersatz" />
-                                    <input class="form-control" value="%" disabled="true" />
+                                    <input class="form-control form-control-sm" type="number" style="width: 20%; text-align: right" placeholder="Steuersatz" step="0.01" @bind-value="position.Steuersatz" />
+                                    <input class="form-control form-control-sm" value="@(position.Steuersatz*100) %" style="text-align: right" disabled="disabled" />
                                 </div>
                             </td>
-                            <td width="10%">
+                            <td width="10%" style="vertical-align: bottom;">
                                 <div class="input-group">
-                                    <CurrencyInput Style="width: 70%" Placeholder="Stückpreis (Netto)" TValue="decimal" TextAlignment="Alignment.End" @bind-Value="position.StueckpreisNetto" HideCurrencySymbol="true" Locale="de-DE" />
-                                    <input class="form-control" value="€" disabled="true" /> @* TODO: Währung variable *@
+                                    <input class="form-control form-control-sm" type="number" style="width: 70%; text-align: right" placeholder="Stückpreis (Netto)" @bind-value="position.StueckpreisNetto" />
+                                    <input class="form-control form-control-sm" value="@OutgoingInvoice.ZugehoerigeWaehrung?.WaehrungZeichen" disabled="disabled" />
                                 </div>
                             </td>
-                            <td width="15%">
+                            <td width="11%" style="vertical-align: bottom;">
                                 <div class="input-group">
-                                    <NumberInput Style="width: 60%" Placeholder="Stückzahl" TValue="decimal" TextAlignment="Alignment.End" @bind-Value="position.Stueckzahl" />
-                                    <InputSelect class="form-select" @bind-Value="position.ZugehoerigeAbrechnungseinheit.AbrechnungseinheitID">
+                                    <input class="form-control form-control-sm" type="number" style="width: 55%; text-align: right" placeholder="Stückzahl" @bind-value="position.Stueckzahl" />
+                                    <InputSelect class="form-select form-select-sm" @bind-Value="position.ZugehoerigeAbrechnungseinheit.AbrechnungseinheitID">
                                         @foreach (Abrechnungseinheit abrechnungseinheit in AccountingUnits)
                                         {
                                             <option value="@abrechnungseinheit.AbrechnungseinheitID">@abrechnungseinheit.Abkuerzung</option>
@@ -120,91 +218,159 @@ else
                                     </InputSelect>
                                 </div>
                             </td>
-                            <td width="10%">
+                            <td width="10%" style="vertical-align: bottom;">
                                 <div class="input-group">
-                                    <input class="form-control" style="text-align: right; width: 70%" value="@position.Nettobetrag.ToString("N2")" disabled="true" />
-                                    <input class="form-control" value="€" disabled="true" /> @* TODO: Währung variable *@
+                                    <input class="form-control form-control-sm" style="text-align: right; width: 70%" value="@position.Nettobetrag.ToString("N2")" disabled="true" />
+                                    <input class="form-control form-control-sm" value="@OutgoingInvoice.ZugehoerigeWaehrung?.WaehrungZeichen" disabled="true" />
                                 </div>
                             </td>
-                            <td width="5%">
-                                <Button class="btn btn-danger" @onclick="() => RemovePosition(position)">
+                            <td width="5%" style="vertical-align: bottom;">
+                                <Button class="btn btn-danger btn-sm" @onclick="() => RemovePosition(position)">
                                     <Icon Name="IconName.Trash" />
                                 </Button>
                             </td>
                         </tr>
+                        Zwischensumme += position.Nettobetrag;
+                        Rabattsumme += position.Nettobetrag * OutgoingInvoice.RabattPct.GetValueOrDefault();
+                        Mwstsumme += (position.Nettobetrag - (position.Nettobetrag * OutgoingInvoice.RabattPct.GetValueOrDefault())) * position.Steuersatz;
                     }
+                    @if (@OutgoingInvoice.RabattPct != null)
+                    {
+                        <tr>
+                            <td style="text-align: right;" colspan="4"><b>Zwischensumme (Netto):</b></td>
+                            <td style="text-align: right;"><b>@Zwischensumme.ToString("N2") @OutgoingInvoice.ZugehoerigeWaehrung.WaehrungZeichen</b></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;" colspan="4">Rabatt (@(Math.Round((decimal)OutgoingInvoice.RabattPct * 100, 2)) %):</td>
+                            <td style="text-align: right;">@Rabattsumme.ToString("N2") @OutgoingInvoice.ZugehoerigeWaehrung.WaehrungZeichen</td>
+                            <td></td>
+                        </tr>
+                    }
+                    <tr>
+                        @{
+                            Nettosumme = Zwischensumme - Rabattsumme;
+                        }
+                        <td style="text-align: right;" colspan="4"><b>Gesamtpreis (Netto):</b></td>
+                        <td style="text-align: right;"><b>@Nettosumme.ToString("N2") @OutgoingInvoice.ZugehoerigeWaehrung.WaehrungZeichen</b></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right;" colspan="4">Mehrwertsteuerbetrag:</td>
+                        <td style="text-align: right;">@Mwstsumme.ToString("N2") @OutgoingInvoice.ZugehoerigeWaehrung.WaehrungZeichen</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        @{
+                            Bruttosumme = Nettosumme + Mwstsumme;
+                        }
+                        <td style="text-align: right;" colspan="4"><b>Gesamtpreis (Brutto):</b></td>
+                        <td style="text-align: right;"><b>@Bruttosumme.ToString("N2") @OutgoingInvoice.ZugehoerigeWaehrung.WaehrungZeichen</b></td>
+                        <td></td>
+                    </tr>
                 </tbody>
             </table>
-            <Button class="btn btn-primary" @onclick="AddPosition"><Icon Name="IconName.BagPlus" /> Position hinzufügen</Button>
-        </CardBody>
-    </Card>
-}
+        }
+    </CardBody>
+</Card>
 
 
 @code {
     private Ausgangsrechnung OutgoingInvoice;
 
+    private Auftrag SelectedOrder;
+
+    private ClaimsPrincipal AuthenticatedUser;
+
+    private List<Leistungsnachweisposition> PerformanceRecordPositions;
     private IEnumerable<Kostenstelle> CostCentres;
+    private IEnumerable<Auftrag> Orders;
     private IEnumerable<Abrechnungseinheit> AccountingUnits;
     private IEnumerable<Waehrung> Currencies;
 
     private bool IsLoading = true;
-    private bool IsIntro = true;
 
-    private int Step = 1;
-    private Dictionary<int, string> Steps = new()
-    {
-        {1, "Kunde auswählen"},
-        {2, "Währung auswählen"},
-        {3, "Projekt/Auftrag auswählen"}
-    };
+    private decimal Zwischensumme = 0;
+    private decimal Rabattsumme = 0;
+    private decimal Nettosumme = 0;
+    private decimal Mwstsumme = 0;
+    private decimal Bruttosumme = 0;
 
     // Initialize method
     protected override async Task OnInitializedAsync()
-    {        
-        OutgoingInvoice = new Ausgangsrechnung()
-        {
-            RechnungsDatum = DateTime.Now,
-            ZugehoerigesDokument = new(),
-            ZugehoerigesGeschaeftsjahr = new(),
-            ZugehoerigeWaehrung = new()
-        };
+    {
+        AuthenticationState authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        AuthenticatedUser = authState.User;
 
-        ApiService.InitializeEndpoint("http://localhost:32771/", ResourceEndpoint.cost_centres);
+        OutgoingInvoice = new Ausgangsrechnung()
+            {
+                AusgangsrechnungHistorie = new List<AusgangsrechnungHistorie>(),
+                Rechnungspositionen = new List<Ausgangsrechnungsposition>(),
+                ZugehoerigesDokument = new(),
+                ZugehoerigesGeschaeftsjahr = new(),
+                ZugehoerigeWaehrung = new(),
+                Rechnungsempfaenger = new()
+                {
+                    ZugehoerigeAdresse = new()
+                    {
+                        ZugehoerigePostleitzahl = new()
+                    }
+                }
+            };
+
+        SelectedOrder = new Auftrag();
+        PerformanceRecordPositions = new List<Leistungsnachweisposition>();
+
+        ApiService.InitializeEndpoint(ResourceEndpoint.cost_centres);
         ApiResponseDTO<Kostenstelle> cost_centres = await ApiService.GetAsync<ApiResponseDTO<Kostenstelle>>();
         CostCentres = cost_centres.Items;
 
-        ApiService.InitializeEndpoint("http://localhost:32771/", ResourceEndpoint.accounting_units);
+        ApiService.InitializeEndpoint(ResourceEndpoint.accounting_units);
         ApiResponseDTO<Abrechnungseinheit> accounting_units = await ApiService.GetAsync<ApiResponseDTO<Abrechnungseinheit>>();
         AccountingUnits = accounting_units.Items;
 
-        ApiService.InitializeEndpoint("http://localhost:32771/", ResourceEndpoint.currencies);
+        ApiService.InitializeEndpoint(ResourceEndpoint.currencies);
         ApiResponseDTO<Waehrung> currencies = await ApiService.GetAsync<ApiResponseDTO<Waehrung>>();
         Currencies = currencies.Items;
+
+        ApiService.InitializeEndpoint(ResourceEndpoint.orders);
+        ApiResponseDTO<Auftrag> orders = await ApiService.GetAsync<ApiResponseDTO<Auftrag>>();
+        Orders = orders.Items;
 
         IsLoading = false;
     }
 
-    private void Next()
+    // Auftragsinformationen an Rechnung übergeben
+    private async Task OrderChanged(int AuftragID)
     {
-        Step++;
-        if (Step > Steps.Count)
-        {
-            IsIntro = false;
-        }
-    }
+        PerformanceRecordPositions.Clear();
 
-    private void Back()
-    {
-        if (Step > 1)
+        ApiService.InitializeEndpoint(ResourceEndpoint.orders);
+        SelectedOrder = await ApiService.GetByIdAsync<Auftrag>(AuftragID);
+
+        SelectedOrder.Leistungsnachweise.ForEach(lnw =>
         {
-            Step--;
-        }
+            PerformanceRecordPositions.AddRange(lnw.Leistungsnachweispositionen);
+        });
+
+        OutgoingInvoice.ZugehoerigeWaehrung = SelectedOrder.ZugehoerigeWaehrung;
+        OutgoingInvoice.ZugehoerigesGeschaeftsjahr = SelectedOrder.ZugehoerigesGeschaeftsjahr;
+        OutgoingInvoice.Rechnungsempfaenger = SelectedOrder.ZugehoerigesProjekt.Rechnungsempfaenger;
     }
 
     private void Save()
     {
-        ApiService.InitializeEndpoint("http://localhost:32771/", ResourceEndpoint.outgoing_invoices);
+        AusgangsrechnungHistorie historie = new AusgangsrechnungHistorie()
+            {
+                Bemerkung = "Ausgangsrechnung angelegt",
+                AktionsTyp = UserActionEnum.Create,
+                Zeitstempel = DateTime.Now,
+                Benutzer = AuthenticatedUser.Identity.Name
+            };
+
+        OutgoingInvoice.AusgangsrechnungHistorie.Add(historie);
+
+        ApiService.InitializeEndpoint(ResourceEndpoint.outgoing_invoices);
 
     }
 
@@ -212,10 +378,14 @@ else
     {
 
         OutgoingInvoice.Rechnungspositionen.Add(new Ausgangsrechnungsposition()
-        {
-            ZugehoerigeAbrechnungseinheit = new(),
-            ZugehoerigeKostenstelle = new()
-        });
+            {
+                ZugehoerigeAbrechnungseinheit = new(),
+                ZugehoerigeKostenstelle = new(),
+                ZugehoerigeAuftragsposition = new()
+                {
+                    Leistungsnachweisposition = new()
+                }
+            });
     }
 
     private void RemovePosition(Ausgangsrechnungsposition position)

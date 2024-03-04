@@ -14,6 +14,8 @@ namespace ACCDataModel.Stammdaten
 
         public decimal Fakturierbar {  get; set; }
 
+        public int AuftragspositionID { get; set; }
+
         public Auftragsposition Auftragsposition { get; set; }
 
         public string Kommentar {  get; set; }

@@ -10,18 +10,21 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Blazor.Bootstrap" Version="2.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.2" NoWarn="NU1605" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="8.0.2" NoWarn="NU1605" />
-    <PackageReference Include="Microsoft.Identity.Web" Version="2.17.0" />
-    <PackageReference Include="Microsoft.Identity.Web.MicrosoftGraph" Version="2.17.0" />
-    <PackageReference Include="Microsoft.Identity.Web.UI" Version="2.17.0" />
-    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.6" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <Compile Remove="Data\**" />
+    <Content Remove="Data\**" />
+    <EmbeddedResource Remove="Data\**" />
+    <None Remove="Data\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Data\" />
+    <PackageReference Include="Blazor.Bootstrap" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.2" NoWarn="NU1605" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="8.0.2" NoWarn="NU1605" />
+    <PackageReference Include="Microsoft.Identity.Web" Version="2.17.1" />
+    <PackageReference Include="Microsoft.Identity.Web.MicrosoftGraph" Version="2.17.1" />
+    <PackageReference Include="Microsoft.Identity.Web.UI" Version="2.17.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.6" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
   <ItemGroup>

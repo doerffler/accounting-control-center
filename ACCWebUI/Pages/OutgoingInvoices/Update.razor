@@ -1,19 +1,173 @@
 ﻿@page "/outgoing_invoices/{OutgoingInvoiceId:int}/edit"
 
-<PageTitle>Ausgangsrechnung bearbeiten | ACC Web UI</PageTitle>
+@inject ApiService ApiService
+@inject NavigationManager Navigation
 
-<div style="display: flex; justify-content: space-between; align-items: center;">
-    <h1>Ausgangsrechnung bearbeiten</h1>
-    <div class="btn-group" role="group" aria-label="Actions">
-        <Button Type="ButtonType.Link" To="/outgoing_invoices" Color="ButtonColor.Primary"><Icon Name="IconName.BackspaceFill" /> Zurück</Button>
-        <Button Type="ButtonType.Link" To="#" Color="ButtonColor.Primary"><Icon Name="IconName.Floppy" /> Speichern</Button>
-    </div>
-</div>
-<div>
-    <p>Rechnungsnummer: #@OutgoingInvoiceId </p>
-</div>
+@attribute [Authorize]
+
+<PageTitle>Ausgangsrechnung bearbeiten | ACC Web UI</PageTitle>
+<Card Class="shadow-sm mb-3">
+    <CardBody>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h1>Ausgangsrechnung bearbeiten</h1>
+            <div class="btn-group" role="group" aria-label="Actions">
+                <Button Type="ButtonType.Link" To="/outgoing_invoices" Color="ButtonColor.Primary"><Icon Name="IconName.BackspaceFill" /> Zurück</Button>
+                <Button Type="ButtonType.Link" To="#" Color="ButtonColor.Primary"><Icon Name="IconName.Floppy" /> Speichern</Button>
+            </div>
+        </div>
+        @if (IsLoading)
+        {
+            <div class="spinner-border ms-auto" aria-hidden="true"></div>
+        }
+        else
+        {
+            @if (OutgoingInvoice != null)
+            {
+                <div class="mb-3">
+                    <label class="form-label">Rechnungsnummer:</label>
+                    <InputText class="form-control" @bind-Value="OutgoingInvoice.RechnungsNummer" />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Rechnungsdatum:</label>
+                    <DateInput class="form-control" @bind-Value="OutgoingInvoice.RechnungsDatum" />
+                </div>
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Positionsbeschreibung</th>
+                            <th>Steuersatz</th>
+                            <th>Stueckpreis (Netto)</th>
+                            <th>Stückzahl & Einheit</th>
+                            <th>Positionspreis (Netto)</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var position in OutgoingInvoice.Rechnungspositionen)
+                        {
+                            <tr>
+                                <td width="35%">
+                                    <InputText class="form-control form-control-sm" @bind-Value="position.Positionsbeschreibung" />
+                                    <div class="row mt-1">
+                                        <div class="col">
+                                            Leistungszeitraum:
+                                        </div>
+                                        <div class="col">
+                                            <div class="input-group">
+                                                <DateInput class="form-control form-control-sm" @bind-Value="position.LeistungszeitraumVon" />
+                                                <DateInput class="form-control form-control-sm" @bind-Value="position.LeistungszeitraumBis" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-1">
+                                        <div class="col">
+                                            Kostenstelle:
+                                        </div>
+                                        <div class="col">
+                                            <InputSelect class="form-select form-select-sm" @bind-Value="position.ZugehoerigeKostenstelle.KostenstelleID">
+                                                @foreach (Kostenstelle kostenstelle in CostCentres)
+                                                {
+                                                    <option value="@kostenstelle.KostenstelleID">@kostenstelle.Kostenstellenbezeichnung (@kostenstelle.KostenstellenNummer)</option>
+                                                }
+                                            </InputSelect>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td width="9%">
+                                    <div class="input-group">
+                                        <input class="form-control" type="number" style="width: 60%; text-align: right" placeholder="Steuersatz" @bind-value="position.Steuersatz" />
+                                        <input class="form-control" value="%" disabled="true" />
+                                    </div>
+                                </td>
+                                <td width="10%">
+                                    <div class="input-group">
+                                        <input class="form-control" type="number" style="width: 70%; text-align: right" placeholder="Stückpreis (Netto)" @bind-value="position.StueckpreisNetto" />
+                                        <input class="form-control" value="@OutgoingInvoice.ZugehoerigeWaehrung?.WaehrungZeichen" disabled="true" />
+                                    </div>
+                                </td>
+                                <td width="15%">
+                                    <div class="input-group">
+                                        <input class="form-control" type="number" style="width: 60%; text-align: right" placeholder="Stückzahl" @bind-value="position.Stueckzahl" />
+                                        <InputSelect class="form-select" @bind-Value="position.ZugehoerigeAbrechnungseinheit.AbrechnungseinheitID">
+                                            @foreach (Abrechnungseinheit abrechnungseinheit in AccountingUnits)
+                                            {
+                                                <option value="@abrechnungseinheit.AbrechnungseinheitID">@abrechnungseinheit.Abkuerzung</option>
+                                            }
+                                        </InputSelect>
+                                    </div>
+                                </td>
+                                <td width="10%">
+                                    <div class="input-group">
+                                        <input class="form-control" style="text-align: right; width: 70%" value="@position.Nettobetrag.ToString("N2")" disabled="true" />
+                                        <input class="form-control" value="@OutgoingInvoice.ZugehoerigeWaehrung?.WaehrungZeichen" disabled="true" />
+                                    </div>
+                                </td>
+                                <td width="5%">
+                                    <Button class="btn btn-danger" @onclick="() => RemovePosition(position)">
+                                        <Icon Name="IconName.Trash" />
+                                    </Button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <Button class="btn btn-primary" @onclick="AddPosition"><Icon Name="IconName.BagPlus" /> Position hinzufügen</Button>
+            }
+        }
+    </CardBody>
+</Card>
 
 @code {
     [Parameter]
     public int OutgoingInvoiceId { get; set; }
+
+    private Ausgangsrechnung OutgoingInvoice;
+    private bool IsLoading = true;
+
+    private IEnumerable<Kostenstelle> CostCentres;
+    private IEnumerable<Abrechnungseinheit> AccountingUnits;
+    private IEnumerable<Waehrung> Currencies;
+
+    protected override async Task OnInitializedAsync()
+    {
+        ApiService.InitializeEndpoint(ResourceEndpoint.outgoing_invoices);
+        OutgoingInvoice = await ApiService.GetByIdAsync<Ausgangsrechnung>(OutgoingInvoiceId);
+
+        ApiService.InitializeEndpoint(ResourceEndpoint.cost_centres);
+        ApiResponseDTO<Kostenstelle> cost_centres = await ApiService.GetAsync<ApiResponseDTO<Kostenstelle>>();
+        CostCentres = cost_centres.Items;
+
+        ApiService.InitializeEndpoint(ResourceEndpoint.accounting_units);
+        ApiResponseDTO<Abrechnungseinheit> accounting_units = await ApiService.GetAsync<ApiResponseDTO<Abrechnungseinheit>>();
+        AccountingUnits = accounting_units.Items;
+
+        ApiService.InitializeEndpoint(ResourceEndpoint.currencies);
+        ApiResponseDTO<Waehrung> currencies = await ApiService.GetAsync<ApiResponseDTO<Waehrung>>();
+        Currencies = currencies.Items;
+
+        IsLoading = false;
+    }
+
+    private void Save()
+    {
+        ApiService.InitializeEndpoint(ResourceEndpoint.outgoing_invoices);
+
+    }
+
+    private void AddPosition()
+    {
+
+        OutgoingInvoice.Rechnungspositionen.Add(new Ausgangsrechnungsposition()
+            {
+                ZugehoerigeAbrechnungseinheit = new(),
+                ZugehoerigeKostenstelle = new()
+            });
+    }
+
+    private void RemovePosition(Ausgangsrechnungsposition position)
+    {
+        OutgoingInvoice.Rechnungspositionen.Remove(position);
+    }
 }

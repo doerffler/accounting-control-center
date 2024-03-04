@@ -117,7 +117,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        ApiService.InitializeEndpoint("http://localhost:32771/", ResourceEndpoint.incoming_invoices);
+        ApiService.InitializeEndpoint(ResourceEndpoint.incoming_invoices);
         PaginationService.InitializePagination();
 
         IncomingInvoices = await PaginationService.LoadPaginatetedData();

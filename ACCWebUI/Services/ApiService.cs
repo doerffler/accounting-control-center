@@ -1,6 +1,7 @@
 ﻿using ACCDataModel.Stammdaten;
 using ACCWebUI.Enums;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Graph.ExternalConnectors;
 using Microsoft.Identity.Web;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
@@ -12,19 +13,28 @@ namespace ACCWebUI.Services
     {
         private readonly HttpClient _httpClient;
         private readonly ITokenAcquisition _tokenAcquisition;
+        private readonly IConfiguration _configuration;
         private string _apiBaseUrl;
         private ResourceEndpoint _endpoint;
 
-        public ApiService(HttpClient httpClient, ITokenAcquisition tokenAcquisition)
+        public ApiService(HttpClient httpClient, ITokenAcquisition tokenAcquisition, IConfiguration configuration)
         {
             _httpClient = httpClient;
             _tokenAcquisition = tokenAcquisition;
+            _configuration = configuration;
         }
 
-        public void InitializeEndpoint(string apiBaseUrl, ResourceEndpoint endpoint) 
+        public void InitializeEndpoint(ResourceEndpoint endpoint) 
         {
+            string apiEndpoint = _configuration["AccApiEndpoint"].ToString();
+
+            if (string.IsNullOrEmpty(apiEndpoint))
+            {
+                throw new Exception("Please set the API endpoint in your appsettings.json");
+            }
+
+            _apiBaseUrl = apiEndpoint;
             _endpoint = endpoint;
-            _apiBaseUrl = apiBaseUrl;
         }
 
         private async Task<string> AcquireToken()
