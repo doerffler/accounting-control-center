@@ -2,6 +2,7 @@
 using ACCDataModel.Stammdaten;
 using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace ACCDataModel.Kostenrechnung
 {
@@ -16,9 +17,15 @@ namespace ACCDataModel.Kostenrechnung
 
         public DateTime? BezahltDatum { get; set; }
 
+        public int WaehrungID { get; set; }
+
         public Waehrung ZugehoerigeWaehrung { get; set; }
 
+        public int? GeschaeftsjahrID { get; set; }
+
         public Geschaeftsjahr ZugehoerigesGeschaeftsjahr { get; set; }
+
+        public int? RechnungsdokumentID { get; set; }
 
         public Rechnungsdokument ZugehoerigesDokument { get; set; }
 

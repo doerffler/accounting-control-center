@@ -30,11 +30,19 @@ else
                         <h2 class="card-title">Rechnungsinformationen</h2>
                         <p class="card-text">
                             <b>Rechnungsnummer:</b><br />
-                            @OutgoingInvoice.RechnungsNummer
+                            @if (OutgoingInvoice.RechnungsNummer == null)
+                            {
+                                <Badge Color="BadgeColor.Danger">offen</Badge>
+                            }
+                            else
+                            {
+                                @OutgoingInvoice.RechnungsNummer
+                            }
                         </p>
                         <p class="card-text">
                             <b>Rechnungsempfänger:</b><br />
                             @OutgoingInvoice.Rechnungsempfaenger.ZugehoerigerKunde?.Langname
+                            @OutgoingInvoice.Rechnungsempfaenger.Anschrift
                         </p>
                         <p>
                             @if (OutgoingInvoice.Rechnungsempfaenger.ZugehoerigeAdresse != null)
@@ -51,7 +59,14 @@ else
                             <div class="col">
                                 <p class="card-text">
                                     <b>Rechnungsdatum:</b><br />
-                                    @OutgoingInvoice.RechnungsDatum.ToShortDateString()
+                                    @if (OutgoingInvoice.RechnungsNummer == null)
+                                    {
+                                        <Badge Color="BadgeColor.Danger">offen</Badge>
+                                    }
+                                    else
+                                    {
+                                        @OutgoingInvoice.RechnungsDatum.ToShortDateString()
+                                    }
                                 </p>
                             </div>
                             <div class="col">
@@ -98,22 +113,22 @@ else
                                                 </small><br />
                                                 <small>
                                                     <b>Kostenstelle:</b>
-                                                    @rechnungsposition.ZugehoerigeKostenstelle.Kostenstellenbezeichnung
-                                                    (@rechnungsposition.ZugehoerigeKostenstelle.KostenstellenNummer)
+                                                    @rechnungsposition.ZugehoerigeKostenstelle?.Kostenstellenbezeichnung
+                                                    (@rechnungsposition.ZugehoerigeKostenstelle?.KostenstellenNummer)
                                                 </small>
                                             </td>
                                             <td>
-                                                @rechnungsposition.StueckpreisNetto.ToString("N2") @OutgoingInvoice.ZugehoerigeWaehrung.WaehrungZeichen
+                                                @rechnungsposition.StueckpreisNetto.ToString("N2") @OutgoingInvoice.ZugehoerigeWaehrung?.WaehrungZeichen
                                             </td>
                                             <td>
                                                 @rechnungsposition.Stueckzahl 
-                                                @rechnungsposition.ZugehoerigeAbrechnungseinheit.Abkuerzung
+                                                @rechnungsposition.ZugehoerigeAbrechnungseinheit?.Abkuerzung
                                             </td>
                                             <td>
                                                 @(rechnungsposition.Steuersatz*100) %
                                             </td>
                                             <td style="text-align: right;">
-                                                @rechnungsposition.Nettobetrag.ToString("N2") @OutgoingInvoice.ZugehoerigeWaehrung.WaehrungZeichen
+                                                @rechnungsposition.Nettobetrag.ToString("N2") @OutgoingInvoice.ZugehoerigeWaehrung?.WaehrungZeichen
                                             </td>
                                         </tr>
 
@@ -125,11 +140,11 @@ else
                                     {
                                         <tr>
                                             <td style="text-align: right;" colspan="5"><b>Zwischensumme (Netto):</b></td>
-                                            <td style="text-align: right;"><b>@Zwischensumme.ToString("N2") @OutgoingInvoice.ZugehoerigeWaehrung.WaehrungZeichen</b></td>
+                                            <td style="text-align: right;"><b>@Zwischensumme.ToString("N2") @OutgoingInvoice.ZugehoerigeWaehrung?.WaehrungZeichen</b></td>
                                         </tr>
                                         <tr>
                                             <td style="text-align: right;" colspan="5">Rabatt (@(OutgoingInvoice.RabattPct*100) %):</td>
-                                            <td style="text-align: right;">@Rabattsumme.ToString("N2") @OutgoingInvoice.ZugehoerigeWaehrung.WaehrungZeichen</td>
+                                            <td style="text-align: right;">@Rabattsumme.ToString("N2") @OutgoingInvoice.ZugehoerigeWaehrung?.WaehrungZeichen</td>
                                         </tr>
                                     }
                                     <tr>
@@ -137,18 +152,18 @@ else
                                             Nettosumme = Zwischensumme - Rabattsumme;
                                         }
                                         <td style="text-align: right;" colspan="5"><b>Gesamtpreis (Netto):</b></td>
-                                        <td style="text-align: right;"><b>@Nettosumme.ToString("N2") @OutgoingInvoice.ZugehoerigeWaehrung.WaehrungZeichen</b></td>
+                                        <td style="text-align: right;"><b>@Nettosumme.ToString("N2") @OutgoingInvoice.ZugehoerigeWaehrung?.WaehrungZeichen</b></td>
                                     </tr>
                                     <tr>
                                         <td style="text-align: right;" colspan="5">Mehrwertsteuerbetrag:</td>
-                                        <td style="text-align: right;">@Mwstsumme.ToString("N2") @OutgoingInvoice.ZugehoerigeWaehrung.WaehrungZeichen</td>
+                                        <td style="text-align: right;">@Mwstsumme.ToString("N2") @OutgoingInvoice.ZugehoerigeWaehrung?.WaehrungZeichen</td>
                                     </tr>
                                     <tr>
                                         @{
                                             Bruttosumme = Nettosumme + Mwstsumme;
                                         }
                                         <td style="text-align: right;" colspan="5"><b>Gesamtpreis (Brutto):</b></td>
-                                        <td style="text-align: right;"><b>@Bruttosumme.ToString("N2") @OutgoingInvoice.ZugehoerigeWaehrung.WaehrungZeichen</b></td>
+                                        <td style="text-align: right;"><b>@Bruttosumme.ToString("N2") @OutgoingInvoice.ZugehoerigeWaehrung?.WaehrungZeichen</b></td>
                                     </tr>
                                 </tbody>
                             </table>

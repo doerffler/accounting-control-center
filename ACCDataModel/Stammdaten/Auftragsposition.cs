@@ -14,8 +14,6 @@
         public decimal StueckpreisNetto { get; set; }
 
         public Auftrag Auftrag { get; set; }
-
-        public Leistungsnachweisposition Leistungsnachweisposition { get; set; }
         
         public string Positionsbezeichnung { get; set; }   
         

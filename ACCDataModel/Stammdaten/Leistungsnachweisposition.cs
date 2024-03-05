@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ACCDataModel.Kostenrechnung;
+using System;
 
 namespace ACCDataModel.Stammdaten
 {
@@ -14,9 +15,9 @@ namespace ACCDataModel.Stammdaten
 
         public decimal Fakturierbar {  get; set; }
 
-        public int AuftragspositionID { get; set; }
+        public int? AusgangangsrechnungspositionID { get; set; }
 
-        public Auftragsposition Auftragsposition { get; set; }
+        public Ausgangsrechnungsposition Ausgangsrechnungsposition { get; set; }
 
         public string Kommentar {  get; set; }
     }

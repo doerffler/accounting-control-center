@@ -40,7 +40,6 @@ namespace ACCDataModel.Stammdaten
         public Auftrag()
         {
             Auftragspositionen = new List<Auftragsposition>();
-            Leistungsnachweise = new List<Leistungsnachweis>();
         }
     }
 }

@@ -167,7 +167,7 @@ namespace ACC.ViewModel.Services
         {
             return await GetDataFromDbSetAsync(DBContext.Taetigkeiten, cancellationToken);
         }
-        
+
         public async Task<Taetigkeit> CreateTaetigkeitAsync(CancellationToken cancellationToken = default)
         {
             return await AddDataToDbSetAsync(DBContext.Taetigkeiten, cancellationToken);
@@ -204,7 +204,8 @@ namespace ACC.ViewModel.Services
 
             IEnumerable<EmployeeAccountingDTO> dtoObject = queryData
                             .GroupBy(arp => new { arp.ZugehoerigeAuftragsposition.Auftrag.ZugehoerigesProjekt, arp.ZugehoerigeAbrechnungseinheit, arp.LeistungszeitraumBis.Year, arp.LeistungszeitraumBis.Month })
-                            .Select(project => new EmployeeAccountingDTO {
+                            .Select(project => new EmployeeAccountingDTO
+                            {
                                 Month = $"{project.Key.Year}-{project.Key.Month}",
                                 Project = project.Key.ZugehoerigesProjekt.Projektname,
                                 Customer = project.Key.ZugehoerigesProjekt.Rechnungsempfaenger.ZugehoerigerKunde.Kundenname,
@@ -549,7 +550,9 @@ namespace ACC.ViewModel.Services
             IQueryable<Ausgangsrechnung> query = DBContext.Ausgangsrechnungen
                 .Include(ar => ar.ZugehoerigeWaehrung)
                 .Include(ar => ar.AusgangsrechnungHistorie)
+                .Include(ar => ar.Rechnungsempfaenger.Projekte)
                 .Include(ar => ar.Rechnungsempfaenger.ZugehoerigerKunde)
+                .Include(ar => ar.Rechnungsempfaenger.ZugehoerigerKunde.Rechnungsempfaenger)
                 .Include(ar => ar.Rechnungsempfaenger.ZugehoerigeAdresse.ZugehoerigePostleitzahl)
                 .Include(ar => ar.ZugehoerigesDokument)
                 .Include(ar => ar.ZugehoerigesGeschaeftsjahr)
@@ -583,7 +586,9 @@ namespace ACC.ViewModel.Services
                 .Where(ar => ar.AusgangsrechnungID == AusgangsrechnungID)
                 .Include(ar => ar.ZugehoerigeWaehrung)
                 .Include(ar => ar.AusgangsrechnungHistorie)
+                .Include(ar => ar.Rechnungsempfaenger.Projekte)
                 .Include(ar => ar.Rechnungsempfaenger.ZugehoerigerKunde)
+                .Include(ar => ar.Rechnungsempfaenger.ZugehoerigerKunde.Rechnungsempfaenger)
                 .Include(ar => ar.Rechnungsempfaenger.ZugehoerigeAdresse.ZugehoerigePostleitzahl)
                 .Include(ar => ar.ZugehoerigesDokument)
                 .Include(ar => ar.ZugehoerigesGeschaeftsjahr)
@@ -597,7 +602,7 @@ namespace ACC.ViewModel.Services
 
         public async Task<Ausgangsrechnung> CreateAusgangsrechnungAsync(CancellationToken cancellationToken = default)
         {
-            
+
             Ausgangsrechnung newAusgangsrechnung = await AddDataToDbSetAsync(DBContext.Ausgangsrechnungen, cancellationToken);
             newAusgangsrechnung.RechnungsDatum = DateTime.Now;
 
@@ -784,7 +789,7 @@ namespace ACC.ViewModel.Services
         }
 
         public async Task<Waehrung> CreateWaehrungAsync(String waehrungName, string waehrungZeichen, string waehrungISO, Dictionary<string, string> waehrungAdditions = null, CancellationToken cancellationToken = default)
-        { 
+        {
             Waehrung newWaehrung = await CreateWaehrungAsync(cancellationToken);
             newWaehrung.WaehrungName = waehrungName;
             newWaehrung.WaehrungZeichen = waehrungZeichen;
@@ -930,7 +935,8 @@ namespace ACC.ViewModel.Services
 
         public async Task<IEnumerable<Adresse>> GetAdressenAsync(CancellationToken cancellationToken = default)
         {
-            return await GetDataFromDbSetAsync(DBContext.Adressen, cancellationToken);        }
+            return await GetDataFromDbSetAsync(DBContext.Adressen, cancellationToken);
+        }
 
         public void RemoveAdresse(Adresse selectedAdresse)
         {
@@ -978,7 +984,7 @@ namespace ACC.ViewModel.Services
         {
             T newItem = new();
             _ = await dbSet.AddAsync(newItem, cancellationToken);
-            
+
             RaiseChangedEvent();
 
             return newItem;
@@ -993,11 +999,11 @@ namespace ACC.ViewModel.Services
             return newItem;
         }
 
-        public async Task<T> UpdateDataToDbSetFromApiAsync<T>(DbSet<T> dbSet, int setId,  T newItem, CancellationToken cancellationToken = default) where T : class, new()
+        public async Task<T> UpdateDataToDbSetFromApiAsync<T>(DbSet<T> dbSet, int setId, T newItem, CancellationToken cancellationToken = default) where T : class, new()
         {
             T existingDbSet = await dbSet.FindAsync(setId);
-            
-            if (existingDbSet == null) 
+
+            if (existingDbSet == null)
             {
                 return null;
             }

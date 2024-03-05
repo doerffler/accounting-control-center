@@ -9,6 +9,8 @@ namespace ACCDataModel.Kostenrechnung
 
         public int EingangsrechnungspositionID { get; set; }
 
+        public int EingangsrechnungID { get; set; }
+
         public Eingangsrechnung ZugehoerigeRechnung { get; set; }
 
         public Eingangsrechnungsposition () : base()

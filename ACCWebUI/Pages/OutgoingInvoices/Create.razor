@@ -27,10 +27,11 @@
             <div class="row mb-3">
                 <div class="col">
                     <label class="form-label">Auftrag:</label>
-                    <InputSelect class="form-select f"
+                    <InputSelect class="form-select"
                                  ValueExpression="@(() => SelectedOrder.AuftragID)"
                                  Value="@SelectedOrder.AuftragID"
                                  ValueChanged="@((int value) => OrderChanged(value))">
+                        <option value="0">Kein Auftrag</option>
                         @foreach (Auftrag order in Orders)
                         {
                             <option value="@order.AuftragID">@order.Auftragsname</option>
@@ -44,53 +45,109 @@
                         <input class="form-control form-control-sm" value="@(OutgoingInvoice.RabattPct*100) %" style="text-align: right" disabled="disabled" />
                     </div>
                 </div>
+                @if (SelectedOrder.AuftragID == 0)
+                {
+                    <div class="col">
+                        <label class="form-label">Währung:</label>
+                        <InputSelect class="form-select"
+                                     ValueExpression="@(() => OutgoingInvoice.WaehrungID)"
+                                     Value="@OutgoingInvoice.WaehrungID"
+                                     ValueChanged="@((int value) => CurrencyChanged(value))">
+                            @foreach (Waehrung currency in Currencies)
+                            {
+                                <option value="@currency.WaehrungID">@currency.WaehrungName (@currency.WaehrungZeichen)</option>
+                            }
+                        </InputSelect>
+                    </div>
+                }
             </div>
 
             <div class="row mb-3">
-                <label class="form-label"><b>Rechnungsempfänger:</b></label>
+                <div class="form-label d-inline-block">
+                    <b>
+                        Rechnungsempfänger:
+                    </b>
+                    @if (SelectedOrder.AuftragID != 0)
+                    {
+                        <div class="form-check form-switch d-inline-block">
+                            <InputCheckbox class="form-check-input" ValueExpression="@(() => AdressDifferent)"
+                                           Value="@AdressDifferent"
+                                           ValueChanged="@((bool value) => ToggleAdress(AdressDifferent))" type="checkbox" role="switch" id="AdressDifferent" />
+                            <label class="form-check-label" for="AdressDifferent"> abweichend?</label>
+                        </div>
+                    }
+
+                </div>
                 <div class="col">
-                    <div class="row">
-                        <div class="col-md-8">
-                            <div class="form-group">
-                                <label for="street">Straße:</label>
-                                <input type="text" class="form-control" @bind-value="OutgoingInvoice.Rechnungsempfaenger.ZugehoerigeAdresse.Strasse" />
+                    @if (AdressDifferent)
+                    {
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="street">Name:</label>
+                                    <input type="text" class="form-control" @bind-value="OutgoingInvoice.Rechnungsempfaenger.Anschrift" />
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="houseNumber">Hausnummer:</label>
-                                <input type="text" class="form-control" @bind-value="OutgoingInvoice.Rechnungsempfaenger.ZugehoerigeAdresse.Hausnummer" />
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label for="street">Straße:</label>
+                                    <input type="text" class="form-control" @bind-value="OutgoingInvoice.Rechnungsempfaenger.ZugehoerigeAdresse.Strasse" />
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="houseNumber">Hausnummer:</label>
+                                    <input type="text" class="form-control" @bind-value="OutgoingInvoice.Rechnungsempfaenger.ZugehoerigeAdresse.Hausnummer" />
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="zip">PLZ:</label>
-                                <input type="text" class="form-control" @bind-value="OutgoingInvoice.Rechnungsempfaenger.ZugehoerigeAdresse.ZugehoerigePostleitzahl.PLZ" />
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="zip">PLZ:</label>
+                                    <input type="text" class="form-control" @bind-value="OutgoingInvoice.Rechnungsempfaenger.ZugehoerigeAdresse.ZugehoerigePostleitzahl.PLZ" />
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label for="city">Ort:</label>
+                                    <input type="text" class="form-control" @bind-value="OutgoingInvoice.Rechnungsempfaenger.ZugehoerigeAdresse.ZugehoerigePostleitzahl.Ortsname" />
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-8">
-                            <div class="form-group">
-                                <label for="city">Ort:</label>
-                                <input type="text" class="form-control" @bind-value="OutgoingInvoice.Rechnungsempfaenger.ZugehoerigeAdresse.ZugehoerigePostleitzahl.Ortsname" />
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="state">Bundesland:</label>
+                                    <input type="text" class="form-control" @bind-value="OutgoingInvoice.Rechnungsempfaenger.ZugehoerigeAdresse.ZugehoerigePostleitzahl.Bundesland" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="country">Land:</label>
+                                    <input type="text" class="form-control" @bind-value="OutgoingInvoice.Rechnungsempfaenger.ZugehoerigeAdresse.ZugehoerigePostleitzahl.Land" />
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="state">Bundesland:</label>
-                                <input type="text" class="form-control" @bind-value="OutgoingInvoice.Rechnungsempfaenger.ZugehoerigeAdresse.ZugehoerigePostleitzahl.Bundesland" />
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="country">Land:</label>
-                                <input type="text" class="form-control" @bind-value="OutgoingInvoice.Rechnungsempfaenger.ZugehoerigeAdresse.ZugehoerigePostleitzahl.Land" />
-                            </div>
-                        </div>
-                    </div>
+                    }
+                    else
+                    {
+                        <p>
+                            <span>@OutgoingInvoice.Rechnungsempfaenger.Anschrift</span>
+                        </p>
+                        <p>
+                            @if (OutgoingInvoice.Rechnungsempfaenger.ZugehoerigeAdresse != null)
+                            {
+                                <span>@OutgoingInvoice.Rechnungsempfaenger.ZugehoerigeAdresse?.Strasse @OutgoingInvoice.Rechnungsempfaenger.ZugehoerigeAdresse?.Hausnummer</span>
+                                <br />
+                                <span>@OutgoingInvoice.Rechnungsempfaenger.ZugehoerigeAdresse?.ZugehoerigePostleitzahl?.PLZ @OutgoingInvoice.Rechnungsempfaenger.ZugehoerigeAdresse?.ZugehoerigePostleitzahl?.Ortsname</span>
+                                <br />
+                                <span>@OutgoingInvoice.Rechnungsempfaenger.ZugehoerigeAdresse?.ZugehoerigePostleitzahl?.Bundesland @OutgoingInvoice.Rechnungsempfaenger.ZugehoerigeAdresse?.ZugehoerigePostleitzahl?.Land</span>
+                            }
+                        </p>
+                    }
                 </div>
                 <div class="col">
                 </div>
@@ -130,9 +187,14 @@
                         Nettosumme = 0;
                         Mwstsumme = 0;
                         Bruttosumme = 0;
+
+                        int Positionsnummer = 1;
                     }
                     @foreach (var position in OutgoingInvoice.Rechnungspositionen)
                     {
+                        position.PositionsNummer = Positionsnummer;
+                        Positionsnummer++;
+
                         <tr>
                             <td width="35%">
                                 <InputText class="form-control form-control-sm" @bind-Value="position.Positionsbeschreibung" />
@@ -152,9 +214,10 @@
                                         <label class="form-label">Leistungsnachweisposition:</label>
                                         @if (SelectedOrder?.AuftragID != 0)
                                         {
-                                            @if (position.ZugehoerigeAuftragsposition.AuftragspositionID != 0)
+                                            @if (position.AuftragspositionID != null)
                                             {
-                                                <InputSelect class="form-select form-select-sm" @bind-Value="position.ZugehoerigeAuftragsposition.Leistungsnachweisposition.LeistungsnachweispositionID">
+                                                <InputSelect class="form-select form-select-sm" @bind-Value="position.LeistungsnachweispositionID">
+                                                    <option value="">Keine Zuordnung</option>
                                                     @foreach (Leistungsnachweisposition performance_record_position in PerformanceRecordPositions)
                                                     {
                                                         <option value="@performance_record_position.LeistungsnachweispositionID">@performance_record_position.Kommentar</option>
@@ -179,7 +242,8 @@
                                         <label class="form-label">Auftragsposition:</label>
                                         @if (SelectedOrder?.AuftragID != 0)
                                         {
-                                            <InputSelect class="form-select form-select-sm" @bind-Value="position.ZugehoerigeAuftragsposition.AuftragspositionID">
+                                            <InputSelect class="form-select form-select-sm" @bind-Value="position.AuftragspositionID">
+                                                <option value="">Keine Zuordnung</option>
                                                 @foreach (Auftragsposition order_position in SelectedOrder.Auftragspositionen)
                                                 {
                                                     <option value="@order_position.AuftragspositionID">@order_position.Positionsbezeichnung</option>
@@ -210,7 +274,8 @@
                             <td width="11%" style="vertical-align: bottom;">
                                 <div class="input-group">
                                     <input class="form-control form-control-sm" type="number" style="width: 55%; text-align: right" placeholder="Stückzahl" @bind-value="position.Stueckzahl" />
-                                    <InputSelect class="form-select form-select-sm" @bind-Value="position.ZugehoerigeAbrechnungseinheit.AbrechnungseinheitID">
+                                    <InputSelect class="form-select form-select-sm" @bind-Value="position.AbrechnungseinheitID">
+                                        <option value=""></option>
                                         @foreach (Abrechnungseinheit abrechnungseinheit in AccountingUnits)
                                         {
                                             <option value="@abrechnungseinheit.AbrechnungseinheitID">@abrechnungseinheit.Abkuerzung</option>
@@ -238,12 +303,12 @@
                     {
                         <tr>
                             <td style="text-align: right;" colspan="4"><b>Zwischensumme (Netto):</b></td>
-                            <td style="text-align: right;"><b>@Zwischensumme.ToString("N2") @OutgoingInvoice.ZugehoerigeWaehrung.WaehrungZeichen</b></td>
+                            <td style="text-align: right;"><b>@Zwischensumme.ToString("N2") @OutgoingInvoice.ZugehoerigeWaehrung?.WaehrungZeichen</b></td>
                             <td></td>
                         </tr>
                         <tr>
                             <td style="text-align: right;" colspan="4">Rabatt (@(Math.Round((decimal)OutgoingInvoice.RabattPct * 100, 2)) %):</td>
-                            <td style="text-align: right;">@Rabattsumme.ToString("N2") @OutgoingInvoice.ZugehoerigeWaehrung.WaehrungZeichen</td>
+                            <td style="text-align: right;">@Rabattsumme.ToString("N2") @OutgoingInvoice.ZugehoerigeWaehrung?.WaehrungZeichen</td>
                             <td></td>
                         </tr>
                     }
@@ -252,12 +317,12 @@
                             Nettosumme = Zwischensumme - Rabattsumme;
                         }
                         <td style="text-align: right;" colspan="4"><b>Gesamtpreis (Netto):</b></td>
-                        <td style="text-align: right;"><b>@Nettosumme.ToString("N2") @OutgoingInvoice.ZugehoerigeWaehrung.WaehrungZeichen</b></td>
+                        <td style="text-align: right;"><b>@Nettosumme.ToString("N2") @OutgoingInvoice.ZugehoerigeWaehrung?.WaehrungZeichen</b></td>
                         <td></td>
                     </tr>
                     <tr>
                         <td style="text-align: right;" colspan="4">Mehrwertsteuerbetrag:</td>
-                        <td style="text-align: right;">@Mwstsumme.ToString("N2") @OutgoingInvoice.ZugehoerigeWaehrung.WaehrungZeichen</td>
+                        <td style="text-align: right;">@Mwstsumme.ToString("N2") @OutgoingInvoice.ZugehoerigeWaehrung?.WaehrungZeichen</td>
                         <td></td>
                     </tr>
                     <tr>
@@ -265,7 +330,7 @@
                             Bruttosumme = Nettosumme + Mwstsumme;
                         }
                         <td style="text-align: right;" colspan="4"><b>Gesamtpreis (Brutto):</b></td>
-                        <td style="text-align: right;"><b>@Bruttosumme.ToString("N2") @OutgoingInvoice.ZugehoerigeWaehrung.WaehrungZeichen</b></td>
+                        <td style="text-align: right;"><b>@Bruttosumme.ToString("N2") @OutgoingInvoice.ZugehoerigeWaehrung?.WaehrungZeichen</b></td>
                         <td></td>
                     </tr>
                 </tbody>
@@ -279,6 +344,7 @@
     private Ausgangsrechnung OutgoingInvoice;
 
     private Auftrag SelectedOrder;
+    private Waehrung SelectedWaehrung;
 
     private ClaimsPrincipal AuthenticatedUser;
 
@@ -289,6 +355,7 @@
     private IEnumerable<Waehrung> Currencies;
 
     private bool IsLoading = true;
+    private bool AdressDifferent = false;
 
     private decimal Zwischensumme = 0;
     private decimal Rabattsumme = 0;
@@ -301,22 +368,6 @@
     {
         AuthenticationState authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         AuthenticatedUser = authState.User;
-
-        OutgoingInvoice = new Ausgangsrechnung()
-            {
-                AusgangsrechnungHistorie = new List<AusgangsrechnungHistorie>(),
-                Rechnungspositionen = new List<Ausgangsrechnungsposition>(),
-                ZugehoerigesDokument = new(),
-                ZugehoerigesGeschaeftsjahr = new(),
-                ZugehoerigeWaehrung = new(),
-                Rechnungsempfaenger = new()
-                {
-                    ZugehoerigeAdresse = new()
-                    {
-                        ZugehoerigePostleitzahl = new()
-                    }
-                }
-            };
 
         SelectedOrder = new Auftrag();
         PerformanceRecordPositions = new List<Leistungsnachweisposition>();
@@ -337,6 +388,27 @@
         ApiResponseDTO<Auftrag> orders = await ApiService.GetAsync<ApiResponseDTO<Auftrag>>();
         Orders = orders.Items;
 
+        OutgoingInvoice = new Ausgangsrechnung()
+        {
+            WaehrungID = Currencies.FirstOrDefault().WaehrungID,
+            ZugehoerigeWaehrung = Currencies.FirstOrDefault(),
+            RechnungsDatum = DateTime.Now,
+            AusgangsrechnungHistorie = new List<AusgangsrechnungHistorie>(),
+            Rechnungspositionen = new List<Ausgangsrechnungsposition>(),
+            Rechnungsempfaenger = new()
+            {
+                ZugehoerigeAdresse = new()
+                {
+                    ZugehoerigePostleitzahl = new()
+                }
+            }
+        };
+
+        if (SelectedOrder.AuftragID == 0)
+        {
+            AdressDifferent = true;
+        }
+
         IsLoading = false;
     }
 
@@ -348,44 +420,100 @@
         ApiService.InitializeEndpoint(ResourceEndpoint.orders);
         SelectedOrder = await ApiService.GetByIdAsync<Auftrag>(AuftragID);
 
-        SelectedOrder.Leistungsnachweise.ForEach(lnw =>
+        if (SelectedOrder != null)
         {
-            PerformanceRecordPositions.AddRange(lnw.Leistungsnachweispositionen);
-        });
+            SelectedOrder.Leistungsnachweise?.ForEach(lnw =>
+            {
+                PerformanceRecordPositions.AddRange(lnw.Leistungsnachweispositionen);
+            });
 
-        OutgoingInvoice.ZugehoerigeWaehrung = SelectedOrder.ZugehoerigeWaehrung;
-        OutgoingInvoice.ZugehoerigesGeschaeftsjahr = SelectedOrder.ZugehoerigesGeschaeftsjahr;
-        OutgoingInvoice.Rechnungsempfaenger = SelectedOrder.ZugehoerigesProjekt.Rechnungsempfaenger;
+            OutgoingInvoice.ZugehoerigeWaehrung = SelectedOrder.ZugehoerigeWaehrung;
+            OutgoingInvoice.ZugehoerigesGeschaeftsjahr = SelectedOrder.ZugehoerigesGeschaeftsjahr;
+            OutgoingInvoice.Rechnungsempfaenger = SelectedOrder.ZugehoerigesProjekt.Rechnungsempfaenger;
+            OutgoingInvoice.RechnungsempfaengerID = SelectedOrder.ZugehoerigesProjekt.Rechnungsempfaenger.DebitorID;
+
+            AdressDifferent = false;
+        }
+        else
+        {
+            foreach (var position in OutgoingInvoice.Rechnungspositionen)
+            {
+                position.AuftragspositionID = null;
+                position.LeistungsnachweispositionID = null;
+            }
+
+            OutgoingInvoice.RechnungsempfaengerID = null;
+
+            OutgoingInvoice.Rechnungsempfaenger = new()
+            {
+                    ZugehoerigeAdresse = new()
+                    {
+                        ZugehoerigePostleitzahl = new()
+                    }
+            };
+
+            SelectedOrder = new() { AuftragID = 0 };
+
+            OutgoingInvoice.WaehrungID = Currencies.FirstOrDefault().WaehrungID;
+            OutgoingInvoice.ZugehoerigeWaehrung = Currencies.FirstOrDefault();
+
+            AdressDifferent = true;
+        }
     }
 
-    private void Save()
+    private async Task CurrencyChanged(int WaehrungID)
+    {
+        if (WaehrungID != 0)
+        {
+            ApiService.InitializeEndpoint(ResourceEndpoint.currencies);
+            OutgoingInvoice.WaehrungID = WaehrungID;
+            OutgoingInvoice.ZugehoerigeWaehrung = await ApiService.GetByIdAsync<Waehrung>(WaehrungID);
+        }
+    }
+
+
+    private async Task ToggleAdress(bool value)
+    {
+        AdressDifferent = !value;
+
+        if (AdressDifferent)
+        {
+            OutgoingInvoice.Rechnungsempfaenger = new()
+                {
+                    ZugehoerigeAdresse = new()
+                    {
+                        ZugehoerigePostleitzahl = new()
+                    }
+                };
+        }
+        else if (SelectedOrder?.ZugehoerigesProjekt?.Rechnungsempfaenger != null)
+        {
+            OutgoingInvoice.Rechnungsempfaenger = SelectedOrder.ZugehoerigesProjekt.Rechnungsempfaenger;
+        }
+    }
+
+    private async Task Save()
     {
         AusgangsrechnungHistorie historie = new AusgangsrechnungHistorie()
             {
                 Bemerkung = "Ausgangsrechnung angelegt",
                 AktionsTyp = UserActionEnum.Create,
                 Zeitstempel = DateTime.Now,
-                Benutzer = AuthenticatedUser.Identity.Name
+                Benutzer = AuthenticatedUser.Identity?.Name
             };
 
         OutgoingInvoice.AusgangsrechnungHistorie.Add(historie);
 
         ApiService.InitializeEndpoint(ResourceEndpoint.outgoing_invoices);
 
+        Ausgangsrechnung result = await ApiService.CreateAsync<Ausgangsrechnung>(OutgoingInvoice);
+       
+        Navigation.NavigateTo("outgoing_invoices");
     }
 
     private void AddPosition()
     {
-
-        OutgoingInvoice.Rechnungspositionen.Add(new Ausgangsrechnungsposition()
-            {
-                ZugehoerigeAbrechnungseinheit = new(),
-                ZugehoerigeKostenstelle = new(),
-                ZugehoerigeAuftragsposition = new()
-                {
-                    Leistungsnachweisposition = new()
-                }
-            });
+        OutgoingInvoice.Rechnungspositionen.Add(new());
     }
 
     private void RemovePosition(Ausgangsrechnungsposition position)

@@ -21,7 +21,7 @@ namespace ACCWebAPI.Controllers
         }
 
         [HttpGet("")]
-        public async Task<IActionResult> GetOutgoingInvoices(int? currentPage, int? pageSize)
+        public async Task<IActionResult> GetOutgoingInvoices(int? currentPage = 0, int? pageSize = 0)
         {
             try
             {

@@ -55,9 +55,7 @@
                         </div>
                     </td>
                     <td>
-                        <div class="spinner-border spinner-border-sm" role="status">
-                            <span class="visually-hidden">Loading...</span>
-                        </div>
+
                     </td>
                 </tr>
             }
@@ -77,11 +75,38 @@
                     @foreach (Ausgangsrechnung outgoing_invoice in OutgoingInvoices)
                     {
                         <tr>
-                            <td>@outgoing_invoice.RechnungsNummer</td>
-                            <td>@outgoing_invoice.RechnungsDatum.ToShortDateString()</td>
-                            <td>@outgoing_invoice.BezahltDatum.GetValueOrDefault().ToShortDateString()</td>
+                            <td>
+                                @if (outgoing_invoice.RechnungsNummer == null)
+                                {
+                                    <Badge Color="BadgeColor.Danger">offen</Badge>
+                                }
+                                else
+                                {
+                                    @outgoing_invoice.RechnungsNummer
+                                }
+                            </td>
+                            <td>
+                                @if (outgoing_invoice.RechnungsNummer == null)
+                                {
+                                    <Badge Color="BadgeColor.Danger">offen</Badge>
+                                }
+                                else
+                                {
+                                    @outgoing_invoice.RechnungsDatum.ToShortDateString()
+                                }
+                            </td>
+                            <td>
+                                @if (outgoing_invoice.BezahltDatum == null)
+                                {
+                                    <Badge Color="BadgeColor.Danger">offen</Badge>
+                                }
+                                else
+                                {
+                                    @outgoing_invoice.BezahltDatum.GetValueOrDefault().ToShortDateString()
+                                }
+                                </td>
                             <td>@outgoing_invoice.Rechnungsempfaenger?.ZugehoerigerKunde?.Langname</td>
-                            <td>@outgoing_invoice.Rechnungspositionen.Sum(rp => rp.Nettobetrag).ToString("N2") @outgoing_invoice.ZugehoerigeWaehrung.WaehrungZeichen</td>
+                            <td>@outgoing_invoice.Rechnungspositionen.Sum(rp => rp.Nettobetrag).ToString("N2") @outgoing_invoice.ZugehoerigeWaehrung?.WaehrungZeichen</td>
                             <td>
                                 <div class="btn-group" role="group" aria-label="Actions">
                                     <Button Type="ButtonType.Link" @onclick="() => Edit(outgoing_invoice.AusgangsrechnungID)" Color="ButtonColor.Primary"><Icon Name="IconName.PencilSquare" /></Button>
@@ -114,6 +139,7 @@
 @code {
     // Initialize method
     private bool IsLoading = true;
+    private string Message;
 
     protected override async Task OnInitializedAsync()
     {
@@ -123,6 +149,7 @@
         OutgoingInvoices = await PaginationService.LoadPaginatetedData();
         IsLoading = false;
     }
+
 
     // Entity actions
     protected void Create() => Navigation.NavigateTo("outgoing_invoices/create");

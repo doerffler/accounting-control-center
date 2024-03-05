@@ -36,7 +36,16 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Positionsbeschreibung</th>
+                            <th>
+                                <div class="row">
+                                    <div class="col d-flex justify-content-start">
+                                        Positionsbeschreibung
+                                    </div>
+                                    <div class="col d-flex justify-content-end">
+                                        <Button class="btn btn-primary btn-sm" @onclick="AddPosition"><Icon Name="IconName.BagPlus" /> Position hinzufügen</Button>
+                                    </div>
+                                </div>
+                            </th>
                             <th>Steuersatz</th>
                             <th>Stueckpreis (Netto)</th>
                             <th>Stückzahl & Einheit</th>
@@ -45,6 +54,13 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @{
+                            Zwischensumme = 0;
+                            Rabattsumme = 0;
+                            Nettosumme = 0;
+                            Mwstsumme = 0;
+                            Bruttosumme = 0;
+                        }
                         @foreach (var position in OutgoingInvoice.Rechnungspositionen)
                         {
                             <tr>
@@ -63,34 +79,68 @@
                                     </div>
                                     <div class="row mt-1">
                                         <div class="col">
-                                            Kostenstelle:
+                                            <label class="form-label">Leistungsnachweisposition:</label>
+                                            @if (SelectedOrder?.AuftragID != 0)
+                                            {
+                                                @if (position.ZugehoerigeAuftragsposition.AuftragspositionID != 0)
+                                                {
+                                                    <InputSelect class="form-select form-select-sm" @bind-Value="position.LeistungsnachweispositionID">
+                                                        @foreach (Leistungsnachweisposition performance_record_position in PerformanceRecordPositions)
+                                                        {
+                                                            <option value="@performance_record_position.LeistungsnachweispositionID">@performance_record_position.Kommentar</option>
+                                                        }
+                                                    </InputSelect>
+                                                }
+                                                else
+                                                {
+                                                    <div>
+                                                        <Badge Color="BadgeColor.Info"><Icon Name="IconName.ExclamationTriangleFill" /> Bitte wähle zuerst eine Auftragsposition aus</Badge>
+                                                    </div>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <div>
+                                                    <Badge Color="BadgeColor.Info"><Icon Name="IconName.ExclamationTriangleFill" /> Bitte wähle zuerst einen Auftrag aus</Badge>
+                                                </div>
+                                            }
                                         </div>
                                         <div class="col">
-                                            <InputSelect class="form-select form-select-sm" @bind-Value="position.ZugehoerigeKostenstelle.KostenstelleID">
-                                                @foreach (Kostenstelle kostenstelle in CostCentres)
-                                                {
-                                                    <option value="@kostenstelle.KostenstelleID">@kostenstelle.Kostenstellenbezeichnung (@kostenstelle.KostenstellenNummer)</option>
-                                                }
-                                            </InputSelect>
+                                            <label class="form-label">Auftragsposition:</label>
+                                            @if (SelectedOrder?.AuftragID != 0)
+                                            {
+                                                <InputSelect class="form-select form-select-sm" @bind-Value="position.AuftragspositionID">
+                                                    @foreach (Auftragsposition order_position in SelectedOrder.Auftragspositionen)
+                                                    {
+                                                        <option value="@order_position.AuftragspositionID">@order_position.Positionsbezeichnung</option>
+                                                    }
+                                                </InputSelect>
+                                            }
+                                            else
+                                            {
+                                                <div>
+                                                    <Badge Color="BadgeColor.Info"><Icon Name="IconName.ExclamationTriangleFill" /> Bitte wähle zuerst einen Auftrag aus</Badge>
+                                                </div>
+                                            }
                                         </div>
                                     </div>
                                 </td>
-                                <td width="9%">
+                                <td width="7%" style="vertical-align: bottom;">
                                     <div class="input-group">
-                                        <input class="form-control" type="number" style="width: 60%; text-align: right" placeholder="Steuersatz" @bind-value="position.Steuersatz" />
-                                        <input class="form-control" value="%" disabled="true" />
+                                        <input class="form-control form-control-sm" type="number" style="width: 20%; text-align: right" placeholder="Steuersatz" step="0.01" @bind-value="position.Steuersatz" />
+                                        <input class="form-control form-control-sm" value="@(position.Steuersatz*100) %" style="text-align: right" disabled="disabled" />
                                     </div>
                                 </td>
-                                <td width="10%">
+                                <td width="10%" style="vertical-align: bottom;">
                                     <div class="input-group">
-                                        <input class="form-control" type="number" style="width: 70%; text-align: right" placeholder="Stückpreis (Netto)" @bind-value="position.StueckpreisNetto" />
-                                        <input class="form-control" value="@OutgoingInvoice.ZugehoerigeWaehrung?.WaehrungZeichen" disabled="true" />
+                                        <input class="form-control form-control-sm" type="number" style="width: 70%; text-align: right" placeholder="Stückpreis (Netto)" @bind-value="position.StueckpreisNetto" />
+                                        <input class="form-control form-control-sm" value="@OutgoingInvoice.ZugehoerigeWaehrung?.WaehrungZeichen" disabled="disabled" />
                                     </div>
                                 </td>
-                                <td width="15%">
+                                <td width="11%" style="vertical-align: bottom;">
                                     <div class="input-group">
-                                        <input class="form-control" type="number" style="width: 60%; text-align: right" placeholder="Stückzahl" @bind-value="position.Stueckzahl" />
-                                        <InputSelect class="form-select" @bind-Value="position.ZugehoerigeAbrechnungseinheit.AbrechnungseinheitID">
+                                        <input class="form-control form-control-sm" type="number" style="width: 55%; text-align: right" placeholder="Stückzahl" @bind-value="position.Stueckzahl" />
+                                        <InputSelect class="form-select form-select-sm" @bind-Value="position.AbrechnungseinheitID">
                                             @foreach (Abrechnungseinheit abrechnungseinheit in AccountingUnits)
                                             {
                                                 <option value="@abrechnungseinheit.AbrechnungseinheitID">@abrechnungseinheit.Abkuerzung</option>
@@ -98,22 +148,58 @@
                                         </InputSelect>
                                     </div>
                                 </td>
-                                <td width="10%">
+                                <td width="10%" style="vertical-align: bottom;">
                                     <div class="input-group">
-                                        <input class="form-control" style="text-align: right; width: 70%" value="@position.Nettobetrag.ToString("N2")" disabled="true" />
-                                        <input class="form-control" value="@OutgoingInvoice.ZugehoerigeWaehrung?.WaehrungZeichen" disabled="true" />
+                                        <input class="form-control form-control-sm" style="text-align: right; width: 70%" value="@position.Nettobetrag.ToString("N2")" disabled="true" />
+                                        <input class="form-control form-control-sm" value="@OutgoingInvoice.ZugehoerigeWaehrung?.WaehrungZeichen" disabled="true" />
                                     </div>
                                 </td>
-                                <td width="5%">
-                                    <Button class="btn btn-danger" @onclick="() => RemovePosition(position)">
+                                <td width="5%" style="vertical-align: bottom;">
+                                    <Button class="btn btn-danger btn-sm" @onclick="() => RemovePosition(position)">
                                         <Icon Name="IconName.Trash" />
                                     </Button>
                                 </td>
                             </tr>
+                            Zwischensumme += position.Nettobetrag;
+                            Rabattsumme += position.Nettobetrag * OutgoingInvoice.RabattPct.GetValueOrDefault();
+                            Mwstsumme += (position.Nettobetrag - (position.Nettobetrag * OutgoingInvoice.RabattPct.GetValueOrDefault())) * position.Steuersatz;
                         }
+                        @if (@OutgoingInvoice.RabattPct != null)
+                        {
+                            <tr>
+                                <td style="text-align: right;" colspan="4"><b>Zwischensumme (Netto):</b></td>
+                                <td style="text-align: right;"><b>@Zwischensumme.ToString("N2") @OutgoingInvoice.ZugehoerigeWaehrung?.WaehrungZeichen</b></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: right;" colspan="4">Rabatt (@(Math.Round((decimal)OutgoingInvoice.RabattPct * 100, 2)) %):</td>
+                                <td style="text-align: right;">@Rabattsumme.ToString("N2") @OutgoingInvoice.ZugehoerigeWaehrung?.WaehrungZeichen</td>
+                                <td></td>
+                            </tr>
+                        }
+                        <tr>
+                            @{
+                                Nettosumme = Zwischensumme - Rabattsumme;
+                            }
+                            <td style="text-align: right;" colspan="4"><b>Gesamtpreis (Netto):</b></td>
+                            <td style="text-align: right;"><b>@Nettosumme.ToString("N2") @OutgoingInvoice.ZugehoerigeWaehrung?.WaehrungZeichen</b></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;" colspan="4">Mehrwertsteuerbetrag:</td>
+                            <td style="text-align: right;">@Mwstsumme.ToString("N2") @OutgoingInvoice.ZugehoerigeWaehrung?.WaehrungZeichen</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            @{
+                                Bruttosumme = Nettosumme + Mwstsumme;
+                            }
+                            <td style="text-align: right;" colspan="4"><b>Gesamtpreis (Brutto):</b></td>
+                            <td style="text-align: right;"><b>@Bruttosumme.ToString("N2") @OutgoingInvoice.ZugehoerigeWaehrung?.WaehrungZeichen</b></td>
+                            <td></td>
+                        </tr>
                     </tbody>
                 </table>
-                <Button class="btn btn-primary" @onclick="AddPosition"><Icon Name="IconName.BagPlus" /> Position hinzufügen</Button>
             }
         }
     </CardBody>
@@ -124,11 +210,25 @@
     public int OutgoingInvoiceId { get; set; }
 
     private Ausgangsrechnung OutgoingInvoice;
-    private bool IsLoading = true;
 
+    private Auftrag SelectedOrder;
+
+    private ClaimsPrincipal AuthenticatedUser;
+
+    private List<Leistungsnachweisposition> PerformanceRecordPositions;
     private IEnumerable<Kostenstelle> CostCentres;
+    private IEnumerable<Auftrag> Orders;
     private IEnumerable<Abrechnungseinheit> AccountingUnits;
     private IEnumerable<Waehrung> Currencies;
+
+    private bool IsLoading = true;
+    private bool AdressDifferent = false;
+
+    private decimal Zwischensumme = 0;
+    private decimal Rabattsumme = 0;
+    private decimal Nettosumme = 0;
+    private decimal Mwstsumme = 0;
+    private decimal Bruttosumme = 0;
 
     protected override async Task OnInitializedAsync()
     {
