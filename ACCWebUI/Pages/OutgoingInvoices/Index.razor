@@ -105,7 +105,7 @@
                                     @outgoing_invoice.BezahltDatum.GetValueOrDefault().ToShortDateString()
                                 }
                                 </td>
-                            <td>@outgoing_invoice.Rechnungsempfaenger?.ZugehoerigerKunde?.Langname</td>
+                            <td>@outgoing_invoice.Rechnungsempfaenger?.Anschrift</td>
                             <td>@outgoing_invoice.Rechnungspositionen.Sum(rp => rp.Nettobetrag).ToString("N2") @outgoing_invoice.ZugehoerigeWaehrung?.WaehrungZeichen</td>
                             <td>
                                 <div class="btn-group" role="group" aria-label="Actions">
@@ -139,7 +139,6 @@
 @code {
     // Initialize method
     private bool IsLoading = true;
-    private string Message;
 
     protected override async Task OnInitializedAsync()
     {

@@ -51,25 +51,14 @@ namespace ACCWebUI.Services
             {
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", await AcquireToken());
 
-                HttpResponseMessage response;
-
-                switch (method.Method.ToUpper())
+                HttpResponseMessage response = method.Method.ToUpper() switch
                 {
-                    case "GET":
-                        response = await _httpClient.GetAsync(_apiBaseUrl + relativeUrl);
-                        break;
-                    case "POST":
-                        response = await _httpClient.PostAsync(_apiBaseUrl + relativeUrl, payload);
-                        break;
-                    case "PUT":
-                        response = await _httpClient.PutAsync(_apiBaseUrl + relativeUrl, payload);
-                        break;
-                    case "DELETE":
-                        response = await _httpClient.DeleteAsync(_apiBaseUrl + relativeUrl); 
-                        break;
-                    default:
-                        throw new ArgumentException("Invalid HTTP method specified.");
-                }
+                    "GET" => await _httpClient.GetAsync(_apiBaseUrl + relativeUrl),
+                    "POST" => await _httpClient.PostAsync(_apiBaseUrl + relativeUrl, payload),
+                    "PUT" => await _httpClient.PutAsync(_apiBaseUrl + relativeUrl, payload),
+                    "DELETE" => await _httpClient.DeleteAsync(_apiBaseUrl + relativeUrl),
+                    _ => throw new ArgumentException("Invalid HTTP method specified."),
+                };
 
                 if (response.IsSuccessStatusCode)
                 {

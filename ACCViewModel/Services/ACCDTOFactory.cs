@@ -92,7 +92,8 @@ namespace ACC.ViewModel.Services
             currentProjekt.Projektname = project.ProjectName;
 
             currentProjekt.Rechnungsempfaenger = currentRechnungsempfaenger;
-            currentRechnungsempfaenger.Projekte.Add(currentProjekt);
+
+            currentRechnungsempfaenger.Projekte = new List<Projekt> { currentProjekt };
 
             foreach (string skill in project.Skills)
             {

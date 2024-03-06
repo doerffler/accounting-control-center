@@ -17,7 +17,7 @@ namespace ACCDataModel.Stammdaten
 
         public Kunde()
         {
-            Rechnungsempfaenger = new();
+
         }
 
     }

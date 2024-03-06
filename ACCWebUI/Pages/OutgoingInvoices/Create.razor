@@ -3,6 +3,7 @@
 @inject ApiService ApiService
 @inject NavigationManager Navigation
 @inject AuthenticationStateProvider AuthenticationStateProvider
+@inject ToastService ToastService
 
 @attribute [Authorize]
 
@@ -50,8 +51,8 @@
                     <div class="col">
                         <label class="form-label">Währung:</label>
                         <InputSelect class="form-select"
-                                     ValueExpression="@(() => OutgoingInvoice.WaehrungID)"
-                                     Value="@OutgoingInvoice.WaehrungID"
+                                     ValueExpression="@(() => OutgoingInvoice.ZugehoerigeWaehrungID)"
+                                     Value="@OutgoingInvoice.ZugehoerigeWaehrungID"
                                      ValueChanged="@((int value) => CurrencyChanged(value))">
                             @foreach (Waehrung currency in Currencies)
                             {
@@ -135,10 +136,10 @@
                     else
                     {
                         <p>
-                            <span>@OutgoingInvoice.Rechnungsempfaenger.Anschrift</span>
+                            <span>@OutgoingInvoice.Rechnungsempfaenger?.Anschrift</span>
                         </p>
                         <p>
-                            @if (OutgoingInvoice.Rechnungsempfaenger.ZugehoerigeAdresse != null)
+                            @if (OutgoingInvoice.Rechnungsempfaenger?.ZugehoerigeAdresse != null)
                             {
                                 <span>@OutgoingInvoice.Rechnungsempfaenger.ZugehoerigeAdresse?.Strasse @OutgoingInvoice.Rechnungsempfaenger.ZugehoerigeAdresse?.Hausnummer</span>
                                 <br />
@@ -214,9 +215,9 @@
                                         <label class="form-label">Leistungsnachweisposition:</label>
                                         @if (SelectedOrder?.AuftragID != 0)
                                         {
-                                            @if (position.AuftragspositionID != null)
+                                            @if (position.ZugehoerigeAuftragspositionID != null)
                                             {
-                                                <InputSelect class="form-select form-select-sm" @bind-Value="position.LeistungsnachweispositionID">
+                                                <InputSelect class="form-select form-select-sm" @bind-Value="position.ZugehoerigeLeistungsnachweispositionID">
                                                     <option value="">Keine Zuordnung</option>
                                                     @foreach (Leistungsnachweisposition performance_record_position in PerformanceRecordPositions)
                                                     {
@@ -242,7 +243,7 @@
                                         <label class="form-label">Auftragsposition:</label>
                                         @if (SelectedOrder?.AuftragID != 0)
                                         {
-                                            <InputSelect class="form-select form-select-sm" @bind-Value="position.AuftragspositionID">
+                                            <InputSelect class="form-select form-select-sm" @bind-Value="position.ZugehoerigeAuftragspositionID">
                                                 <option value="">Keine Zuordnung</option>
                                                 @foreach (Auftragsposition order_position in SelectedOrder.Auftragspositionen)
                                                 {
@@ -274,7 +275,7 @@
                             <td width="11%" style="vertical-align: bottom;">
                                 <div class="input-group">
                                     <input class="form-control form-control-sm" type="number" style="width: 55%; text-align: right" placeholder="Stückzahl" @bind-value="position.Stueckzahl" />
-                                    <InputSelect class="form-select form-select-sm" @bind-Value="position.AbrechnungseinheitID">
+                                    <InputSelect class="form-select form-select-sm" @bind-Value="position.ZugehoerigeAbrechnungseinheitID">
                                         <option value=""></option>
                                         @foreach (Abrechnungseinheit abrechnungseinheit in AccountingUnits)
                                         {
@@ -339,8 +340,9 @@
     </CardBody>
 </Card>
 
-
 @code {
+
+
     private Ausgangsrechnung OutgoingInvoice;
 
     private Auftrag SelectedOrder;
@@ -390,10 +392,10 @@
 
         OutgoingInvoice = new Ausgangsrechnung()
         {
-            WaehrungID = Currencies.FirstOrDefault().WaehrungID,
+            ZugehoerigeWaehrungID = Currencies.FirstOrDefault().WaehrungID,
             ZugehoerigeWaehrung = Currencies.FirstOrDefault(),
             RechnungsDatum = DateTime.Now,
-            AusgangsrechnungHistorie = new List<AusgangsrechnungHistorie>(),
+            ZugehoerigeAusgangsrechnungshistorie = new List<Ausgangsrechnungshistorie>(),
             Rechnungspositionen = new List<Ausgangsrechnungsposition>(),
             Rechnungsempfaenger = new()
             {
@@ -436,10 +438,10 @@
         }
         else
         {
-            foreach (var position in OutgoingInvoice.Rechnungspositionen)
+            foreach (Ausgangsrechnungsposition position in OutgoingInvoice.Rechnungspositionen)
             {
-                position.AuftragspositionID = null;
-                position.LeistungsnachweispositionID = null;
+                position.ZugehoerigeAuftragspositionID = null;
+                position.ZugehoerigeLeistungsnachweispositionID = null;
             }
 
             OutgoingInvoice.RechnungsempfaengerID = null;
@@ -454,7 +456,7 @@
 
             SelectedOrder = new() { AuftragID = 0 };
 
-            OutgoingInvoice.WaehrungID = Currencies.FirstOrDefault().WaehrungID;
+            OutgoingInvoice.ZugehoerigeWaehrungID = Currencies.FirstOrDefault().WaehrungID;
             OutgoingInvoice.ZugehoerigeWaehrung = Currencies.FirstOrDefault();
 
             AdressDifferent = true;
@@ -466,7 +468,7 @@
         if (WaehrungID != 0)
         {
             ApiService.InitializeEndpoint(ResourceEndpoint.currencies);
-            OutgoingInvoice.WaehrungID = WaehrungID;
+            OutgoingInvoice.ZugehoerigeWaehrungID = WaehrungID;
             OutgoingInvoice.ZugehoerigeWaehrung = await ApiService.GetByIdAsync<Waehrung>(WaehrungID);
         }
     }
@@ -485,6 +487,11 @@
                         ZugehoerigePostleitzahl = new()
                     }
                 };
+
+            if(SelectedOrder?.AuftragID != 0)
+            {
+                OutgoingInvoice.Rechnungsempfaenger.ZugehoerigerKundeID = SelectedOrder?.ZugehoerigesProjekt.Rechnungsempfaenger.ZugehoerigerKundeID;
+            }
         }
         else if (SelectedOrder?.ZugehoerigesProjekt?.Rechnungsempfaenger != null)
         {
@@ -494,7 +501,26 @@
 
     private async Task Save()
     {
-        AusgangsrechnungHistorie historie = new AusgangsrechnungHistorie()
+        // Felder auf Null setzen für den Context. 
+        // TODO: Später vielleicht schönere Lösung finden
+        if (!AdressDifferent)
+        {
+            OutgoingInvoice.Rechnungsempfaenger = null;
+        }
+
+        foreach (Ausgangsrechnungsposition position in OutgoingInvoice.Rechnungspositionen)
+        {
+            position.ZugehoerigeAuftragsposition = null;
+            position.ZugehoerigeRechnung = null;
+            position.ZugehoerigeLeistungsnachweisposition = null;
+            position.ZugehoerigeAbrechnungseinheit = null;
+            position.ZugehoerigeKostenstelle = null;
+        }
+
+        OutgoingInvoice.ZugehoerigeWaehrung = null;
+        OutgoingInvoice.ZugehoerigesGeschaeftsjahr = null;
+
+        Ausgangsrechnungshistorie historie = new Ausgangsrechnungshistorie()
             {
                 Bemerkung = "Ausgangsrechnung angelegt",
                 AktionsTyp = UserActionEnum.Create,
@@ -502,12 +528,23 @@
                 Benutzer = AuthenticatedUser.Identity?.Name
             };
 
-        OutgoingInvoice.AusgangsrechnungHistorie.Add(historie);
+        OutgoingInvoice.ZugehoerigeAusgangsrechnungshistorie.Add(historie);
 
         ApiService.InitializeEndpoint(ResourceEndpoint.outgoing_invoices);
 
         Ausgangsrechnung result = await ApiService.CreateAsync<Ausgangsrechnung>(OutgoingInvoice);
-       
+
+        ToastService.Notify(
+            new ToastMessage()
+            {
+                Type = ToastType.Success,
+                IconName = IconName.FileEarmarkCheck,
+                Title = "Ausgangsrechnung",
+                HelpText = DateTime.Now.ToString(),
+                Message = "Ausgangsrechnung erfolgreich erstellt",
+            }
+        );
+
         Navigation.NavigateTo("outgoing_invoices");
     }
 

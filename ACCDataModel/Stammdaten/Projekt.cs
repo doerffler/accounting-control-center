@@ -19,6 +19,8 @@ namespace ACCDataModel.Stammdaten
 
         public List<Skill> Skills { get; set; }
 
+        public int? RechnungsempfaengerID { get; set; }
+
         public Debitor Rechnungsempfaenger { get; set; }
 
         public Projekt()

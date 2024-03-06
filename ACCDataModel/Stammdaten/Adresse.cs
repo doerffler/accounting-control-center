@@ -15,6 +15,8 @@ namespace ACCDataModel.Stammdaten
 
         public string Postfach { get; set; }
 
+        public int? ZugehoerigePostleitzahlID { get; set; }
+
         public Postleitzahl ZugehoerigePostleitzahl { get; set; }
 
         public Adresse()

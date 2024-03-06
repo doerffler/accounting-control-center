@@ -25,8 +25,7 @@ namespace ACCDataModel.Stammdaten
 
         public Geschaeftsjahr()
         {
-            Feiertage = new();
-            Auftraege = new();
+
         }
     }
 }

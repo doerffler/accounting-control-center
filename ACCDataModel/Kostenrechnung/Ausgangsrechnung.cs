@@ -15,7 +15,7 @@ namespace ACCDataModel.Kostenrechnung
 
         public string Rechnungstext {  get; set; }
 
-        public ICollection<AusgangsrechnungHistorie> AusgangsrechnungHistorie { get; set; }
+        public ICollection<Ausgangsrechnungshistorie> ZugehoerigeAusgangsrechnungshistorie { get; set; }
 
         public ICollection<Ausgangsrechnungsposition> Rechnungspositionen { get; set; }
 

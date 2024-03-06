@@ -7,7 +7,9 @@ namespace ACCDataModel.Stammdaten
     {
         public int LeistungsnachweispositionID {  get; set; }
 
-        public Leistungsnachweis Leistungsnachweis {  get; set; }
+        public int? LeistungsnachweisID { get; set; }
+
+        public Leistungsnachweis Leistungsnachweis { get; set; }
 
         public DateTime Datum { get; set; }
 
@@ -15,9 +17,7 @@ namespace ACCDataModel.Stammdaten
 
         public decimal Fakturierbar {  get; set; }
 
-        public int? AusgangangsrechnungspositionID { get; set; }
-
-        public Ausgangsrechnungsposition Ausgangsrechnungsposition { get; set; }
+        public Ausgangsrechnungsposition ZugehoerigeAusgangsrechnungsposition { get; set; }
 
         public string Kommentar {  get; set; }
     }

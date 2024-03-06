@@ -327,7 +327,7 @@ namespace ACC.ViewModel.Services
         {
             IQueryable<Leistungsnachweis> query = DBContext.Leistungsnachweise
                 .Include(lnw => lnw.Leistungsnachweispositionen)
-                .Include(lnw => lnw.Kostenstelle)
+                .Include(lnw => lnw.ZugehoerigeKostenstelle)
                 .Include(lnw => lnw.ZugehoerigerAuftrag);
 
             if ((currentPage.Value != 0) || (pageSize.Value != 0))
@@ -351,7 +351,7 @@ namespace ACC.ViewModel.Services
         {
             return await GetDataFromDbSetAsync(DBContext.Leistungsnachweise
                 .Include(lnw => lnw.Leistungsnachweispositionen)
-                .Include(lnw => lnw.Kostenstelle)
+                .Include(lnw => lnw.ZugehoerigeKostenstelle)
                 .Include(lnw => lnw.ZugehoerigerAuftrag)
                 .Where(a => a.LeistungsnachweisID == LeistungsnachweisID), cancellationToken);
         }
@@ -549,7 +549,7 @@ namespace ACC.ViewModel.Services
         {
             IQueryable<Ausgangsrechnung> query = DBContext.Ausgangsrechnungen
                 .Include(ar => ar.ZugehoerigeWaehrung)
-                .Include(ar => ar.AusgangsrechnungHistorie)
+                .Include(ar => ar.ZugehoerigeAusgangsrechnungshistorie)
                 .Include(ar => ar.Rechnungsempfaenger.Projekte)
                 .Include(ar => ar.Rechnungsempfaenger.ZugehoerigerKunde)
                 .Include(ar => ar.Rechnungsempfaenger.ZugehoerigerKunde.Rechnungsempfaenger)
@@ -585,7 +585,7 @@ namespace ACC.ViewModel.Services
                 DBContext.Ausgangsrechnungen
                 .Where(ar => ar.AusgangsrechnungID == AusgangsrechnungID)
                 .Include(ar => ar.ZugehoerigeWaehrung)
-                .Include(ar => ar.AusgangsrechnungHistorie)
+                .Include(ar => ar.ZugehoerigeAusgangsrechnungshistorie)
                 .Include(ar => ar.Rechnungsempfaenger.Projekte)
                 .Include(ar => ar.Rechnungsempfaenger.ZugehoerigerKunde)
                 .Include(ar => ar.Rechnungsempfaenger.ZugehoerigerKunde.Rechnungsempfaenger)
@@ -848,7 +848,9 @@ namespace ACC.ViewModel.Services
 
         public async Task<IEnumerable<Geschaeftsjahr>> GetGeschaeftsjahreAsync(CancellationToken cancellationToken = default)
         {
-            return await GetDataFromDbSetAsync(DBContext.Geschaeftsjahre.Include(g => g.Auftraege).ThenInclude(a => a.Auftragspositionen), cancellationToken);
+            return await GetDataFromDbSetAsync(DBContext.Geschaeftsjahre
+                .Include(g => g.Auftraege)
+                .ThenInclude(a => a.Auftragspositionen), cancellationToken);
         }
 
         public async Task<Geschaeftsjahr> CreateGeschaeftsjahrAsync(CancellationToken cancellationToken = default)

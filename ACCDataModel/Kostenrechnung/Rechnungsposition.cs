@@ -11,13 +11,13 @@ namespace ACCDataModel.Kostenrechnung
                 
         public int PositionsNummer { get; set; }
 
-        public int? KostenstelleID { get; set; }
+        public int? ZugehoerigeKostenstelleID { get; set; }
 
         public Kostenstelle ZugehoerigeKostenstelle { get; set; }
 
         public decimal Stueckzahl { get; set; }
 
-        public int? AbrechnungseinheitID { get; set; }
+        public int? ZugehoerigeAbrechnungseinheitID { get; set; }
 
         public Abrechnungseinheit ZugehoerigeAbrechnungseinheit { get; set; }
 

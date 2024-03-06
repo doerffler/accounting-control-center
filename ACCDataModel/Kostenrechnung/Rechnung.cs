@@ -17,15 +17,15 @@ namespace ACCDataModel.Kostenrechnung
 
         public DateTime? BezahltDatum { get; set; }
 
-        public int WaehrungID { get; set; }
+        public int ZugehoerigeWaehrungID { get; set; }
 
         public Waehrung ZugehoerigeWaehrung { get; set; }
 
-        public int? GeschaeftsjahrID { get; set; }
+        public int? ZugehoerigesGeschaeftsjahrID { get; set; }
 
         public Geschaeftsjahr ZugehoerigesGeschaeftsjahr { get; set; }
 
-        public int? RechnungsdokumentID { get; set; }
+        public int? ZugehoerigesDokumentID { get; set; }
 
         public Rechnungsdokument ZugehoerigesDokument { get; set; }
 

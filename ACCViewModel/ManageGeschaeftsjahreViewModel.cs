@@ -132,7 +132,7 @@ namespace ACC.ViewModel
             Feiertag feiertag = await ACCService.CreateFeiertagAsync(cancellationToken);
             feiertag.Datum = DateTime.Now;
             feiertag.FeiertagName = "Neuer Feiertag";
-            feiertag.Geschaeftsjahr = SelectedGeschaeftsjahr;
+            feiertag.ZugehoerigesGeschaeftsjahr = SelectedGeschaeftsjahr;
             Feiertage.Add(feiertag);
         }
 
@@ -153,7 +153,7 @@ namespace ACC.ViewModel
                     if (apiFeiertag.Date >= SelectedGeschaeftsjahr.DatumVon && apiFeiertag.Date < SelectedGeschaeftsjahr.DatumBis)
                     {
                         Feiertag feiertag = await ACCService.CreateFeiertagAsync();
-                        feiertag.Geschaeftsjahr = SelectedGeschaeftsjahr;
+                        feiertag.ZugehoerigesGeschaeftsjahr = SelectedGeschaeftsjahr;
                         feiertag.Datum = apiFeiertag.Date;
                         feiertag.FeiertagName = string.Format("{0} {1}", apiFeiertag.Name, apiFeiertag.Date.Year.ToString());
                         feiertag.Niedersachsen = apiFeiertag.Niedersachsen == "1";

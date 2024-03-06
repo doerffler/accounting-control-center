@@ -5,7 +5,8 @@
         Create,
         Update, 
         Delete,
-        Release,
-        Note
+        Review, // Bei "Timo"
+        Released, // Datev
+        Sent // Gesendet an Rechnungsempfänger
     }
 }

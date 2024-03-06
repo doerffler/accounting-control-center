@@ -13,6 +13,8 @@
 
         public decimal StueckpreisNetto { get; set; }
 
+        public int? AuftragID { get; set; }
+
         public Auftrag Auftrag { get; set; }
         
         public string Positionsbezeichnung { get; set; }   

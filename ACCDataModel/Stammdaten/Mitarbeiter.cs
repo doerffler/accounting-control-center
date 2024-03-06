@@ -15,12 +15,16 @@ namespace ACCDataModel.Stammdaten
 
         public int? PersonalnummerDatev { get; set; }
 
+        public int? ZugehoerigeKostenstelleID { get; set; }
+
         public Kostenstelle ZugehoerigeKostenstelle { get; set; }
 
         public DateTime? Geburtsdatum { get; set; }
 
         public string IBAN { get; set; }
 
+        public int? ZugehoerigeAdresseID { get; set; }
+        
         public Adresse ZugehoerigeAdresse { get; set; }
 
         public List<Anstellungsdetail> Anstellungshistorie { get; set; }

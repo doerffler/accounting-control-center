@@ -3,10 +3,10 @@ using System;
 
 namespace ACCDataModel.Kostenrechnung
 {
-    public class AusgangsrechnungHistorie
+    public class Ausgangsrechnungshistorie
     {
 
-        public int AusgangsrechnungHistorieID { get; set; }
+        public int AusgangsrechnungshistorieID { get; set; }
 
         public DateTime Zeitstempel { get; set; }
 
@@ -16,9 +16,11 @@ namespace ACCDataModel.Kostenrechnung
 
         public string Benutzer { get; set; }
 
+        public int? ZugehoerigeAusgangsrechnungID { get; set; }
+
         public Ausgangsrechnung ZugehoerigeAusgangsrechnung { get; set; }
 
-        public AusgangsrechnungHistorie() : base()
+        public Ausgangsrechnungshistorie() : base()
         {
 
         }

@@ -7,6 +7,8 @@ namespace ACCDataModel.Stammdaten
 
         public int AnstellungsdetailID { get; set; }
 
+        public int? ZugehoerigerMitarbeiterID { get; set; }
+
         public Mitarbeiter ZugehoerigerMitarbeiter { get; set; }
 
         public DateTime GueltigAb { get; set; }
@@ -16,6 +18,8 @@ namespace ACCDataModel.Stammdaten
         public int AnzahlMonatsgehaelter { get; set; }
 
         public int AnzahlArbeitsstunden { get; set; }
+
+        public int? ZugehoerigeTaetigkeitID { get; set; }
 
         public Taetigkeit ZugehoerigeTaetigkeit { get; set; }
 

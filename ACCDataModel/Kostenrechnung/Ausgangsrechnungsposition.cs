@@ -11,20 +11,19 @@ namespace ACCDataModel.Kostenrechnung
 
         public int AusgangsrechnungspositionID { get; set; }
 
-
-        public int AusgangsrechnungID { get; set; }
+        public int ZugehoerigeRechnungID { get; set; }
 
         public Ausgangsrechnung ZugehoerigeRechnung { get; set; }
 
         public ICollection<Eingangsrechnungsposition> ZugehoerigeFremdleistungen { get; set; }
 
-        public int? AuftragspositionID { get; set; }
+        public int? ZugehoerigeAuftragspositionID { get; set; }
 
         public Auftragsposition ZugehoerigeAuftragsposition { get; set; }
 
-        public int? LeistungsnachweispositionID { get; set; }
+        public int? ZugehoerigeLeistungsnachweispositionID { get; set; }
 
-        public Leistungsnachweisposition Leistungsnachweisposition { get; set; }
+        public Leistungsnachweisposition ZugehoerigeLeistungsnachweisposition { get; set; }
 
         public Ausgangsrechnungsposition() : base ()
         {

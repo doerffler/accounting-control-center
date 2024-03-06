@@ -20,13 +20,21 @@ namespace ACCDataModel.Stammdaten
 
         public List<Auftragsposition> Auftragspositionen { get; set; }
 
+        public int? VerantwortlicherMitarbeiterID { get; set; }
+
         public Mitarbeiter VerantwortlicherMitarbeiter { get; set; }
-        
+
+        public int? ZugehoerigesGeschaeftsjahrID { get; set; }
+
         public Geschaeftsjahr ZugehoerigesGeschaeftsjahr { get; set; }
+
+        public int? ZugehoerigesProjektID { get; set; }
 
         public Projekt ZugehoerigesProjekt { get; set; }
 
         public int Vertragsnummer { get; set; }
+
+        public int? ZugehoerigeWaehrungID { get; set; }
 
         public Waehrung ZugehoerigeWaehrung { get; set; }
 

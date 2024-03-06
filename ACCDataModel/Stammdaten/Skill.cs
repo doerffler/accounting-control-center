@@ -15,6 +15,8 @@ namespace ACCDataModel.Stammdaten
 
         public string SkillName { get; set; }
 
+        public int? ParentSkillID { get; set; }
+
         public Skill ParentSkill { get; set; }
 
         public List<Skill> ChildSkills { get; set; }
