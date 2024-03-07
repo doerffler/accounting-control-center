@@ -9,7 +9,7 @@ namespace ACCDataModel.Stammdaten
     public class Geschaeftsjahr
     {
 
-        public int GeschaeftsjahrId { get; set; }
+        public int GeschaeftsjahrID { get; set; }
 
         public string Name { get; set; }
 

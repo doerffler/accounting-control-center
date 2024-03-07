@@ -1,11 +1,112 @@
 ﻿@page "/dashboard"
 
+@inject ApiService ApiService
+@inject NavigationManager Navigation
+
 @attribute [Authorize]
 
 <PageTitle>Dashboard | ACC Web UI</PageTitle>
 
 <h1>Dashboard</h1>
 
-@code {
+@if (IsLoading)
+{
+    <div class="spinner-border ms-auto" aria-hidden="true"></div>
+}
+else
+{
+    <div class="row g-3 d-flex align-items-center">
+        <div class="col-auto d-flex align-items-center">
+            <label class="form-label">Geschäftsjahr:</label>
+        </div>
+        <div class="col-auto d-flex align-items-center">
+            <InputSelect class="form-select form-select-sm"
+                         ValueExpression="@(() => SelectedBusinessYear.GeschaeftsjahrID)"
+                         Value="@SelectedBusinessYear.GeschaeftsjahrID"
+                         ValueChanged="@((int value) => BusinessYearChanged(value))">
+                @foreach (Geschaeftsjahr businessYear in BusinessYears)
+                {
+                    <option value="@businessYear.GeschaeftsjahrID">@businessYear.Name</option>
+                }
+            </InputSelect>
+        </div>
+    </div>
 
+    <hr />
+
+    <h2 class="mb-3">Restbudget Aufträge</h2>
+    <div class="custom-grid mb-3">
+        @if (SelectedBusinessYear.Auftraege.Count == 0)
+        {
+            <Alert Color="AlertColor.Danger" Class="shadow-sm"><Icon Name="IconName.ExclamationTriangleFill" /> Keine Aufträge vorhanden</Alert>
+        }
+        else
+        {
+            @foreach (Auftrag order in SelectedBusinessYear.Auftraege)
+            {
+                var result = Charts.SelectMany(items => items.Where(item => item.OrderID == order.AuftragID)).GroupBy(item => item.OrderPosition).ToList();
+
+                <div class="card shadow p-3">
+                    <h3>@order.Auftragsname</h3>
+
+                    <LineChart />
+                </div>
+            }
+        }
+    </div>
+}
+
+@code {
+    private bool IsLoading = true;
+
+    private Geschaeftsjahr SelectedBusinessYear;
+    private IEnumerable<Geschaeftsjahr> BusinessYears;
+
+    private List<List<RemainingBudgetOnOrdersDTO>> Charts;
+
+    protected override async Task OnInitializedAsync()
+    {
+        ApiService.InitializeEndpoint(ResourceEndpoint.business_years);
+        ApiResponseDTO<Geschaeftsjahr> geschaeftsjahre = await ApiService.GetAsync<ApiResponseDTO<Geschaeftsjahr>>();
+        BusinessYears = geschaeftsjahre.Items;
+
+        SelectedBusinessYear = BusinessYears.FirstOrDefault();
+
+        ApiService.InitializeEndpoint(ResourceEndpoint.orders);
+
+        Charts = new List<List<RemainingBudgetOnOrdersDTO>>();
+
+        foreach (Auftrag auftrag in SelectedBusinessYear?.Auftraege)
+        {
+            List<RemainingBudgetOnOrdersDTO> chartData = await ApiService.GetByUrlAsync<List<RemainingBudgetOnOrdersDTO>>(auftrag.AuftragID, $"remaining_budget/{SelectedBusinessYear.GeschaeftsjahrID}");
+            Charts.Add(chartData);
+        }
+
+        IsLoading = false;
+    }
+
+    private async Task BusinessYearChanged(int GeschaeftsjahrID)
+    {
+        IsLoading = true;
+
+        Charts.Clear();
+
+        if (GeschaeftsjahrID != 0)
+        {
+            ApiService.InitializeEndpoint(ResourceEndpoint.business_years);
+            SelectedBusinessYear = await ApiService.GetByIdAsync<Geschaeftsjahr>(GeschaeftsjahrID);
+
+            ApiService.InitializeEndpoint(ResourceEndpoint.orders);
+
+            Charts = new List<List<RemainingBudgetOnOrdersDTO>>();
+
+            foreach (Auftrag auftrag in SelectedBusinessYear?.Auftraege)
+            {
+                List<RemainingBudgetOnOrdersDTO> chartData = await ApiService.GetByUrlAsync<List<RemainingBudgetOnOrdersDTO>>(auftrag.AuftragID, $"remaining_budget/{SelectedBusinessYear.GeschaeftsjahrID}");
+                Charts.Add(chartData);
+            }
+
+            IsLoading = false;
+        }
+    }
 }

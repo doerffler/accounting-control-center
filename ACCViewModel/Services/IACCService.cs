@@ -165,7 +165,7 @@ namespace ACC.ViewModel.Services
 
         public Task<IEnumerable<Abrechnungseinheit>> GetAbrechnungseinheitenAsync(CancellationToken cancellationToken = default, int? currentPage = 0, int? pageSize = 0);
         public Task<int> GetAbrechnungseinheitenCountAsync(CancellationToken cancellationToken = default);
-        public Task<IEnumerable<Abrechnungseinheit>> GetAbrechnungseinheitAsync(int WaehrungID, CancellationToken cancellationToken = default); 
+        public Task<IEnumerable<Abrechnungseinheit>> GetAbrechnungseinheitAsync(int AbrechnungseinheitID, CancellationToken cancellationToken = default); 
         public Task<Abrechnungseinheit> CreateAbrechnungseinheitAsync(CancellationToken cancellationToken = default);
         public Task<Abrechnungseinheit> CreateAbrechnungseinheitAsync(string name, string abkuerzung, Dictionary<string, string> additions = null, CancellationToken cancellationToken = default);
         void RemoveAbrechnungseinheit(Abrechnungseinheit selectedAbrechnungseinheit);
@@ -174,7 +174,9 @@ namespace ACC.ViewModel.Services
         public Task<T> CreateGeschaeftspartnerAsync<T>(CancellationToken cancellationToken = default) where T : Geschaeftspartner, new();
         public void RemoveGeschaeftspartner<T>(T debitorToRemove) where T : Geschaeftspartner;
 
-        public Task<IEnumerable<Geschaeftsjahr>> GetGeschaeftsjahreAsync(CancellationToken cancellationToken = default);
+        public Task<IEnumerable<Geschaeftsjahr>> GetGeschaeftsjahreAsync(CancellationToken cancellationToken = default, int? currentPage = 0, int? pageSize = 0);
+        public Task<int> GetGeschaeftsjahreCountAsync(CancellationToken cancellationToken = default);
+        public Task<IEnumerable<Geschaeftsjahr>> GetGeschaeftsjahrAsync(int GeschaeftsjahrID, CancellationToken cancellationToken = default); 
         public Task<Geschaeftsjahr> CreateGeschaeftsjahrAsync(CancellationToken cancellationToken = default);
         public Task<Geschaeftsjahr> CreateGeschaeftsjahrAsync(DateTime datumBis, DateTime datumVon, string geschaeftsjahrName, string rechnungsprefix, CancellationToken cancellationToken = default);
         public void RemoveGeschaeftsjahr(Geschaeftsjahr selectedGeschaeftsjahr);

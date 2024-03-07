@@ -637,6 +637,8 @@ namespace ACC.ViewModel.Services
             IQueryable<Ausgangsrechnungsposition> query = DBContext.Ausgangsrechnungen
                 .Include(ar => ar.Rechnungspositionen)
                 .ThenInclude(arp => arp.ZugehoerigeKostenstelle)
+                .Include(ar => ar.Rechnungspositionen)
+                .ThenInclude(arp => arp.ZugehoerigeAuftragsposition.Auftrag)
                 .SelectMany(rechnung => rechnung.Rechnungspositionen)
                 .Where(arp => arp.ZugehoerigeAuftragsposition.AuftragspositionID == AuftragspositionID);
 
@@ -646,10 +648,11 @@ namespace ACC.ViewModel.Services
                                 .GroupBy(arp => arp.LeistungszeitraumBis)
                                 .Select(arp => new RemainingBudgetOnOrdersDTO
                                 {
+                                    OrderID = arp.First().ZugehoerigeAuftragsposition.AuftragID,
                                     OrderStart = arp.First().ZugehoerigeAuftragsposition.Auftrag.Auftragsbeginn,
                                     OrderEnd = arp.First().ZugehoerigeAuftragsposition.Auftrag.Auftragsende,
                                     Date = arp.Key.Date,
-                                    KostenstellenNummer = arp.First().ZugehoerigeKostenstelle.KostenstellenNummer,
+                                    KostenstellenNummer = arp.First().ZugehoerigeKostenstelle?.KostenstellenNummer,
                                     OrderName = arp.First().ZugehoerigeAuftragsposition.Auftrag.Auftragsname,
                                     OrderPosition = arp.First().ZugehoerigeAuftragsposition.Positionsbezeichnung,
                                     ResidualBudgetActualBefore = arp.First().ZugehoerigeAuftragsposition.Auftragsvolumen,
@@ -664,6 +667,7 @@ namespace ACC.ViewModel.Services
                 var firstItem = dtoObject.First();
                 items.Insert(0, new RemainingBudgetOnOrdersDTO
                 {
+                    OrderID = firstItem.OrderID,
                     OrderStart = firstItem.OrderStart,
                     OrderEnd = firstItem.OrderEnd,
                     Date = (DateTime)firstItem.OrderStart,
@@ -846,11 +850,35 @@ namespace ACC.ViewModel.Services
             RaiseChangedEvent();
         }
 
-        public async Task<IEnumerable<Geschaeftsjahr>> GetGeschaeftsjahreAsync(CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<Geschaeftsjahr>> GetGeschaeftsjahreAsync(CancellationToken cancellationToken = default, int? currentPage = 0, int? pageSize = 0)
         {
-            return await GetDataFromDbSetAsync(DBContext.Geschaeftsjahre
+            IQueryable<Geschaeftsjahr> query = DBContext.Geschaeftsjahre
                 .Include(g => g.Auftraege)
-                .ThenInclude(a => a.Auftragspositionen), cancellationToken);
+                .ThenInclude(a => a.Auftragspositionen);
+
+            if ((currentPage.Value != 0) || (pageSize.Value != 0))
+            {
+                int skipCount = (currentPage.Value - 1) * pageSize.Value;
+                query = query.Skip(skipCount).Take(pageSize.Value);
+            }
+
+            return await GetDataFromDbSetAsync(query, cancellationToken);
+        }
+
+        public async Task<int> GetGeschaeftsjahreCountAsync(CancellationToken cancellationToken = default)
+        {
+            var geschaeftsjahre = await DBContext.Geschaeftsjahre.CountAsync();
+            return geschaeftsjahre;
+        }
+
+        public async Task<IEnumerable<Geschaeftsjahr>> GetGeschaeftsjahrAsync(int GeschaeftsjahrID, CancellationToken cancellationToken = default)
+        {
+            return await GetDataFromDbSetAsync(
+                DBContext.Geschaeftsjahre
+                    .Include(g => g.Auftraege)
+                    .ThenInclude(a => a.Auftragspositionen)
+                    .Where(w => w.GeschaeftsjahrID == GeschaeftsjahrID)
+                , cancellationToken);
         }
 
         public async Task<Geschaeftsjahr> CreateGeschaeftsjahrAsync(CancellationToken cancellationToken = default)

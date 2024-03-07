@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ACCDataModel.Stammdaten;
 using ACCDataModel.DTO;
+using System.Threading;
+using System.Collections.Generic;
 
 namespace ACCWebAPI.Controllers
 {
@@ -108,6 +110,23 @@ namespace ACCWebAPI.Controllers
             {
                 return StatusCode(500, ex.Message);
             }
+        }
+
+        [HttpGet("{OrderID}/remaining_budget/{BusinessYearID}")]
+        public async Task<IActionResult> GetRemainingBudgetOnOrder(int OrderID, int BusinessYearID)
+        {
+            List<RemainingBudgetOnOrdersDTO> result = new List<RemainingBudgetOnOrdersDTO>();
+            Auftrag auftrag = (await _accService.GetAuftragAsync(OrderID)).FirstOrDefault();
+
+            foreach (Auftragsposition auftragsposition in auftrag?.Auftragspositionen)
+            {
+                IEnumerable<RemainingBudgetOnOrdersDTO> chartPositions = await _accService.GetRemainingBudgetOnOrdersAsync(auftragsposition.AuftragspositionID);
+
+                result.AddRange(chartPositions);
+                result = result.OrderBy(pos => pos.Date).ToList();
+            }
+
+            return Ok(result);
         }
     }
 }

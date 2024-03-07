@@ -80,6 +80,11 @@ namespace ACCWebUI.Services
             return await SendRequestAsync<T>(HttpMethod.Get, $"{_endpoint}?currentPage={currentPage}&pageSize={pageSize}");
         }
 
+        public async Task<T> GetByUrlAsync<T>(int itemId, string url)
+        {
+            return await SendRequestAsync<T>(HttpMethod.Get, $"{_endpoint}/{itemId}/{url}");
+        }
+
         public async Task<T> GetByIdAsync<T>(int itemId)
         {
             return await SendRequestAsync<T>(HttpMethod.Get, $"{_endpoint}/{itemId}");

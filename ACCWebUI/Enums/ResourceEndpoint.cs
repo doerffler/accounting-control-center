@@ -10,6 +10,7 @@
         orders,
         outgoing_invoices,
         performance_records,
-        projects
+        projects,
+        business_years
     }
 }
