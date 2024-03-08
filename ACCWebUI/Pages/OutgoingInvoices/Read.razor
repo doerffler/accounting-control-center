@@ -2,6 +2,7 @@
 
 @inject ApiService ApiService
 @inject NavigationManager Navigation
+@inject IConfiguration configuration
 
 @attribute [Authorize]
 
@@ -178,7 +179,7 @@ else
                         }
                         else
                         {
-                            <PdfViewer Url="@OutgoingInvoice.ZugehoerigesDokument?.DokumentUrl" />
+                            <PdfViewer Url="@OutgoingInvoice.ZugehoerigesDokument.DokumentUrl" />
                         }
                     </div>
                 </div>
@@ -199,6 +200,7 @@ else
     private Ausgangsrechnung OutgoingInvoice;
     private bool IsLoading = true;
 
+
     private decimal Zwischensumme = 0;
     private decimal Rabattsumme = 0;
     private decimal Nettosumme = 0;
@@ -215,10 +217,16 @@ else
 
     private async Task GeneratePdfAsync()
     {
+        ApiService.InitializeEndpoint(ResourceEndpoint.outgoing_invoices);
+
+        string filename = await ApiService.GetByUrlAsync<string>(OutgoingInvoiceId, "pdf");
+
         OutgoingInvoice.ZugehoerigesDokument = new()
-        {
-                DokumentUrl = "https://localhost:7224/briefpapier.pdf"
-        };
+            {
+                //DokumentUrl = "https://raw.githubusercontent.com/mozilla/pdf.js/ba2edeae/web/compressed.tracemonkey-pldi-09.pdf",
+                DokumentUrl = $"{configuration["AccApiEndpoint"].ToString()}{ResourceEndpoint.outgoing_invoices}/download/{filename}",
+                DokumentHash = ""
+            };
 
         StateHasChanged();
     }

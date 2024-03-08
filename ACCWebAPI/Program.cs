@@ -5,6 +5,8 @@ using Microsoft.Identity.Web;
 using ACC.ViewModel.Model;
 using Microsoft.Extensions.Configuration;
 using System.Text.Json.Serialization;
+using ACCWebAPI.Services;
+using System.Globalization;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
@@ -40,6 +42,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("de-DE");
 
 app.UseStaticFiles();
 

@@ -25,7 +25,7 @@ namespace ACCWebUI.Services
             _configuration = configuration;
         }
 
-        public void InitializeEndpoint(ResourceEndpoint endpoint) 
+        public void InitializeEndpoint(ResourceEndpoint endpoint)
         {
             string apiEndpoint = _configuration["AccApiEndpoint"].ToString();
 
@@ -63,13 +63,23 @@ namespace ACCWebUI.Services
                 if (response.IsSuccessStatusCode)
                 {
                     string responseBody = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<T>(responseBody);
+
+                    if (typeof(T) == typeof(string))
+                    {
+                        return (T)(object)responseBody;
+                    }
+                    else
+                    {
+                        return JsonConvert.DeserializeObject<T>(responseBody);
+                    }
+
                 }
                 else
                 {
                     return default;
                 }
-            } catch (JsonSerializationException)
+            }
+            catch (JsonSerializationException)
             {
                 return default;
             }
