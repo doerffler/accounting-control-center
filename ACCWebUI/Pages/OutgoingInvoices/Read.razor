@@ -2,6 +2,8 @@
 
 @inject ApiService ApiService
 @inject NavigationManager Navigation
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject ToastService ToastService
 @inject IConfiguration configuration
 
 @attribute [Authorize]
@@ -43,7 +45,7 @@ else
                         <p class="card-text">
                             <b>Rechnungsempfänger:</b><br />
                             @OutgoingInvoice.Rechnungsempfaenger.ZugehoerigerKunde?.Langname
-                            @OutgoingInvoice.Rechnungsempfaenger.Anschrift
+                            (@OutgoingInvoice.Rechnungsempfaenger.Anschrift)
                         </p>
                         <p>
                             @if (OutgoingInvoice.Rechnungsempfaenger.ZugehoerigeAdresse != null)
@@ -98,6 +100,13 @@ else
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @{
+                                        Zwischensumme = 0;
+                                        Rabattsumme = 0;
+                                        Nettosumme = 0;
+                                        Mwstsumme = 0;
+                                        Bruttosumme = 0;
+                                    }
                                     @foreach (Rechnungsposition rechnungsposition in OutgoingInvoice.Rechnungspositionen)
                                     {
                                         <tr>
@@ -188,7 +197,7 @@ else
     }
     else
     {
-        <Alert Color="AlertColor.Danger" Class="shadow-sm"><Icon Name="IconName.ExclamationTriangleFill" /> Kein Ausgangsrechnung vorhanden</Alert>
+        <Alert Color="AlertColor.Danger" Class="shadow-sm"><Icon Name="IconName.ExclamationTriangleFill" /> Keine Ausgangsrechnung vorhanden</Alert>
     }
 }
 
@@ -198,8 +207,10 @@ else
     public int OutgoingInvoiceId { get; set; }
 
     private Ausgangsrechnung OutgoingInvoice;
-    private bool IsLoading = true;
 
+    private ClaimsPrincipal AuthenticatedUser;
+
+    private bool IsLoading = true;
 
     private decimal Zwischensumme = 0;
     private decimal Rabattsumme = 0;
@@ -210,6 +221,9 @@ else
     // Initialize method
     protected override async Task OnInitializedAsync()
     {
+        AuthenticationState authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        AuthenticatedUser = authState.User;
+
         ApiService.InitializeEndpoint(ResourceEndpoint.outgoing_invoices);
         OutgoingInvoice = await ApiService.GetByIdAsync<Ausgangsrechnung>(OutgoingInvoiceId);
         IsLoading = false;
@@ -219,14 +233,36 @@ else
     {
         ApiService.InitializeEndpoint(ResourceEndpoint.outgoing_invoices);
 
-        string filename = await ApiService.GetByUrlAsync<string>(OutgoingInvoiceId, "pdf");
+        string pdfBase64 = await ApiService.GetByUrlAsync<string>(OutgoingInvoiceId, "pdf");
 
         OutgoingInvoice.ZugehoerigesDokument = new()
             {
-                //DokumentUrl = "https://raw.githubusercontent.com/mozilla/pdf.js/ba2edeae/web/compressed.tracemonkey-pldi-09.pdf",
-                DokumentUrl = $"{configuration["AccApiEndpoint"].ToString()}{ResourceEndpoint.outgoing_invoices}/download/{filename}",
-                DokumentHash = ""
-            };
+                DokumentUrl = $"data:application/pdf;base64,{pdfBase64}",
+                DokumentHash = pdfBase64
+            }; 
+
+        OutgoingInvoice.ZugehoerigeAusgangsrechnungshistorie.Add(new()
+            {
+                Bemerkung = "Ausgangsrechnung PDF generiert",
+                AktionsTyp = UserActionEnum.Update,
+                Zeitstempel = DateTime.Now,
+                Benutzer = AuthenticatedUser.Identity?.Name
+            });
+
+        ApiService.InitializeEndpoint(ResourceEndpoint.outgoing_invoices);
+
+        Ausgangsrechnung result = await ApiService.UpdateAsync<Ausgangsrechnung>(OutgoingInvoice.AusgangsrechnungID, OutgoingInvoice);
+
+        ToastService.Notify(
+            new ToastMessage()
+                {
+                    Type = ToastType.Success,
+                    IconName = IconName.FileEarmarkCheck,
+                    Title = "Ausgangsrechnung",
+                    HelpText = DateTime.Now.ToString(),
+                    Message = "PDF erfolgreich erstellt",
+                }
+        );
 
         StateHasChanged();
     }

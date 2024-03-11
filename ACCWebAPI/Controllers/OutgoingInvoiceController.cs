@@ -1,21 +1,8 @@
 ﻿using ACC.ViewModel.Services;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ACCDataModel.Kostenrechnung;
 using ACCDataModel.DTO;
-using System;
-using System.IO;
-using iText.Kernel.Pdf;
-using iText.Layout;
-using iText.Layout.Element;
-using iText.IO.Image;
-using iText.Kernel.Geom;
-using iText.Kernel.Pdf.Canvas;
-using iText.Kernel.Pdf.Xobject;
-using System.Net;
-using iText.Layout.Properties;
-using iText.Layout.Borders;
-using iText.Kernel.Colors;
+
 using ACCWebAPI.Services;
 
 namespace ACCWebAPI.Controllers
@@ -125,29 +112,14 @@ namespace ACCWebAPI.Controllers
         }
 
         [HttpGet("{OutgoingInvoiceID}/pdf")]
-        public async Task<IActionResult> CreatePdf(int OutgoingInvoiceID)
+        public async Task<IActionResult> GeneratePdf(int OutgoingInvoiceID)
         {
             Ausgangsrechnung ausgangsrechnung = (await _accService.GetAusgangsrechnungAsync(OutgoingInvoiceID)).First();
 
-            PdfService pdfService = new PdfService("documents/outgoing_invoices");
-            string filename = await pdfService.GeneratePdfAsync(ausgangsrechnung);
+            PdfService pdfService = new PdfService();
+            string result = await pdfService.GeneratePdfAsync(ausgangsrechnung);
 
-            return Ok(filename);
-        }
-
-        [HttpGet("download/{Filename}")]
-        public IActionResult DownloadPdf(string Filename)
-        {
-            string Filepath = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "documents/outgoing_invoices", Filename);
-
-            if (!System.IO.File.Exists(Filepath))
-            {
-                return NotFound();
-            }
-
-            var fileStream = new FileStream(Filepath, FileMode.Open, FileAccess.Read);
-
-            return File(fileStream, "application/octet-stream");
+            return Ok(result);
         }
     }
 }

@@ -520,15 +520,13 @@
         OutgoingInvoice.ZugehoerigeWaehrung = null;
         OutgoingInvoice.ZugehoerigesGeschaeftsjahr = null;
 
-        Ausgangsrechnungshistorie historie = new Ausgangsrechnungshistorie()
+        OutgoingInvoice.ZugehoerigeAusgangsrechnungshistorie.Add(new()
             {
                 Bemerkung = "Ausgangsrechnung angelegt",
                 AktionsTyp = UserActionEnum.Create,
                 Zeitstempel = DateTime.Now,
                 Benutzer = AuthenticatedUser.Identity?.Name
-            };
-
-        OutgoingInvoice.ZugehoerigeAusgangsrechnungshistorie.Add(historie);
+            });
 
         ApiService.InitializeEndpoint(ResourceEndpoint.outgoing_invoices);
 
