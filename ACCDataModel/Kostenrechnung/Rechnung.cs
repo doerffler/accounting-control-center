@@ -1,8 +1,6 @@
 ﻿using ACCDataModel.Dokumentenmanagement;
 using ACCDataModel.Stammdaten;
 using System;
-using System.Collections.Generic;
-using System.Text.Json.Serialization;
 
 namespace ACCDataModel.Kostenrechnung
 {

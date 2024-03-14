@@ -28,7 +28,7 @@ namespace ACCWebAPI.Controllers
             try
             {
                 IEnumerable<Auftrag> auftraege = await _accService.GetAuftraegeAsync(default, currentPage, pageSize);
-                int totalCount = await _accService.GetAuftraegeCountAsync();
+                int totalCount = auftraege.Count();
 
                 var response = new ApiResponseDTO<Auftrag>
                 {

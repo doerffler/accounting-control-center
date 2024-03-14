@@ -1,5 +1,5 @@
-﻿using ACCDataModel.Stammdaten;
-using ACCWebUI.Enums;
+﻿using ACCDataModel.Enum;
+using ACCDataModel.Stammdaten;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Graph.ExternalConnectors;
 using Microsoft.Identity.Web;
@@ -85,9 +85,9 @@ namespace ACCWebUI.Services
             }
         }
 
-        public async Task<T> GetAsync<T>(int? currentPage = 0, int? pageSize = 0)
+        public async Task<T> GetAsync<T>(int? currentPage = 0, int? pageSize = 0, object? status = null)
         {
-            return await SendRequestAsync<T>(HttpMethod.Get, $"{_endpoint}?currentPage={currentPage}&pageSize={pageSize}");
+            return await SendRequestAsync<T>(HttpMethod.Get, $"{_endpoint}?currentPage={currentPage}&pageSize={pageSize}&status={status}");
         }
 
         public async Task<T> GetByUrlAsync<T>(int itemId, string url)

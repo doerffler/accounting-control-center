@@ -3,6 +3,8 @@
 @inject ApiService ApiService
 @inject NavigationManager Navigation
 @inject PaginationService<Ausgangsrechnung> PaginationService
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject ToastService ToastService
 
 @attribute [Authorize]
 
@@ -13,8 +15,27 @@
     <Button Type="ButtonType.Link" To="/outgoing_invoices/create" Color="ButtonColor.Primary"><Icon Name="IconName.Plus" /> Neue Ausgangsrechnung</Button>
 </div>
 
-<div class="table-responsive">
-    <table class="table table-hover shadow-sm border">
+<div class="card shadow-sm border mb-3 p-3">
+    <div class="row g-3 align-items-center">
+        <div class="col-auto">
+            <label clss="col-form-label">Status: </label>
+        </div>
+        <div class="col-auto">
+            <InputSelect class="form-select"
+                         ValueExpression="@(() => SelectedStatus)"
+                         Value="@SelectedStatus"
+                         ValueChanged="@((OutgoingInvoiceStatus value) => StatusChanged(value))">
+                @foreach (OutgoingInvoiceStatus item in Enum.GetValues(typeof(OutgoingInvoiceStatus)))
+                {
+                    <option value="@item">@item</option>
+                }
+            </InputSelect>
+        </div>
+    </div>
+</div>
+
+<div class="table-responsive card shadow-sm border mb-3">
+    <table class="table table-hover">
         <thead>
             <tr>
                 <th scope="col">#</th>
@@ -55,7 +76,6 @@
                         </div>
                     </td>
                     <td>
-
                     </td>
                 </tr>
             }
@@ -69,7 +89,7 @@
                             Keine Ausgangsrechnung gefunden
                         </td>
                     </tr>
-                } 
+                }
                 else
                 {
                     @foreach (Ausgangsrechnung outgoing_invoice in OutgoingInvoices)
@@ -104,15 +124,37 @@
                                 {
                                     @outgoing_invoice.BezahltDatum.GetValueOrDefault().ToShortDateString()
                                 }
-                                </td>
+                            </td>
                             <td>@outgoing_invoice.Rechnungsempfaenger?.Anschrift</td>
                             <td>@outgoing_invoice.Rechnungspositionen.Sum(rp => rp.Nettobetrag).ToString("N2") @outgoing_invoice.ZugehoerigeWaehrung?.WaehrungZeichen</td>
                             <td>
-                                <div class="btn-group" role="group" aria-label="Actions">
+                                @if (outgoing_invoice.ZugehoerigeAusgangsrechnungshistorie == null || !outgoing_invoice.ZugehoerigeAusgangsrechnungshistorie.Any())
+                                {
+                                    <Tooltip Class="d-inline-block" Title="Review" role="button">
+                                        <Button Type="ButtonType.Link" @onclick="() => Reviewed(outgoing_invoice.AusgangsrechnungID)" Color="ButtonColor.Primary"><Icon Name="IconName.CheckCircle" /></Button>
+                                    </Tooltip>
+                                }
+                                @if (outgoing_invoice.ZugehoerigeAusgangsrechnungshistorie != null && outgoing_invoice.ZugehoerigeAusgangsrechnungshistorie.Any() && outgoing_invoice.ZugehoerigeAusgangsrechnungshistorie.Any(hist => hist.Status == OutgoingInvoiceStatus.Reviewed))
+                                {
+                                    <Tooltip Class="d-inline-block" Title="Release" role="button">
+                                        <Button Type="ButtonType.Link" @onclick="() => Released(outgoing_invoice.AusgangsrechnungID)" Color="ButtonColor.Primary"><Icon Name="IconName.BoxArrowUpRight" /></Button>
+                                    </Tooltip>
+                                }
+                                @if (outgoing_invoice.ZugehoerigeAusgangsrechnungshistorie != null && outgoing_invoice.ZugehoerigeAusgangsrechnungshistorie.Any() && outgoing_invoice.ZugehoerigeAusgangsrechnungshistorie.Any(hist => hist.Status == OutgoingInvoiceStatus.Released))
+                                {
+                                    <Tooltip Class="d-inline-block" Title="Sent" role="button">
+                                        <Button Type="ButtonType.Link" @onclick="() => Sent(outgoing_invoice.AusgangsrechnungID)" Color="ButtonColor.Primary"><Icon Name="IconName.Envelope" /></Button>
+                                    </Tooltip>
+                                }
+                                <Tooltip Class="d-inline-block" Title="Edit" role="button">
                                     <Button Type="ButtonType.Link" @onclick="() => Edit(outgoing_invoice.AusgangsrechnungID)" Color="ButtonColor.Primary"><Icon Name="IconName.PencilSquare" /></Button>
+                                </Tooltip>
+                                <Tooltip Class="d-inline-block" Title="Show" role="button">
                                     <Button Type="ButtonType.Link" @onclick="() => Show(outgoing_invoice.AusgangsrechnungID)" Color="ButtonColor.Primary"><Icon Name="IconName.Eye" /></Button>
+                                </Tooltip>
+                                <Tooltip Class="d-inline-block" Title="Delete" role="button">
                                     <Button Type="ButtonType.Link" @onclick="() => Delete(outgoing_invoice.AusgangsrechnungID)" Color="ButtonColor.Danger"><Icon Name="IconName.Trash" /></Button>
-                                </div>
+                                </Tooltip>
                             </td>
                         </tr>
                     }
@@ -140,24 +182,132 @@
     // Initialize method
     private bool IsLoading = true;
 
+    private OutgoingInvoiceStatus SelectedStatus;
+
+    private ClaimsPrincipal AuthenticatedUser;
+
     protected override async Task OnInitializedAsync()
     {
+        AuthenticationState authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        AuthenticatedUser = authState.User;
+
+        await GetData();
+    }
+
+    // Entity actions
+    protected async Task Released(int AusgangsrechnungID)
+    {
+        ApiService.InitializeEndpoint(ResourceEndpoint.outgoing_invoices);
+        Ausgangsrechnung OutgoingInvoice = await ApiService.GetByIdAsync<Ausgangsrechnung>(AusgangsrechnungID);
+
+        OutgoingInvoice.ZugehoerigeAusgangsrechnungshistorie.Add(new()
+            {
+                Status = OutgoingInvoiceStatus.Released,
+                Zeitstempel = DateTime.Now,
+                Benutzer = AuthenticatedUser.Identity?.Name
+            });
+
+        ToastService.Notify(
+            new ToastMessage()
+                {
+                    Type = ToastType.Success,
+                    IconName = IconName.FileEarmarkCheck,
+                    Title = "Ausgangsrechnung",
+                    HelpText = DateTime.Now.ToString(),
+                    Message = "Ausgangsrechnung erfolgreich freigegeben",
+                }
+        );
+
+        await GetData();
+    }
+
+    protected async Task Reviewed(int AusgangsrechnungID)
+    {
+        ApiService.InitializeEndpoint(ResourceEndpoint.outgoing_invoices);
+        Ausgangsrechnung OutgoingInvoice = await ApiService.GetByIdAsync<Ausgangsrechnung>(AusgangsrechnungID);
+
+        OutgoingInvoice.ZugehoerigeAusgangsrechnungshistorie.Add(new()
+            {
+                Status = OutgoingInvoiceStatus.Reviewed,
+                Zeitstempel = DateTime.Now,
+                Benutzer = AuthenticatedUser.Identity?.Name
+            });
+
+        ToastService.Notify(
+            new ToastMessage()
+                {
+                    Type = ToastType.Success,
+                    IconName = IconName.FileEarmarkCheck,
+                    Title = "Ausgangsrechnung",
+                    HelpText = DateTime.Now.ToString(),
+                    Message = "Ausgangsrechnung erfolgreich geprüft",
+                }
+        );
+
+        await GetData();
+    }
+
+    protected async Task Sent(int AusgangsrechnungID)
+    {
+        ApiService.InitializeEndpoint(ResourceEndpoint.outgoing_invoices);
+        Ausgangsrechnung OutgoingInvoice = await ApiService.GetByIdAsync<Ausgangsrechnung>(AusgangsrechnungID);
+
+        OutgoingInvoice.ZugehoerigeAusgangsrechnungshistorie.Add(new()
+            {
+                Status = OutgoingInvoiceStatus.Sent,
+                Zeitstempel = DateTime.Now,
+                Benutzer = AuthenticatedUser.Identity?.Name
+            });
+
+        ToastService.Notify(
+            new ToastMessage()
+                {
+                    Type = ToastType.Success,
+                    IconName = IconName.FileEarmarkCheck,
+                    Title = "Ausgangsrechnung",
+                    HelpText = DateTime.Now.ToString(),
+                    Message = "Ausgangsrechnung erfolgreich gesendet",
+                }
+        );
+
+        await GetData();
+    }
+
+    protected void Create() => Navigation.NavigateTo("outgoing_invoices/create");
+    protected void Edit(int AusgangsrechnungID) => Navigation.NavigateTo($"outgoing_invoices/{AusgangsrechnungID}/edit");
+    protected void Show(int AusgangsrechnungID) => Navigation.NavigateTo($"outgoing_invoices/{AusgangsrechnungID}");
+
+    protected async Task Delete(int AusgangsrechnungID)
+    {
+        await ApiService.DeleteAsync<Ausgangsrechnung>(AusgangsrechnungID);
+
+        ToastService.Notify(
+            new ToastMessage()
+                {
+                    Type = ToastType.Success,
+                    IconName = IconName.FileEarmarkCheck,
+                    Title = "Ausgangsrechnung",
+                    HelpText = DateTime.Now.ToString(),
+                    Message = "Ausgangsrechnung erfolgreich gelöscht",
+                }
+        );
+
+        await GetData();
+    }
+
+    // Entity
+    public IEnumerable<Ausgangsrechnung> OutgoingInvoices;
+
+    private async Task GetData()
+    {
+        IsLoading = true;
+
         ApiService.InitializeEndpoint(ResourceEndpoint.outgoing_invoices);
         PaginationService.InitializePagination();
 
         OutgoingInvoices = await PaginationService.LoadPaginatetedData();
         IsLoading = false;
     }
-
-
-    // Entity actions
-    protected void Create() => Navigation.NavigateTo("outgoing_invoices/create");
-    protected void Edit(int AusgangsrechnungID) => Navigation.NavigateTo($"outgoing_invoices/{AusgangsrechnungID}/edit");
-    protected void Show(int AusgangsrechnungID) => Navigation.NavigateTo($"outgoing_invoices/{AusgangsrechnungID}");
-    protected async Task Delete(int AusgangsrechnungID) => await ApiService.DeleteAsync<Ausgangsrechnung>(AusgangsrechnungID);
-
-    // Entity
-    public IEnumerable<Ausgangsrechnung> OutgoingInvoices;
 
     // Entity pagination
     private async Task GoToFirstPage()
@@ -178,5 +328,17 @@
     private async Task GoToLastPage()
     {
         OutgoingInvoices = await PaginationService.GoToPage(PaginationService.TotalPages);
+    }
+
+    private async Task StatusChanged(OutgoingInvoiceStatus Status)
+    {
+        IsLoading = true;
+
+        SelectedStatus = Status;
+
+        PaginationService.InitializePagination();
+        OutgoingInvoices = await PaginationService.LoadPaginatetedData(SelectedStatus);
+
+        IsLoading = false;
     }
 }

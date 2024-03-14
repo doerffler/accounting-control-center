@@ -1,5 +1,6 @@
 ﻿using ACC.ViewModel.Services;
 using ACCDataModel.DTO;
+using ACCDataModel.Kostenrechnung;
 using ACCDataModel.Stammdaten;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -26,7 +27,7 @@ namespace ACCWebAPI.Controllers
             try
             {
                 IEnumerable<Waehrung> waehrungen = await _accService.GetWaehrungenAsync(default, currentPage, pageSize);
-                int totalCount = await _accService.GetWaehrungenCountAsync();
+                int totalCount = waehrungen.Count();
 
                 var response = new ApiResponseDTO<Waehrung>
                 {

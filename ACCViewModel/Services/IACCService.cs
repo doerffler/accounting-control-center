@@ -1,5 +1,6 @@
 ﻿using ACCDataAdapter.ACC;
 using ACCDataModel.DTO;
+using ACCDataModel.Enum;
 using ACCDataModel.Kostenrechnung;
 using ACCDataModel.Stammdaten;
 using Microsoft.EntityFrameworkCore;
@@ -118,7 +119,7 @@ namespace ACC.ViewModel.Services
 
         #region Ausgangsrechnungen
 
-        public Task<IEnumerable<Ausgangsrechnung>> GetAusgangsrechnungenAsync(CancellationToken cancellationToken = default, int? currentPage = 0, int? pageSize = 0);
+        public Task<IEnumerable<Ausgangsrechnung>> GetAusgangsrechnungenAsync(CancellationToken cancellationToken = default, int? currentPage = 0, int? pageSize = 0, OutgoingInvoiceStatus? status = null);
 
         public Task<int> GetAusgangsrechnungenCountAsync(CancellationToken cancellationToken = default);
 
@@ -138,7 +139,7 @@ namespace ACC.ViewModel.Services
 
         #region Eingangsrechnungen
 
-        public Task<IEnumerable<Eingangsrechnung>> GetEingangsrechnungenAsync(CancellationToken cancellationToken = default, int? currentPage = 0, int? pageSize = 0);
+        public Task<IEnumerable<Eingangsrechnung>> GetEingangsrechnungenAsync(CancellationToken cancellationToken = default, int? currentPage = 0, int? pageSize = 0, IncomingInvoiceStatus? status = null);
 
         public Task<int> GetEingangsrechnungenCountAsync(CancellationToken cancellationToken = default);
 

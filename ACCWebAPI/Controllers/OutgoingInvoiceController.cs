@@ -2,11 +2,13 @@
 using Microsoft.AspNetCore.Mvc;
 using ACCDataModel.Kostenrechnung;
 using ACCDataModel.DTO;
-
 using ACCWebAPI.Services;
+using ACCDataModel.Enum;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ACCWebAPI.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("outgoing_invoices")]
     public class OutgoingInvoiceController : ControllerBase
@@ -21,12 +23,12 @@ namespace ACCWebAPI.Controllers
         }
 
         [HttpGet("")]
-        public async Task<IActionResult> GetOutgoingInvoices(int? currentPage = 0, int? pageSize = 0)
+        public async Task<IActionResult> GetOutgoingInvoices(int? currentPage = 0, int? pageSize = 0, OutgoingInvoiceStatus? status = null)
         {
             try
             {
-                IEnumerable<Ausgangsrechnung> ausgangsrechnungen = await _accService.GetAusgangsrechnungenAsync(default, currentPage, pageSize);
-                int totalCount = await _accService.GetAusgangsrechnungenCountAsync();
+                IEnumerable<Ausgangsrechnung> ausgangsrechnungen = await _accService.GetAusgangsrechnungenAsync(default, currentPage, pageSize, status);
+                int totalCount = ausgangsrechnungen.Count();
 
                 var response = new ApiResponseDTO<Ausgangsrechnung>
                 {

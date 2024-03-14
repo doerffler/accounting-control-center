@@ -26,7 +26,7 @@ namespace ACCWebAPI.Controllers
             try
             {
                 IEnumerable<Kostenstelle> kostenstellen = await _accService.GetKostenstellenAsync(default, currentPage, pageSize);
-                int totalCount = await _accService.GetKostenstellenCountAsync();
+                int totalCount = kostenstellen.Count();
 
                 var response = new ApiResponseDTO<Kostenstelle>
                 {

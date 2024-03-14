@@ -1,0 +1,21 @@
+﻿@page "/projects"
+
+@inject ApiService ApiService
+@inject NavigationManager Navigation
+@inject PaginationService<Projekt> PaginationService
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject ToastService ToastService
+@inject ModalService ModalService
+
+@attribute [Authorize]
+
+<PageTitle>Projekte | ACC Web UI</PageTitle>
+
+<div class="mb-3 d-flex justify-content-between align-items-center">
+    <h1>Projekte</h1>
+    <Button Type="ButtonType.Button" Color="ButtonColor.Primary"><Icon Name="IconName.Plus" /> Neues Projekt</Button>
+</div>
+
+@code {
+
+}

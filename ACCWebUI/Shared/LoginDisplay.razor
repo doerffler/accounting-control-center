@@ -1,9 +1,9 @@
 ﻿<AuthorizeView>
     <Authorized>
-        <span>
-            Angemeldet als: <b>@context.User.Claims.FirstOrDefault(c => c.Type == "name").Value</b> (@context.User.Identity?.Name)
-        </span>
-        <Button Color="ButtonColor.Danger" Type="ButtonType.Link" To="MicrosoftIdentity/Account/SignOut"><Icon Name="IconName.DoorClosed" /> Logout</Button>
+        <Tooltip Class="mx-2 d-inline-block" Title="@context.User.Claims.FirstOrDefault(c => c.Type == "name").Value">
+            <Icon Style="color: #002D75" Size="IconSize.x2" Name="IconName.PersonCircle" />
+        </Tooltip>
+        <Button class="mx-2" Color="ButtonColor.Danger" Type="ButtonType.Link" To="MicrosoftIdentity/Account/SignOut"><Icon Name="IconName.DoorClosed" /> Logout</Button>
     </Authorized>
     <NotAuthorized>
         <Button Color="ButtonColor.Primary" Type="ButtonType.Link" To="MicrosoftIdentity/Account/SignIn"><Icon Name="IconName.Microsoft"/> Login with Entra ID</Button>

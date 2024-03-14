@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ACCDataModel.DTO;
 using ACCDataModel.Stammdaten;
+using ACCDataModel.DPApp;
 
 namespace ACCWebAPI.Controllers
 {
@@ -26,7 +27,7 @@ namespace ACCWebAPI.Controllers
             try
             {
                 IEnumerable<Leistungsnachweis> leistungsnachweise = await _accService.GetLeistungsnachweiseAsync(default, currentPage, pageSize);
-                int totalCount = await _accService.GetLeistungsnachweiseCountAsync();
+                int totalCount = leistungsnachweise.Count();
 
                 var response = new ApiResponseDTO<Leistungsnachweis>
                 {

@@ -1,6 +1,5 @@
 ﻿using ACCDataModel.Stammdaten;
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
 
 namespace ACCDataModel.Kostenrechnung
 {
@@ -25,7 +24,8 @@ namespace ACCDataModel.Kostenrechnung
 
         public Ausgangsrechnung() : base()
         {
-        
+            ZugehoerigeAusgangsrechnungshistorie = new List<Ausgangsrechnungshistorie>();
+            Rechnungspositionen = new List<Ausgangsrechnungsposition>();
         }
 
     }

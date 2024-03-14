@@ -1,18 +1,19 @@
-﻿@page "/orders"
+﻿@page "/accounting_units"
 
 @inject ApiService ApiService
 @inject NavigationManager Navigation
-@inject PaginationService<Auftrag> PaginationService
+@inject PaginationService<Abrechnungseinheit> PaginationService
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject ToastService ToastService
+@inject ModalService ModalService
 
 @attribute [Authorize]
 
-<PageTitle>Aufträge | ACC Web UI</PageTitle>
+<PageTitle>Abrechnungseinheiten | ACC Web UI</PageTitle>
 
 <div class="mb-3 d-flex justify-content-between align-items-center">
-    <h1>Aufträge</h1>
-    <Button Type="ButtonType.Link" @onclick="Create" Color="ButtonColor.Primary"><Icon Name="IconName.Plus" /> Neuer Auftrag</Button>
+    <h1>Abrechnungseinheiten</h1>
+    <Button Type="ButtonType.Button" Color="ButtonColor.Primary"><Icon Name="IconName.Plus" /> Neue Abrechnungseinheit</Button>
 </div>
 
 <div class="table-responsive card shadow-sm border mb-3">
@@ -20,10 +21,8 @@
         <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">Auftragsname</th>
-                <th scope="col">Auftragsbeginn</th>
-                <th scope="col">Auftragsende</th>
-                <th scope="col">Restbudget</th>
+                <th scope="col">Name</th>
+                <th scope="col">Abkürzung</th>
                 <th scope="col"></th>
             </tr>
         </thead>
@@ -47,17 +46,6 @@
                         </div>
                     </td>
                     <td>
-                        <div class="spinner-border spinner-border-sm" role="status">
-                            <span class="visually-hidden">Loading...</span>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="spinner-border spinner-border-sm" role="status">
-                            <span class="visually-hidden">Loading...</span>
-                        </div>
-                    </td>
-                    <td>
-
                     </td>
                 </tr>
             }
@@ -68,32 +56,31 @@
                     <tr>
                         <td colspan="6">
                             <Icon Color="IconColor.Danger" Name="IconName.ExclamationTriangleFill" />
-                            Keine Aufträge gefunden
+                            Keine Abrechnungseinheiten gefunden
                         </td>
                     </tr>
                 }
                 else
                 {
-                    @foreach (Auftrag order in Orders)
+                    @foreach (Abrechnungseinheit accounting_unit in AccountingUnits)
                     {
                         <tr>
-                            <td>@order.AuftragID</td>
-                            <td>@order.Auftragsname</td>
-                            <td>@order.Auftragsbeginn.GetValueOrDefault().ToShortDateString()</td>
-                            <td>@order.Auftragsende.GetValueOrDefault().ToShortDateString()</td>
-                            <td></td>
                             <td>
-                                <div>
-                                    <Tooltip Class="d-inline-block" Title="Edit" role="button">
-                                        <Button Type="ButtonType.Link" @onclick="() => Edit(order.AuftragID)" Color="ButtonColor.Primary"><Icon Name="IconName.PencilSquare" /></Button>
-                                    </Tooltip>
-                                    <Tooltip Class="d-inline-block" Title="Show" role="button">
-                                        <Button Type="ButtonType.Link" @onclick="() => Show(order.AuftragID)" Color="ButtonColor.Primary"><Icon Name="IconName.Eye" /></Button>
-                                    </Tooltip>
-                                    <Tooltip Class="d-inline-block" Title="Delete" role="button">
-                                        <Button Type="ButtonType.Link" @onclick="() => Delete(order.AuftragID)" Color="ButtonColor.Danger"><Icon Name="IconName.Trash" /></Button>
-                                    </Tooltip>
-                                </div>
+                                @accounting_unit.AbrechnungseinheitID
+                            </td>
+                            <td>
+                                @accounting_unit.Name
+                            </td>
+                            <td>
+                                @accounting_unit.Abkuerzung
+                            </td>
+                            <td>
+                                <Tooltip Class="d-inline-block" Title="Edit" role="button">
+                                    <Button Type="ButtonType.Link" @onclick="() => Edit(accounting_unit.AbrechnungseinheitID)" Color="ButtonColor.Primary"><Icon Name="IconName.PencilSquare" /></Button>
+                                </Tooltip>
+                                <Tooltip Class="d-inline-block" Title="Delete" role="button">
+                                    <Button Type="ButtonType.Link" @onclick="() => Delete(accounting_unit.AbrechnungseinheitID)" Color="ButtonColor.Danger"><Icon Name="IconName.Trash" /></Button>
+                                </Tooltip>
                             </td>
                         </tr>
                     }
@@ -103,7 +90,7 @@
     </table>
 </div>
 
-@if (Orders != null && PaginationService.TotalItems > 0)
+@if (AccountingUnits != null && PaginationService.TotalItems > 0)
 {
     <div class="btn-group" role="group" aria-label="Pagination">
         <Button Type="ButtonType.Link" Size="Size.Small" Color="ButtonColor.Secondary" @onclick="GoToFirstPage" Disabled="PaginationService.CurrentPage == 1"><Icon Name="IconName.SkipBackward" /></Button>
@@ -132,22 +119,21 @@
     }
 
     // Entity actions
-    protected void Create() => Navigation.NavigateTo("orders/create");
-    protected void Edit(int AuftragID) => Navigation.NavigateTo($"orders/{AuftragID}/edit");
-    protected void Show(int AuftragID) => Navigation.NavigateTo($"orders/{AuftragID}");
+    protected void Create() => Navigation.NavigateTo("accounting_units/create");
+    protected void Edit(int AbrechnungseinheitID) => Navigation.NavigateTo($"accounting_units/{AbrechnungseinheitID}/edit");
 
-    protected async Task Delete(int AuftragID)
+    protected async Task Delete(int AbrechnungseinheitID)
     {
-        await ApiService.DeleteAsync<Auftrag>(AuftragID);
+        await ApiService.DeleteAsync<Abrechnungseinheit>(AbrechnungseinheitID);
 
         ToastService.Notify(
             new ToastMessage()
                 {
                     Type = ToastType.Success,
-                    IconName = IconName.FileEarmarkCheck,
-                    Title = "Ausgangsrechnung",
+                    IconName = IconName.FileEarmarkText,
+                    Title = "Abrechnungseinheit",
                     HelpText = DateTime.Now.ToString(),
-                    Message = "Ausgangsrechnung erfolgreich gelöscht",
+                    Message = "Abrechnungseinheit erfolgreich gelöscht",
                 }
         );
 
@@ -155,37 +141,37 @@
     }
 
     // Entity
-    public IEnumerable<Auftrag> Orders;
+    public IEnumerable<Abrechnungseinheit> AccountingUnits;
 
     private async Task GetData()
     {
         IsLoading = true;
 
-        ApiService.InitializeEndpoint(ResourceEndpoint.orders);
+        ApiService.InitializeEndpoint(ResourceEndpoint.accounting_units);
         PaginationService.InitializePagination();
 
-        Orders = await PaginationService.LoadPaginatetedData();
+        AccountingUnits = await PaginationService.LoadPaginatetedData();
         IsLoading = false;
     }
 
     // Entity pagination
     private async Task GoToFirstPage()
     {
-        Orders = await PaginationService.GoToPage(1);
+        AccountingUnits = await PaginationService.GoToPage(1);
     }
 
     private async Task GoToNextPage()
     {
-        Orders = await PaginationService.GoToPage(PaginationService.CurrentPage + 1);
+        AccountingUnits = await PaginationService.GoToPage(PaginationService.CurrentPage + 1);
     }
 
     private async Task GoToPreviousPage()
     {
-        Orders = await PaginationService.GoToPage(PaginationService.CurrentPage - 1);
+        AccountingUnits = await PaginationService.GoToPage(PaginationService.CurrentPage - 1);
     }
 
     private async Task GoToLastPage()
     {
-        Orders = await PaginationService.GoToPage(PaginationService.TotalPages);
+        AccountingUnits = await PaginationService.GoToPage(PaginationService.TotalPages);
     }
 }

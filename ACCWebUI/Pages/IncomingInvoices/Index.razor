@@ -3,6 +3,8 @@
 @inject ApiService ApiService
 @inject NavigationManager Navigation
 @inject PaginationService<Eingangsrechnung> PaginationService
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject ToastService ToastService
 
 @attribute [Authorize]
 
@@ -13,8 +15,27 @@
     <Button Type="ButtonType.Link" To="/incoming_invoices/create" Color="ButtonColor.Primary"><Icon Name="IconName.Plus" /> Neue Eingangsrechnung</Button>
 </div>
 
-<div class="table-responsive">
-    <table class="table table-hover shadow-sm border">
+<div class="card shadow-sm border mb-3 p-3">
+    <div class="row g-3 align-items-center">
+        <div class="col-auto">
+            <label clss="col-form-label">Status: </label>
+        </div>
+        <div class="col-auto">
+            <InputSelect class="form-select"
+                         ValueExpression="@(() => SelectedStatus)"
+                         Value="@SelectedStatus"
+                         ValueChanged="@((IncomingInvoiceStatus value) => StatusChanged(value))">
+                @foreach (IncomingInvoiceStatus item in Enum.GetValues(typeof(IncomingInvoiceStatus)))
+                {
+                    <option value="@item">@item</option>
+                }
+            </InputSelect>
+        </div>
+    </div>
+</div>
+
+<div class="table-responsive card shadow-sm border mb-3">
+    <table class="table table-hover">
         <thead>
             <tr>
                 <th scope="col">#</th>
@@ -81,10 +102,22 @@
                             <td>@incoming_invoice.ZugehoerigerKreditor.Anschrift</td>
                             <td>@incoming_invoice.Rechnungspositionen.Sum(rp => rp.Nettobetrag).ToString("N2") @incoming_invoice.ZugehoerigeWaehrung.WaehrungZeichen</td>
                             <td>
-                                <div class="btn-group" role="group" aria-label="Actions">
-                                    <Button Type="ButtonType.Link" @onclick="() => Edit(incoming_invoice.EingangsrechnungID)" Color="ButtonColor.Primary"><Icon Name="IconName.PencilSquare" /></Button>
-                                    <Button Type="ButtonType.Link" @onclick="() => Show(incoming_invoice.EingangsrechnungID)" Color="ButtonColor.Primary"><Icon Name="IconName.Eye" /></Button>
-                                    <Button Type="ButtonType.Link" @onclick="() => Delete(incoming_invoice.EingangsrechnungID)" Color="ButtonColor.Danger"><Icon Name="IconName.Trash" /></Button>
+                                <div>
+                                    @if (incoming_invoice.ZugehoerigeEingangsrechnungshistorie == null || !incoming_invoice.ZugehoerigeEingangsrechnungshistorie.Any())
+                                    {
+                                        <Tooltip Class="d-inline-block" Title="Transfered" role="button">
+                                            <Button Type="ButtonType.Link" @onclick="() => Transfered(incoming_invoice.EingangsrechnungID)" Color="ButtonColor.Primary"><Icon Name="IconName.Upload" /></Button>
+                                        </Tooltip>
+                                    }
+                                    <Tooltip Class="d-inline-block" Title="Edit" role="button">
+                                        <Button Type="ButtonType.Link" @onclick="() => Edit(incoming_invoice.EingangsrechnungID)" Color="ButtonColor.Primary"><Icon Name="IconName.PencilSquare" /></Button>
+                                    </Tooltip>
+                                    <Tooltip Class="d-inline-block" Title="Show" role="button">
+                                        <Button Type="ButtonType.Link" @onclick="() => Show(incoming_invoice.EingangsrechnungID)" Color="ButtonColor.Primary"><Icon Name="IconName.Eye" /></Button>
+                                    </Tooltip>
+                                    <Tooltip Class="d-inline-block" Title="Delete" role="button">
+                                        <Button Type="ButtonType.Link" @onclick="() => Delete(incoming_invoice.EingangsrechnungID)" Color="ButtonColor.Danger"><Icon Name="IconName.Trash" /></Button>
+                                    </Tooltip>
                                 </div>
                             </td>
                         </tr>
@@ -113,23 +146,80 @@
     // Initialize method
     private bool IsLoading = true;
 
+    private IncomingInvoiceStatus SelectedStatus;
+
+    private ClaimsPrincipal AuthenticatedUser;
+
     protected override async Task OnInitializedAsync()
     {
-        ApiService.InitializeEndpoint(ResourceEndpoint.incoming_invoices);
-        PaginationService.InitializePagination();
+        AuthenticationState authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        AuthenticatedUser = authState.User;
 
-        IncomingInvoices = await PaginationService.LoadPaginatetedData();
-        IsLoading = false;
+        await GetData();
     }
 
     // Entity actions
     protected void Create() => Navigation.NavigateTo("incoming_invoices/create");
     protected void Edit(int EingangsrechnungID) => Navigation.NavigateTo($"incoming_invoices/{EingangsrechnungID}/edit");
     protected void Show(int EingangsrechnungID) => Navigation.NavigateTo($"incoming_invoices/{EingangsrechnungID}");
-    protected async Task Delete(int EingangsrechnungID) => await ApiService.DeleteAsync<Eingangsrechnung>(EingangsrechnungID);
+    
+    protected async Task Transfered(int EingangsrechnungID)
+    {
+        ApiService.InitializeEndpoint(ResourceEndpoint.incoming_invoices);
+        Eingangsrechnung IncomingInvoice = await ApiService.GetByIdAsync<Eingangsrechnung>(EingangsrechnungID);
+
+        IncomingInvoice.ZugehoerigeEingangsrechnungshistorie.Add(new()
+            {
+                Status = IncomingInvoiceStatus.Transfered,
+                Zeitstempel = DateTime.Now,
+                Benutzer = AuthenticatedUser.Identity?.Name
+            });
+
+        ToastService.Notify(
+            new ToastMessage()
+                {
+                    Type = ToastType.Success,
+                    IconName = IconName.Receipt,
+                    Title = "Eingangsrechnung",
+                    HelpText = DateTime.Now.ToString(),
+                    Message = "Eingangsrechnung erfolgreich tranferiert",
+                }
+        );
+
+        await GetData();
+    }
+
+    protected async Task Delete(int EingangsrechnungID)
+    {
+        await ApiService.DeleteAsync<Eingangsrechnung>(EingangsrechnungID);
+
+        ToastService.Notify(
+            new ToastMessage()
+                {
+                    Type = ToastType.Success,
+                    IconName = IconName.Receipt,
+                    Title = "Eingangsrechnung",
+                    HelpText = DateTime.Now.ToString(),
+                    Message = "Eingangsrechnung erfolgreich gelöscht",
+                }
+        );
+
+        await GetData();
+    }
 
     // Entity
     public IEnumerable<Eingangsrechnung> IncomingInvoices;
+
+    private async Task GetData()
+    {
+        IsLoading = true;
+
+        ApiService.InitializeEndpoint(ResourceEndpoint.incoming_invoices);
+        PaginationService.InitializePagination();
+
+        IncomingInvoices = await PaginationService.LoadPaginatetedData();
+        IsLoading = false;
+    }
 
     // Entity pagination
     private async Task GoToFirstPage()
@@ -150,5 +240,17 @@
     private async Task GoToLastPage()
     {
         IncomingInvoices = await PaginationService.GoToPage(PaginationService.TotalPages);
+    }
+
+    private async Task StatusChanged(IncomingInvoiceStatus Status)
+    {
+        IsLoading = true;
+
+        SelectedStatus = Status;
+
+        PaginationService.InitializePagination();
+        IncomingInvoices = await PaginationService.LoadPaginatetedData(SelectedStatus);
+
+        IsLoading = false;
     }
 }

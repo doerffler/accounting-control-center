@@ -1,0 +1,21 @@
+﻿@page "/cost_centres"
+
+@inject ApiService ApiService
+@inject NavigationManager Navigation
+@inject PaginationService<Kostenstelle> PaginationService
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject ToastService ToastService
+@inject ModalService ModalService
+
+@attribute [Authorize]
+
+<PageTitle>Kostenstellen | ACC Web UI</PageTitle>
+
+<div class="mb-3 d-flex justify-content-between align-items-center">
+    <h1>Kostenstellen</h1>
+    <Button Type="ButtonType.Button" Color="ButtonColor.Primary"><Icon Name="IconName.Plus" /> Neue Kostenstelle</Button>
+</div>
+
+@code {
+
+}

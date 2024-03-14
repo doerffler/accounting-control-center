@@ -1,20 +1,19 @@
 ﻿using ACCDataModel.Stammdaten;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace ACCDataModel.Kostenrechnung
 {
     public class Eingangsrechnung : Rechnung
     {
-
         public int EingangsrechnungID { get; set; }
 
         public int? ZugehoerigerKreditorID { get; set; }
 
         public Kreditor ZugehoerigerKreditor { get; set; }
 
-        public ICollection<Eingangsrechnungsposition> Rechnungspositionen { get; set; } = new List<Eingangsrechnungsposition>();
+        public ICollection<Eingangsrechnungshistorie> ZugehoerigeEingangsrechnungshistorie { get; set; }
+
+        public ICollection<Eingangsrechnungsposition> Rechnungspositionen { get; set; }
 
         public int? KorrekturRechnungID { get; set; }
 
@@ -26,8 +25,8 @@ namespace ACCDataModel.Kostenrechnung
 
         public Eingangsrechnung() : base()
         {
-
-        }
-
+            Rechnungspositionen = new List<Eingangsrechnungsposition>();
+            ZugehoerigeEingangsrechnungshistorie = new List<Eingangsrechnungshistorie>();
     }
+}
 }

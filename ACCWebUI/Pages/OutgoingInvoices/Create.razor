@@ -424,7 +424,7 @@
 
         if (SelectedOrder != null)
         {
-            SelectedOrder.Leistungsnachweise?.ForEach(lnw =>
+            SelectedOrder.Leistungsnachweise?.ToList().ForEach(lnw =>
             {
                 PerformanceRecordPositions.AddRange(lnw.Leistungsnachweispositionen);
             });
@@ -519,14 +519,6 @@
 
         OutgoingInvoice.ZugehoerigeWaehrung = null;
         OutgoingInvoice.ZugehoerigesGeschaeftsjahr = null;
-
-        OutgoingInvoice.ZugehoerigeAusgangsrechnungshistorie.Add(new()
-            {
-                Bemerkung = "Ausgangsrechnung angelegt",
-                AktionsTyp = UserActionEnum.Create,
-                Zeitstempel = DateTime.Now,
-                Benutzer = AuthenticatedUser.Identity?.Name
-            });
 
         ApiService.InitializeEndpoint(ResourceEndpoint.outgoing_invoices);
 

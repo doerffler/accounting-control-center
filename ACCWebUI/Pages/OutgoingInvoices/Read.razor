@@ -241,14 +241,6 @@ else
                 DokumentHash = pdfBase64
             }; 
 
-        OutgoingInvoice.ZugehoerigeAusgangsrechnungshistorie.Add(new()
-            {
-                Bemerkung = "Ausgangsrechnung PDF generiert",
-                AktionsTyp = UserActionEnum.Update,
-                Zeitstempel = DateTime.Now,
-                Benutzer = AuthenticatedUser.Identity?.Name
-            });
-
         ApiService.InitializeEndpoint(ResourceEndpoint.outgoing_invoices);
 
         Ausgangsrechnung result = await ApiService.UpdateAsync<Ausgangsrechnung>(OutgoingInvoice.AusgangsrechnungID, OutgoingInvoice);

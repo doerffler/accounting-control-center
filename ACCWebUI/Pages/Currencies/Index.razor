@@ -1,18 +1,19 @@
-﻿@page "/orders"
+﻿@page "/currencies"
 
 @inject ApiService ApiService
 @inject NavigationManager Navigation
-@inject PaginationService<Auftrag> PaginationService
+@inject PaginationService<Waehrung> PaginationService
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject ToastService ToastService
+@inject ModalService ModalService
 
 @attribute [Authorize]
 
-<PageTitle>Aufträge | ACC Web UI</PageTitle>
+<PageTitle>Währungen | ACC Web UI</PageTitle>
 
 <div class="mb-3 d-flex justify-content-between align-items-center">
-    <h1>Aufträge</h1>
-    <Button Type="ButtonType.Link" @onclick="Create" Color="ButtonColor.Primary"><Icon Name="IconName.Plus" /> Neuer Auftrag</Button>
+    <h1>Währungen</h1>
+    <Button Type="ButtonType.Button" Color="ButtonColor.Primary"><Icon Name="IconName.Plus" /> Neue Währung</Button>
 </div>
 
 <div class="table-responsive card shadow-sm border mb-3">
@@ -20,10 +21,9 @@
         <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">Auftragsname</th>
-                <th scope="col">Auftragsbeginn</th>
-                <th scope="col">Auftragsende</th>
-                <th scope="col">Restbudget</th>
+                <th scope="col">ISO-Code</th>
+                <th scope="col">Name</th>
+                <th scope="col">Zeichen</th>
                 <th scope="col"></th>
             </tr>
         </thead>
@@ -52,12 +52,6 @@
                         </div>
                     </td>
                     <td>
-                        <div class="spinner-border spinner-border-sm" role="status">
-                            <span class="visually-hidden">Loading...</span>
-                        </div>
-                    </td>
-                    <td>
-
                     </td>
                 </tr>
             }
@@ -68,32 +62,34 @@
                     <tr>
                         <td colspan="6">
                             <Icon Color="IconColor.Danger" Name="IconName.ExclamationTriangleFill" />
-                            Keine Aufträge gefunden
+                            Keine Währungen gefunden
                         </td>
                     </tr>
                 }
                 else
                 {
-                    @foreach (Auftrag order in Orders)
+                    @foreach (Waehrung currency in Currencies)
                     {
                         <tr>
-                            <td>@order.AuftragID</td>
-                            <td>@order.Auftragsname</td>
-                            <td>@order.Auftragsbeginn.GetValueOrDefault().ToShortDateString()</td>
-                            <td>@order.Auftragsende.GetValueOrDefault().ToShortDateString()</td>
-                            <td></td>
                             <td>
-                                <div>
-                                    <Tooltip Class="d-inline-block" Title="Edit" role="button">
-                                        <Button Type="ButtonType.Link" @onclick="() => Edit(order.AuftragID)" Color="ButtonColor.Primary"><Icon Name="IconName.PencilSquare" /></Button>
-                                    </Tooltip>
-                                    <Tooltip Class="d-inline-block" Title="Show" role="button">
-                                        <Button Type="ButtonType.Link" @onclick="() => Show(order.AuftragID)" Color="ButtonColor.Primary"><Icon Name="IconName.Eye" /></Button>
-                                    </Tooltip>
-                                    <Tooltip Class="d-inline-block" Title="Delete" role="button">
-                                        <Button Type="ButtonType.Link" @onclick="() => Delete(order.AuftragID)" Color="ButtonColor.Danger"><Icon Name="IconName.Trash" /></Button>
-                                    </Tooltip>
-                                </div>
+                                @currency.WaehrungID
+                            </td>
+                            <td>
+                                @currency.WaehrungISO
+                            </td>
+                            <td>
+                                @currency.WaehrungName
+                            </td>
+                            <td>
+                                @currency.WaehrungZeichen
+                            </td>
+                            <td>
+                                <Tooltip Class="d-inline-block" Title="Edit" role="button">
+                                    <Button Type="ButtonType.Link" @onclick="() => Edit(currency.WaehrungID)" Color="ButtonColor.Primary"><Icon Name="IconName.PencilSquare" /></Button>
+                                </Tooltip>
+                                <Tooltip Class="d-inline-block" Title="Delete" role="button">
+                                    <Button Type="ButtonType.Link" @onclick="() => Delete(currency.WaehrungID)" Color="ButtonColor.Danger"><Icon Name="IconName.Trash" /></Button>
+                                </Tooltip>
                             </td>
                         </tr>
                     }
@@ -103,7 +99,7 @@
     </table>
 </div>
 
-@if (Orders != null && PaginationService.TotalItems > 0)
+@if (Currencies != null && PaginationService.TotalItems > 0)
 {
     <div class="btn-group" role="group" aria-label="Pagination">
         <Button Type="ButtonType.Link" Size="Size.Small" Color="ButtonColor.Secondary" @onclick="GoToFirstPage" Disabled="PaginationService.CurrentPage == 1"><Icon Name="IconName.SkipBackward" /></Button>
@@ -132,22 +128,21 @@
     }
 
     // Entity actions
-    protected void Create() => Navigation.NavigateTo("orders/create");
-    protected void Edit(int AuftragID) => Navigation.NavigateTo($"orders/{AuftragID}/edit");
-    protected void Show(int AuftragID) => Navigation.NavigateTo($"orders/{AuftragID}");
+    protected void Create() => Navigation.NavigateTo("currencies/create");
+    protected void Edit(int WaehrungID) => Navigation.NavigateTo($"currencies/{WaehrungID}/edit");
 
-    protected async Task Delete(int AuftragID)
+    protected async Task Delete(int WaehrungID)
     {
-        await ApiService.DeleteAsync<Auftrag>(AuftragID);
+        await ApiService.DeleteAsync<Waehrung>(WaehrungID);
 
         ToastService.Notify(
             new ToastMessage()
                 {
                     Type = ToastType.Success,
-                    IconName = IconName.FileEarmarkCheck,
-                    Title = "Ausgangsrechnung",
+                    IconName = IconName.Coin,
+                    Title = "Währung",
                     HelpText = DateTime.Now.ToString(),
-                    Message = "Ausgangsrechnung erfolgreich gelöscht",
+                    Message = "Währung erfolgreich gelöscht",
                 }
         );
 
@@ -155,37 +150,37 @@
     }
 
     // Entity
-    public IEnumerable<Auftrag> Orders;
+    public IEnumerable<Waehrung> Currencies;
 
     private async Task GetData()
     {
         IsLoading = true;
 
-        ApiService.InitializeEndpoint(ResourceEndpoint.orders);
+        ApiService.InitializeEndpoint(ResourceEndpoint.currencies);
         PaginationService.InitializePagination();
 
-        Orders = await PaginationService.LoadPaginatetedData();
+        Currencies = await PaginationService.LoadPaginatetedData();
         IsLoading = false;
     }
 
     // Entity pagination
     private async Task GoToFirstPage()
     {
-        Orders = await PaginationService.GoToPage(1);
+        Currencies = await PaginationService.GoToPage(1);
     }
 
     private async Task GoToNextPage()
     {
-        Orders = await PaginationService.GoToPage(PaginationService.CurrentPage + 1);
+        Currencies = await PaginationService.GoToPage(PaginationService.CurrentPage + 1);
     }
 
     private async Task GoToPreviousPage()
     {
-        Orders = await PaginationService.GoToPage(PaginationService.CurrentPage - 1);
+        Currencies = await PaginationService.GoToPage(PaginationService.CurrentPage - 1);
     }
 
     private async Task GoToLastPage()
     {
-        Orders = await PaginationService.GoToPage(PaginationService.TotalPages);
+        Currencies = await PaginationService.GoToPage(PaginationService.TotalPages);
     }
 }

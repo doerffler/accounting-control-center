@@ -1,4 +1,5 @@
 ﻿using ACCDataModel.DTO;
+using ACCDataModel.Enum;
 
 namespace ACCWebUI.Services
 {
@@ -78,9 +79,19 @@ namespace ACCWebUI.Services
             TotalPages = (int)Math.Ceiling((double)TotalItems / PageSize);
         }
 
-        public async Task<IEnumerable<T>> LoadPaginatetedData()
+        public async Task<IEnumerable<T>> LoadPaginatetedData(object? Status = null)
         {
-            ApiResponseDTO<T> dto = await _apiService.GetAsync<ApiResponseDTO<T>>(CurrentPage, PageSize);
+            ApiResponseDTO<T> dto;
+
+            if (Status == null)
+            {
+                dto = await _apiService.GetAsync<ApiResponseDTO<T>>(CurrentPage, PageSize);
+            }
+            else
+            {
+                dto = await _apiService.GetAsync<ApiResponseDTO<T>>(CurrentPage, PageSize, Status);
+            }
+
             if (dto != null)
             {
                 PaginatedItems = dto.Items;

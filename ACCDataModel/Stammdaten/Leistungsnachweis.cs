@@ -24,6 +24,11 @@ namespace ACCDataModel.Stammdaten
 
         public LeistungsnachweisDokument ZugehoerigesLeistungsnachweisDokument { get; set; }
 
-        public List<Leistungsnachweisposition> Leistungsnachweispositionen { get; set; }
+        public ICollection<Leistungsnachweisposition> Leistungsnachweispositionen { get; set; }
+
+        public Leistungsnachweis()
+        {
+            Leistungsnachweispositionen = new List<Leistungsnachweisposition>();
+        }
     }
 }

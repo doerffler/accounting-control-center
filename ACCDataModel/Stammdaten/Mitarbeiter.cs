@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace ACCDataModel.Stammdaten
 {
@@ -27,7 +26,7 @@ namespace ACCDataModel.Stammdaten
         
         public Adresse ZugehoerigeAdresse { get; set; }
 
-        public List<Anstellungsdetail> Anstellungshistorie { get; set; }
+        public ICollection<Anstellungsdetail> Anstellungshistorie { get; set; }
 
         public Mitarbeiter()
         {

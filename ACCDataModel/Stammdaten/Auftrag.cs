@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ACCDataModel.Stammdaten
 {
@@ -18,7 +15,7 @@ namespace ACCDataModel.Stammdaten
 
         public string Auftragsname { get; set; }
 
-        public List<Auftragsposition> Auftragspositionen { get; set; }
+        public ICollection<Auftragsposition> Auftragspositionen { get; set; }
 
         public int? VerantwortlicherMitarbeiterID { get; set; }
 
@@ -38,7 +35,7 @@ namespace ACCDataModel.Stammdaten
 
         public Waehrung ZugehoerigeWaehrung { get; set; }
 
-        public List<Leistungsnachweis> Leistungsnachweise {  get; set; }
+        public ICollection<Leistungsnachweis> Leistungsnachweise {  get; set; }
 
         public override string ToString()
         {
@@ -48,6 +45,7 @@ namespace ACCDataModel.Stammdaten
         public Auftrag()
         {
             Auftragspositionen = new List<Auftragsposition>();
+            Leistungsnachweise = new List<Leistungsnachweis>();
         }
     }
 }

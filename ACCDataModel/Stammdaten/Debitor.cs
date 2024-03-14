@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace ACCDataModel.Stammdaten
 {
@@ -9,7 +7,7 @@ namespace ACCDataModel.Stammdaten
 
         public int DebitorID { get; set; }
 
-        public List<Projekt> Projekte { get; set; }
+        public ICollection<Projekt> Projekte { get; set; }
 
         public int? ZugehoerigerKundeID { get; set; }
 
@@ -17,12 +15,12 @@ namespace ACCDataModel.Stammdaten
 
         public Debitor() : base()
         {
-
+            Projekte = new List<Projekt>();
         }
 
         public override string ToString()
         {
-            return String.Format("{0}: {1}", ZugehoerigerKunde?.Kundenname, base.ToString());
+            return string.Format("{0}: {1}", ZugehoerigerKunde?.Kundenname, base.ToString());
         }
 
     }

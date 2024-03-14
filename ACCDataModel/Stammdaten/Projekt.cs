@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace ACCDataModel.Stammdaten
 {
@@ -15,9 +14,9 @@ namespace ACCDataModel.Stammdaten
 
         public DateTime Projektende { get; set; }
 
-        public List<Auftrag> ZugehoerigeAuftraege { get; set; }
+        public ICollection<Auftrag> ZugehoerigeAuftraege { get; set; }
 
-        public List<Skill> Skills { get; set; }
+        public ICollection<Skill> Skills { get; set; }
 
         public int? RechnungsempfaengerID { get; set; }
 
@@ -25,8 +24,8 @@ namespace ACCDataModel.Stammdaten
 
         public Projekt()
         {
-            ZugehoerigeAuftraege = new();
-            Skills = new();
+            ZugehoerigeAuftraege = new List<Auftrag>();
+            Skills = new List<Skill>();
         }
     }
 }

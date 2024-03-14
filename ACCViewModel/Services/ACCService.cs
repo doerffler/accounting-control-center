@@ -1,6 +1,7 @@
 ﻿using ACC.ViewModel.Model;
 using ACCDataAdapter.ACC;
 using ACCDataModel.DTO;
+using ACCDataModel.Enum;
 using ACCDataModel.Kostenrechnung;
 using ACCDataModel.Stammdaten;
 using Microsoft.EntityFrameworkCore;
@@ -462,10 +463,11 @@ namespace ACC.ViewModel.Services
 
         #region Eingangsrechnungen
 
-        public async Task<IEnumerable<Eingangsrechnung>> GetEingangsrechnungenAsync(CancellationToken cancellationToken = default, int? currentPage = 0, int? pageSize = 0)
+        public async Task<IEnumerable<Eingangsrechnung>> GetEingangsrechnungenAsync(CancellationToken cancellationToken = default, int? currentPage = 0, int? pageSize = 0, IncomingInvoiceStatus? status = null)
         {
             IQueryable<Eingangsrechnung> query = DBContext.Eingangsrechnungen
                 .Include(ar => ar.ZugehoerigeWaehrung)
+                .Include(ar => ar.ZugehoerigeEingangsrechnungshistorie)
                 .Include(ar => ar.ZugehoerigesDokument)
                 .Include(ar => ar.ZugehoerigesGeschaeftsjahr)
                 .Include(ar => ar.KorrekturRechnung)
@@ -475,6 +477,15 @@ namespace ACC.ViewModel.Services
                 .Include(ar => ar.ZugehoerigerVertrag)
                 .Include(er => er.Rechnungspositionen).ThenInclude(rp => rp.ZugehoerigeAbrechnungseinheit)
                 .Include(er => er.Rechnungspositionen).ThenInclude(rp => rp.ZugehoerigeKostenstelle);
+
+            if (status == IncomingInvoiceStatus.Open)
+            {
+                query = query.Where(ii => ii.ZugehoerigeEingangsrechnungshistorie.Count == 0);
+            }
+            else if (status != null && status != IncomingInvoiceStatus.All)
+            {
+                query = query.Where(ii => ii.ZugehoerigeEingangsrechnungshistorie.Any(h => h.Status == status));
+            }
 
             if ((currentPage.Value != 0) || (pageSize.Value != 0))
             {
@@ -499,6 +510,7 @@ namespace ACC.ViewModel.Services
                 DBContext.Eingangsrechnungen
                 .Where(ar => ar.EingangsrechnungID == EingangsrechnungID)
                 .Include(ar => ar.ZugehoerigeWaehrung)
+                .Include(ar => ar.ZugehoerigeEingangsrechnungshistorie)
                 .Include(ar => ar.ZugehoerigesDokument)
                 .Include(ar => ar.ZugehoerigesGeschaeftsjahr)
                 .Include(ar => ar.KorrekturRechnung)
@@ -545,7 +557,7 @@ namespace ACC.ViewModel.Services
 
         #region Ausgangsrechnungen
 
-        public async Task<IEnumerable<Ausgangsrechnung>> GetAusgangsrechnungenAsync(CancellationToken cancellationToken = default, int? currentPage = 0, int? pageSize = 0)
+        public async Task<IEnumerable<Ausgangsrechnung>> GetAusgangsrechnungenAsync(CancellationToken cancellationToken = default, int? currentPage = 0, int? pageSize = 0, OutgoingInvoiceStatus? status = null)
         {
             IQueryable<Ausgangsrechnung> query = DBContext.Ausgangsrechnungen
                 .Include(ar => ar.ZugehoerigeWaehrung)
@@ -561,6 +573,15 @@ namespace ACC.ViewModel.Services
                 .Include(ar => ar.Rechnungspositionen).ThenInclude(rp => rp.ZugehoerigeKostenstelle)
                 .Include(ar => ar.Rechnungspositionen).ThenInclude(rp => rp.ZugehoerigeAuftragsposition)
                 .Include(ar => ar.Rechnungspositionen).ThenInclude(rp => rp.ZugehoerigeFremdleistungen);
+            
+            if (status == OutgoingInvoiceStatus.Open)
+            {
+                query = query.Where(oi => oi.ZugehoerigeAusgangsrechnungshistorie.Count == 0);
+            }
+            else if (status != null && status != OutgoingInvoiceStatus.All)
+            {
+                query = query.Where(oi => oi.ZugehoerigeAusgangsrechnungshistorie.Any(h => h.Status == status));
+            }
 
             if ((currentPage.Value != 0) || (pageSize.Value != 0))
             {

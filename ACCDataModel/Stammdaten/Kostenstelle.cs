@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace ACCDataModel.Stammdaten
 {
@@ -17,11 +15,11 @@ namespace ACCDataModel.Stammdaten
 
         public Kostenstellenart ZugehoerigeKostenstellenart { get; set; }
 
-        public List<Leistungsnachweis> Leistungsnachweise { get; set; }
+        public ICollection<Leistungsnachweis> Leistungsnachweise { get; set; }
 
-        public List<Kostenstelle> UebergeordneteKostenstellen { get; set; }
+        public ICollection<Kostenstelle> UebergeordneteKostenstellen { get; set; }
 
-        public List<Kostenstelle> UntergeordneteKostenstellen { get; set; }
+        public ICollection<Kostenstelle> UntergeordneteKostenstellen { get; set; }
 
         public Kostenstelle ()
         {

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ACCDataModel.Stammdaten
+﻿namespace ACCDataModel.Stammdaten
 {
     public class Postleitzahl
     {

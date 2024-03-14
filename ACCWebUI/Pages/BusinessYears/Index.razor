@@ -1,0 +1,21 @@
+﻿@page "/business_years"
+
+@inject ApiService ApiService
+@inject NavigationManager Navigation
+@inject PaginationService<Geschaeftsjahr> PaginationService
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject ToastService ToastService
+@inject ModalService ModalService
+
+@attribute [Authorize]
+
+<PageTitle>Geschäftsjahre | ACC Web UI</PageTitle>
+
+<div class="mb-3 d-flex justify-content-between align-items-center">
+    <h1>Geschäftsjahre</h1>
+    <Button Type="ButtonType.Button" Color="ButtonColor.Primary"><Icon Name="IconName.Plus" /> Neues Geschäftsjahr</Button>
+</div>
+
+@code {
+
+}

@@ -26,7 +26,7 @@ namespace ACCWebAPI.Controllers
             try
             {
                 IEnumerable<Projekt> projekte = await _accService.GetProjekteAsync(default, currentPage, pageSize);
-                int totalCount = await _accService.GetProjekteCountAsync();
+                int totalCount = projekte.Count();
 
                 var response = new ApiResponseDTO<Projekt>
                 {

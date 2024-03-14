@@ -1,11 +1,10 @@
 ﻿namespace ACCDataModel.Enum
 {
-    public enum UserActionEnum
+    public enum OutgoingInvoiceStatus
     {
-        Create,
-        Update, 
-        Delete,
-        Review, // Bei "Timo"
+        All,
+        Open,
+        Reviewed, // Bei "Timo"
         Released, // Datev
         Sent // Gesendet an Rechnungsempfänger
     }

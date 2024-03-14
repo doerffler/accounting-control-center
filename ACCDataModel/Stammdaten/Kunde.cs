@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace ACCDataModel.Stammdaten
 {
@@ -13,11 +11,11 @@ namespace ACCDataModel.Stammdaten
 
         public string Kundenname { get; set; }
 
-        public List<Debitor> Rechnungsempfaenger { get; set; }
+        public ICollection<Debitor> Rechnungsempfaenger { get; set; }
 
         public Kunde()
         {
-
+            Rechnungsempfaenger = new List<Debitor>();
         }
 
     }

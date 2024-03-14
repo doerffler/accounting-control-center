@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ACCDataModel.Kostenrechnung
+﻿namespace ACCDataModel.Kostenrechnung
 {
     public class Eingangsrechnungsposition : Rechnungsposition
     {

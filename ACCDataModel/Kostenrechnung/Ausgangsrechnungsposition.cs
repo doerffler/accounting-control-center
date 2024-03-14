@@ -1,8 +1,5 @@
 ﻿using ACCDataModel.Stammdaten;
-using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Text.Json.Serialization;
 
 namespace ACCDataModel.Kostenrechnung
 {
@@ -27,8 +24,7 @@ namespace ACCDataModel.Kostenrechnung
 
         public Ausgangsrechnungsposition() : base ()
         {
-
+            ZugehoerigeFremdleistungen  = new List<Eingangsrechnungsposition>();
         }
-
     }
 }
