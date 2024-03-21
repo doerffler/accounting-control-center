@@ -26,7 +26,7 @@ namespace ACCWebAPI.Controllers
             try
             {
                 IEnumerable<Abrechnungseinheit> abrechnungseinheiten = await _accService.GetAbrechnungseinheitenAsync(default, currentPage, pageSize);
-                int totalCount = abrechnungseinheiten.Count();
+                int totalCount = await _accService.GetAbrechnungseinheitenCountAsync();
 
                 var response = new ApiResponseDTO<Abrechnungseinheit>
                 {

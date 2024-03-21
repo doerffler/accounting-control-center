@@ -1,19 +1,19 @@
-﻿@page "/currencies"
+﻿@page "/activities"
 
 @inject ApiService ApiService
 @inject NavigationManager Navigation
-@inject PaginationService<Waehrung> PaginationService
+@inject PaginationService<Taetigkeit> PaginationService
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject ToastService ToastService
 @inject ModalService ModalService
 
 @attribute [Authorize]
 
-<PageTitle>Währungen | ACC Web UI</PageTitle>
+<PageTitle>Tätigkeiten | ACC Web UI</PageTitle>
 
 <div class="mb-3 d-flex justify-content-between align-items-center">
-    <h1>Währungen</h1>
-    <Button Type="ButtonType.Link" To="/currencies/create" Color="ButtonColor.Primary"><Icon Name="IconName.Plus" /> Neue Währung</Button>
+    <h1>Tätigkeiten</h1>
+    <Button Type="ButtonType.Link" To="/activities/create" Color="ButtonColor.Primary"><Icon Name="IconName.Plus" /> Neue Tätigkeit</Button>
 </div>
 
 <div class="table-responsive card shadow-sm border mb-3">
@@ -21,9 +21,7 @@
         <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">ISO-Code</th>
-                <th scope="col">Name</th>
-                <th scope="col">Zeichen</th>
+                <th scope="col">Bezeichnung</th>
                 <th scope="col"></th>
             </tr>
         </thead>
@@ -31,16 +29,6 @@
             @if (IsLoading)
             {
                 <tr>
-                    <td>
-                        <div class="spinner-border spinner-border-sm" role="status">
-                            <span class="visually-hidden">Loading...</span>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="spinner-border spinner-border-sm" role="status">
-                            <span class="visually-hidden">Loading...</span>
-                        </div>
-                    </td>
                     <td>
                         <div class="spinner-border spinner-border-sm" role="status">
                             <span class="visually-hidden">Loading...</span>
@@ -62,33 +50,27 @@
                     <tr>
                         <td colspan="6">
                             <Icon Color="IconColor.Danger" Name="IconName.ExclamationTriangleFill" />
-                            Keine Währungen gefunden
+                            Keine Tätigkeiten gefunden
                         </td>
                     </tr>
                 }
                 else
                 {
-                    @foreach (Waehrung currency in Currencies)
+                    @foreach (Taetigkeit activity in Activities)
                     {
                         <tr>
                             <td>
-                                @currency.WaehrungID
+                                @activity.TaetigkeitID
                             </td>
                             <td>
-                                @currency.WaehrungISO
-                            </td>
-                            <td>
-                                @currency.WaehrungName
-                            </td>
-                            <td>
-                                @currency.WaehrungZeichen
+                                @activity.Taetigkeitsbeschreibung
                             </td>
                             <td>
                                 <Tooltip Class="d-inline-block" Title="Edit" role="button">
-                                    <Button Type="ButtonType.Link" @onclick="() => Edit(currency.WaehrungID)" Color="ButtonColor.Primary"><Icon Name="IconName.PencilSquare" /></Button>
+                                    <Button Type="ButtonType.Link" @onclick="() => Edit(activity.TaetigkeitID)" Color="ButtonColor.Primary"><Icon Name="IconName.PencilSquare" /></Button>
                                 </Tooltip>
                                 <Tooltip Class="d-inline-block" Title="Delete" role="button">
-                                    <Button Type="ButtonType.Link" @onclick="() => Delete(currency.WaehrungID)" Color="ButtonColor.Danger"><Icon Name="IconName.Trash" /></Button>
+                                    <Button Type="ButtonType.Link" @onclick="() => Delete(activity.TaetigkeitID)" Color="ButtonColor.Danger"><Icon Name="IconName.Trash" /></Button>
                                 </Tooltip>
                             </td>
                         </tr>
@@ -99,7 +81,7 @@
     </table>
 </div>
 
-@if (Currencies != null && PaginationService.TotalItems > 0)
+@if (Activities != null && PaginationService.TotalItems > 0)
 {
     <div class="btn-group" role="group" aria-label="Pagination">
         <Button Type="ButtonType.Link" Size="Size.Small" Color="ButtonColor.Secondary" @onclick="GoToFirstPage" Disabled="PaginationService.CurrentPage == 1"><Icon Name="IconName.SkipBackward" /></Button>
@@ -128,21 +110,21 @@
     }
 
     // Entity actions
-    protected void Create() => Navigation.NavigateTo("currencies/create");
-    protected void Edit(int WaehrungID) => Navigation.NavigateTo($"currencies/{WaehrungID}/edit");
+    protected void Create() => Navigation.NavigateTo("activities/create");
+    protected void Edit(int TaetigkeitID) => Navigation.NavigateTo($"activities/{TaetigkeitID}/edit");
 
-    protected async Task Delete(int WaehrungID)
+    protected async Task Delete(int TaetigkeitID)
     {
-        await ApiService.DeleteAsync<Waehrung>(WaehrungID);
+        await ApiService.DeleteAsync<Taetigkeit>(TaetigkeitID);
 
         ToastService.Notify(
             new ToastMessage()
                 {
                     Type = ToastType.Success,
-                    IconName = IconName.Coin,
-                    Title = "Währung",
+                    IconName = IconName.Pencil,
+                    Title = "Tätigkeit",
                     HelpText = DateTime.Now.ToString(),
-                    Message = "Währung erfolgreich gelöscht",
+                    Message = "Tätigkeit erfolgreich gelöscht",
                 }
         );
 
@@ -150,37 +132,37 @@
     }
 
     // Entity
-    public IEnumerable<Waehrung> Currencies;
+    public IEnumerable<Taetigkeit> Activities;
 
     private async Task GetData()
     {
         IsLoading = true;
 
-        ApiService.InitializeEndpoint(ResourceEndpoint.currencies);
+        ApiService.InitializeEndpoint(ResourceEndpoint.activities);
         PaginationService.InitializePagination();
 
-        Currencies = await PaginationService.LoadPaginatetedData();
+        Activities = await PaginationService.LoadPaginatetedData();
         IsLoading = false;
     }
 
     // Entity pagination
     private async Task GoToFirstPage()
     {
-        Currencies = await PaginationService.GoToPage(1);
+        Activities = await PaginationService.GoToPage(1);
     }
 
     private async Task GoToNextPage()
     {
-        Currencies = await PaginationService.GoToPage(PaginationService.CurrentPage + 1);
+        Activities = await PaginationService.GoToPage(PaginationService.CurrentPage + 1);
     }
 
     private async Task GoToPreviousPage()
     {
-        Currencies = await PaginationService.GoToPage(PaginationService.CurrentPage - 1);
+        Activities = await PaginationService.GoToPage(PaginationService.CurrentPage - 1);
     }
 
     private async Task GoToLastPage()
     {
-        Currencies = await PaginationService.GoToPage(PaginationService.TotalPages);
+        Activities = await PaginationService.GoToPage(PaginationService.TotalPages);
     }
 }

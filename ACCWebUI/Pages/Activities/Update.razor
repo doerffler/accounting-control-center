@@ -1,0 +1,80 @@
+﻿@page "/activities/{ActivityId:int}/edit"
+
+@inject ApiService ApiService
+@inject NavigationManager Navigation
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject ToastService ToastService
+
+<PageTitle>Tätigkeit bearbeiten | ACC Web UI</PageTitle>
+
+<Card Class="shadow-sm mb-3">
+    <CardBody>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h1>Tätigkeit bearbeiten</h1>
+            <div class="btn-group" role="group" aria-label="Actions">
+                <Button Type="ButtonType.Link" To="/accounting_units" Color="ButtonColor.Primary"><Icon Name="IconName.BackspaceFill" /> Zurück</Button>
+                <Button @onclick="Save" Color="ButtonColor.Primary"><Icon Name="IconName.Floppy" /> Speichern</Button>
+            </div>
+        </div>
+        @if (IsLoading)
+        {
+            <div class="spinner-border ms-auto" aria-hidden="true"></div>
+        }
+        else
+        {
+            @if (Activity != null)
+            {
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="name">Bezeichnung:</label>
+                        <input type="text" class="form-control" id="name" @bind-value="Activity.Taetigkeitsbeschreibung">
+                    </div>
+                </div>
+            </div>
+            }
+            else
+            {
+                <Alert Color="AlertColor.Danger" Class="shadow-sm"><Icon Name="IconName.ExclamationTriangleFill" /> Keine Tätigkeit vorhanden</Alert>
+            }
+        }
+    </CardBody>
+</Card>
+
+@code {
+    [Parameter]
+    public int ActivityId { get; set; }
+
+    private Taetigkeit Activity;
+
+    private ClaimsPrincipal AuthenticatedUser;
+
+    private bool IsLoading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        ApiService.InitializeEndpoint(ResourceEndpoint.activities);
+        Activity = await ApiService.GetByIdAsync<Taetigkeit>(ActivityId);
+
+        IsLoading = false;
+    }
+
+    private async Task Save()
+    {
+        ApiService.InitializeEndpoint(ResourceEndpoint.activities);
+        await ApiService.UpdateAsync<Taetigkeit>(ActivityId, Activity);
+
+        ToastService.Notify(
+            new ToastMessage()
+                {
+                    Type = ToastType.Success,
+                    IconName = IconName.Pencil,
+                    Title = "Tätigkeit",
+                    HelpText = DateTime.Now.ToString(),
+                    Message = "Tätigkeit erfolgreich bearbeitet",
+                }
+        );
+
+        Navigation.NavigateTo("activities");
+    }
+}

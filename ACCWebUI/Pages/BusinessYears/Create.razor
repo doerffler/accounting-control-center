@@ -1,0 +1,86 @@
+﻿@page "/business_years/create"
+
+@inject ApiService ApiService
+@inject NavigationManager Navigation
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject ToastService ToastService
+
+@attribute [Authorize]
+
+<PageTitle>Neues Geschäftsjahr | ACC Web UI</PageTitle>
+
+<Card Class="shadow-sm mb-3">
+    <CardBody>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h1>Neues Geschäftsjahr</h1>
+            <div class="btn-group" role="group" aria-label="Actions">
+                <Button Type="ButtonType.Link" To="/business_years" Color="ButtonColor.Primary"><Icon Name="IconName.BackspaceFill" /> Zurück</Button>
+                <Button @onclick="Save" Color="ButtonColor.Primary"><Icon Name="IconName.Floppy" /> Speichern</Button>
+            </div>
+        </div>
+
+        @if (IsLoading)
+        {
+            <div class="spinner-border ms-auto" aria-hidden="true"></div>
+        }
+        else
+        {
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" class="form-control" @bind-value="BusinessYear.Name">
+            </div>
+            <div class="form-group">
+                <label for="zeitraum">Zeitraum:</label>
+                <div class="input-group">
+                    <input type="date" class="form-control" placeholder="Von" @bind-value="BusinessYear.DatumVon">
+                    <input type="text" class="form-control" value="-" disabled readonly style="text-align:center" />
+                    <input type="date" class="form-control" placeholder="Bis" @bind-value="BusinessYear.DatumBis">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="rechnungsprefix">Rechnungsprefix:</label>
+                <input type="text" class="form-control" @bind-value="BusinessYear.Rechnungsprefix">
+            </div>
+        }
+    </CardBody>
+</Card>
+
+@code {
+    private Geschaeftsjahr BusinessYear;
+
+    private ClaimsPrincipal AuthenticatedUser;
+
+    private bool IsLoading = true;
+
+    // Initialize method
+    protected override async Task OnInitializedAsync()
+    {
+        AuthenticationState authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        AuthenticatedUser = authState.User;
+
+        BusinessYear = new();
+
+        IsLoading = false;
+    }
+
+    private async Task Save()
+    {
+        ApiService.InitializeEndpoint(ResourceEndpoint.business_years);
+
+        Geschaeftsjahr result = await ApiService.CreateAsync<Geschaeftsjahr>(BusinessYear);
+
+        ToastService.Notify(
+            new ToastMessage()
+                {
+                    Type = ToastType.Success,
+                    IconName = IconName.Book,
+                    Title = "Geschäftsjahr",
+                    HelpText = DateTime.Now.ToString(),
+                    Message = "Geschäftsjahr erfolgreich erstellt",
+                }
+        );
+
+        Navigation.NavigateTo("business_years");
+    }
+
+}

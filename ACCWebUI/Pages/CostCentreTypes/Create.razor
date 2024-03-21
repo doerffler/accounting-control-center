@@ -1,0 +1,78 @@
+﻿@page "/cost_centre_types/create"
+
+@inject ApiService ApiService
+@inject NavigationManager Navigation
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject ToastService ToastService
+
+@attribute [Authorize]
+
+<PageTitle>Neue Kostenstellenart | ACC Web UI</PageTitle>
+
+<Card Class="shadow-sm mb-3">
+    <CardBody>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h1>Neues Tätigkeit</h1>
+            <div class="btn-group" role="group" aria-label="Actions">
+                <Button Type="ButtonType.Link" To="/cost_centre_types" Color="ButtonColor.Primary"><Icon Name="IconName.BackspaceFill" /> Zurück</Button>
+                <Button @onclick="Save" Color="ButtonColor.Primary"><Icon Name="IconName.Floppy" /> Speichern</Button>
+            </div>
+        </div>
+
+        @if (IsLoading)
+        {
+            <div class="spinner-border ms-auto" aria-hidden="true"></div>
+        }
+        else
+        {
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="name">Bezeichnung:</label>
+                        <input type="text" class="form-control" @bind-value="CostCentreType.Kostenstellenartbezeichnung">
+                    </div>
+                </div>
+            </div>
+        }
+    </CardBody>
+</Card>
+
+@code {
+    private Kostenstellenart CostCentreType;
+
+    private ClaimsPrincipal AuthenticatedUser;
+
+    private bool IsLoading = true;
+
+    // Initialize method
+    protected override async Task OnInitializedAsync()
+    {
+        AuthenticationState authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        AuthenticatedUser = authState.User;
+
+        CostCentreType = new();
+
+        IsLoading = false;
+    }
+
+    private async Task Save()
+    {
+        ApiService.InitializeEndpoint(ResourceEndpoint.cost_centre_types);
+
+        await ApiService.CreateAsync<Kostenstellenart>(CostCentreType);
+
+        ToastService.Notify(
+            new ToastMessage()
+                {
+                    Type = ToastType.Success,
+                    IconName = IconName.Briefcase,
+                    Title = "Kostenstellenart",
+                    HelpText = DateTime.Now.ToString(),
+                    Message = "Kostenstellenart erfolgreich erstellt",
+                }
+        );
+
+        Navigation.NavigateTo("cost_centre_types");
+    }
+
+}

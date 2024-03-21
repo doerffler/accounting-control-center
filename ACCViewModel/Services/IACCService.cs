@@ -195,12 +195,16 @@ namespace ACC.ViewModel.Services
         public Task<Adresse> CreateAdresseAsync(CancellationToken cancellationToken = default);
         public void RemoveAdresse(Adresse selectedAdresse);
 
-        public Task<IEnumerable<Kostenstellenart>> GetKostenstellenartenAsync(CancellationToken cancellationToken = default);
+        public Task<IEnumerable<Kostenstellenart>> GetKostenstellenartenAsync(CancellationToken cancellationToken = default, int? currentPage = 0, int? pageSize = 0);
+        public Task<int> GetKostenstellenartenCountAsync(CancellationToken cancellationToken = default);
+        public Task<IEnumerable<Kostenstellenart>> GetKostenstellenartAsync(int GeschaeftsjahrID, CancellationToken cancellationToken = default);
         public Task<Kostenstellenart> CreateKostenstellenartAsync(CancellationToken cancellationToken = default);
         public Task<Kostenstellenart> CreateKostenstellenartAsync(string bezeichnung, CancellationToken cancellationToken = default);
         public void RemoveKostenstellenart(Kostenstellenart selectedKostenstellenart);
 
-        public Task<IEnumerable<Taetigkeit>> GetTaetigkeitenAsync(CancellationToken cancellationToken = default);
+        public Task<IEnumerable<Taetigkeit>> GetTaetigkeitenAsync(CancellationToken cancellationToken = default, int? currentPage = 0, int? pageSize = 0);
+        public Task<int> GetTaetigkeitenCountAsync(CancellationToken cancellationToken = default);
+        public Task<IEnumerable<Taetigkeit>> GetTaetigkeitAsync(int TaetigkeitID, CancellationToken cancellationToken = default);
         public Task<Taetigkeit> CreateTaetigkeitAsync(CancellationToken cancellationToken = default);
         public Task<Taetigkeit> CreateTaetigkeitAsync(String taetigkeitsbeschreibung, CancellationToken cancellationToken = default);
         public void RemoveTaetigkeit(Taetigkeit selectedTaetigkeit);

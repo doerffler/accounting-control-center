@@ -1,0 +1,90 @@
+﻿@page "/currencies/create"
+
+@inject ApiService ApiService
+@inject NavigationManager Navigation
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject ToastService ToastService
+
+@attribute [Authorize]
+
+<PageTitle>Neues Währung | ACC Web UI</PageTitle>
+
+<Card Class="shadow-sm mb-3">
+    <CardBody>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h1>Neues Währung</h1>
+            <div class="btn-group" role="group" aria-label="Actions">
+                <Button Type="ButtonType.Link" To="/currencies" Color="ButtonColor.Primary"><Icon Name="IconName.BackspaceFill" /> Zurück</Button>
+                <Button @onclick="Save" Color="ButtonColor.Primary"><Icon Name="IconName.Floppy" /> Speichern</Button>
+            </div>
+        </div>
+
+        @if (IsLoading)
+        {
+            <div class="spinner-border ms-auto" aria-hidden="true"></div>
+        }
+        else
+        {
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="name">ISO-Code:</label>
+                        <input type="text" class="form-control" @bind-value="Currency.WaehrungISO">
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="rechnungsprefix">Name:</label>
+                        <input type="text" class="form-control" @bind-value="Currency.WaehrungName">
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="rechnungsprefix">Zeichen:</label>
+                        <input type="text" class="form-control" @bind-value="Currency.WaehrungZeichen">
+                    </div>
+                </div>
+            </div>
+        }
+    </CardBody>
+</Card>
+
+@code {
+    private Waehrung Currency;
+
+    private ClaimsPrincipal AuthenticatedUser;
+
+    private bool IsLoading = true;
+
+    // Initialize method
+    protected override async Task OnInitializedAsync()
+    {
+        AuthenticationState authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        AuthenticatedUser = authState.User;
+
+        Currency = new();
+
+        IsLoading = false;
+    }
+
+    private async Task Save()
+    {
+        ApiService.InitializeEndpoint(ResourceEndpoint.currencies);
+
+        Waehrung result = await ApiService.CreateAsync<Waehrung>(Currency);
+
+        ToastService.Notify(
+            new ToastMessage()
+                {
+                    Type = ToastType.Success,
+                    IconName = IconName.Coin,
+                    Title = "Währung",
+                    HelpText = DateTime.Now.ToString(),
+                    Message = "Währung erfolgreich erstellt",
+                }
+        );
+
+        Navigation.NavigateTo("currencies");
+    }
+
+}

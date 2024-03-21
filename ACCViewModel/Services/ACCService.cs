@@ -117,9 +117,31 @@ namespace ACC.ViewModel.Services
             RaiseChangedEvent();
         }
 
-        public async Task<IEnumerable<Kostenstellenart>> GetKostenstellenartenAsync(CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<Kostenstellenart>> GetKostenstellenartenAsync(CancellationToken cancellationToken = default, int? currentPage = 0, int? pageSize = 0)
         {
-            return await GetDataFromDbSetAsync(DBContext.Kostenstellenarten, cancellationToken);
+            IQueryable<Kostenstellenart> query = DBContext.Kostenstellenarten;
+
+            if ((currentPage.Value != 0) || (pageSize.Value != 0))
+            {
+                int skipCount = (currentPage.Value - 1) * pageSize.Value;
+                query = query.Skip(skipCount).Take(pageSize.Value);
+            }
+
+            return await GetDataFromDbSetAsync(query, cancellationToken);
+        }
+
+        public async Task<int> GetKostenstellenartenCountAsync(CancellationToken cancellationToken = default)
+        {
+            var kostenstellenarten = await DBContext.Kostenstellenarten.CountAsync();
+            return kostenstellenarten;
+        }
+
+        public async Task<IEnumerable<Kostenstellenart>> GetKostenstellenartAsync(int KostenstellenartID, CancellationToken cancellationToken = default)
+        {
+            return await GetDataFromDbSetAsync(
+                DBContext.Kostenstellenarten
+                    .Where(k => k.KostenstellenartID == KostenstellenartID)
+                , cancellationToken);
         }
 
         public async Task<Kostenstellenart> CreateKostenstellenartAsync(CancellationToken cancellationToken = default)
@@ -164,9 +186,31 @@ namespace ACC.ViewModel.Services
             RaiseChangedEvent();
         }
 
-        public async Task<IEnumerable<Taetigkeit>> GetTaetigkeitenAsync(CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<Taetigkeit>> GetTaetigkeitenAsync(CancellationToken cancellationToken = default, int? currentPage = 0, int? pageSize = 0)
         {
-            return await GetDataFromDbSetAsync(DBContext.Taetigkeiten, cancellationToken);
+            IQueryable<Taetigkeit> query = DBContext.Taetigkeiten;
+
+            if ((currentPage.Value != 0) || (pageSize.Value != 0))
+            {
+                int skipCount = (currentPage.Value - 1) * pageSize.Value;
+                query = query.Skip(skipCount).Take(pageSize.Value);
+            }
+
+            return await GetDataFromDbSetAsync(query, cancellationToken);
+        }
+
+        public async Task<int> GetTaetigkeitenCountAsync(CancellationToken cancellationToken = default)
+        {
+            var taetigkeiten = await DBContext.Taetigkeiten.CountAsync();
+            return taetigkeiten;
+        }
+
+        public async Task<IEnumerable<Taetigkeit>> GetTaetigkeitAsync(int TaetigkeitID, CancellationToken cancellationToken = default)
+        {
+            return await GetDataFromDbSetAsync(
+                DBContext.Taetigkeiten
+                    .Where(k => k.TaetigkeitID == TaetigkeitID)
+                , cancellationToken);
         }
 
         public async Task<Taetigkeit> CreateTaetigkeitAsync(CancellationToken cancellationToken = default)

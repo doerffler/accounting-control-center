@@ -27,7 +27,7 @@ namespace ACCWebAPI.Controllers
             try
             {
                 IEnumerable<Leistungsnachweis> leistungsnachweise = await _accService.GetLeistungsnachweiseAsync(default, currentPage, pageSize);
-                int totalCount = leistungsnachweise.Count();
+                int totalCount = await _accService.GetLeistungsnachweiseCountAsync();
 
                 var response = new ApiResponseDTO<Leistungsnachweis>
                 {

@@ -1,0 +1,92 @@
+﻿@page "/currencies/{CurrencyId:int}/edit"
+
+@inject ApiService ApiService
+@inject NavigationManager Navigation
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject ToastService ToastService
+
+<PageTitle>Währung bearbeiten | ACC Web UI</PageTitle>
+
+<Card Class="shadow-sm mb-3">
+    <CardBody>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h1>Währung bearbeiten</h1>
+            <div class="btn-group" role="group" aria-label="Actions">
+                <Button Type="ButtonType.Link" To="/currencies" Color="ButtonColor.Primary"><Icon Name="IconName.BackspaceFill" /> Zurück</Button>
+                <Button @onclick="Save" Color="ButtonColor.Primary"><Icon Name="IconName.Floppy" /> Speichern</Button>
+            </div>
+        </div>
+        @if (IsLoading)
+        {
+            <div class="spinner-border ms-auto" aria-hidden="true"></div>
+        }
+        else
+        {
+            @if (Currency != null)
+            {
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="name">ISO-Code:</label>
+                            <input type="text" class="form-control" @bind-value="Currency.WaehrungISO">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="rechnungsprefix">Name:</label>
+                            <input type="text" class="form-control" @bind-value="Currency.WaehrungName">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="rechnungsprefix">Zeichen:</label>
+                            <input type="text" class="form-control" @bind-value="Currency.WaehrungZeichen">
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <Alert Color="AlertColor.Danger" Class="shadow-sm"><Icon Name="IconName.ExclamationTriangleFill" /> Kein Währung vorhanden</Alert>
+            }
+        }
+    </CardBody>
+</Card>
+
+@code {
+    [Parameter]
+    public int CurrencyId { get; set; }
+
+    private Waehrung Currency;
+
+    private ClaimsPrincipal AuthenticatedUser;
+
+    private bool IsLoading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        ApiService.InitializeEndpoint(ResourceEndpoint.currencies);
+        Currency = await ApiService.GetByIdAsync<Waehrung>(CurrencyId);
+
+        IsLoading = false;
+    }
+
+    private async Task Save()
+    {
+        ApiService.InitializeEndpoint(ResourceEndpoint.currencies);
+        await ApiService.UpdateAsync<Waehrung>(CurrencyId, Currency);
+
+        ToastService.Notify(
+            new ToastMessage()
+                {
+                    Type = ToastType.Success,
+                    IconName = IconName.Coin,
+                    Title = "Währung",
+                    HelpText = DateTime.Now.ToString(),
+                    Message = "Währung erfolgreich bearbeitet",
+                }
+        );
+
+        Navigation.NavigateTo("currencies");
+    }
+}

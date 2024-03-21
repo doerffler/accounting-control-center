@@ -1,0 +1,84 @@
+﻿@page "/accounting_units/create"
+
+@inject ApiService ApiService
+@inject NavigationManager Navigation
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject ToastService ToastService
+
+@attribute [Authorize]
+
+<PageTitle>Neues Abrechnungseinheit | ACC Web UI</PageTitle>
+
+<Card Class="shadow-sm mb-3">
+    <CardBody>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h1>Neues Abrechnungseinheit</h1>
+            <div class="btn-group" role="group" aria-label="Actions">
+                <Button Type="ButtonType.Link" To="/accounting_units" Color="ButtonColor.Primary"><Icon Name="IconName.BackspaceFill" /> Zurück</Button>
+                <Button @onclick="Save" Color="ButtonColor.Primary"><Icon Name="IconName.Floppy" /> Speichern</Button>
+            </div>
+        </div>
+
+        @if (IsLoading)
+        {
+            <div class="spinner-border ms-auto" aria-hidden="true"></div>
+        }
+        else
+        {
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" class="form-control" @bind-value="AccountingUnit.Name">
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="rechnungsprefix">Abkürzung:</label>
+                        <input type="text" class="form-control" @bind-value="AccountingUnit.Abkuerzung">
+                    </div>
+                </div>
+            </div>
+        }
+    </CardBody>
+</Card>
+
+@code {
+    private Abrechnungseinheit AccountingUnit;
+
+    private ClaimsPrincipal AuthenticatedUser;
+
+    private bool IsLoading = true;
+
+    // Initialize method
+    protected override async Task OnInitializedAsync()
+    {
+        AuthenticationState authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        AuthenticatedUser = authState.User;
+
+        AccountingUnit = new();
+
+        IsLoading = false;
+    }
+
+    private async Task Save()
+    {
+        ApiService.InitializeEndpoint(ResourceEndpoint.accounting_units);
+
+        await ApiService.CreateAsync<Abrechnungseinheit>(AccountingUnit);
+
+        ToastService.Notify(
+            new ToastMessage()
+                {
+                    Type = ToastType.Success,
+                    IconName = IconName.FileEarmarkText,
+                    Title = "Abrechnungseinheit",
+                    HelpText = DateTime.Now.ToString(),
+                    Message = "Abrechnungseinheit erfolgreich erstellt",
+                }
+        );
+
+        Navigation.NavigateTo("accounting_units");
+    }
+
+}

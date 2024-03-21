@@ -27,7 +27,7 @@ namespace ACCWebAPI.Controllers
             try
             {
                 IEnumerable<Waehrung> waehrungen = await _accService.GetWaehrungenAsync(default, currentPage, pageSize);
-                int totalCount = waehrungen.Count();
+                int totalCount = await _accService.GetWaehrungenCountAsync();
 
                 var response = new ApiResponseDTO<Waehrung>
                 {

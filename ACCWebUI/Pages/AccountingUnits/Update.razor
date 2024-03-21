@@ -1,0 +1,86 @@
+﻿@page "/accounting_units/{AccountingUnitId:int}/edit"
+
+@inject ApiService ApiService
+@inject NavigationManager Navigation
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject ToastService ToastService
+
+<PageTitle>Abrechnungseinheit bearbeiten | ACC Web UI</PageTitle>
+
+<Card Class="shadow-sm mb-3">
+    <CardBody>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h1>Abrechnungseinheit bearbeiten</h1>
+            <div class="btn-group" role="group" aria-label="Actions">
+                <Button Type="ButtonType.Link" To="/accounting_units" Color="ButtonColor.Primary"><Icon Name="IconName.BackspaceFill" /> Zurück</Button>
+                <Button @onclick="Save" Color="ButtonColor.Primary"><Icon Name="IconName.Floppy" /> Speichern</Button>
+            </div>
+        </div>
+        @if (IsLoading)
+        {
+            <div class="spinner-border ms-auto" aria-hidden="true"></div>
+        }
+        else
+        {
+            @if (AccountingUnit != null)
+            {
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" class="form-control" id="name" @bind-value="AccountingUnit.Name">
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="rechnungsprefix">Abkürzung:</label>
+                        <input type="text" class="form-control" id="rechnungsprefix" placeholder="Prefix" @bind-value="AccountingUnit.Abkuerzung">
+                    </div>
+                </div>
+            </div>
+            }
+            else
+            {
+                <Alert Color="AlertColor.Danger" Class="shadow-sm"><Icon Name="IconName.ExclamationTriangleFill" /> Kein Abrechnungseinheit vorhanden</Alert>
+            }
+        }
+    </CardBody>
+</Card>
+
+@code {
+    [Parameter]
+    public int AccountingUnitId { get; set; }
+
+    private Abrechnungseinheit AccountingUnit;
+
+    private ClaimsPrincipal AuthenticatedUser;
+
+    private bool IsLoading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        ApiService.InitializeEndpoint(ResourceEndpoint.accounting_units);
+        AccountingUnit = await ApiService.GetByIdAsync<Abrechnungseinheit>(AccountingUnitId);
+
+        IsLoading = false;
+    }
+
+    private async Task Save()
+    {
+        ApiService.InitializeEndpoint(ResourceEndpoint.accounting_units);
+        await ApiService.UpdateAsync<Abrechnungseinheit>(AccountingUnitId, AccountingUnit);
+
+        ToastService.Notify(
+            new ToastMessage()
+                {
+                    Type = ToastType.Success,
+                    IconName = IconName.FileEarmarkText,
+                    Title = "Abrechnungseinheit",
+                    HelpText = DateTime.Now.ToString(),
+                    Message = "Abrechnungseinheit erfolgreich bearbeitet",
+                }
+        );
+
+        Navigation.NavigateTo("accounting_units");
+    }
+}

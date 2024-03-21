@@ -28,7 +28,7 @@ namespace ACCWebAPI.Controllers
             try
             {
                 IEnumerable<Eingangsrechnung> eingangsrechnungen = await _accService.GetEingangsrechnungenAsync(default, currentPage, pageSize, status);
-                int totalCount = eingangsrechnungen.Count();
+                int totalCount = await _accService.GetEingangsrechnungenCountAsync();
 
                 var response = new ApiResponseDTO<Eingangsrechnung>
                 {

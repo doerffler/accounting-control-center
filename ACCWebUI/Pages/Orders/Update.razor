@@ -6,7 +6,7 @@
     <h1>Ausgangsrechnung bearbeiten</h1>
     <div class="btn-group" role="group" aria-label="Actions">
         <Button Type="ButtonType.Link" To="/orders" Color="ButtonColor.Primary"><Icon Name="IconName.BackspaceFill" /> Zurück</Button>
-        <Button Type="ButtonType.Link" To="#" Color="ButtonColor.Primary"><Icon Name="IconName.Floppy" /> Speichern</Button>
+        <Button @onclick="Save" Color="ButtonColor.Primary"><Icon Name="IconName.Floppy" /> Speichern</Button>
     </div>
 </div>
 <div>
@@ -16,4 +16,9 @@
 @code {
     [Parameter]
     public int OrderId { get; set; }
+
+    private async Task Save()
+    {
+        
+    }
 }

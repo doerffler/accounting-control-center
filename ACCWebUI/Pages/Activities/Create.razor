@@ -1,0 +1,78 @@
+﻿@page "/activities/create"
+
+@inject ApiService ApiService
+@inject NavigationManager Navigation
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject ToastService ToastService
+
+@attribute [Authorize]
+
+<PageTitle>Neues Tätigkeit | ACC Web UI</PageTitle>
+
+<Card Class="shadow-sm mb-3">
+    <CardBody>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h1>Neues Tätigkeit</h1>
+            <div class="btn-group" role="group" aria-label="Actions">
+                <Button Type="ButtonType.Link" To="/activities" Color="ButtonColor.Primary"><Icon Name="IconName.BackspaceFill" /> Zurück</Button>
+                <Button @onclick="Save" Color="ButtonColor.Primary"><Icon Name="IconName.Floppy" /> Speichern</Button>
+            </div>
+        </div>
+
+        @if (IsLoading)
+        {
+            <div class="spinner-border ms-auto" aria-hidden="true"></div>
+        }
+        else
+        {
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="name">Bezeichnung:</label>
+                        <input type="text" class="form-control" @bind-value="Activity.Taetigkeitsbeschreibung">
+                    </div>
+                </div>
+            </div>
+        }
+    </CardBody>
+</Card>
+
+@code {
+    private Taetigkeit Activity;
+
+    private ClaimsPrincipal AuthenticatedUser;
+
+    private bool IsLoading = true;
+
+    // Initialize method
+    protected override async Task OnInitializedAsync()
+    {
+        AuthenticationState authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        AuthenticatedUser = authState.User;
+
+        Activity = new();
+
+        IsLoading = false;
+    }
+
+    private async Task Save()
+    {
+        ApiService.InitializeEndpoint(ResourceEndpoint.activities);
+
+        await ApiService.CreateAsync<Taetigkeit>(Activity);
+
+        ToastService.Notify(
+            new ToastMessage()
+                {
+                    Type = ToastType.Success,
+                    IconName = IconName.Pencil,
+                    Title = "Tätigkeit",
+                    HelpText = DateTime.Now.ToString(),
+                    Message = "Tätigkeit erfolgreich erstellt",
+                }
+        );
+
+        Navigation.NavigateTo("activities");
+    }
+
+}

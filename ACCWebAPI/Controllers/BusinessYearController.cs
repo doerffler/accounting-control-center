@@ -26,7 +26,7 @@ namespace ACCWebAPI.Controllers
             try
             {
                 IEnumerable<Geschaeftsjahr> geschaeftsjahre = await _accService.GetGeschaeftsjahreAsync(default, currentPage, pageSize);
-                int totalCount = geschaeftsjahre.Count();
+                int totalCount = await _accService.GetGeschaeftsjahreCountAsync();
 
                 var response = new ApiResponseDTO<Geschaeftsjahr>
                 {

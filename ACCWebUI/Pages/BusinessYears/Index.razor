@@ -13,9 +13,174 @@
 
 <div class="mb-3 d-flex justify-content-between align-items-center">
     <h1>Geschäftsjahre</h1>
-    <Button Type="ButtonType.Button" Color="ButtonColor.Primary"><Icon Name="IconName.Plus" /> Neues Geschäftsjahr</Button>
+    <Button Type="ButtonType.Link" To="/business_years/create" Color="ButtonColor.Primary"><Icon Name="IconName.Plus" /> Neues Geschäftsjahr</Button>
 </div>
 
-@code {
+<div class="table-responsive card shadow-sm border mb-3">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Zeitraum</th>
+                <th scope="col">Rechnungsprefix</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (IsLoading)
+            {
+                <tr>
+                    <td>
+                        <div class="spinner-border spinner-border-sm" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="spinner-border spinner-border-sm" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="spinner-border spinner-border-sm" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="spinner-border spinner-border-sm" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+            }
+            else
+            {
+                if (PaginationService.TotalItems == 0)
+                {
+                    <tr>
+                        <td colspan="6">
+                            <Icon Color="IconColor.Danger" Name="IconName.ExclamationTriangleFill" />
+                            Keine Geschäftsjahre gefunden
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    @foreach (Geschaeftsjahr business_year in BusinessYears)
+                    {
+                        <tr>
+                            <td>
+                                @business_year.GeschaeftsjahrID
+                            </td>
+                            <td>
+                                @business_year.Name
+                            </td>
+                            <td>
+                                @business_year.DatumVon.ToShortDateString() - @business_year.DatumBis.ToShortDateString()
+                            </td>
+                            <td>
+                                @business_year.Rechnungsprefix
+                            </td>
+                            <td>
+                                <Tooltip Class="d-inline-block" Title="Edit" role="button">
+                                    <Button Type="ButtonType.Link" @onclick="() => Edit(business_year.GeschaeftsjahrID)" Color="ButtonColor.Primary"><Icon Name="IconName.PencilSquare" /></Button>
+                                </Tooltip>
+                                <Tooltip Class="d-inline-block" Title="Delete" role="button">
+                                    <Button Type="ButtonType.Link" @onclick="() => Delete(business_year.GeschaeftsjahrID)" Color="ButtonColor.Danger"><Icon Name="IconName.Trash" /></Button>
+                                </Tooltip>
+                            </td>
+                        </tr>
+                    }
+                }
+            }
+        </tbody>
+    </table>
+</div>
 
+@if (BusinessYears != null && PaginationService.TotalItems > 0)
+{
+    <div class="btn-group" role="group" aria-label="Pagination">
+        <Button Type="ButtonType.Link" Size="Size.Small" Color="ButtonColor.Secondary" @onclick="GoToFirstPage" Disabled="PaginationService.CurrentPage == 1"><Icon Name="IconName.SkipBackward" /></Button>
+        <Button Type="ButtonType.Link" Size="Size.Small" Color="ButtonColor.Secondary" @onclick="GoToPreviousPage" Disabled="PaginationService.CurrentPage == 1"><Icon Name="IconName.CaretLeft" /></Button>
+        <Button Type="ButtonType.Link" Size="Size.Small" Color="ButtonColor.Secondary"><b>@PaginationService.CurrentPage</b></Button>
+        <Button Type="ButtonType.Link" Size="Size.Small" Color="ButtonColor.Secondary" @onclick="GoToNextPage" Disabled="!PaginationService.HasNextPage"><Icon Name="IconName.CaretRight" /></Button>
+        <Button Type="ButtonType.Link" Size="Size.Small" Color="ButtonColor.Secondary" @onclick="GoToLastPage" Disabled="PaginationService.CurrentPage == PaginationService.TotalPages"><Icon Name="IconName.SkipForward" /></Button>
+    </div>
+    <span>
+        @($"{(PaginationService.CurrentPage - 1) * PaginationService.PageSize + 1} - {Math.Min(PaginationService.CurrentPage * PaginationService.PageSize, PaginationService.TotalItems)} von {PaginationService.TotalItems} Ergebnisse(n) auf insgesamt {PaginationService.TotalPages} Seite(n)")
+    </span>
+}
+
+@code {
+    // Initialize method
+    private bool IsLoading = true;
+
+    private ClaimsPrincipal AuthenticatedUser;
+
+    protected override async Task OnInitializedAsync()
+    {
+        AuthenticationState authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        AuthenticatedUser = authState.User;
+
+        await GetData();
+    }
+
+    // Entity actions
+    protected void Create() => Navigation.NavigateTo("business_years/create");
+    protected void Edit(int GeschaeftsjahrID) => Navigation.NavigateTo($"business_years/{GeschaeftsjahrID}/edit");
+
+    protected async Task Delete(int GeschaeftsjahrID)
+    {
+        await ApiService.DeleteAsync<Geschaeftsjahr>(GeschaeftsjahrID);
+
+        ToastService.Notify(
+            new ToastMessage()
+                {
+                    Type = ToastType.Success,
+                    IconName = IconName.Book,
+                    Title = "Geschäftsjahr",
+                    HelpText = DateTime.Now.ToString(),
+                    Message = "Geschäftsjahr erfolgreich gelöscht",
+                }
+        );
+
+        await GetData();
+    }
+
+    // Entity
+    public IEnumerable<Geschaeftsjahr> BusinessYears;
+
+    private async Task GetData()
+    {
+        IsLoading = true;
+
+        ApiService.InitializeEndpoint(ResourceEndpoint.business_years);
+        PaginationService.InitializePagination();
+
+        BusinessYears = await PaginationService.LoadPaginatetedData();
+        IsLoading = false;
+    }
+
+    // Entity pagination
+    private async Task GoToFirstPage()
+    {
+        BusinessYears = await PaginationService.GoToPage(1);
+    }
+
+    private async Task GoToNextPage()
+    {
+        BusinessYears = await PaginationService.GoToPage(PaginationService.CurrentPage + 1);
+    }
+
+    private async Task GoToPreviousPage()
+    {
+        BusinessYears = await PaginationService.GoToPage(PaginationService.CurrentPage - 1);
+    }
+
+    private async Task GoToLastPage()
+    {
+        BusinessYears = await PaginationService.GoToPage(PaginationService.TotalPages);
+    }
 }
